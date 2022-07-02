@@ -6,7 +6,9 @@
 
 require('./bootstrap');
 
-window.Vue = require('vue').default;
+import Vue from 'vue'
+import  router from './router/index.js'
+
 
 /**
  * The following block of code may be used to automatically register your
@@ -23,11 +25,10 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 Vue.component('header-component', require('./components/General/HeaderComponent.vue').default);
 Vue.component('footer-component', require('./components/General/FooterComponent.vue').default);
 
-const { default: VueRouter } = require('vue-router');
-Vue.use(VueRouter)
-const Home = require('./components/Pages/Home/Home.vue').default
-const Login =require('./components/Pages/Login/Login.vue').default
-const NotFound =require('./components/HandlingError/NotFound.vue').default
+
+
+// const NotFound =require('./components/HandlingError/NotFound.vue').default
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -35,25 +36,7 @@ const NotFound =require('./components/HandlingError/NotFound.vue').default
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-const route = [
-    {
-        path:'/home',
-        component: Home
-    },
-    {
-        path:'/login',
-        component: Login
-    },
-    {
-        path:'*',
-        component:NotFound
-    }
-]
 
-const router = new VueRouter({
-    mode:'history',
-    routes:route
-})
 
 const app = new Vue({
     el: '#app',

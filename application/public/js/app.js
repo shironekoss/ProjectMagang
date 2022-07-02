@@ -5396,8 +5396,12 @@ __webpack_require__.r(__webpack_exports__);
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
   \*****************************/
-/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var _router_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./router/index.js */ "./resources/js/router/index.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -5405,7 +5409,8 @@ __webpack_require__.r(__webpack_exports__);
  */
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
-window.Vue = (__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js")["default"]);
+
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -5416,47 +5421,22 @@ window.Vue = (__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('example-component', (__webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]));
-Vue.component('header-component', (__webpack_require__(/*! ./components/General/HeaderComponent.vue */ "./resources/js/components/General/HeaderComponent.vue")["default"]));
-Vue.component('footer-component', (__webpack_require__(/*! ./components/General/FooterComponent.vue */ "./resources/js/components/General/FooterComponent.vue")["default"]));
+vue__WEBPACK_IMPORTED_MODULE_1__["default"].component('example-component', (__webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]));
+vue__WEBPACK_IMPORTED_MODULE_1__["default"].component('header-component', (__webpack_require__(/*! ./components/General/HeaderComponent.vue */ "./resources/js/components/General/HeaderComponent.vue")["default"]));
+vue__WEBPACK_IMPORTED_MODULE_1__["default"].component('footer-component', (__webpack_require__(/*! ./components/General/FooterComponent.vue */ "./resources/js/components/General/FooterComponent.vue")["default"])); // const NotFound =require('./components/HandlingError/NotFound.vue').default
 
-var _require = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js"),
-    VueRouter = _require["default"];
-
-Vue.use(VueRouter);
-
-var Home = (__webpack_require__(/*! ./components/Pages/Home/Home.vue */ "./resources/js/components/Pages/Home/Home.vue")["default"]);
-
-var Login = (__webpack_require__(/*! ./components/Pages/Login/Login.vue */ "./resources/js/components/Pages/Login/Login.vue")["default"]);
-
-var NotFound = (__webpack_require__(/*! ./components/HandlingError/NotFound.vue */ "./resources/js/components/HandlingError/NotFound.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-
-var route = [{
-  path: '/home',
-  component: Home
-}, {
-  path: '/login',
-  component: Login
-}, {
-  path: '*',
-  component: NotFound
-}];
-var router = new VueRouter({
-  mode: 'history',
-  routes: route
-});
-var app = new Vue({
+var app = new vue__WEBPACK_IMPORTED_MODULE_1__["default"]({
   el: '#app',
   data: {
     title: 'Rancangan Program SPK'
   },
-  router: router
+  router: _router_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]
 });
 
 /***/ }),
@@ -5494,6 +5474,48 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/router/index.js":
+/*!**************************************!*\
+  !*** ./resources/js/router/index.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var _components_HandlingError_NotFound_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/HandlingError/NotFound.vue */ "./resources/js/components/HandlingError/NotFound.vue");
+
+
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]); // cara1
+
+var Home = (__webpack_require__(/*! ../components/Pages/Home/Home.vue */ "./resources/js/components/Pages/Home/Home.vue")["default"]);
+
+var Login = (__webpack_require__(/*! ../components/Pages/Login/Login.vue */ "./resources/js/components/Pages/Login/Login.vue")["default"]); // cara 2
+
+
+
+var route = [{
+  path: '/home',
+  component: Home
+}, {
+  path: '/login',
+  component: Login
+}, {
+  path: '*',
+  component: _components_HandlingError_NotFound_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+}];
+var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
+  mode: 'history',
+  routes: route
+});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (router);
 
 /***/ }),
 
