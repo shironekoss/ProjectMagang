@@ -11,16 +11,20 @@ import NotFound from '../components/HandlingError/NotFound.vue'
 
 const route = [
     {
+        name:'Home',
         path:'/home',
         component: Home
     },
     {
+        name:'Login',
         path:'/login',
         component: Login
     },
     {
+        name:'User',
         path:'/user/:name?',
-        component: User
+        component: User,
+        props:true
     },
 
     {
