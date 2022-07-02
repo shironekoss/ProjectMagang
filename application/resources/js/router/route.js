@@ -19,7 +19,7 @@ const route = [
         component: Login
     },
     {
-        path:'/user/:name',
+        path:'/user/:name?',
         component: User
     },
 

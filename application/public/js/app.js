@@ -5510,7 +5510,7 @@ var route = [{
   path: '/login',
   component: Login
 }, {
-  path: '/user/:name',
+  path: '/user/:name?',
   component: User
 }, {
   path: '*',
@@ -28382,8 +28382,12 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("h1", [
-    _vm._v("\n        Hello " + _vm._s(_vm.$route.params.name) + "\n    "),
+  return _c("div", [
+    _vm.$route.params.name
+      ? _c("section", [
+          _c("h1", [_vm._v(" Hello " + _vm._s(_vm.$route.params.name))]),
+        ])
+      : _c("section", [_c("h1", [_vm._v("Anda belum login")])]),
   ])
 }
 var staticRenderFns = []
