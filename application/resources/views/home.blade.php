@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <title> Program SPK</title>
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
     <style>
         body{
             font-family: sans-serif;

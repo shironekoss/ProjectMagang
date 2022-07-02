@@ -5385,8 +5385,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['name'],
+  props: ['username'],
   data: function data() {
     return {
       users: [{
@@ -5404,6 +5405,17 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     profile_url: function profile_url(name) {
       return '/user/' + name.toLowerCase();
+    },
+    // cara2
+    lihatuser: function lihatuser(name) {
+      // this.$router.push('/user/'+name.toLowerCase())
+      //cara3
+      this.$router.push({
+        name: 'User',
+        params: {
+          username: name.toLowerCase()
+        }
+      });
     }
   }
 });
@@ -5566,7 +5578,7 @@ var route = [{
   component: Login
 }, {
   name: 'User',
-  path: '/user/:name?',
+  path: '/user/:username?',
   component: User,
   props: true
 }, {
@@ -5574,6 +5586,7 @@ var route = [{
   component: _components_HandlingError_NotFound_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
 }];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
+  linkActiveClass: 'active',
   mode: 'history',
   routes: route
 });
@@ -28458,13 +28471,15 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _vm.name
+    _vm.username
       ? _c(
           "section",
           [
-            _c("h1", [_vm._v(" Hello " + _vm._s(_vm.name))]),
+            _c("h1", [_vm._v(" Hello " + _vm._s(_vm.username))]),
             _vm._v(" "),
-            _c("router-link", { attrs: { to: "/user" } }, [_vm._v("Kembali")]),
+            _c("router-link", { attrs: { to: { name: "User" } } }, [
+              _vm._v("Kembali"),
+            ]),
           ],
           1
         )
@@ -28474,22 +28489,27 @@ var render = function () {
           _c(
             "ul",
             _vm._l(_vm.users, function (user) {
-              return _c(
-                "li",
-                [
-                  _vm._v(
-                    "\n                    id " +
-                      _vm._s(user.id) +
-                      " adalah\n                    "
-                  ),
-                  _c(
-                    "router-link",
-                    { attrs: { to: _vm.profile_url(user.name) } },
-                    [_vm._v(_vm._s(user.name))]
-                  ),
-                ],
-                1
-              )
+              return _c("li", [
+                _vm._v(
+                  "\n                    id " +
+                    _vm._s(user.id) +
+                    " adalah\n                    "
+                ),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    attrs: { href: "" },
+                    on: {
+                      click: function ($event) {
+                        $event.preventDefault()
+                        return _vm.lihatuser(user.name)
+                      },
+                    },
+                  },
+                  [_vm._v(_vm._s(user.name))]
+                ),
+              ])
             }),
             0
           ),
