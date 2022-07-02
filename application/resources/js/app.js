@@ -27,6 +27,7 @@ const { default: VueRouter } = require('vue-router');
 Vue.use(VueRouter)
 const Home = require('./components/Pages/Home/Home.vue').default
 const Login =require('./components/Pages/Login/Login.vue').default
+const NotFound =require('./components/HandlingError/NotFound.vue').default
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -36,12 +37,16 @@ const Login =require('./components/Pages/Login/Login.vue').default
 
 const route = [
     {
-        path:'/Home',
+        path:'/home',
         component: Home
     },
     {
-        path:'/Login',
+        path:'/login',
         component: Login
+    },
+    {
+        path:'*',
+        component:NotFound
     }
 ]
 
