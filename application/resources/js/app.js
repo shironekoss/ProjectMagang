@@ -7,7 +7,7 @@
 require('./bootstrap');
 
 import Vue from 'vue'
-import  router from './router/index.js'
+import  router from './router/route.js'
 
 
 /**

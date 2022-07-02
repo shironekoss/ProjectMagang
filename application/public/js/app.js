@@ -5401,7 +5401,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var _router_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./router/index.js */ "./resources/js/router/index.js");
+/* harmony import */ var _router_route_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./router/route.js */ "./resources/js/router/route.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -5436,7 +5436,7 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_1__["default"]({
   data: {
     title: 'Rancangan Program SPK'
   },
-  router: _router_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]
+  router: _router_route_js__WEBPACK_IMPORTED_MODULE_0__["default"]
 });
 
 /***/ }),
@@ -5477,9 +5477,9 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /***/ }),
 
-/***/ "./resources/js/router/index.js":
+/***/ "./resources/js/router/route.js":
 /*!**************************************!*\
-  !*** ./resources/js/router/index.js ***!
+  !*** ./resources/js/router/route.js ***!
   \**************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
