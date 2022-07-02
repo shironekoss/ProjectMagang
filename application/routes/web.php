@@ -17,6 +17,6 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::any('/{slug}', function () {
+Route::any('/{slug}/{slug2}', function () {
     return view('home');
 });
