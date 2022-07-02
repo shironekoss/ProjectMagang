@@ -20,6 +20,13 @@ window.Vue = require('vue').default;
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('header-component', require('./components/General/HeaderComponent.vue').default);
+Vue.component('footer-component', require('./components/General/FooterComponent.vue').default);
+
+const { default: VueRouter } = require('vue-router');
+Vue.use(VueRouter)
+const Home = require('./components/Pages/Home/Home.vue').default
+const Login =require('./components/Pages/Login/Login.vue').default
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -27,6 +34,26 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+const route = [
+    {
+        path:'/Home',
+        component: Home
+    },
+    {
+        path:'/Login',
+        component: Login
+    }
+]
+
+const router = new VueRouter({
+    mode:'history',
+    routes:route
+})
+
 const app = new Vue({
     el: '#app',
+    data:{
+        title:'Rancangan Program SPK'
+    },
+    router
 });
