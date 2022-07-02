@@ -5378,8 +5378,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['name']
+  props: ['name'],
+  data: function data() {
+    return {
+      users: [{
+        id: 1,
+        name: 'Felis'
+      }, {
+        id: 2,
+        name: 'Charles'
+      }, {
+        id: 3,
+        name: 'Elfan'
+      }]
+    };
+  },
+  methods: {
+    profile_url: function profile_url(name) {
+      return '/user/' + name.toLowerCase();
+    }
+  }
 });
 
 /***/ }),
@@ -28433,8 +28459,41 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c("div", [
     _vm.name
-      ? _c("section", [_c("h1", [_vm._v(" Hello " + _vm._s(_vm.name))])])
-      : _c("section", [_c("h1", [_vm._v("Anda belum login")])]),
+      ? _c(
+          "section",
+          [
+            _c("h1", [_vm._v(" Hello " + _vm._s(_vm.name))]),
+            _vm._v(" "),
+            _c("router-link", { attrs: { to: "/user" } }, [_vm._v("Kembali")]),
+          ],
+          1
+        )
+      : _c("section", [
+          _c("h1", [_vm._v("Anda belum login")]),
+          _vm._v(" "),
+          _c(
+            "ul",
+            _vm._l(_vm.users, function (user) {
+              return _c(
+                "li",
+                [
+                  _vm._v(
+                    "\n                    id " +
+                      _vm._s(user.id) +
+                      " adalah\n                    "
+                  ),
+                  _c(
+                    "router-link",
+                    { attrs: { to: _vm.profile_url(user.name) } },
+                    [_vm._v(_vm._s(user.name))]
+                  ),
+                ],
+                1
+              )
+            }),
+            0
+          ),
+        ]),
   ])
 }
 var staticRenderFns = []
@@ -28515,7 +28574,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("footer", [_c("p", [_vm._v("© 2020")])])
+    return _c("footer", [_c("p", [_vm._v("© 2022")])])
   },
 ]
 render._withStripped = true
