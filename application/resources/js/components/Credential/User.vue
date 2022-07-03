@@ -21,12 +21,14 @@
         props:['username'],
         data(){
             return{
-                users:[
-                    {id: 1, name:'Felis'},
-                    {id: 2, name:'Charles'},
-                    {id: 3, name:'Elfan'},
-                ]
+                users:[]
             }
+        },
+        mounted(){
+            axios.get( 'api/users').then((response) => {
+                console.log(response)
+                this.users=response.data
+            })
         },
         methods:{
             profile_url(name){

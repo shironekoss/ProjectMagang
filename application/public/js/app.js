@@ -5390,17 +5390,16 @@ __webpack_require__.r(__webpack_exports__);
   props: ['username'],
   data: function data() {
     return {
-      users: [{
-        id: 1,
-        name: 'Felis'
-      }, {
-        id: 2,
-        name: 'Charles'
-      }, {
-        id: 3,
-        name: 'Elfan'
-      }]
+      users: []
     };
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    axios.get('api/users').then(function (response) {
+      console.log(response);
+      _this.users = response.data;
+    });
   },
   methods: {
     profile_url: function profile_url(name) {
