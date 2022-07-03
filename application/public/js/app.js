@@ -21224,7 +21224,6 @@ var render = function () {
     _c(
       "form",
       {
-        attrs: { action: "/users", method: "post" },
         on: {
           submit: function ($event) {
             $event.preventDefault()

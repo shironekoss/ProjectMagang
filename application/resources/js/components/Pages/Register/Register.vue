@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>Register</h1>
-        <form @submit.prevent="handleSubmit" action="/users" method="post">
+        <form @submit.prevent="handleSubmit">
             <div class="input-group">
                 <label>Nama</label>
                 <input type="text" v-model="form.name">
