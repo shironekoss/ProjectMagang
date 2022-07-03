@@ -9,7 +9,7 @@ class SettingsController extends Controller
 {
     public function ambiluser()
     {
-        $users = DB::table('users')->get();
+        $users = DB::table('users')->select( 'id' , 'name')->get();
        return response()->json($users);
     }
 }
