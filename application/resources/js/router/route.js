@@ -41,7 +41,7 @@ const route = [
     },
     {
         name:'InputNoSPK',
-        path:'/inputSPK',
+        path:'/inputspk',
         component: InputNoSPK
     },
 
