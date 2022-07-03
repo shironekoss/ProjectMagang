@@ -2,6 +2,7 @@
     <div>
         <section >
             <h1>Anda belum login</h1>
+            <router-link :to="{name:'Register'}">Register</router-link>
             <ul>
                 <li v-for="user in users">
                     id {{ user.id }} adalah

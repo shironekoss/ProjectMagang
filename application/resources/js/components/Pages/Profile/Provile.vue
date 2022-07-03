@@ -2,7 +2,7 @@
     <div>
         <section v-if="id">
             <h1> Hello {{ detailuser.name }}</h1>
-            <p>Emial : {{ detailuser.email }}</p>
+            <p>Email : {{ detailuser.email }}</p>
             <router-link :to="{ name: 'User' }">Kembali</router-link>
         </section>
     </div>

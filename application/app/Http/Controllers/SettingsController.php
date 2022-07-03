@@ -19,4 +19,10 @@ class SettingsController extends Controller
         // $users = DB::table('users')->select( 'id' , 'name')->where('id',$id) ->first();
        return response()->json($users);
     }
+    public function store(Request $request)
+    {
+        $user = new User();
+        
+       return $request->all();
+    }
 }
