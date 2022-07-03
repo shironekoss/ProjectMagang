@@ -22,7 +22,10 @@ class SettingsController extends Controller
     public function store(Request $request)
     {
         $user = new User();
-        
-       return $request->all();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = $request->password;
+        $user->save();
+        return $user;
     }
 }
