@@ -8,6 +8,7 @@ const Login =require('../components/Pages/Login/Login.vue').default
 const User =require('../components/Credential/User.vue').default
 const Profile =require('../components/Pages/Profile/Provile.vue').default
 const Register =require('../components/Pages/Register/Register.vue').default
+const InputNoSPK = require('../components/Pages/InputNoSPK/InputSPKComponent.vue').default
 // cara 2
 import NotFound from '../components/HandlingError/NotFound.vue'
 
@@ -37,6 +38,11 @@ const route = [
         path:'/user/:id',
         component: Profile,
         props:true
+    },
+    {
+        name:'InputNoSPK',
+        path:'/inputSPK',
+        component: InputNoSPK
     },
 
     {
