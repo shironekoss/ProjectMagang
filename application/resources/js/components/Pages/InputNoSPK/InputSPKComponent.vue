@@ -52,7 +52,8 @@
     }
 </script>
 
-<style>
+<style >
+
 .adiputro-wirasejati {
     font-size: 3em;
 }

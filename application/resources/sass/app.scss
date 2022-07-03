@@ -2,15 +2,7 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito');
 
 // Variables
-// @import 'variables';
+@import 'variables';
 
-@import 'Component/Header.scss';
-
-@import '~vuejs-noty/dist/vuejs-noty.css';
-
-// // Bootstrap
-// @import '~bootstrap/scss/bootstrap';
-.active{
-    background: salmon;
-    color: antiquewhite;
-}
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
