@@ -2336,17 +2336,23 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       form: {
-        name: ' ',
-        email: ' ',
-        password: ' '
+        name: '',
+        email: '',
+        password: ''
       }
     };
   },
   methods: {
     handleSubmit: function handleSubmit() {
+      var _this = this;
+
       console.log(this.form);
       axios.post('/api/users', this.form).then(function (response) {
         console.log(response);
+
+        _this.$router.push({
+          name: 'User'
+        });
       })["catch"](function (error) {
         console.log(error);
       });

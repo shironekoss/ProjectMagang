@@ -24,9 +24,9 @@
         data(){
             return{
                 form:{
-                    name:' ',
-                    email: ' ',
-                    password:' '
+                    name:'',
+                    email: '',
+                    password:''
                 }
             }
         },
@@ -35,6 +35,9 @@
                 console.log(this.form)
                 axios.post('/api/users',this.form).then((response)=>{
                      console.log(response)
+                     this.$router.push({
+                        name:'User'
+                     })
                 }).catch((error)=>{
                     console.log(error)
                 })

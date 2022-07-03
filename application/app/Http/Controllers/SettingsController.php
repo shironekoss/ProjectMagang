@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class SettingsController extends Controller
 {
@@ -24,8 +25,12 @@ class SettingsController extends Controller
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->password = $request->password;
+        $user->password = Hash::make($request->password);
         $user->save();
-        return $user;
+        return response()->json([
+            "status" =>true,
+            "message" =>'Data user berhasil disimpan',
+            "data"=>$user
+        ]);
     }
 }
