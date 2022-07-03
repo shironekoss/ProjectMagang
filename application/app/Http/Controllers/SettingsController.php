@@ -22,11 +22,18 @@ class SettingsController extends Controller
     }
     public function store(Request $request)
     {
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->save();
+        //cara eloquent fillable
+        $user =User::create([
+            "name"=>$request->name,
+            "email"=>$request->email,
+            "password"=>Hash::make($request->password)
+        ]);
+                //cara 2
+        // $user = new User();
+        // $user->name = $request->name;
+        // $user->email = $request->email;
+        // $user->password = Hash::make($request->password);
+        // $user->save();
         return response()->json([
             "status" =>true,
             "message" =>'Data user berhasil disimpan',

@@ -7,8 +7,15 @@
 require('./bootstrap');
 
 import Vue from 'vue'
-import  router from './router/route.js'
+import router from './router/route.js'
 
+// vue Noty
+import VueNoty from 'vuejs-noty'
+Vue.use(VueNoty, {
+    timeout: 5000,
+    progressBar: true,
+    layout: 'topRight'
+})
 
 /**
  * The following block of code may be used to automatically register your
@@ -40,8 +47,8 @@ Vue.component('footer-component', require('./components/General/FooterComponent.
 
 const app = new Vue({
     el: '#app',
-    data:{
-        title:'Rancangan Program SPK'
+    data: {
+        title: 'Rancangan Program SPK'
     },
     router
 });

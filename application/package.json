@@ -28,6 +28,7 @@
     },
     "dependencies": {
         "vue-router": "^3.5.4",
+        "vuejs-noty": "^0.1.4",
         "webpack": "^5.0.0"
     }
 }
