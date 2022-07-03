@@ -3,9 +3,16 @@
         <nav id="nav">
             <div class="nav left">
                 <span class="gradient skew">
-                    <h1 class="logo un-skew"><a href="#home">Logo Here</a></h1>
+                    <h1 class="logo un-skew">
+                        <a href="#home">
+                            <div id="title-nav">
+                                <img src="../../../images/240px-Logo_Adi_Putro.svg.png" alt="#">PT Adiputro Wirasejati</img>
+                            </div>
+                        </a>
+                    </h1>
                 </span>
                 <button id="menu" class="btn-nav"><span class="fas fa-bars"></span></button>
+
             </div>
             <div class="nav right">
                 <a href="#home" class="nav-link"><span class="nav-link-span"><span class="u-nav">
@@ -26,5 +33,8 @@
 
 
 <style lang="scss" scoped >
+#title-nav{
+    color: black
+}
 @import'../../../sass/Component/Header.scss';
 </style>
