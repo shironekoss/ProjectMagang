@@ -21065,21 +21065,89 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "nav",
-    [
-      _c("router-link", { attrs: { to: { name: "Home" } } }, [_vm._v("Home")]),
+  return _c("header", { attrs: { id: "nav-wrapper" } }, [
+    _c("nav", { attrs: { id: "nav" } }, [
+      _vm._m(0),
       _vm._v(" "),
-      _c("router-link", { attrs: { to: { name: "Login" } } }, [
-        _vm._v("Login"),
+      _c("div", { staticClass: "nav right" }, [
+        _c("a", { staticClass: "nav-link", attrs: { href: "#home" } }, [
+          _c("span", { staticClass: "nav-link-span" }, [
+            _c(
+              "span",
+              { staticClass: "u-nav" },
+              [
+                _c("router-link", { attrs: { to: { name: "Home" } } }, [
+                  _vm._v("Home"),
+                ]),
+              ],
+              1
+            ),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("a", { staticClass: "nav-link", attrs: { href: "#about" } }, [
+          _c("span", { staticClass: "nav-link-span" }, [
+            _c(
+              "span",
+              { staticClass: "u-nav" },
+              [
+                _c("router-link", { attrs: { to: { name: "Login" } } }, [
+                  _vm._v("Login"),
+                ]),
+              ],
+              1
+            ),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("a", { staticClass: "nav-link", attrs: { href: "#work" } }, [
+          _c("span", { staticClass: "nav-link-span" }, [
+            _c(
+              "span",
+              { staticClass: "u-nav" },
+              [
+                _c("router-link", { attrs: { to: { name: "User" } } }, [
+                  _vm._v("User"),
+                ]),
+              ],
+              1
+            ),
+          ]),
+        ]),
+        _vm._v(" "),
+        _vm._m(1),
+      ]),
+    ]),
+  ])
+}
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "nav left" }, [
+      _c("span", { staticClass: "gradient skew" }, [
+        _c("h1", { staticClass: "logo un-skew" }, [
+          _c("a", { attrs: { href: "#home" } }, [_vm._v("Logo Here")]),
+        ]),
       ]),
       _vm._v(" "),
-      _c("router-link", { attrs: { to: { name: "User" } } }, [_vm._v("User")]),
-    ],
-    1
-  )
-}
-var staticRenderFns = []
+      _c("button", { staticClass: "btn-nav", attrs: { id: "menu" } }, [
+        _c("span", { staticClass: "fas fa-bars" }),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { staticClass: "nav-link", attrs: { href: "#contact" } }, [
+      _c("span", { staticClass: "nav-link-span" }, [
+        _c("span", { staticClass: "u-nav" }, [_vm._v("Contact")]),
+      ]),
+    ])
+  },
+]
 render._withStripped = true
 
 
