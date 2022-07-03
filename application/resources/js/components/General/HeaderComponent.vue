@@ -6,7 +6,8 @@
                     <h1 class="logo un-skew">
                         <a href="#home">
                             <div id="title-nav">
-                                <img src="../../../images/240px-Logo_Adi_Putro.svg.png" alt="#">PT Adiputro Wirasejati</img>
+                                <img src="../../../images/240px-Logo_Adi_Putro.svg.png" alt="#">
+                                <label for=""> PT Adiputro Wirasejati</label>
                             </div>
                         </a>
                     </h1>
@@ -34,7 +35,7 @@
 
 <style lang="scss" scoped >
 #title-nav{
-    color: black
+    color: black;
 }
 @import'../../../sass/Component/Header.scss';
 </style>
