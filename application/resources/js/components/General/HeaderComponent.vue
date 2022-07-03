@@ -25,5 +25,6 @@
 </template>
 
 
-<style >
+<style lang="scss" scoped >
+@import'../../../sass/Component/Header.scss';
 </style>
