@@ -27,6 +27,7 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "autoprefixer": "10.4.5",
         "vue-router": "^3.5.4",
         "vuejs-noty": "^0.1.4",
         "webpack": "^5.0.0"
