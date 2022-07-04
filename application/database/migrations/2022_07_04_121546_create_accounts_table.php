@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('account_name');
             $table->string('account_password');
             $table->string('account_role');
+            $table->string('account_picture')->nullable();
             $table->string('account_dept');
             $table->text('account_desc')->nullable();
             $table->boolean('account_active');

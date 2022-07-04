@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Account;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -11,7 +12,12 @@ class SettingsController extends Controller
 {
     public function ambiluser()
     {
-        $users = User::all();
+        $users = Account::all();
+       return response()->json($users);
+    }
+    public function ambilaccounts()
+    {
+        $users = Account::all();
        return response()->json($users);
     }
     public function show($id)

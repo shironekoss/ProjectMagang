@@ -1,49 +1,64 @@
 <template>
     <div>
-            <h1>Anda belum login</h1>
+        <h1>Anda belum login</h1>
 
-            <router-link :to="{name:'Register'}" class="btn btn-primary" >Register</router-link>
-            <UserdetailVue/>
-            <ul>
-                <li v-for="user in users">
-                    id {{ user.id }} adalah
-                    <!-- <router-link :to="profile_url(user.name)">{{ user.name }}</router-link> -->
-                    <a href="" @click.prevent="lihatuser(user.id)">{{ user.name }}</a>
-                </li>
-            </ul>
+        <router-link :to="{ name: 'Register' }" class="btn btn-primary">Register</router-link>
+        <div class="container my-5">
+            <div class="card" style="max-width:650px">
+                <div class="card-body">
+                    <h5 class="card-title">Daftar User</h5>
+                    <ul class="list-group list-group-light"></ul>
+                    <div v-for="account in accounts">
+                        <UserdetailVue :account="account"/>
+                    </div>
+
+
+
+                </div>
+            </div>
+
+
+
+
+            <!-- id {{ user.id }} adalah -->
+            <!-- <router-link :to="profile_url(user.name)">{{ user.name }}</router-link> -->
+            <!-- <a href="" @click.prevent="lihatuser(user.id)">{{ user.name }}</a> -->
+
+
+        </div>
     </div>
 </template>
 
 <script>
 import UserdetailVue from './Userdetail.vue'
 export default {
-    components:{UserdetailVue},
+    components: { UserdetailVue },
     data() {
         return {
-            users: [],
+            accounts: [],
         }
     },
     mounted() {
         this.getUsers()
     },
     methods: {
-         getUsers() {
-             axios.get('/api/users').then((response) => {
+        getUsers() {
+            axios.get('/api/accounts').then((response) => {
                 console.log(response)
-                this.users = response.data
+                this.accounts = response.data
 
             })
         },
-        profile_url(name) {
-            return '/user/' + name.toLowerCase()
-        },
+        // profile_url(name) {
+        //     return '/user/' + name.toLowerCase()
+        // },
         // cara2
         lihatuser(idcari) {
             // this.$router.push('/user/'+name.toLowerCase())
             //cara3
             this.$router.push({
                 name: 'Profile',
-                params: {id:idcari}
+                params: { id: idcari }
             })
         }
     }

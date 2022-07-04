@@ -21,6 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('users',[SettingsController::class,'ambiluser']);
+Route::get('accounts',[SettingsController::class,'ambilaccounts']);
 Route::get('users/{id}',[SettingsController::class,'show']);
 Route::post('users',[SettingsController::class,'store']);
 

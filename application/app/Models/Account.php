@@ -24,6 +24,7 @@ class Account extends Model
         'account_username',
         'account_password',
         'account_role',
+        'account_picture',
         'account_dept',
         'account_desc',
         'account_active',
