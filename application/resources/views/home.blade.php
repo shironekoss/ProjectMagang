@@ -16,7 +16,6 @@
                 <header-component></header-component>
                 <h3 v-text = " title "></h3>
                 <router-view></router-view>
-                {{-- <example-component></example-component> --}}
                 <footer-component></footer-component>
         </div>
         <script src="{{ asset('js/app.js') }}"></script>

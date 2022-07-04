@@ -16,7 +16,7 @@
                             Jl. Raya Balearjosari No. 35 <br>
                             Malang, Jawa Timur, 65126 <br>
                         </p>
-                        
+
 
                     </div>
                     <!--Grid column-->

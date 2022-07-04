@@ -1,8 +1,9 @@
 <template>
     <div>
-        <section >
             <h1>Anda belum login</h1>
-            <router-link :to="{name:'Register'}">Register</router-link>
+
+            <router-link :to="{name:'Register'}" class="btn btn-primary" >Register</router-link>
+            <UserdetailVue/>
             <ul>
                 <li v-for="user in users">
                     id {{ user.id }} adalah
@@ -10,12 +11,13 @@
                     <a href="" @click.prevent="lihatuser(user.id)">{{ user.name }}</a>
                 </li>
             </ul>
-        </section>
     </div>
 </template>
 
 <script>
+import UserdetailVue from './Userdetail.vue'
 export default {
+    components:{UserdetailVue},
     data() {
         return {
             users: [],
@@ -47,3 +49,5 @@ export default {
     }
 }
 </script>
+
+
