@@ -23,6 +23,12 @@ class SettingsController extends Controller
     public function store(Request $request)
     {
         //cara eloquent fillable
+        $validated = $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
         $user =User::create([
             "name"=>$request->name,
             "email"=>$request->email,
