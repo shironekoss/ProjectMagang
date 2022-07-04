@@ -1,10 +1,10 @@
 <template>
     <!-- Footer -->
     <footer
-        class="text-center text-lg-start text-white"
-        style="background-color: #3e4551">
+        class="text-center text-lg-start text-white iniFooter"
+        style="background-color: rgb(50,55,65); background: linear-gradient(90deg, rgba(50,55,65,1) 0%, rgba(68,68,73,1) 35%, rgba(255,255,255,1) 100%);">
         <!-- Grid container -->
-        <div class="container p-4 pb-0">
+        <div class="container p-4 pb-0" >
             <!-- Section: Links -->
             <section class="">
                 <!--Grid row-->
@@ -39,3 +39,4 @@
     </footer>
     <!-- Footer -->
 </template>
+
