@@ -2,7 +2,7 @@
     <div>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-10">
+            <div class="col">
                 <div class="card">
                     <div class="card-header">
                         <span class="adiputro-wirasejati">
@@ -13,7 +13,7 @@
                     <div class="card-body">
                         <div class="container">
                             <div class="row">
-                                <div class="col-8 tabel-data-spk">
+                                <div class="col-9 tabel-data-spk">
                                     <div class="container">
                                         <div class="row">
                                             <div class="col-sm">
@@ -67,27 +67,27 @@
                                         <br>
                                         <div class="row">
                                             <div class="col border border-dark">
-                                                <div class="row">Merk</div>
+                                                <div class="row">Merk</div><br>
                                                 <div class="row">ISUZU</div>
                                             </div>
                                             <div class="col border border-dark">
-                                                <div class="row">Type / Model</div>
+                                                <div class="row">Type / Model</div><br>
                                                 <div class="row">NLR55BLX</div>
                                             </div>
                                             <div class="col border border-dark">
-                                                <div class="row">Tahun</div>
+                                                <div class="row">Tahun</div><br>
                                                 <div class="row">2022</div>
                                             </div>
                                             <div class="col border border-dark">
-                                                <div class="row">No Serie</div>
+                                                <div class="row">No Serie</div><br>
                                                 <div class="row"></div>
                                             </div>
                                             <div class="col border border-dark">
-                                                <div class="row">No Rangka</div>
+                                                <div class="row">No Rangka</div><br>
                                                 <div class="row">MHCNLR55</div>
                                             </div>
                                             <div class="col border border-dark">
-                                                <div class="row">Header</div>
+                                                <div class="row">Header</div><br>
                                                 <div class="row">isi</div>
                                             </div>
                                         </div>
