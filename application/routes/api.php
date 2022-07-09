@@ -26,6 +26,7 @@ Route::get('accounts',[SettingsController::class,'ambilaccounts']);
 Route::get('products',[ProductController::class,'frontend']);
 Route::get('users/{id}',[SettingsController::class,'show']);
 Route::post('tambahaccount',[SettingsController::class,'addAccount']);
+Route::delete('deleteaccount/{id}',[SettingsController::class,'removeaccount']);
 
 // Route::resource('posts', PostController::class)->only([
 //     'destroy', 'show', 'store', 'update'

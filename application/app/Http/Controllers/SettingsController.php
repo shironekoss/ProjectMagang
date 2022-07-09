@@ -52,5 +52,14 @@ class SettingsController extends Controller
             "data"=>$user
         ]);
     }
+    public function removeaccount($id)
+    {
+        $user = Account::find($id);
+        $user->delete();
+        return response()->json([
+            'status'=>true,
+            'message'=>'Data user berhasil dihapus',
+        ]);
+    }
 }
 

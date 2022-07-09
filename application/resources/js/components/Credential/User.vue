@@ -9,7 +9,9 @@
                     <h5 class="card-title">Daftar User</h5>
                     <ul class="list-group list-group-light"></ul>
                     <div v-for="account in accounts">
+                        <div v-if="!account.deleted_at">
                         <UserdetailVue :account="account"/>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -31,9 +33,8 @@ export default {
     },
     methods: {
         getUsers() {
-            axios.get('/api/accounts').then((response) => {
+            axios.get('/api/accounts/'+this.accounts).then((response) => {
                 this.accounts = response.data
-
             })
         },
         // profile_url(name) {

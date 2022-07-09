@@ -32,7 +32,8 @@
                 </a>
 
                 <!-- <a href="" @click.prevent="lihatuser(user.id)">{{ user.name }}</a> -->
-                <a class="btn btn-danger btn-rounded btn-sm" style="margin-right: 5px;">
+                <a class="btn btn-danger btn-rounded btn-sm" style="margin-right: 5px;"
+                    @click.prevent="accountdelete()">
                     Delete
                 </a>
                 <div class="form-check form-switch">
@@ -43,13 +44,11 @@
                 </div>
             </div>
         </li>
-
-        <!-- </div>
-            </div>
-        </div> -->
     </div>
 </template>
 <script>
+import axios from 'axios'
+
 export default {
     props: {
         account: {
@@ -70,7 +69,17 @@ export default {
                 name: 'Profile',
                 params: { id: idcari }
             })
-        }
+        },
+        accountdelete() {
+            axios.delete('/api/deleteaccount/' + this.account._id).then((response) => {
+                if(response.data.status){
+                    this.$noty.success(response.data.message)
+                     this.$router.push({
+                        name: 'User'
+                    })
+                }
+            })
+        },
     }
 }
 </script>
