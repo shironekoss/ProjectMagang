@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -20,21 +19,28 @@ class SettingsController extends Controller
         $users = Account::find($id);
        return $users;
     }
-    public function store(Request $request)
+    public function addAccount(Request $request)
     {
         //cara eloquent fillable
         $validated = $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required',
+            'username' => 'required|min:5|max:20|unique:App\Models\Account,account_username',
+            'name' => 'required|min:4|max:20',
+            'password' => 'required|confirmed|min:8|max:20',
+            'role' => 'required',
+            'departemen' => 'required',
         ]);
 
-        $user =User::create([
-            "name"=>$request->name,
-            "email"=>$request->email,
-            "password"=>Hash::make($request->password)
+        $user =Account::create([
+            "account_username"=>$request->username,
+            "account_name"=>$request->name,
+            "password"=>$request->password,
+            'account_privileges'=>[
+                'title' => $request->role,
+                'account_dept' => $request->departemen,
+            ],
+            "account_active"=>false,
         ]);
-                //cara 2
+        //cara 2
         // $user = new User();
         // $user->name = $request->name;
         // $user->email = $request->email;
@@ -47,3 +53,4 @@ class SettingsController extends Controller
         ]);
     }
 }
+

@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('accounts',[SettingsController::class,'ambilaccounts']);
 Route::get('products',[ProductController::class,'frontend']);
 Route::get('users/{id}',[SettingsController::class,'show']);
-Route::post('users',[SettingsController::class,'store']);
+Route::post('tambahaccount',[SettingsController::class,'addAccount']);
 
 // Route::resource('posts', PostController::class)->only([
 //     'destroy', 'show', 'store', 'update'
