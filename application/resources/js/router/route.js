@@ -6,7 +6,7 @@ Vue.use(VueRouter)
 const Home = require('../components/Pages/Home/Home.vue').default
 const Login =require('../components/Pages/Login/Login.vue').default
 const User =require('../components/Credential/User.vue').default
-const Profile =require('../components/Pages/Profile/Provile.vue').default
+const Profile =require('../components/Pages/Profile/Profile.vue').default
 const Register =require('../components/Pages/Register/Register.vue').default
 const InputNoSPK = require('../components/Pages/InputNoSPK/InputSPKComponent.vue').default
 // cara 2

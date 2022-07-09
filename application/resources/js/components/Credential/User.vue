@@ -22,7 +22,7 @@
 
             <!-- id {{ user.id }} adalah -->
             <!-- <router-link :to="profile_url(user.name)">{{ user.name }}</router-link> -->
-            <!-- <a href="" @click.prevent="lihatuser(user.id)">{{ user.name }}</a> -->
+
 
 
         </div>
@@ -44,7 +44,6 @@ export default {
     methods: {
         getUsers() {
             axios.get('/api/accounts').then((response) => {
-                console.log(response)
                 this.accounts = response.data
 
             })
@@ -53,14 +52,7 @@ export default {
         //     return '/user/' + name.toLowerCase()
         // },
         // cara2
-        lihatuser(idcari) {
-            // this.$router.push('/user/'+name.toLowerCase())
-            //cara3
-            this.$router.push({
-                name: 'Profile',
-                params: { id: idcari }
-            })
-        }
+
     }
 }
 </script>

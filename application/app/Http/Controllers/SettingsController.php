@@ -10,21 +10,15 @@ use Illuminate\Support\Facades\Hash;
 
 class SettingsController extends Controller
 {
-    public function ambiluser()
-    {
-        $users = Account::all();
-       return response()->json($users);
-    }
     public function ambilaccounts()
     {
         $users = Account::all();
-       return response()->json($users);
+       return $users;
     }
     public function show($id)
     {
-        $users = User::find($id);
-        // $users = DB::table('users')->select( 'id' , 'name')->where('id',$id) ->first();
-       return response()->json($users);
+        $users = Account::find($id);
+       return $users;
     }
     public function store(Request $request)
     {

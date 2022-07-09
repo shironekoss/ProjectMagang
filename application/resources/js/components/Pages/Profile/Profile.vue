@@ -1,8 +1,9 @@
 <template>
     <div>
         <section v-if="id">
-            <h1> Hello {{ detailuser.name }}</h1>
-            <p>Email : {{ detailuser.email }}</p>
+            <h1> Hello {{ detailuser.account_name }}</h1>
+            <p> Jabatan : {{ detailuser.account_privileges.title }}</p>
+            <p> Departemen : {{ detailuser.account_privileges.account_dept}}</p>
             <router-link :to="{ name: 'User' }">Kembali</router-link>
         </section>
     </div>

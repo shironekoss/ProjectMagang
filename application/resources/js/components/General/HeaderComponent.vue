@@ -26,7 +26,9 @@
                             <router-link :to="{ name: 'User' }">User</router-link>
                         </span></span></a>
                 <a href="#contact" class="nav-link"><span class="nav-link-span"><span
-                            class="u-nav">Contact</span></span></a>
+                            class="u-nav">
+                            <router-link :to="{ name: 'InputNoSPK' }">SPK</router-link>
+                            </span></span></a>
             </div>
         </nav>
     </header>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,9 +18,10 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-
+Route::get('/hai',[SettingsController::class,'ambilaccounts']);
 Route::get('/{any}', function () {
     return view('home');
 })->where('any','.*');
 
+// Route::get('/post/{slug}', [PostController::class, 'show']);
 
