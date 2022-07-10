@@ -15,11 +15,11 @@
                         <div class="card-body">
                             <div class="container">
                                 <div class="row">
-                                    <div class="col-9 tabel-data-spk">
-                                        <div class="container">
-                                            <form>
+                                    <form @submit.prevent="" >
+                                        <div class="col-9 tabel-data-spk" style="float: left;">
+                                            <div class="col container">
                                                 <div class="row">
-                                                    <div class="col-sm" style="float:left;">
+                                                    <div class="col-sm">
                                                         <div class="form-group row">
                                                             <label class="col col-form-label">Tanggal SPK</label>
                                                             <div class="col">
@@ -128,9 +128,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </form>
-
-                                            <!-- <div class="row">
+                                                <!-- <div class="row">
                                                 <div class="col border border-dark">
                                                     <div class="row">Merk</div><br>
                                                     <div class="row">ISUZU</div>
@@ -156,19 +154,23 @@
                                                     <div class="row">isi</div>
                                                 </div>
                                             </div> -->
+
+                                            </div>
+
                                         </div>
-                                    </div>
-                                    <div class="col button-spk">
-                                        <ul style="list-style-type: none;">
-                                            <li><button type="button"
-                                                    class="btn btn-primary button-input">SIMPAN</button>
-                                            </li>
-                                            <li><button type="button" class="btn btn-success button-input">Daftar
-                                                    SPK</button></li>
-                                            <li><button type="button" class="btn btn-warning button-input">Input
-                                                    Kebutuhan KIT</button></li>
-                                        </ul>
-                                    </div>
+                                        <div class="col-3 button-spk" style="float:right;">
+                                            <ul style="list-style-type: none;">
+                                                <li><button type="submit"
+                                                        class="btn btn-primary button-input" @click="inputspk">SIMPAN</button>
+                                                </li>
+                                                <li><button type="submit" class="btn btn-success button-input" value="DaftarSPK">Daftar
+                                                        SPK</button></li>
+                                                <li><button type="submit" class="btn btn-warning button-input" value="Input Kebutuhan Kit">Input
+                                                        Kebutuhan KIT</button></li>
+                                            </ul>
+                                        </div>
+                                    </form>
+
                                 </div>
                             </div>
                         </div>
@@ -215,6 +217,20 @@ export default {
         getdatetoday() {
             let yourDate = new Date().toISOString().slice(0, 10);
             return yourDate
+        },
+        inputspk() {
+            console.log(this.dataspk)
+            axios.post('/api/tambahSPK', this.dataspk).then((response) => {
+                console.log(response)
+                if (response.data.status) {
+                    this.$noty.success(response.data.message)
+                    // this.$router.push({
+                    //     name: 'User'
+                    // })
+                }
+            }).catch((error) => {
+                this.errors = error.response.data.errors
+            })
         }
     }
 
