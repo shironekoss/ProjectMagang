@@ -115,8 +115,7 @@ export default {
         handleSubmit() {
             console.log(this.form)
             axios.post('/api/tambahaccount', this.form).then((response) => {
-                if (response.data.status) {
-                    console.log(response)
+                if (response.data.status) { 
                     this.$noty.success(response.data.message)
                     this.$router.push({
                         name: 'User'

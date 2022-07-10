@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\SPKController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::get('/hai',[SettingsController::class,'ambilaccounts']);
+Route::get('/testspk',[SPKController::class,'filternospk']);
 Route::get('/{any}', function () {
     return view('home');
 })->where('any','.*');

@@ -20,68 +20,65 @@ class AccountSeeder extends Seeder
     {
         DB::table('accounts')->insert([
             [
-            'account_username'=>'elfan',
-            'account_name' => "elfan",
-            'account_password' => "elfan",
-            'account_privileges'=>[
-                'title' => "Super_Admin_role",
-                'account_dept' => "SPK Dept",
-            ],
-            'account_active' => true,
-            // 'created_at' => Carbon::now(),
-            // 'updated_at' =>Carbon::now(),
+                'account_username' => 'elfan',
+                'account_name' => "elfan",
+                'account_password' => "elfan",
+                'account_privileges' => [
+                    'title' => "Super_Admin_role",
+                    'account_dept' => "SPK Dept",
+                ],
+                'account_active' => true,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ],
             [
-                'account_username'=>'felis',
+                'account_username' => 'felis',
                 'account_name' => "felis",
                 'account_password' => "felis",
-                'account_privileges'=>[
+                'account_privileges' => [
                     'title' => "Admin_role",
                     'account_dept' => "SPK Dept",
                 ],
                 'account_active' => true,
-                // 'created_at' =>Carbon::now(),
-                // 'updated_at' => Carbon::now(),
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ],
             [
-                'account_username'=>'charles',
+                'account_username' => 'charles',
                 'account_name' => "charles",
                 'account_password' => "charles",
-                'account_privileges'=>[
+                'account_privileges' => [
                     'title' => "Staff_role",
                     'account_dept' => "SPK Dept",
                 ],
                 'account_active' => true,
-                // 'created_at' =>Carbon::now(),
-                // 'updated_at' =>Carbon::now(),
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ],
             [
-                'account_username'=>'staff1',
+                'account_username' => 'staff1',
                 'account_name' => "staff-san",
                 'account_password' => "123",
-                'account_privileges'=>[
+                'account_privileges' => [
                     'title' => "Staff_role",
                     'account_dept' => "temp",
                 ],
                 'account_active' => false,
-                // 'created_at' =>Carbon::now(),
-                // 'updated_at' =>Carbon::now(),
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ],
             [
-                'account_username'=>'staff2',
+                'account_username' => 'staff2',
                 'account_name' => "staff-kun",
                 'account_password' => "123",
-                'account_privileges'=>[
+                'account_privileges' => [
                     'title' => "Staff_role",
                     'account_dept' => "temp",
                 ],
                 'account_active' => false,
-                // 'created_at' =>Carbon::now(),
-                // 'updated_at' =>Carbon::now(),
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ],
-       ]);
+        ]);
     }
 }
-
-
-

@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
         // ]);
         $this->call([
             AccountSeeder::class,
+            KomponenSeeder::class,
         ]);
         Product::factory(50)->create();
     }
