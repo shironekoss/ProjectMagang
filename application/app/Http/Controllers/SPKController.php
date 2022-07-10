@@ -20,7 +20,7 @@ class SPKController extends Controller
 
         // # kembalikan data dalam bentuk json
         // dd($hasil[0][0]);
-        $hasil=Komponen::all()->where('kode_mobil','EL');
+        $hasil=Komponen::all()->where('kode_mobil.tipe_FEL',true);
         dd($hasil);
     }
 }
