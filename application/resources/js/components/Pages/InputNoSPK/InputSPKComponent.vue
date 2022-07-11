@@ -15,7 +15,7 @@
                         <div class="card-body">
                             <div class="container">
                                 <div class="row">
-                                    <form @submit.prevent="" >
+                                    <form @submit.prevent="">
                                         <div class="col-9 tabel-data-spk" style="float: left;">
                                             <div class="col container">
                                                 <div class="row">
@@ -128,44 +128,20 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <!-- <div class="row">
-                                                <div class="col border border-dark">
-                                                    <div class="row">Merk</div><br>
-                                                    <div class="row">ISUZU</div>
-                                                </div>
-                                                <div class="col border border-dark">
-                                                    <div class="row">Type / Model</div><br>
-                                                    <div class="row">NLR55BLX</div>
-                                                </div>
-                                                <div class="col border border-dark">
-                                                    <div class="row">Tahun</div><br>
-                                                    <div class="row">2022</div>
-                                                </div>
-                                                <div class="col border border-dark">
-                                                    <div class="row">No Serie</div><br>
-                                                    <div class="row"></div>
-                                                </div>
-                                                <div class="col border border-dark">
-                                                    <div class="row">No Rangka</div><br>
-                                                    <div class="row">MHCNLR55</div>
-                                                </div>
-                                                <div class="col border border-dark">
-                                                    <div class="row">Header</div><br>
-                                                    <div class="row">isi</div>
-                                                </div>
-                                            </div> -->
 
                                             </div>
 
                                         </div>
                                         <div class="col-3 button-spk" style="float:right;">
                                             <ul style="list-style-type: none;">
-                                                <li><button type="submit"
-                                                        class="btn btn-primary button-input" @click="inputspk">SIMPAN</button>
+                                                <li><button type="submit" class="btn btn-primary button-input"
+                                                        @click="inputspk">SIMPAN</button>
                                                 </li>
-                                                <li><button type="submit" class="btn btn-success button-input" value="DaftarSPK">Daftar
+                                                <li><button type="submit" class="btn btn-success button-input"
+                                                        value="DaftarSPK" @click="pindahpagedaftar()">Daftar
                                                         SPK</button></li>
-                                                <li><button type="submit" class="btn btn-warning button-input" value="Input Kebutuhan Kit">Input
+                                                <li><button type="submit" class="btn btn-warning button-input"
+                                                        value="Input Kebutuhan Kit">Input
                                                         Kebutuhan KIT</button></li>
                                             </ul>
                                         </div>
@@ -230,6 +206,11 @@ export default {
                 }
             }).catch((error) => {
                 this.errors = error.response.data.errors
+            })
+        },
+        pindahpagedaftar() {
+            this.$router.push({
+                name: 'DaftarSPK'
             })
         }
     }

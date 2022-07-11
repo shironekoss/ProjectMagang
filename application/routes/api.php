@@ -32,6 +32,7 @@ Route::delete('deleteaccount/{id}',[SettingsController::class,'removeaccount']);
 
 
 Route::post('tambahSPK',[SPKController::class,'tambahSPK']);
+Route::get('spklist',[SPKController::class,'spklist']);
 // Route::resource('posts', PostController::class)->only([
 //     'destroy', 'show', 'store', 'update'
 //  ]);

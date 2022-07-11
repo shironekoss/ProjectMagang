@@ -26,6 +26,15 @@ class SPKController extends Controller
         dd($hasil);
     }
 
+    public function spklist()
+    {
+        $spklist = SPK::all();
+        return response()->json([
+            "status" =>true,
+            "data"=>$spklist
+        ]);
+    }
+
     public function tambahSPK(Request $request)
     {
 
