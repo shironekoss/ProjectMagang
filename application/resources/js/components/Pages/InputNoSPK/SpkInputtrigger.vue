@@ -1,9 +1,10 @@
 <template>
     <div>
 
-        <div> <input type="text">
-        <button type="button" @click="add">Add Component</button>
-        <button type="button" @click="remove">hapus</button>
+        <div> 
+            <input type="text">
+            <button type="button" @click="add">Add Component</button>
+            <button type="button" @click="remove">hapus</button>
         </div>
         <component v-for="(component, index) in components" :key="index" :is="component" />
 
