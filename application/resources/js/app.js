@@ -34,6 +34,9 @@ Vue.component('header-component', require('./components/General/HeaderComponent.
 Vue.component('footer-component', require('./components/General/FooterComponent.vue').default);
 
 
+// untuk latihan
+Vue.component('latihanbutton', require('./components/Pages/InputNoSPK/SpkInputtrigger.vue').default);
+
 
 // const NotFound =require('./components/HandlingError/NotFound.vue').default
 

@@ -35,6 +35,11 @@ class SPKController extends Controller
         ]);
     }
 
+    public function latihan()
+    {
+        return view('latihan');
+    }
+
     public function tambahSPK(Request $request)
     {
 
