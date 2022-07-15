@@ -181,6 +181,7 @@
 
                                                                                     </div>
 
+                                                                                    <!-- row body -->
                                                                                     <div class="row">
                                                                                         <div class="col">
                                                                                             <div class="row">
@@ -192,22 +193,284 @@
                                                                                                     <input type="text">
                                                                                                         <button type="button" @click="add">Add Component</button>
                                                                                                         <button type="button" @click="remove">hapus</button>
-                                                                                                    </div>
                                                                                                 </div>
                                                                                             </div>
-                                                                                            <div class="col">
-                                                                                                <div class="row">.</div>
-                                                                                                <div class="row">
-                                                                                                    <div class="col">LAMPU BELAKANG</div>
+                                                                                            <div class="row">
+                                                                                                <div class="col">MODEL BODY</div>
                                                                                                 <div class="col-8">
                                                                                                     <input type="text">
                                                                                                         <button type="button" @click="add">Add Component</button>
                                                                                                         <button type="button" @click="remove">hapus</button>
-                                                                                                    </div>
-                                                                                                </div>
                                                                                                 </div>
                                                                                             </div>
-                                                                                
+                                                                                            <div class="row">
+                                                                                                <div class="col">VARIASI LAMPU</div>
+                                                                                                <div class="col-8">
+                                                                                                    <input type="text">
+                                                                                                        <button type="button" @click="add">Add Component</button>
+                                                                                                        <button type="button" @click="remove">hapus</button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            </div>
+
+                                                                                            <!-- kolom kanan -->
+
+                                                                                            <div class="col">
+                                                                                                <div class="row">|</div>
+                                                                                                <div class="row">
+                                                                                                    <div class="col">LAMPU BELAKANG</div>
+                                                                                                    <div class="col-8">
+                                                                                                        <input type="text">
+                                                                                                            <button type="button" @click="add">Add Component</button>
+                                                                                                            <button type="button" @click="remove">hapus</button>
+                                                                                                        </div>
+                                                                                                </div>
+                                                                                                <div class="row">
+                                                                                                    <div class="col">MODEL TRAP TANGGA</div>
+                                                                                                    <div class="col-8">
+                                                                                                        <input type="text">
+                                                                                                            <button type="button" @click="add">Add Component</button>
+                                                                                                            <button type="button" @click="remove">hapus</button>
+                                                                                                        </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                    </div>
+
+                                                                                    <!-- row kaca -->
+                                                                                    <div class="row">
+                                                                                        <div class="col">
+                                                                                            <div class="row">
+                                                                                                <b>Kaca</b>
+                                                                                            </div>
+                                                                                            <div class="row">
+                                                                                                    <div class="col">KACA SAMPING</div>
+                                                                                                    <div class="col-8">
+                                                                                                        <input type="text">
+                                                                                                            <button type="button" @click="add">Add Component</button>
+                                                                                                            <button type="button" @click="remove">hapus</button>
+                                                                                                        </div>
+                                                                                                </div>
+
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <!-- row eksterior -->
+                                                                                    <div class="row">
+                                                                                        <div class="col">
+                                                                                            <div class="row">
+                                                                                                <b>Eksterior</b>
+                                                                                            </div>
+                                                                                            <div class="row">
+                                                                                                <div class="col">TINGGI BODY</div>
+                                                                                                <div class="col-8">
+                                                                                                    <input type="text">
+                                                                                                    <button type="button" @click="add">Add Component</button>
+                                                                                                    <button type="button" @click="remove">hapus</button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <!-- row interior -->
+                                                                                    <div class="row">
+                                                                                        <div class="col">
+                                                                                            <div class="row">
+                                                                                                <b>Interior</b>
+                                                                                            </div>
+                                                                                            <div class="row">
+                                                                                                <div class="col">BANGKU</div>
+                                                                                                <div class="col-8">
+                                                                                                    <input type="text">
+                                                                                                        <button type="button" @click="add">Add Component</button>
+                                                                                                        <button type="button" @click="remove">hapus</button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="row">
+                                                                                                <div class="col">BANGKU, (DEPAN)</div>
+                                                                                                <div class="col-8">
+                                                                                                    <input type="text">
+                                                                                                        <button type="button" @click="add">Add Component</button>
+                                                                                                        <button type="button" @click="remove">hapus</button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="row">
+                                                                                                <div class="col">BANGKU, (WARNA)</div>
+                                                                                                <div class="col-8">
+                                                                                                    <input type="text">
+                                                                                                        <button type="button" @click="add">Add Component</button>
+                                                                                                        <button type="button" @click="remove">hapus</button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="row">
+                                                                                                <div class="col">DUCTING</div>
+                                                                                                <div class="col-8">
+                                                                                                    <input type="text">
+                                                                                                        <button type="button" @click="add">Add Component</button>
+                                                                                                        <button type="button" @click="remove">hapus</button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="row">
+                                                                                                <div class="col">KARPET</div>
+                                                                                                <div class="col-8">
+                                                                                                    <input type="text">
+                                                                                                        <button type="button" @click="add">Add Component</button>
+                                                                                                        <button type="button" @click="remove">hapus</button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="row">
+                                                                                                <div class="col">REL BANGKU</div>
+                                                                                                <div class="col-8">
+                                                                                                    <input type="text">
+                                                                                                        <button type="button" @click="add">Add Component</button>
+                                                                                                        <button type="button" @click="remove">hapus</button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                            <!-- kolom kanan -->
+
+                                                                                            <div class="col">
+                                                                                                <div class="row">|</div>
+                                                                                                <div class="row">
+                                                                                                    <div class="col">BANGKU</div>
+                                                                                                    <div class="col-8">
+                                                                                                        <input type="text">
+                                                                                                            <button type="button" @click="add">Add Component</button>
+                                                                                                            <button type="button" @click="remove">hapus</button>
+                                                                                                        </div>
+                                                                                                </div>
+                                                                                                <div class="row">
+                                                                                                    <div class="col">BANGKU, (KOMPOSISI)</div>
+                                                                                                    <div class="col-8">
+                                                                                                        <input type="text">
+                                                                                                            <button type="button" @click="add">Add Component</button>
+                                                                                                            <button type="button" @click="remove">hapus</button>
+                                                                                                        </div>
+                                                                                                </div>
+                                                                                                <div class="row">
+                                                                                                    <div class="col">DECK SAMPING</div>
+                                                                                                    <div class="col-8">
+                                                                                                        <input type="text">
+                                                                                                            <button type="button" @click="add">Add Component</button>
+                                                                                                            <button type="button" @click="remove">hapus</button>
+                                                                                                        </div>
+                                                                                                </div>
+                                                                                                <div class="row">
+                                                                                                    <div class="col">INTERIOR</div>
+                                                                                                    <div class="col-8">
+                                                                                                        <input type="text">
+                                                                                                            <button type="button" @click="add">Add Component</button>
+                                                                                                            <button type="button" @click="remove">hapus</button>
+                                                                                                        </div>
+                                                                                                </div>
+                                                                                                <div class="row">
+                                                                                                    <div class="col">LAMPU INTERIOR</div>
+                                                                                                    <div class="col-8">
+                                                                                                        <input type="text">
+                                                                                                            <button type="button" @click="add">Add Component</button>
+                                                                                                            <button type="button" @click="remove">hapus</button>
+                                                                                                        </div>
+                                                                                                </div>
+                                                                                                
+                                                                                            </div>
+                                                                                    </div>
+
+                                                                                    <!-- row warna cat -->
+                                                                                    <div class="row">
+                                                                                        <div class="col">
+                                                                                            <div class="row">
+                                                                                                <b>Warna Cat</b>
+                                                                                            </div>
+                                                                                            <div class="row">
+                                                                                                <div class="col">ANTI KARAT</div>
+                                                                                                <div class="col-8">
+                                                                                                    <input type="text">
+                                                                                                    <button type="button" @click="add">Add Component</button>
+                                                                                                    <button type="button" @click="remove">hapus</button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div class="col">
+                                                                                                <div class="row">|</div>
+                                                                                                <div class="row">
+                                                                                                    <div class="col">WARNA BODY</div>
+                                                                                                    <div class="col-8">
+                                                                                                        <input type="text">
+                                                                                                            <button type="button" @click="add">Add Component</button>
+                                                                                                            <button type="button" @click="remove">hapus</button>
+                                                                                                        </div>
+                                                                                                </div>
+                                                                                                
+                                                                                            </div>
+                                                                                    </div>
+
+                                                                                    <!-- row tambahan -->
+                                                                                    <div class="row">
+                                                                                        <div class="col">
+                                                                                            <div class="row">
+                                                                                                <b>Tambahan</b>
+                                                                                            </div>
+                                                                                            <div class="row">
+                                                                                                <div class="col">AC</div>
+                                                                                                <div class="col-8">
+                                                                                                    <input type="text">
+                                                                                                        <button type="button" @click="add">Add Component</button>
+                                                                                                        <button type="button" @click="remove">hapus</button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="row">
+                                                                                                <div class="col">OPT</div>
+                                                                                                <div class="col-8">
+                                                                                                    <input type="text">
+                                                                                                        <button type="button" @click="add">Add Component</button>
+                                                                                                        <button type="button" @click="remove">hapus</button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="row">
+                                                                                                <div class="col">SOUND SYSTEM</div>
+                                                                                                <div class="col-8">
+                                                                                                    <input type="text">
+                                                                                                        <button type="button" @click="add">Add Component</button>
+                                                                                                        <button type="button" @click="remove">hapus</button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                            <!-- kolom kanan -->
+
+                                                                                            <div class="col">
+                                                                                                <div class="row">|</div>
+                                                                                                <div class="row">
+                                                                                                    <div class="col">BUMPER</div>
+                                                                                                    <div class="col-8">
+                                                                                                        <input type="text">
+                                                                                                            <button type="button" @click="add">Add Component</button>
+                                                                                                            <button type="button" @click="remove">hapus</button>
+                                                                                                        </div>
+                                                                                                </div>
+                                                                                                <div class="row">
+                                                                                                    <div class="col">OPT</div>
+                                                                                                    <div class="col-8">
+                                                                                                        <input type="text">
+                                                                                                            <button type="button" @click="add">Add Component</button>
+                                                                                                            <button type="button" @click="remove">hapus</button>
+                                                                                                        </div>
+                                                                                                </div>
+                                                                                                <div class="row">
+                                                                                                    <div class="col">VARIASI KNALPOT</div>
+                                                                                                    <div class="col-8">
+                                                                                                        <input type="text">
+                                                                                                            <button type="button" @click="add">Add Component</button>
+                                                                                                            <button type="button" @click="remove">hapus</button>
+                                                                                                        </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                    </div>
+
+                                                                                    <!-- row comment -->
+                                                                                    
+
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
