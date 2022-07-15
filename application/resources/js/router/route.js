@@ -6,7 +6,7 @@ Vue.use(VueRouter)
 const Home = require('../components/Pages/Home/Home.vue').default
 const Login =require('../components/Pages/Login/Login.vue').default
 const User =require('../components/Credential/User.vue').default
-const Profile =require('../components/Pages/Profile/Profile.vue').default
+const Userdetail =require('../components/Credential/Profile.vue').default
 const Register =require('../components/Pages/Register/Register.vue').default
 const InputNoSPK = require('../components/Pages/InputNoSPK/InputSPKComponent.vue').default
 const DaftarSPK = require('../components/Pages/InputNoSPK/DaftarSPK.vue').default
@@ -35,9 +35,9 @@ const route = [
         component: Register,
     },
     {
-        name:'Profile',
+        name:'Userdetail',
         path:'/user/:id',
-        component: Profile,
+        component: Userdetail,
         props:true
     },
     {

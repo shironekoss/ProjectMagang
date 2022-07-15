@@ -10,6 +10,7 @@ require('./bootstrap');
 import Vue from 'vue'
 import router from './router/route.js'
 
+
 // vue Noty
 import VueNoty from 'vuejs-noty'
 Vue.use(VueNoty, {
@@ -17,6 +18,7 @@ Vue.use(VueNoty, {
     progressBar: true,
     layout: 'topRight'
 })
+// import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 /**
  * The following block of code may be used to automatically register your
@@ -32,6 +34,7 @@ Vue.use(VueNoty, {
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('header-component', require('./components/General/HeaderComponent.vue').default);
 Vue.component('footer-component', require('./components/General/FooterComponent.vue').default);
+
 
 
 // untuk latihan

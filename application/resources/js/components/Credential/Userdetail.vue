@@ -66,7 +66,7 @@ export default {
             // this.$router.push('/user/'+name.toLowerCase())
             //cara3
             this.$router.push({
-                name: 'Profile',
+                name: 'Userdetail',
                 params: { id: idcari }
             })
         },
