@@ -107,7 +107,7 @@
                                         <h6 class="mb-0">Password</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        <input type="text" v-model="detailuser.account_password" disabled></input>
+                                        <input type="text" v-model="detailuser.account_password" disabled>
                                         <i class="fa-solid fa-eye"></i>
                                     </div>
                                 </div>
@@ -118,7 +118,7 @@
                                     </div>
                                     <div class="col-sm-9 text-secondary">
                                         <input type="text" v-model="detailuser.account_privileges.account_dept"
-                                            disabled></input>
+                                            disabled>
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </div>
                                 </div>

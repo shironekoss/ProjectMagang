@@ -50,6 +50,11 @@ const route = [
         path:'/DaftarSPK',
         component: DaftarSPK
     },
+    {
+        name:'Master',
+        path:'/Master',
+        component: DaftarSPK
+    },
 
     {
         path:'*',
