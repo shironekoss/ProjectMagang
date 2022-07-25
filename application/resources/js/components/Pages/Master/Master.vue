@@ -1,6 +1,6 @@
 <template>
     <form @submit.prevent="handleSubmit">
-        <div class="overflow-auto">
+        <div class="panel">
             <div class="row">
                 <div class="col">Kode Mobil</div>
                 <div class="col-10">
@@ -92,39 +92,57 @@
             <div class="row">
                 <div class="col">Stall</div>
                 <div class="col-10">
-                    <input type="text">
+                    <input type="text" v-model="parameter.stall">
                 </div>
             </div>
 
             <div class="row">
                 <div class="col">Kode Kit</div>
                 <div class="col-10">
-                    <input type="text">
+                    <input type="text" v-model="parameter.kodekit">
                 </div>
             </div>
 
             <div class="row">
                 <div class="col">Nama Kit</div>
                 <div class="col-10">
-                    <input type="text">
+                    <input type="text" <input type="text" v-model="parameter.namakit">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">Nama Kit</div>
+                <div class="col-10">
+                    <input type="text" <input type="text" v-model="parameter.namakit">
                 </div>
             </div>
             <hr>
             <h3>Additional Parameter</h3>
             <button type="button" @click="Tambahkomponen()" class="btn btn-primary">Tambah Parameter</button>
-            <div v-for="(component, index) in componentsnewparameter" :key="index" :id=index>
+            <div v-for="(component, index) in parameter.newparameter" :key="index" :id=index>
                 <div class="row">
-                    <div class="col"> <input type="text" v-model="parameter.newparameter[index]"></div>
-                    <div class="col-10">
-                        <input type="text"  >
-                            <button type="button" @click="add()" class="btn btn-primary">Tambah</button>
-                            <button type="button" @click="remove()" class="btn btn-danger">hapus
-                                tambahan</button>
-
-
-                        <!-- <div v-for="(component, index) in components" :key="index" :id=index >
-                        </div> -->
+                    <div class="col">
+                        <input type="text" v-model="parameter.newparameter[index].newparam">
                     </div>
+                    <div class="col-10">
+                        <input type="text" v-model="parameter.newparameter[index].components[0]">
+                        <button type="button" @click="addnewcomponent(index)" class="btn btn-primary">Tambah</button>
+                        <button type="button" @click="remove()" class="btn btn-danger">hapus
+                            tambahan</button>
+                        <div v-for="(component2, index2) in componentsnewparameter[index].components" :key="index2"
+                            :id=index2>
+                            <div class="col-10">
+                                <input type="text" v-model="parameter.newparameter[index].components[index2 + 1]">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="row">
+                <div class="col">Nama Kit</div>
+                <div class="col-10">
+                    <input type="text" <input type="text" v-model="parameter.namakit">
                 </div>
             </div>
         </div>
@@ -134,6 +152,13 @@
 <style scoped>
 .row {
     margin-bottom: 15px;
+}
+
+.panel {
+    flex: 5;
+    height: 100vh;
+    overflow: scroll;
+
 }
 </style>
 
@@ -157,37 +182,6 @@ const Componentnewfield = {
     }
 }
 
-const Newparameter = {
-    data() {
-        return {
-            newparam: "",
-            components: [],
-            countcomponents: 0,
-        }
-    },
-    template: `   <div class="row">
-            <div class="col"> <input type="text" v-model="parameter.newparameter[index]" ></div>
-            <div class="col-10">
-                <input type="text">
-                <button type="button" @click="add()" class="btn btn-primary">Tambah</button>
-                <button type="button" @click="remove()" class="btn btn-danger">hapus
-                    tambahan</button>
-                <component v-for="(component, index) in components" :key="index" :id=index
-                    :is="component">
-                </component>
-            </div>
-        </div>`,
-    methods: {
-        add() {
-            this.components.push(Componentnewfield)
-
-        },
-        remove() {
-            this.components.splice(-1, 1);
-        }
-    }
-}
-
 export default {
 
     data() {
@@ -198,7 +192,9 @@ export default {
             componentsbody: [],
             componentstraptangga: [],
             componentlampubelakang: [],
-            componentsnewparameter: [],
+            componentsnewparameter: [
+
+            ],
             parameter: {
                 modelbagasi: [],
                 modelpintu: [],
@@ -206,7 +202,12 @@ export default {
                 modelbody: [],
                 modeltangga: [],
                 modellampubelakang: [],
-                newparameter: []
+                newparameter: [
+
+                ],
+                stall: "",
+                kodekit: "",
+                namakit: ""
             }
         }
     },
@@ -233,7 +234,14 @@ export default {
             }
         },
         Tambahkomponen() {
-            this.componentsnewparameter.push(Newparameter)
+            let objnewparam = { newparam: "", components: [""] }
+            let temp = { newparam: "", components: [] }
+            this.parameter.newparameter.push(objnewparam)
+            this.componentsnewparameter.push(temp)
+        },
+        addnewcomponent(index) {
+            this.componentsnewparameter[index].components.push("")
+            this.parameter.newparameter[index].components.push("")
         },
         remove(tipe) {
             // console.log(id)
