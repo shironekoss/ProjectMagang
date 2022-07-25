@@ -1,48 +1,5 @@
 <template>
     <div>
-        <!-- <h1>Register</h1>
-        <form @submit.prevent="handleSubmit">
-            <div class="input-group">
-                <label>Username</label>
-                <input type="text" v-model="form.username">
-                <div class="error" v-if="errors.username">
-                    {{ errors.username[0] }}
-                </div>
-            </div>
-            <div class="input-group">
-                <label>Nama</label>
-                <input type="text" v-model="form.name">
-                <div class="error" v-if="errors.name">
-                    {{ errors.name[0] }}
-                </div>
-            </div>
-            <div class="input-group">
-                <label>Password</label>
-                <input type="text" v-model="form.password">
-
-            </div>
-            <div class="input-group">
-                <label>Role</label>
-                <select class="browser-default custom-select" v-model="form.role">
-                    <option selected>Pilih Salah Satu Role</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-                <div class="error" v-if="errors.role">
-                    {{ errors.role[0] }}
-                </div>
-            </div>
-            <div class="input-group">
-                <label>Account Departemen</label>
-                <input type="text" v-model="form.account_dept">
-                <div class="error" v-if="errors.account_dept">
-                    {{ errors.account_dept[0] }}
-                </div>
-            </div>
-            <button type="submit">Register</button>
-        </form> -->
-
         <div class="mainscreen">
             <!-- <img src="https://image.freepik.com/free-vector/purple-background-with-neon-frame_52683-34124.jpg"  class="bgimg " alt="">-->
             <div class="card">
@@ -113,17 +70,17 @@ export default {
     },
     methods: {
         handleSubmit() {
-            console.log(this.form)
-            axios.post('/api/tambahaccount', this.form).then((response) => {
-                if (response.data.status) { 
-                    this.$noty.success(response.data.message)
-                    this.$router.push({
-                        name: 'User'
-                    })
-                }
-            }).catch((error) => {
-                this.errors = error.response.data.errors
-            })
+            // console.log(this.form)
+            // axios.post('/api/tambahaccount', this.form).then((response) => {
+            //     if (response.data.status) {
+            //         this.$noty.success(response.data.message)
+            //         this.$router.push({
+            //             name: 'User'
+            //         })
+            //     }
+            // }).catch((error) => {
+            //     this.errors = error.response.data.errors
+            // })
         }
     }
 }

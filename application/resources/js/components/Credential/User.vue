@@ -37,10 +37,6 @@ export default {
                 this.accounts = response.data
             })
         },
-        // profile_url(name) {
-        //     return '/user/' + name.toLowerCase()
-        // },
-        // cara2
 
     }
 }

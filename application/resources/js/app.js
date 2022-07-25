@@ -8,11 +8,13 @@ require('./bootstrap');
 
 
 import Vue from 'vue'
+// import { createPinia, PiniaVuePlugin } from 'pinia'
 import router from './router/route.js'
 
 
 // vue Noty
 import VueNoty from 'vuejs-noty'
+// Vue.use(PiniaVuePlugin);
 Vue.use(VueNoty, {
     timeout: 5000,
     progressBar: true,
@@ -40,7 +42,6 @@ Vue.component('footer-component', require('./components/General/FooterComponent.
 // untuk latihan
 Vue.component('latihanbutton', require('./components/Pages/InputNoSPK/SpkInputtrigger.vue').default);
 
-
 // const NotFound =require('./components/HandlingError/NotFound.vue').default
 
 
@@ -57,5 +58,5 @@ const app = new Vue({
     data: {
         title: 'Rancangan Program SPK'
     },
-    router
+    router,
 });
