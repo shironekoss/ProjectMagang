@@ -106,13 +106,13 @@
             <div class="row">
                 <div class="col">Nama Kit</div>
                 <div class="col-10">
-                    <input type="text" <input type="text" v-model="parameter.namakit">
+                    <input type="text" v-model="parameter.namakit">
                 </div>
             </div>
             <div class="row">
                 <div class="col">Nama Kit</div>
                 <div class="col-10">
-                    <input type="text" <input type="text" v-model="parameter.namakit">
+                    <input type="text" v-model="parameter.namakit">
                 </div>
             </div>
             <hr>
@@ -142,7 +142,7 @@
             <div class="row">
                 <div class="col">Nama Kit</div>
                 <div class="col-10">
-                    <input type="text" <input type="text" v-model="parameter.namakit">
+                    <input type="text" v-model="parameter.namakit">
                 </div>
             </div>
         </div>
