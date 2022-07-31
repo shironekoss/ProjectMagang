@@ -1,6 +1,7 @@
 <template>
     <!-- Footer -->
-    <footer
+    <div class="row">
+        <footer
         class="text-center text-lg-start text-white iniFooter"
         style="background-color: rgb(50,55,65); background: linear-gradient(90deg, rgba(50,55,65,1) 0%, rgba(68,68,73,1) 35%, rgba(255,255,255,1) 100%);">
         <!-- Grid container -->
@@ -37,6 +38,8 @@
         </div>
         <!-- Copyright -->
     </footer>
+    </div>
+
     <!-- Footer -->
 </template>
 
