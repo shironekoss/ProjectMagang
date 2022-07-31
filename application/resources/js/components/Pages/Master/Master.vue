@@ -1,6 +1,6 @@
 <template>
     <form @submit.prevent="handleSubmit">
-        <div class="panel">
+        <div>
             <div class="row">
                 <div class="col">Kode Mobil</div>
                 <div class="col-10">
