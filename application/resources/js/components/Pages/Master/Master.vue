@@ -155,7 +155,13 @@
                 </div>
             </div>
         </form>
+        <div class="row">
+            <center>
+                <button class="btn btn-success"> Simpan</button>
+            </center>
+        </div>
     </div>
+
 
 </template>
 
