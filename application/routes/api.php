@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MasterController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SPKController;
@@ -32,7 +33,10 @@ Route::delete('deleteaccount/{id}',[SettingsController::class,'removeaccount']);
 
 
 Route::post('tambahSPK',[SPKController::class,'tambahSPK']);
+
 Route::get('spklist',[SPKController::class,'spklist']);
+
+Route::post('tambahmaster',[MasterController::class,'tambahmaster']);
 // Route::resource('posts', PostController::class)->only([
 //     'destroy', 'show', 'store', 'update'
 //  ]);

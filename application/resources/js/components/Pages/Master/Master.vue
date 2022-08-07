@@ -1,7 +1,8 @@
 <template>
-    <div class="row">
-        <form @submit.prevent="handleSubmit">
-            <div class="col-6" style="background-color: red; float: left;">
+    <div>
+
+        <div class="row">
+            <div class="col-6" style="float: left;">
                 <div class="row">
                     <div class="col">Kode Mobil</div>
                     <div class="col-10">
@@ -101,23 +102,16 @@
                         <input type="text" v-model="parameter.stall">
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col">Kode Kit</div>
                     <div class="col-10">
                         <input type="text" v-model="parameter.kodekit">
                     </div>
                 </div>
-
-                <div class="row">
-                    <div class="col">Nama Kit</div>
-                    <div class="col-10">
-                        <input type="text" v-model="parameter.namakit">
-                    </div>
-                </div>
                 <hr>
                 <h3>Additional Parameter</h3>
                 <button type="button" @click="Tambahkomponen()" class="btn btn-primary">Tambah Parameter</button>
+                <button type="button" @click="hapuskomponen()" class="btn btn-primary">Hapus Komponen</button>
                 <div v-for="(component, index) in parameter.newparameter" :key="index" :id=index>
                     <div class="row">
                         <div class="col">
@@ -127,7 +121,7 @@
                             <input type="text" v-model="parameter.newparameter[index].components[0]">
                             <button type="button" @click="addnewcomponent(index)"
                                 class="btn btn-primary">Tambah</button>
-                            <button type="button" @click="remove()" class="btn btn-danger">hapus
+                            <button type="button" @click="removenewcomponen(index)" class="btn btn-danger">hapus
                                 tambahan</button>
                             <div v-for="(component2, index2) in componentsnewparameter[index].components" :key="index2"
                                 :id=index2>
@@ -139,27 +133,43 @@
                     </div>
                 </div>
             </div>
-            <div class="col-6" style="background-color: yellow; float: right;">
+            <div class="col-6" style=" float: right;">
+                <div class="row">
+                    <div class="col">Nama Kit</div>
+                    <div class="col-10">
+                        <input type="text" v-model="kit.namakit">
+                    </div>
+                </div>
                 <button type="button" @click="tambahresultkomponen()" class="btn btn-primary">Tambah
                     Komponen</button><br>
                 <!-- <button type="button" @click="hapusresultkomponen()" class="btn btn-danger">Hapus Komponen</button><br> -->
-                <div v-for="(component, index) in result" :key="index" :id=index>
+                <div v-for="(component, index) in kit.result" :key="index" :id=index>
                     <div class="row">
                         <div class="col">Nama Komponen
-                            <input type="text" v-model="result[index].namakomponen">
-                            QTY : <input type="number" v-model="result[index].qty">
-                            dari Rak : <input type="number" v-model="result[index].darirak">
-                            ke rak : <input type="number" v-model="result[index].kerak">
+                            <input type="text" v-model="kit.result[index].namakomponen">
+                            QTY : <input type="number" v-model="kit.result[index].qty">
+                            dari Rak : <input type="number" v-model="kit.result[index].darirak">
+                            ke rak : <input type="number" v-model="kit.result[index].kerak">
                         </div>
                     </div>
                 </div>
             </div>
-        </form>
-        <div class="row">
-            <center>
-                <button class="btn btn-success"> Simpan</button>
-            </center>
+            <form @submit.prevent="generate">
+                <div class="row">
+                    <center>
+                        <button type="submit" class="btn btn-success"> generate</button>
+                    </center>
+                </div>
+            </form>
+            <form @submit.prevent="handleSubmit">
+                <div class="row">
+                    <center>
+                        <button type="submit" class="btn btn-success"> Simpan</button>
+                    </center>
+                </div>
+            </form>
         </div>
+
     </div>
 
 
@@ -215,14 +225,15 @@ export default {
                 modelbody: [],
                 modeltangga: [],
                 modellampubelakang: [],
-                newparameter: [
-
-                ],
+                newparameter: [],
                 stall: "",
                 kodekit: "",
-                namakit: ""
+
             },
-            result: [],
+            kit: {
+                namakit: "",
+                result: [],
+            }
         }
     },
 
@@ -253,13 +264,21 @@ export default {
             this.parameter.newparameter.push(objnewparam)
             this.componentsnewparameter.push(temp)
         },
+        hapuskomponen() {
+            this.componentsnewparameter.splice(-1, 1);
+            this.parameter.newparameter.splice(-1, 1);
+        },
         tambahresultkomponen() {
             let temp = { namakomponen: "", qty: Number, darirak: Number, kerak: Number }
-            this.result.push(temp)
+            this.kit.result.push(temp)
         },
         addnewcomponent(index) {
             this.componentsnewparameter[index].components.push("")
             this.parameter.newparameter[index].components.push("")
+        },
+        removenewcomponen(index) {
+            this.componentsnewparameter[index].components.splice(-1, 1);
+            this.parameter.newparameter[index].components.splice(-1, 1);
         },
         remove(tipe) {
             // console.log(id)
@@ -283,13 +302,18 @@ export default {
             }
         },
         handleSubmit() {
-            console.log(this.form)
-            axios.post('/api/tambahaccount', this.form).then((response) => {
+            console.log(this.kit)
+            console.log(this.parameter)
+            let data = {
+                datakit: this.kit,
+                dataparam: this.parameter
+            }
+            axios.post('/api/tambahmaster', data).then((response) => {
                 if (response.data.status) {
-                    this.$noty.success(response.data.message)
-                    this.$router.push({
-                        name: 'User'
-                    })
+                    console.log(response.data.message)
+                    // this.$router.push({
+                    //     name: 'User'
+                    // })
                 }
             }).catch((error) => {
                 this.errors = error.response.data.errors

@@ -70,17 +70,16 @@ export default {
     },
     methods: {
         handleSubmit() {
-            // console.log(this.form)
-            // axios.post('/api/tambahaccount', this.form).then((response) => {
-            //     if (response.data.status) {
-            //         this.$noty.success(response.data.message)
-            //         this.$router.push({
-            //             name: 'User'
-            //         })
-            //     }
-            // }).catch((error) => {
-            //     this.errors = error.response.data.errors
-            // })
+            axios.post('/api/tambahaccount', this.form).then((response) => {
+                if (response.data.status) {
+                    this.$noty.success(response.data.message)
+                    this.$router.push({
+                        name: 'User'
+                    })
+                }
+            }).catch((error) => {
+                this.errors = error.response.data.errors
+            })
         }
     }
 }
