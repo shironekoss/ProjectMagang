@@ -189,9 +189,7 @@
 </style>
 
 <script>
-import generate from '@babel/generator'
-import axios from 'axios'
-import { response } from 'express'
+
 
 
 const Componentnewfield = {
@@ -323,18 +321,15 @@ export default {
                 this.errors = error.response.data.errors
             })
         },
-        generate(){
-           axios.get('/api/tambahmaster', this.parameter).then((response) => {
-                if (response.data.status) {
-                    console.log(response)
-                    // this.$router.push({
-                    //     name: 'User'
-                    // })
-                }
-            }).catch((error) => {
-                this.errors = error.response.data.errors
-            })
-        }
+        // generate(){
+        //    axios.get('/api/generatemasterkit', this.parameter).then((response) => {
+        //         if (response.data.status) {
+        //             console.log(response)
+        //         }
+        //     }).catch((error) => {
+        //         this.errors = error.response.data.errors
+        //     })
+        // }
 
     }
 }
