@@ -29,7 +29,9 @@ export default {
 
     methods: {
         add() {
+            Swal.fire("Test")
             this.components.push(Comp)
+            
         },
         remove(){
                 this.components.splice(this.components.length-1,1)
