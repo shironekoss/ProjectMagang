@@ -13,14 +13,7 @@ import router from './router/route.js'
 
 
 // vue Noty
-import VueNoty from 'vuejs-noty'
-// Vue.use(PiniaVuePlugin);
-Vue.use(VueNoty, {
-    timeout: 5000,
-    progressBar: true,
-    layout: 'topRight'
-})
-// import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+~
 
 /**
  * The following block of code may be used to automatically register your

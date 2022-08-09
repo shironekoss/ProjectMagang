@@ -6,7 +6,7 @@
                 <div class="row">
                     <div class="col">Kode Mobil</div>
                     <div class="col-10">
-                        <input type="text">
+                        <input type="text" v-model="parameter.kodemobil">
                     </div>
                 </div>
                 <div class="row">
@@ -189,9 +189,6 @@
 </style>
 
 <script>
-
-
-
 const Componentnewfield = {
     props: {
         id: Number,
@@ -221,6 +218,7 @@ export default {
             componentlampubelakang: [],
             componentsnewparameter: [],
             parameter: {
+                kodemobil: "",
                 modelbagasi: [],
                 modelpintu: [],
                 modelbangku: [],
@@ -230,7 +228,6 @@ export default {
                 newparameter: [],
                 stall: "",
                 kodekit: "",
-
             },
             kit: {
                 namakit: "",
@@ -321,15 +318,16 @@ export default {
                 this.errors = error.response.data.errors
             })
         },
-        // generate(){
-        //    axios.get('/api/generatemasterkit', this.parameter).then((response) => {
-        //         if (response.data.status) {
-        //             console.log(response)
-        //         }
-        //     }).catch((error) => {
-        //         this.errors = error.response.data.errors
-        //     })
-        // }
+        generate(){
+            let data = this.parameter.namakit
+           axios.get('/api/generatemasterkit', data).then((response) => {
+                if (response.data.status) {
+                    console.log(response)
+                }
+            }).catch((error) => {
+                this.errors = error.response.data.errors
+            })
+        }
 
     }
 }
