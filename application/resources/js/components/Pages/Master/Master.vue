@@ -1,18 +1,17 @@
 <template>
     <div>
-
         <div class="row">
             <div class="col-6" style="float: left;">
                 <div class="row">
                     <div class="col">Kode Mobil</div>
                     <div class="col-10">
-                        <input type="text" v-model="parameter.kodemobil">
+                        <input type="text" v-model="parameter.kodemobil" class="inputtextparam">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">Model Bagasi</div>
                     <div class="col-10">
-                        <input type="text" v-model="parameter.modelbagasi[0]">
+                        <input type="text" v-model="parameter.modelbagasi[0]" class="inputtextparam">
                         <button type="button" @click="add('modelbagasi')" class="btn btn-primary">Tambah</button>
                         <button type="button" @click="remove('modelbagasi')" class="btn btn-danger">hapus
                             tambahan</button>
@@ -26,7 +25,7 @@
                 <div class="row">
                     <div class="col">Model Pintu</div>
                     <div class="col-10">
-                        <input type="text" v-model="parameter.modelpintu[0]">
+                        <input type="text" v-model="parameter.modelpintu[0]" class="inputtextparam">
                         <button type="button" @click="add('modelpintu')" class="btn btn-primary">Tambah</button>
                         <button type="button" @click="remove('modelpintu')" class="btn btn-danger">hapus
                             tambahan</button>
@@ -41,7 +40,7 @@
                 <div class="row">
                     <div class="col">Bangku</div>
                     <div class="col-10">
-                        <input type="text" v-model="parameter.modelbangku[0]">
+                        <input type="text" v-model="parameter.modelbangku[0]" class="inputtextparam">
                         <button type="button" @click="add('modelbangku')" class="btn btn-primary ">Tambah</button>
                         <button type="button" @click="remove('modelbangku')" class="btn btn-danger">hapus
                             tambahan</button>
@@ -55,7 +54,7 @@
                 <div class="row">
                     <div class="col">Model Body</div>
                     <div class="col-10">
-                        <input type="text" v-model="parameter.modelbody[0]">
+                        <input type="text" v-model="parameter.modelbody[0]" class="inputtextparam">
                         <button type="button" @click="add('modelbody')" class="btn btn-primary">Tambah</button>
                         <button type="button" @click="remove('modelbody')" class="btn btn-danger">hapus
                             tambahan</button>
@@ -69,7 +68,7 @@
                 <div class="row">
                     <div class="col">Model Trap Tangga</div>
                     <div class="col-10">
-                        <input type="text" v-model="parameter.modeltangga[0]">
+                        <input type="text" v-model="parameter.modeltangga[0]" class="inputtextparam">
                         <button type="button" @click="add('modeltraptangga')" class="btn btn-primary">Tambah</button>
                         <button type="button" @click="remove('modeltraptangga')" class="btn btn-danger">hapus
                             tambahan</button>
@@ -84,7 +83,7 @@
                 <div class=" row">
                     <div class="col">Lampu Belakang</div>
                     <div class="col-10">
-                        <input type="text" v-model="parameter.modellampubelakang[0]">
+                        <input type="text" v-model="parameter.modellampubelakang[0]" class="inputtextparam">
                         <button type="button" @click="add('modellampubelakang')" class="btn btn-primary">Tambah</button>
                         <button type="button" @click="remove('modellampubelakang')" class="btn btn-danger">hapus
                             tambahan</button>
@@ -99,23 +98,25 @@
                 <div class="row">
                     <div class="col">Stall</div>
                     <div class="col-10">
-                        <input type="text" v-model="parameter.stall">
+                        <input type="text" v-model="parameter.stall" class="inputtextparam">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">Kode Kit</div>
                     <div class="col-10">
-                        <input type="text" v-model="parameter.kodekit">
+                        <input type="text" v-model="parameter.kodekit" class="inputtextparam">
                     </div>
                 </div>
                 <hr>
                 <h3>Additional Parameter</h3>
-                <button type="button" @click="Tambahkomponen()" class="btn btn-primary">Tambah Parameter</button>
-                <button type="button" @click="hapuskomponen()" class="btn btn-primary">Hapus Komponen</button>
+                <button type="button" @click="Tambahkomponen()" class="btn btn-primary additionalbutton">Tambah
+                    Parameter</button>
+                <button type="button" @click="hapuskomponen()" class="btn btn-primary additionalbutton">Hapus
+                    Komponen</button>
                 <div v-for="(component, index) in parameter.newparameter" :key="index" :id=index>
                     <div class="row">
                         <div class="col">
-                            <input type="text" v-model="parameter.newparameter[index].newparam">
+                            <input type="text" v-model="parameter.newparameter[index].newparam" class="newparam">
                         </div>
                         <div class="col-10">
                             <input type="text" v-model="parameter.newparameter[index].components[0]">
@@ -146,28 +147,30 @@
                 <div v-for="(component, index) in kit.result" :key="index" :id=index>
                     <div class="row">
                         <div class="col">Nama Komponen
-                            <input type="text" v-model="kit.result[index].namakomponen">
-                            QTY : <input type="number" v-model="kit.result[index].qty">
-                            dari Rak : <input type="number" v-model="kit.result[index].darirak">
-                            ke rak : <input type="number" v-model="kit.result[index].kerak">
+                            <input type="text" v-model="kit.result[index].nama_komponen" class="namakomponenbaru">
+                            QTY : <input type="number" v-model="kit.result[index].qty" class="numberinput">
+                            dari Rak : <input type="number" v-model="kit.result[index].darirak" class="numberinput">
+                            ke rak : <input type="number" v-model="kit.result[index].kerak" class="numberinput">
                         </div>
                     </div>
                 </div>
             </div>
-            <form @submit.prevent="generate">
-                <div class="row">
-                    <center>
-                        <button type="submit" class="btn btn-success"> generate</button>
-                    </center>
-                </div>
-            </form>
-            <form @submit.prevent="handleSubmit">
-                <div class="row">
-                    <center>
-                        <button type="submit" class="btn btn-success"> Simpan</button>
-                    </center>
-                </div>
-            </form>
+            <div >
+                <form @submit.prevent="generate">
+                    <div class="row" style="float: left; margin-left: 10px;">
+                        <center>
+                            <button type="submit" class="btn btn-success"> generate</button>
+                        </center>
+                    </div>
+                </form>
+                <form @submit.prevent="handleSubmit">
+                    <div class="row"  style="float: left; margin-left: 43%;">
+                        <center>
+                            <button type="submit" class="btn btn-success"> Simpan</button>
+                        </center>
+                    </div>
+                </form>
+            </div>
         </div>
 
     </div>
@@ -268,7 +271,7 @@ export default {
             this.parameter.newparameter.splice(-1, 1);
         },
         tambahresultkomponen() {
-            let temp = { namakomponen: "", qty: Number, darirak: Number, kerak: Number }
+            let temp = { nama_komponen: "", qty: Number, darirak: Number, kerak: Number }
             this.kit.result.push(temp)
         },
         addnewcomponent(index) {
@@ -301,8 +304,6 @@ export default {
             }
         },
         handleSubmit() {
-            console.log(this.kit)
-            console.log(this.parameter)
             let data = {
                 datakit: this.kit,
                 dataparam: this.parameter
@@ -318,17 +319,49 @@ export default {
                 this.errors = error.response.data.errors
             })
         },
-        generate(){
-            let data = this.parameter.namakit
-           axios.get('/api/generatemasterkit', data).then((response) => {
+        generate() {
+            let data = {
+                param: this.parameter.kodekit
+            }
+            axios.post('/api/generatemasterkit', data).then((response) => {
                 if (response.data.status) {
-                    console.log(response)
+                    console.log(response.data.result)
+                    // console.log(data)
+                    this.kit.namakit = response.data.result.nama_kit
+                    this.kit.result = response.data.result.komponen
                 }
             }).catch((error) => {
                 this.errors = error.response.data.errors
             })
         }
-
     }
 }
 </script>
+<style scoped>
+.inputtextparam {
+    width: 200px;
+}
+
+.btn-primary {
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.additionalbutton {
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+.newparam {
+    min-width: 100px;
+    max-width: 130px;
+    max-height: 37px;
+}
+
+.numberinput{
+    width: 50px;
+}
+.namakomponenbaru{
+    min-width: 300px;
+}
+</style>
