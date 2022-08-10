@@ -4,6 +4,7 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+
 require('./bootstrap');
 
 
@@ -11,9 +12,13 @@ import Vue from 'vue'
 // import { createPinia, PiniaVuePlugin } from 'pinia'
 import router from './router/route.js'
 
+import VueSweetalert2 from 'vue-sweetalert2';
+
+// If you don't need the styles, do not connect
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 // vue Noty
-~
+
 
 /**
  * The following block of code may be used to automatically register your
@@ -35,6 +40,7 @@ Vue.component('footer-component', require('./components/General/FooterComponent.
 // untuk latihan
 Vue.component('latihanbutton', require('./components/Pages/InputNoSPK/SpkInputtrigger.vue').default);
 
+Vue.use(VueSweetalert2);
 // const NotFound =require('./components/HandlingError/NotFound.vue').default
 
 
