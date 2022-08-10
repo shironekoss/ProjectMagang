@@ -12,16 +12,25 @@ class SPKController extends Controller
 {
     public function filternospk()
     {
-        $teks1 = "B05AAA22";
+
+
+
+        $teks1 = "Bsas121A122";
 
 
         $regex = "/[A-Z]{1,7}+/";
         $hasil = [];
+        try {
+            preg_match_all($regex, $teks1, $hasil);
+            dd($hasil[0][1]);
+        } catch (\Throwable $th) {
+            dd("kode salah");
+        }
 
-        preg_match_all($regex, $teks1, $hasil);
+
 
         # kembalikan data dalam bentuk json
-        dd($hasil[0][1]);
+
         // $hasil=Komponen::all()->where('kode_mobil.tipe_FEL',true);
         // dd($hasil);
     }

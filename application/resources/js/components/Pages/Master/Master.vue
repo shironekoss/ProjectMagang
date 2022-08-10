@@ -105,6 +105,9 @@
                     <div class="col">Kode Kit</div>
                     <div class="col-10">
                         <input type="text" v-model="parameter.kodekit" class="inputtextparam">
+                        <form @submit.prevent="generate" style="float: right; margin-right: 50%;">
+                                <button type="submit" class="btn btn-success" >generate</button>
+                        </form>
                     </div>
                 </div>
                 <hr>
@@ -155,16 +158,10 @@
                     </div>
                 </div>
             </div>
-            <div >
-                <form @submit.prevent="generate">
-                    <div class="row" style="float: left; margin-left: 10px;">
-                        <center>
-                            <button type="submit" class="btn btn-success"> generate</button>
-                        </center>
-                    </div>
-                </form>
+            <div>
+
                 <form @submit.prevent="handleSubmit">
-                    <div class="row"  style="float: left; margin-left: 43%;">
+                    <div class="row" style="float: left; margin-left: 43%;">
                         <center>
                             <button type="submit" class="btn btn-success"> Simpan</button>
                         </center>
@@ -358,10 +355,11 @@ export default {
     max-height: 37px;
 }
 
-.numberinput{
+.numberinput {
     width: 50px;
 }
-.namakomponenbaru{
+
+.namakomponenbaru {
     min-width: 300px;
 }
 </style>
