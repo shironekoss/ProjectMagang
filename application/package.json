@@ -40,7 +40,6 @@
         "vue-router": "^3.5.4",
         "vue-sweetalert2": "^5.0.5",
         "vuejs-noty": "^0.1.4",
-        "webpack": "^5.0.0",
-        "types" : ["vue-sweetalert2"]
+        "webpack": "^5.0.0"
     }
 }

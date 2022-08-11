@@ -26,7 +26,7 @@
                     <div class="col">Model Pintu</div>
                     <div class="col-10">
                         <input type="text" v-model="parameter.modelpintu[0]" class="inputtextparam">
-                        <button type="button" @click="add('modelpintu')" class="btn btn-primary">Tambah</button>
+                        <button  type="button" @click="add('modelpintu')" class="btn btn-primary">Tambah</button>
                         <button type="button" @click="remove('modelpintu')" class="btn btn-danger">hapus
                             tambahan</button>
                         <component v-for="(component, index) in componentspintu" :key="index" :id=index

@@ -20,6 +20,28 @@ class MasterController extends Controller
             $param['kodemobil']=$hasil[0][1];
             $kit = $request->datakit;
 
+            if(count($param['modelbagasi'])==0){
+                $param['modelbagasi'][0]="All";
+            }
+            if(count($param['modelpintu'])==0){
+                $param['modelpintu'][0]="All";
+            }
+            if(count($param['modelbangku'])==0){
+                $param['modelbangku'][0]="All";
+            }
+            if(count($param['modelbody'])==0){
+                $param['modelbody'][0]="All";
+            }
+            if(count($param['modellampubelakang'])==0){
+                $param['modellampubelakang'][0]="All";
+            }
+            if(count($param['modelpintu'])==0){
+                $param['modelpintu'][0]="All";
+            }
+            if(count($param['modeltangga'])==0){
+                $param['modeltangga'][0]="All";
+            }
+
             // $request->dataparam->kodemobil= $hasil[0][1];
 
             $Newmaster = Master::create([
