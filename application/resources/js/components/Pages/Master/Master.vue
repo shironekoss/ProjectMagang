@@ -12,7 +12,8 @@
                     <div class="col">Model Bagasi</div>
                     <div class="col-10">
                         <input type="text" v-model="parameter.modelbagasi[0]" class="inputtextparam">
-                        <button type="button" @click="add('modelbagasi')" class="btn btn-primary">Tambah</button>
+                        <button type="button" :disabled='isActivebagasi' @click="add('modelbagasi')"
+                            class="btn btn-primary">Tambah</button>
                         <button type="button" @click="remove('modelbagasi')" class="btn btn-danger">hapus
                             tambahan</button>
                         <div v-for="(component, index) in componentsbagasi" :key="index" :id=index tipe="modelbagasi">
@@ -26,7 +27,8 @@
                     <div class="col">Model Pintu</div>
                     <div class="col-10">
                         <input type="text" v-model="parameter.modelpintu[0]" class="inputtextparam">
-                        <button  type="button" @click="add('modelpintu')" class="btn btn-primary">Tambah</button>
+                        <button :disabled='isActivepintu' type="button" @click="add('modelpintu')"
+                            class="btn btn-primary">Tambah</button>
                         <button type="button" @click="remove('modelpintu')" class="btn btn-danger">hapus
                             tambahan</button>
                         <component v-for="(component, index) in componentspintu" :key="index" :id=index
@@ -41,7 +43,8 @@
                     <div class="col">Bangku</div>
                     <div class="col-10">
                         <input type="text" v-model="parameter.modelbangku[0]" class="inputtextparam">
-                        <button type="button" @click="add('modelbangku')" class="btn btn-primary ">Tambah</button>
+                        <button type="button" :disabled='isActivebangku' @click="add('modelbangku')"
+                            class="btn btn-primary ">Tambah</button>
                         <button type="button" @click="remove('modelbangku')" class="btn btn-danger">hapus
                             tambahan</button>
                         <div v-for="(component, index) in componentsbangku" :key="index" :id=index tipe="modelbangku">
@@ -55,7 +58,8 @@
                     <div class="col">Model Body</div>
                     <div class="col-10">
                         <input type="text" v-model="parameter.modelbody[0]" class="inputtextparam">
-                        <button type="button" @click="add('modelbody')" class="btn btn-primary">Tambah</button>
+                        <button type="button" :disabled='isActivebody' @click="add('modelbody')"
+                            class="btn btn-primary">Tambah</button>
                         <button type="button" @click="remove('modelbody')" class="btn btn-danger">hapus
                             tambahan</button>
                         <div v-for="(component, index) in componentsbody" :key="index" :id=index tipe="modelbody">
@@ -69,7 +73,8 @@
                     <div class="col">Model Trap Tangga</div>
                     <div class="col-10">
                         <input type="text" v-model="parameter.modeltangga[0]" class="inputtextparam">
-                        <button type="button" @click="add('modeltraptangga')" class="btn btn-primary">Tambah</button>
+                        <button type="button" :disabled='isActivetangga' @click="add('modeltraptangga')"
+                            class="btn btn-primary">Tambah</button>
                         <button type="button" @click="remove('modeltraptangga')" class="btn btn-danger">hapus
                             tambahan</button>
                         <div v-for="(component, index) in componentstraptangga" :key="index" :id=index
@@ -84,7 +89,8 @@
                     <div class="col">Lampu Belakang</div>
                     <div class="col-10">
                         <input type="text" v-model="parameter.modellampubelakang[0]" class="inputtextparam">
-                        <button type="button" @click="add('modellampubelakang')" class="btn btn-primary">Tambah</button>
+                        <button type="button" :disabled='isActivelampu' @click="add('modellampubelakang')"
+                            class="btn btn-primary">Tambah</button>
                         <button type="button" @click="remove('modellampubelakang')" class="btn btn-danger">hapus
                             tambahan</button>
                         <div v-for="(component, index) in componentlampubelakang" :key="index" :id=index
@@ -106,7 +112,7 @@
                     <div class="col-10">
                         <input type="text" v-model="parameter.kodekit" class="inputtextparam">
                         <form @submit.prevent="generate" style="float: right; margin-right: 50%;">
-                                <button type="submit" class="btn btn-success" >generate</button>
+                            <button type="submit" class="btn btn-success">generate</button>
                         </form>
                     </div>
                 </div>
@@ -199,6 +205,7 @@ const Componentnewfield = {
             value: "",
         }
     },
+
     template: ` <div class="col-10">
                     <input type="text">
                 </div>`,
@@ -210,6 +217,12 @@ const Componentnewfield = {
 export default {
     data() {
         return {
+            isActivepintu: true,
+            isActivebagasi: true,
+            isActivebangku: true,
+            isActivebody: true,
+            isActivetangga: true,
+            isActivelampu: true,
             componentsbagasi: [],
             componentspintu: [],
             componentsbangku: [],
@@ -235,26 +248,137 @@ export default {
             }
         }
     },
+    watch: {
+        'parameter.modelbagasi': function () {
+            let sama = 0
+            this.parameter.modelbagasi.forEach(element => {
+                console.log(element)
+
+                if (element == "") {
+                    sama++;
+                }
+            });
+            if (sama == 0) {
+                console.log("aktif")
+                return this.isActivebagasi = false
+            } else {
+                console.log("tidakaktif")
+                return this.isActivebagasi = true
+            }
+        },
+        'parameter.modelpintu': function () {
+            let sama = 0
+            this.parameter.modelpintu.forEach(element => {
+                console.log(element)
+
+                if (element == "") {
+                    sama++;
+                }
+            });
+            if (sama == 0) {
+                console.log("aktif")
+                return this.isActivepintu = false
+            } else {
+                console.log("tidakaktif")
+                return this.isActivepintu = true
+            }
+        },
+        'parameter.modelbangku': function () {
+            let sama = 0
+            this.parameter.modelbangku.forEach(element => {
+                console.log(element)
+
+                if (element == "") {
+                    sama++;
+                }
+            });
+            if (sama == 0) {
+                console.log("aktif")
+                return this.isActivebangku = false
+            } else {
+                console.log("tidakaktif")
+                return this.isActivebangku = true
+            }
+        },
+        'parameter.modelbody': function () {
+            let sama = 0
+            this.parameter.modelbody.forEach(element => {
+                console.log(element)
+
+                if (element == "") {
+                    sama++;
+                }
+            });
+            if (sama == 0) {
+                console.log("aktif")
+                return this.isActivebody = false
+            } else {
+                console.log("tidakaktif")
+                return this.isActivebody = true
+            }
+        },
+         'parameter.modeltangga': function () {
+            let sama = 0
+            this.parameter.modeltangga.forEach(element => {
+                console.log(element)
+
+                if (element == "") {
+                    sama++;
+                }
+            });
+            if (sama == 0) {
+                console.log("aktif")
+                return this.isActivetangga = false
+            } else {
+                console.log("tidakaktif")
+                return this.isActivetangga = true
+            }
+        },
+        'parameter.modellampubelakang': function () {
+            let sama = 0
+            this.parameter.modellampubelakang.forEach(element => {
+                console.log(element)
+
+                if (element == "") {
+                    sama++;
+                }
+            });
+            if (sama == 0) {
+                console.log("aktif")
+                return this.isActivelampu = false
+            } else {
+                console.log("tidakaktif")
+                return this.isActivelampu = true
+            }
+        }
+    },
 
     methods: {
+
         add(param) {
             if (param == 'modelbagasi') {
                 this.componentsbagasi.push(Componentnewfield)
+                this.isActivebagasi = true
             }
             else if (param == 'modelpintu') {
                 this.componentspintu.push(Componentnewfield)
+                this.isActivepintu = true
             }
             else if (param == 'modelbangku') {
                 this.componentsbangku.push(Componentnewfield)
+                 this.isActivebangku = true
             }
             else if (param == 'modelbody') {
                 this.componentsbody.push(Componentnewfield)
+                 this.isActivebody = true
             }
             else if (param == 'modeltraptangga') {
                 this.componentstraptangga.push(Componentnewfield)
+                 this.isActivetangga = true
             }
             else if (param == 'modellampubelakang') {
                 this.componentlampubelakang.push(Componentnewfield)
+                 this.isActivelampu = true
             }
         },
         Tambahkomponen() {
@@ -266,6 +390,7 @@ export default {
         hapuskomponen() {
             this.componentsnewparameter.splice(-1, 1);
             this.parameter.newparameter.splice(-1, 1);
+
         },
         tambahresultkomponen() {
             let temp = { nama_komponen: "", qty: Number, darirak: Number, kerak: Number }
@@ -283,21 +408,33 @@ export default {
             // console.log(id)
             if (tipe == 'modelbagasi') {
                 this.componentsbagasi.splice(-1, 1);
+                this.parameter.modelbagasi.splice(-1, 1);
+                this.isActivebagasi = true
             }
             if (tipe == 'modelpintu') {
                 this.componentspintu.splice(-1, 1);
+                 this.parameter.modelpintu.splice(-1, 1);
+                this.isActivepintu = true
             }
             if (tipe == 'modelbangku') {
                 this.componentsbangku.splice(-1, 1);
+                 this.parameter.modelbangku.splice(-1, 1);
+                this.isActivebangku = true
             }
             if (tipe == 'modelbody') {
                 this.componentsbody.splice(-1, 1);
+                 this.parameter.modelbody.splice(-1, 1);
+                this.isActivebody = true
             }
             if (tipe == 'modeltraptangga') {
                 this.componentstraptangga.splice(-1, 1);
+                this.parameter.modeltangga.splice(-1, 1);
+                this.isActivetangga = true
             }
             if (tipe == 'modellampubelakang') {
                 this.componentlampubelakang.splice(-1, 1);
+                 this.parameter.modellampubelakang.splice(-1, 1);
+                this.isActivelampu = true
             }
         },
         handleSubmit() {
