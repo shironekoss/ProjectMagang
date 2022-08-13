@@ -11,14 +11,21 @@ class MasterController extends Controller
     public function tambahmaster(Request $request)
     {
         try {
-            $kode = $request->dataparam['kodemobil'];
-            $regex = "/[A-Z]{1,7}+/";
-            $hasil = [];
-            preg_match_all($regex, $kode, $hasil);
+            // $kode = $request->dataparam['kodemobil'];
+            // $regex = "/[A-Z]{1,7}+/";
+            // $hasil = [];
+            // preg_match_all($regex, $kode, $hasil);
 
             $param = $request->dataparam;
-            $param['kodemobil']=$hasil[0][1];
+            // $param['kodemobil']=$hasil[0][1];
             $kit = $request->datakit;
+
+            if($param['kodemobil']==""){
+                $param['kodemobil']="All";
+            }
+            else{
+                $param['kodemobil']=strtoupper($param['kodemobil']);
+            }
 
             if(count($param['modelbagasi'])==0){
                 $param['modelbagasi'][0]="All";
@@ -58,6 +65,7 @@ class MasterController extends Controller
             return response()->json([
                 "status" => true,
                 "message" => "Kode Mobil Salah",
+                "message" => $request->dataparam,
             ]);
         }
     }
