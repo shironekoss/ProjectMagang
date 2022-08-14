@@ -252,102 +252,78 @@ export default {
         'parameter.modelbagasi': function () {
             let sama = 0
             this.parameter.modelbagasi.forEach(element => {
-                console.log(element)
-
                 if (element == "") {
                     sama++;
                 }
             });
             if (sama == 0) {
-                console.log("aktif")
                 return this.isActivebagasi = false
             } else {
-                console.log("tidakaktif")
                 return this.isActivebagasi = true
             }
         },
         'parameter.modelpintu': function () {
             let sama = 0
             this.parameter.modelpintu.forEach(element => {
-                console.log(element)
-
                 if (element == "") {
                     sama++;
                 }
             });
             if (sama == 0) {
-                console.log("aktif")
                 return this.isActivepintu = false
             } else {
-                console.log("tidakaktif")
                 return this.isActivepintu = true
             }
         },
         'parameter.modelbangku': function () {
             let sama = 0
             this.parameter.modelbangku.forEach(element => {
-                console.log(element)
-
                 if (element == "") {
                     sama++;
                 }
             });
             if (sama == 0) {
-                console.log("aktif")
                 return this.isActivebangku = false
             } else {
-                console.log("tidakaktif")
                 return this.isActivebangku = true
             }
         },
         'parameter.modelbody': function () {
             let sama = 0
             this.parameter.modelbody.forEach(element => {
-                console.log(element)
-
                 if (element == "") {
                     sama++;
                 }
             });
             if (sama == 0) {
-                console.log("aktif")
                 return this.isActivebody = false
             } else {
-                console.log("tidakaktif")
                 return this.isActivebody = true
             }
         },
          'parameter.modeltangga': function () {
             let sama = 0
             this.parameter.modeltangga.forEach(element => {
-                console.log(element)
-
                 if (element == "") {
                     sama++;
                 }
             });
             if (sama == 0) {
-                console.log("aktif")
                 return this.isActivetangga = false
             } else {
-                console.log("tidakaktif")
                 return this.isActivetangga = true
             }
         },
         'parameter.modellampubelakang': function () {
             let sama = 0
             this.parameter.modellampubelakang.forEach(element => {
-                console.log(element)
-
                 if (element == "") {
                     sama++;
                 }
             });
             if (sama == 0) {
-                console.log("aktif")
                 return this.isActivelampu = false
             } else {
-                console.log("tidakaktif")
                 return this.isActivelampu = true
             }
         }
