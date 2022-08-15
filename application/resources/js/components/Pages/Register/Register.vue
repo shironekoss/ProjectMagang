@@ -77,6 +77,10 @@ export default {
                     this.$router.push({
                         name: 'User'
                     })
+                    this.$swal({
+                        title:'User Baru Berhasil dibuat!',
+                        icon:'success'
+                        });
                 }
             }).catch((error) => {
                 this.errors = error.response.data.errors
