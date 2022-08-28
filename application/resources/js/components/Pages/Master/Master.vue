@@ -31,7 +31,7 @@
                             class="btn btn-primary">Tambah</button>
                         <button type="button" @click="remove('modelpintu')" class="btn btn-danger">hapus
                             tambahan</button>
-                        <component v-for="(component, index) in componentspintu" :key="index" :id=index
+                        <component v-for="(component, index) in componentspintu"  :key="index" :id=index
                             tipe="modelpintu">
                             <div class="col-10">
                                 <input type="text" v-model="parameter.modelpintu[index + 1]" required>
@@ -110,72 +110,72 @@
                 <div class="row">
                     <div class="col">Kode Kit</div>
                     <div class="col-10">
-                        <form @submit.prevent="generate" style="float: right; margin-right: 50%;"></form>
-                        <button type="button" @click="Tambahkomponen()" class="btn btn-primary additionalbutton">Tambah
-                            Parameter</button>
-                        <button type="button" @click="hapuskomponen()" class="btn btn-primary additionalbutton">Hapus
-                            Komponen</button>
-                        <div v-for="(component, index) in parameter.newparameter" :key="index" :id=index>
-                            <div class="row">
-                                <div class="col">
-                                    <input type="text" v-model="parameter.newparameter[index].newparam"
-                                        class="newparam">
-                                </div>
-                                <div class="col-10">
-                                    <input type="text" v-model="parameter.newparameter[index].components[0]">
-                                    <button type="button" @click="addnewcomponent(index)"
-                                        class="btn btn-primary">Tambah</button>
-                                    <button type="button" @click="removenewcomponen(index)" class="btn btn-danger">hapus
-                                        tambahan</button>
-                                    <div v-for="(component2, index2) in componentsnewparameter[index].components"
-                                        :key="index2" :id=index2>
-                                        <div class="col-10">
-                                            <input type="text"
-                                                v-model="parameter.newparameter[index].components[index2 + 1]">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6" style=" float: right;">
-                        <div class="row">
-                            <div class="col">Nama Kit</div>
-                            <div class="col-10">
-                                <input type="text" v-model="kit.namakit">
-                            </div>
-                        </div>
-                        <button type="button" @click="tambahresultkomponen()" class="btn btn-primary">Tambah
-                            Komponen</button><br>
-                        <!-- <button type="button" @click="hapusresultkomponen()" class="btn btn-danger">Hapus Komponen</button><br> -->
-                        <div v-for="(component, index) in kit.result" :key="index" :id=index>
-                            <div class="row">
-                                <div class="col">Nama Komponen
-                                    <input type="text" v-model="kit.result[index].nama_komponen"
-                                        class="namakomponenbaru">
-                                    QTY : <input type="number" v-model="kit.result[index].qty" class="numberinput">
-                                    dari Rak : <input type="number" v-model="kit.result[index].darirak"
-                                        class="numberinput">
-                                    ke rak : <input type="number" v-model="kit.result[index].kerak" class="numberinput">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-
-                        <form @submit.prevent="handleSubmit">
-                            <div class="row" style="float: left; margin-left: 43%;">
-                                <center>
-                                    <button type="submit" class="btn btn-success"> Simpan</button>
-                                </center>
-                            </div>
+                        <input type="text" v-model="parameter.kodekit" class="inputtextparam">
+                        <form @submit.prevent="generate" style="float: right; margin-right: 50%;">
+                            <button type="submit" class="btn btn-success">generate</button>
                         </form>
                     </div>
                 </div>
-
+                <hr>
+                <h3>Additional Parameter</h3>
+                <button type="button" @click="Tambahkomponen()" class="btn btn-primary additionalbutton">Tambah
+                    Parameter</button>
+                <button type="button" @click="hapuskomponen()" class="btn btn-primary additionalbutton">Hapus
+                    Komponen</button>
+                <div v-for="(component, index) in parameter.newparameter" :key="index" :id=index>
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" v-model="parameter.newparameter[index].newparam" class="newparam">
+                        </div>
+                        <div class="col-10">
+                            <input type="text" v-model="parameter.newparameter[index].components[0]">
+                            <button type="button" @click="addnewcomponent(index)"
+                                class="btn btn-primary">Tambah</button>
+                            <button type="button" @click="removenewcomponen(index)" class="btn btn-danger">hapus
+                                tambahan</button>
+                            <div v-for="(component2, index2) in componentsnewparameter[index].components" :key="index2"
+                                :id=index2>
+                                <div class="col-10">
+                                    <input type="text" v-model="parameter.newparameter[index].components[index2 + 1]">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+            <div class="col-6" style=" float: right;">
+                <div class="row">
+                    <div class="col">Nama Kit</div>
+                    <div class="col-10">
+                        <input type="text" v-model="kit.namakit">
+                    </div>
+                </div>
+                <button type="button" @click="tambahresultkomponen()" class="btn btn-primary">Tambah
+                    Komponen</button><br>
+                <!-- <button type="button" @click="hapusresultkomponen()" class="btn btn-danger">Hapus Komponen</button><br> -->
+                <div v-for="(component, index) in kit.result" :key="index" :id=index>
+                    <div class="row">
+                        <div class="col">Nama Komponen
+                            <input type="text" v-model="kit.result[index].nama_komponen" class="namakomponenbaru">
+                            QTY : <input type="number" v-model="kit.result[index].qty" class="numberinput">
+                            dari Rak : <input type="number" v-model="kit.result[index].darirak" class="numberinput">
+                            ke rak : <input type="number" v-model="kit.result[index].kerak" class="numberinput">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <form @submit.prevent="handleSubmit">
+                <div class="row">
+                    <center>
+                        <button type="submit" class="btn btn-success"> Simpan</button>
+                    </center>
+                </div>
+            </form>
         </div>
+
     </div>
+
+
 </template>
 
 <style scoped>
@@ -192,6 +192,10 @@
 </style>
 
 <script>
+import axios from 'axios'
+
+
+
 const Componentnewfield = {
     props: {
         id: Number,
@@ -203,7 +207,7 @@ const Componentnewfield = {
         }
     },
 
-    template: ` <div class="col-10">
+    template: `<div class="col-10">
                     <input type="text">
                 </div>`,
     methods: {
@@ -363,10 +367,9 @@ export default {
         hapuskomponen() {
             this.componentsnewparameter.splice(-1, 1);
             this.parameter.newparameter.splice(-1, 1);
-
         },
         tambahresultkomponen() {
-            let temp = { nama_komponen: "", qty: Number, darirak: Number, kerak: Number }
+            let temp = { nama_komponen: "", qty: null, darirak: null, kerak: null }
             this.kit.result.push(temp)
         },
         addnewcomponent(index) {
@@ -411,16 +414,65 @@ export default {
             }
         },
         handleSubmit() {
+            console.log(this.kit)
+            console.log(this.parameter)
             let data = {
                 datakit: this.kit,
                 dataparam: this.parameter
             }
             axios.post('/api/tambahmaster', data).then((response) => {
-                if (response.data.status) {
-                    console.log(response.data.message)
-                    // this.$router.push({
-                    //     name: 'User'
-                    // })
+                if (response.data.success) {
+                    if(response.data.statuscode==402){
+                        this.$swal({
+                            title: 'Nama Kit Belum Diisi',
+                            icon: 'error'
+                        });
+                    }
+                    else if(response.data.statuscode==403){
+                        this.$swal({
+                            title: 'Komponen Tidak ada',
+                            icon: 'error'
+                        });
+                    }
+                    else if(response.data.statuscode==404){
+                        this.$swal({
+                            title: 'Pengisian komponen tidak lengkap',
+                            icon: 'error'
+                        });
+                    }
+                    else if(response.data.statuscode==405){
+                        this.$swal({
+                            title: 'Pengisian Parameter Tidak Lengkap',
+                            icon: 'error'
+                        });
+                    }
+                    else if(response.data.statuscode==406){
+                        this.$swal({
+                            title: 'Pengisian Parameter ada yang kembar',
+                            icon: 'error'
+                        });
+                    }
+                    else if(response.data.statuscode==407){
+                        this.$swal({
+                            title: 'Master dengan parameter ini Sudah Terdaftar',
+                            icon: 'error'
+                        });
+                    }
+                    else if(response.data.statuscode==408){
+                        this.$swal({
+                            title: 'Parameter tambahan ada yang Kosong',
+                            icon: 'error'
+                        });
+                    }
+                    else if(response.data.statuscode==409){
+                        this.$swal({
+                            title: 'Parameter tambahan ada yang sama',
+                            icon: 'error'
+                        });
+                    }
+                    else{
+                        console.log(response.data)
+                    }
                 }
             }).catch((error) => {
                 this.errors = error.response.data.errors
@@ -431,12 +483,24 @@ export default {
                 param: this.parameter.kodekit
             }
             axios.post('/api/generatemasterkit', data).then((response) => {
-                if (response.data.status) {
-                    console.log(response.data.result)
-                    // console.log(data)
-                    this.kit.namakit = response.data.result.nama_kit
-                    this.kit.result = response.data.result.komponen
+                if (response.data.success) {
+                    if (response.data.statuscode == 201) {
+                        console.log(response.data.result)
+                        this.kit.namakit = response.data.result.nama_kit
+                        this.kit.result = response.data.result.komponen
+                        this.$swal({
+                            title: 'Sukses generate data '+ this.parameter.kodekit.toUpperCase(),
+                            icon: 'success'
+                        });
+                    }
+                    else if(response.data.statuscode == 401){
+                        this.$swal({
+                            title: 'Kode Kit '+ this.parameter.kodekit.toUpperCase() + " Tidak tersedia",
+                            icon: 'error'
+                        });
+                    }
                 }
+
             }).catch((error) => {
                 this.errors = error.response.data.errors
             })

@@ -70,23 +70,13 @@ export default {
     },
     methods: {
         handleSubmit() {
-<<<<<<< HEAD
-=======
             console.log(this.form)
->>>>>>> 38e09cb1a0cb509bfccc9b8cdbfb0b83ae529d3b
             axios.post('/api/tambahaccount', this.form).then((response) => {
                 if (response.data.status) {
-                    this.$noty.success(response.data.message)
-                    this.$router.push({
-                        name: 'User'
-                    })
-<<<<<<< HEAD
-=======
                     this.$swal({
                         title:'User Baru Berhasil dibuat!',
                         icon:'success'
                         });
->>>>>>> 38e09cb1a0cb509bfccc9b8cdbfb0b83ae529d3b
                 }
             }).catch((error) => {
                 this.errors = error.response.data.errors

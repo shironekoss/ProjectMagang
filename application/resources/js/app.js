@@ -16,14 +16,7 @@ import VueSweetalert2 from 'vue-sweetalert2';
 // If you don't need the styles, do not connect
 import 'sweetalert2/dist/sweetalert2.min.css';
 
-// vue Noty
-import VueNoty from 'vuejs-noty'
-// Vue.use(PiniaVuePlugin);
-Vue.use(VueNoty, {
-    timeout: 5000,
-    progressBar: true,
-    layout: 'topRight'
-})
+
 
 
 /**

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Account;
 use App\Models\Komponen;
+use App\Models\Masterkit;
 use App\Models\SPK;
 use Illuminate\Http\Request;
 use Nette\Utils\Json;
@@ -12,12 +13,7 @@ class SPKController extends Controller
 {
     public function filternospk()
     {
-
-
-
         $teks1 = "Bsas121A122";
-
-
         $regex = "/[A-Z]{1,7}+/";
         $hasil = [];
         try {
@@ -26,9 +22,6 @@ class SPKController extends Controller
         } catch (\Throwable $th) {
             dd("kode salah");
         }
-
-
-
         # kembalikan data dalam bentuk json
 
         // $hasil=Komponen::all()->where('kode_mobil.tipe_FEL',true);
@@ -46,6 +39,7 @@ class SPKController extends Controller
 
     public function latihan()
     {
+        dd(Masterkit::all());
         return view('latihan');
     }
 
@@ -66,9 +60,6 @@ class SPKController extends Controller
         //     'Mobil.NoRangka' => 'required',
 
         // ]);
-
-
-
         $newmobil =SPK::create([
             "NoSPK"=>$request->NoSPK,
             "Nama"=>$request->Nama,
@@ -80,9 +71,6 @@ class SPKController extends Controller
             "status_SPK"=>false,
             "Last_edit"=>"",
         ]);
-
-
-
         return response()->json([
             "status" =>true,
             "message" =>'Data user berhasil disimpan',
