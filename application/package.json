@@ -15,7 +15,7 @@
         "bootstrap": "^5.1.3",
         "browser-sync": "^2.27.10",
         "browser-sync-webpack-plugin": "^2.3.0",
-        "laravel-mix": "^6.0.49",
+        "laravel-mix": "^6.0.6",
         "laravel-vite-plugin": "^0.2.1",
         "lodash": "^4.17.19",
         "postcss": "^8.1.14",
@@ -36,6 +36,8 @@
         "@fortawesome/vue-fontawesome": "^2.0.8",
         "autoprefixer": "10.4.5",
         "font-awesome": "^4.7.0",
+        "node-polyfill-webpack-plugin": "^2.0.1",
+        "path-browserify": "^1.0.1",
         "vue-router": "^3.5.4",
         "vuejs-noty": "^0.1.4",
         "webpack": "^5.0.0"

@@ -8,7 +8,6 @@ require('./bootstrap');
 
 
 import Vue from 'vue'
-// import { createPinia, PiniaVuePlugin } from 'pinia'
 import router from './router/route.js'
 
 
@@ -20,7 +19,6 @@ Vue.use(VueNoty, {
     progressBar: true,
     layout: 'topRight'
 })
-// import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 /**
  * The following block of code may be used to automatically register your

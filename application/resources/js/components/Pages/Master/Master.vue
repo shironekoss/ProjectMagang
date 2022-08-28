@@ -189,6 +189,9 @@
 </style>
 
 <script>
+import axios from 'axios'
+
+
 
 const Componentnewfield = {
     props: {
@@ -311,6 +314,18 @@ export default {
             axios.post('/api/tambahmaster', data).then((response) => {
                 if (response.data.status) {
                     console.log(response.data.message)
+                    // this.$router.push({
+                    //     name: 'User'
+                    // })
+                }
+            }).catch((error) => {
+                this.errors = error.response.data.errors
+            })
+        },
+        generate(){
+           axios.get('/api/tambahmaster', this.parameter).then((response) => {
+                if (response.data.status) {
+                    console.log(response)
                     // this.$router.push({
                     //     name: 'User'
                     // })
