@@ -8,7 +8,6 @@
         </div>
         <component v-for="(component, index) in components" :key="index" :is="component" />
 
-
     </div>
 </template>
 
@@ -29,10 +28,20 @@ export default {
 
     methods: {
         add() {
-            this.components.push(Comp)
+            
+            this.components.push(Comp);
+            this.$swal({
+                title:'Komponen Berhasil Dibuat!!',
+                icon:'success'
+                });
+            
         },
         remove(){
-                this.components.splice(this.components.length-1,1)
+            this.components.splice(this.components.length-1,1)
+            this.$swal({
+                title:'Komponen Berhasil Dihapus!!',
+                icon:'success'
+                });
         }
     }
 }

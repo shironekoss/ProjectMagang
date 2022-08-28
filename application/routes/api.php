@@ -37,6 +37,7 @@ Route::post('tambahSPK',[SPKController::class,'tambahSPK']);
 Route::get('spklist',[SPKController::class,'spklist']);
 
 Route::post('tambahmaster',[MasterController::class,'tambahmaster']);
+Route::post('generatemasterkit',[MasterController::class,'generatemasterkit']);
 // Route::resource('posts', PostController::class)->only([
 //     'destroy', 'show', 'store', 'update'
 //  ]);
