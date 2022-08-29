@@ -203,20 +203,17 @@ class MasterController extends Controller
             }
 
             $paramtambahansama = false;
+            $judulparamtambahankembar = array();
             foreach ($param['newparameter'] as $newparam) {
-                // if (count($newparam['newparam']) !== count(array_unique($newparam['newparam']))){
-                //     $paramtambahansama=true;
-                //     break;
-                // }
-                // foreach ($newparam['components'] as $komponen) {
-                //     if (count($komponen) !== count(array_unique($komponen))){
-                //         $paramtambahansama=true;
-                //         break;
-                //     }
-                // }
-                // if($paramtambahansama){
-                //     break;
-                // }
+                array_push($judulparamtambahankembar,$newparam['newparam']);
+                if (count($newparam['components']) !== count(array_unique($newparam['components']))){
+                    $paramtambahansama=true;
+                    break;
+                }
+            }
+
+            if (count($judulparamtambahankembar) !== count(array_unique($judulparamtambahankembar))){
+                $paramtambahansama=true;
             }
 
             if ($paramtambahansama) {
@@ -225,8 +222,6 @@ class MasterController extends Controller
                     "statuscode" => 409,
                 ]);
             }
-
-
             // end cek Parameter kosong dan kembar
 
 
@@ -276,52 +271,47 @@ class MasterController extends Controller
                     ]);
                 }
             }
+
+
+
+            //   untuk pengecekkan result Head
+            $kosongkit = false;
+            if ($kit['namakit'] == null) {
+                return response()->json([
+                    "success" => true,
+                    "statuscode" => 402,
+                ]);
+            } elseif (count($kit['result']) == 0) {
+                return response()->json([
+                    "success" => true,
+                    "statuscode" => 403,
+                ]);
+            } elseif (count($kit['result']) > 0) {
+
+                foreach ($kit['result'] as $result) {
+                    if ($result['nama_komponen'] == null || $result['qty'] == null || $result['darirak'] == null || $result['kerak'] == null) {
+                        $kosongkit = true;
+                        break;
+                    }
+                }
+            }
+            if ($kosongkit) {
+                return response()->json([
+                    "success" => true,
+                    "statuscode" => 404,
+                ]);
+            }
+            // cek komponen sampai sini Tail
+
+
             return response()->json([
                 "success" => true,
                 "panjang" => count($kit['result']),
                 "param" => $param,
                 "kit" => $kit,
-                "hasil"=>$allmaster[0]->parameter['kodemobil'],
+                "hasil"=>$param['newparameter'][0]['components'],
                 "cek"=>$param['kodemobil']
             ]);
-
-
-              //untuk pengecekkan result Head
-            // $kosongkit = false;
-            // if ($kit['namakit'] == null) {
-            //     return response()->json([
-            //         "success" => true,
-            //         "statuscode" => 402,
-            //     ]);
-            // } elseif (count($kit['result']) == 0) {
-            //     return response()->json([
-            //         "success" => true,
-            //         "statuscode" => 403,
-            //     ]);
-            // } elseif (count($kit['result']) > 0) {
-
-            //     foreach ($kit['result'] as $result) {
-            //         if ($result['nama_komponen'] == null || $result['qty'] == null || $result['darirak'] == null || $result['kerak'] == null) {
-            //             $kosongkit = true;
-            //             break;
-            //         }
-            //     }
-            // }
-            // if ($kosongkit) {
-            //     return response()->json([
-            //         "success" => true,
-            //         "statuscode" => 404,
-            //     ]);
-            // } else {
-            // return response()->json([
-            //     "success" => true,
-            //     "panjang" => count($kit['result']),
-            //     "param" => $param,
-            //     "kit" => $kit
-            // ]);
-            // }
-            //cek komponen sampai sini Tail
-
 
 
         } catch (\Throwable $th) {
