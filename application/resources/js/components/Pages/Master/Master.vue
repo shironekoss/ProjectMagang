@@ -158,8 +158,8 @@
                         <div class="col">Nama Komponen
                             <input type="text" v-model="kit.result[index].nama_komponen" class="namakomponenbaru">
                             QTY : <input type="number" v-model="kit.result[index].qty" class="numberinput">
-                            dari Rak : <input type="number" v-model="kit.result[index].darirak" class="numberinput">
-                            ke rak : <input type="number" v-model="kit.result[index].kerak" class="numberinput">
+                            dari Rak : <input type="number" v-model="kit.result[index].darirak" class="numberinput" min="0">
+                            ke rak : <input type="number" v-model="kit.result[index].kerak" class="numberinput" min="0">
                         </div>
                     </div>
                 </div>
@@ -470,8 +470,18 @@ export default {
                             icon: 'error'
                         });
                     }
-                    else{
-                        console.log(response.data)
+                    else if(response.data.statuscode==410){
+                        this.$swal({
+                            title: 'dari rak ke rak belum diisi',
+                            icon: 'error'
+                        });
+                    }
+                    else if(response.data.statuscode==200){
+                        this.$swal({
+                            title: 'sukses nambah data',
+                            icon: 'success'
+                        });
+
                     }
                 }
             }).catch((error) => {

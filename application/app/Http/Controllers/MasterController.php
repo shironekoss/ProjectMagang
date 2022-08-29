@@ -12,6 +12,7 @@ class MasterController extends Controller
     public function tambahmaster(Request $request)
     {
         try {
+
             $param = $request->dataparam;
             $kit = $request->datakit;
 
@@ -28,9 +29,9 @@ class MasterController extends Controller
                     $param['modelbagasi'][0] = "ALL";
                 }
             }
-            $i=0;
+            $i = 0;
             foreach ($param['modelbagasi'] as $item) {
-                $param['modelbagasi'][$i]=strtoupper($item);
+                $param['modelbagasi'][$i] = strtoupper($item);
                 $i++;
             }
 
@@ -41,9 +42,9 @@ class MasterController extends Controller
                     $param['modelpintu'][0] = "ALL";
                 }
             }
-            $i=0;
+            $i = 0;
             foreach ($param['modelpintu'] as $item) {
-                $param['modelpintu'][$i]=strtoupper($item);
+                $param['modelpintu'][$i] = strtoupper($item);
                 $i++;
             }
 
@@ -54,9 +55,9 @@ class MasterController extends Controller
                     $param['modelbangku'][0] = "ALL";
                 }
             }
-            $i=0;
+            $i = 0;
             foreach ($param['modelbangku'] as $item) {
-                $param['modelbangku'][$i]=strtoupper($item);
+                $param['modelbangku'][$i] = strtoupper($item);
                 $i++;
             }
 
@@ -67,9 +68,9 @@ class MasterController extends Controller
                     $param['modelbody'][0] = "ALL";
                 }
             }
-            $i=0;
+            $i = 0;
             foreach ($param['modelbody'] as $item) {
-                $param['modelbody'][$i]=strtoupper($item);
+                $param['modelbody'][$i] = strtoupper($item);
                 $i++;
             }
 
@@ -80,9 +81,9 @@ class MasterController extends Controller
                     $param['modellampubelakang'][0] = "ALL";
                 }
             }
-            $i=0;
+            $i = 0;
             foreach ($param['modellampubelakang'] as $item) {
-                $param['modellampubelakang'][$i]=strtoupper($item);
+                $param['modellampubelakang'][$i] = strtoupper($item);
                 $i++;
             }
 
@@ -93,24 +94,32 @@ class MasterController extends Controller
                     $param['modeltangga'][0] = "ALL";
                 }
             }
-            $i=0;
+            $i = 0;
             foreach ($param['modeltangga'] as $item) {
-                $param['modeltangga'][$i]=strtoupper($item);
+                $param['modeltangga'][$i] = strtoupper($item);
                 $i++;
             }
 
-            $i=0;
+            if ($param['stall'] == "") {
+                $param['stall'] = "ALL";
+            } else {
+                $param['stall'] = strtoupper($param['stall']);
+            }
+
+            $i = 0;
             foreach ($param['newparameter'] as $newparam) {
-                $param['newparameter'][$i]['newparam']=strtoupper($newparam['newparam']);
-                $j=0;
-                foreach($newparam['components'] as $parameterbaru){
-                    $param['newparameter'][$i]['components'][$j]=strtoupper($parameterbaru);
+                $param['newparameter'][$i]['newparam'] = strtoupper($newparam['newparam']);
+                $j = 0;
+                foreach ($newparam['components'] as $parameterbaru) {
+                    $param['newparameter'][$i]['components'][$j] = strtoupper($parameterbaru);
                     $j++;
                 }
                 $i++;
             }
 
-  // cek Parameter kosong dan kembar
+
+
+            // cek Parameter kosong dan kembar
             function fungsicekkosong(array $cek)
             {
                 foreach ($cek as $isicek) {
@@ -179,19 +188,20 @@ class MasterController extends Controller
                 ]);
             }
 
+
             $paramtambahankosong = false;
             foreach ($param['newparameter'] as $newparam) {
                 if ($newparam['newparam'] == "" || $newparam['newparam'] == null) {
-                    $paramtambahankosong=true;
+                    $paramtambahankosong = true;
                     break;
                 }
                 foreach ($newparam['components'] as $komponen) {
-                    if($komponen==""||$komponen==null){
-                        $paramtambahankosong=true;
+                    if ($komponen == "" || $komponen == null) {
+                        $paramtambahankosong = true;
                         break;
                     }
                 }
-                if($paramtambahankosong){
+                if ($paramtambahankosong) {
                     break;
                 }
             }
@@ -205,15 +215,15 @@ class MasterController extends Controller
             $paramtambahansama = false;
             $judulparamtambahankembar = array();
             foreach ($param['newparameter'] as $newparam) {
-                array_push($judulparamtambahankembar,$newparam['newparam']);
-                if (count($newparam['components']) !== count(array_unique($newparam['components']))){
-                    $paramtambahansama=true;
+                array_push($judulparamtambahankembar, $newparam['newparam']);
+                if (count($newparam['components']) !== count(array_unique($newparam['components']))) {
+                    $paramtambahansama = true;
                     break;
                 }
             }
 
-            if (count($judulparamtambahankembar) !== count(array_unique($judulparamtambahankembar))){
-                $paramtambahansama=true;
+            if (count($judulparamtambahankembar) !== count(array_unique($judulparamtambahankembar))) {
+                $paramtambahansama = true;
             }
 
             if ($paramtambahansama) {
@@ -224,19 +234,19 @@ class MasterController extends Controller
             }
             // end cek Parameter kosong dan kembar
 
-
             // cek master terdaftar belum
-            function fungsicekparameterterdaftar(array $array1, array $array2){
-                $jumlahkesamaan=0;
-                foreach($array1 as $isiarray1){
+            function fungsicekparameterterdaftar(array $array1, array $array2)
+            {
+                $jumlahkesamaan = 0;
+                foreach ($array1 as $isiarray1) {
                     foreach ($array2 as $isiarray2) {
-                        if(strtoupper($isiarray1)==strtoupper($isiarray2)){
+                        if (strtoupper($isiarray1) == strtoupper($isiarray2)) {
                             $jumlahkesamaan++;
                             break;
                         }
                     }
                 }
-                if($jumlahkesamaan==count($array1)){
+                if ($jumlahkesamaan == count($array1)) {
                     return true;
                 }
             }
@@ -244,38 +254,64 @@ class MasterController extends Controller
             $allmaster = Master::all();
             foreach ($allmaster as $master) {
                 $saved = $master->parameter;
-                $cekkodemobil =false;
-                $cekmodelbagasi =false;
-                $cekmodelpintu =false;
-                $cekmodelbangku =false;
-                $cekmodelbody =false;
-                $cekmodellampubelakang=false;
-                $cekmodeltangga=false;
-                $cekstall=false;
-                if(strtoupper($saved['kodemobil'])==strtoupper($param['kodemobil'])){
-                    $cekkodemobil=true;
+                $cekkodemobil = false;
+                $cekmodelbagasi = false;
+                $cekmodelpintu = false;
+                $cekmodelbangku = false;
+                $cekmodelbody = false;
+                $cekmodellampubelakang = false;
+                $cekmodeltangga = false;
+                $cekstall = false;
+                $cekadditionalparameter = false;
+                if (strtoupper($saved['kodemobil']) == strtoupper($param['kodemobil'])) {
+                    $cekkodemobil = true;
                 }
-                $cekmodelbagasi = fungsicekparameterterdaftar($saved['modelbagasi'],$param['modelbagasi']);
-                $cekmodelpintu = fungsicekparameterterdaftar($saved['modelpintu'],$param['modelpintu']);
-                $cekmodelbangku = fungsicekparameterterdaftar($saved['modelbangku'],$param['modelbangku']);
-                $cekmodelbody = fungsicekparameterterdaftar($saved['modelbody'],$param['modelbody']);
-                $cekmodellampubelakang = fungsicekparameterterdaftar($saved['modellampubelakang'],$param['modellampubelakang']);
-                $cekmodeltangga = fungsicekparameterterdaftar($saved['modeltangga'],$param['modeltangga']);
-                if(strtoupper($saved['stall'])==strtoupper($param['stall'])){
-                    $cekstall=true;
+                $cekmodelbagasi = fungsicekparameterterdaftar($saved['modelbagasi'], $param['modelbagasi']);
+                $cekmodelpintu = fungsicekparameterterdaftar($saved['modelpintu'], $param['modelpintu']);
+                $cekmodelbangku = fungsicekparameterterdaftar($saved['modelbangku'], $param['modelbangku']);
+                $cekmodelbody = fungsicekparameterterdaftar($saved['modelbody'], $param['modelbody']);
+                $cekmodellampubelakang = fungsicekparameterterdaftar($saved['modellampubelakang'], $param['modellampubelakang']);
+                $cekmodeltangga = fungsicekparameterterdaftar($saved['modeltangga'], $param['modeltangga']);
+                if (strtoupper($saved['stall']) == strtoupper($param['stall'])) {
+                    $cekstall = true;
                 }
-                if($cekkodemobil&&$cekmodelbagasi&&$cekmodelpintu&&$cekmodelbangku&&$cekmodelbody&&$cekmodellampubelakang&&$cekmodeltangga&&$cekstall){
+                if (count($param['newparameter']) == null) {
+                    $cekadditionalparameter = true;
+                } elseif (count($saved['newparameter']) == count($param['newparameter'])) {
+                    foreach ($saved['newparameter'] as $item) {
+                        if ($cekadditionalparameter) {
+                            break;
+                        }
+                        foreach ($param['newparameter'] as $item2) {
+                            if (strtoupper($item['newparam']) == strtoupper($item2['newparam'])) {
+                                if (count($item['components']) !== count(array_unique($item2['components']))) {
+                                    $cekadditionalparameter = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                if ($cekkodemobil && $cekmodelbagasi && $cekmodelpintu && $cekmodelbangku && $cekmodelbody && $cekmodellampubelakang && $cekmodeltangga && $cekstall && $cekadditionalparameter) {
                     return response()->json([
                         "success" => true,
                         "statuscode" => 407,
                     ]);
                 }
             }
-
-
-
             //   untuk pengecekkan result Head
             $kosongkit = false;
+            if ($kit['namakit'] !=null){
+                $kit['namakit'] =strtoupper($kit['namakit']);
+            }
+            if(count($kit['result']) > 0){
+                $j=0;
+                foreach ($kit['result'] as $result){
+                    $kit['result'][$j]['nama_komponen']=strtoupper($result['nama_komponen']);
+                    $j++;
+                }
+            }
+
             if ($kit['namakit'] == null) {
                 return response()->json([
                     "success" => true,
@@ -303,27 +339,30 @@ class MasterController extends Controller
             }
             // cek komponen sampai sini Tail
 
-
-            return response()->json([
-                "success" => true,
-                "panjang" => count($kit['result']),
-                "param" => $param,
+            // insert data
+            $Newmaster = Master::create([
                 "kit" => $kit,
-                "hasil"=>$param['newparameter'][0]['components'],
-                "cek"=>$param['kodemobil']
+                "parameter" => $param,
             ]);
 
 
+            return response()->json([
+                "success" => true,
+                "statuscode" => 200,
+                // "param" => $param,
+                // "kit" => $kit,
+                // "master" => $allmaster[0],
+                // "status" => $cekadditionalparameter
+            ]);
         } catch (\Throwable $th) {
             return response()->json([
-                "status" => true,
-                "message" => "Kode Mobil Salah",
+                "success" => true,
+                "statuscode" => 410,
+                "message" => "Response salah",
                 // "message" => $allmaster,
             ]);
         }
     }
-
-
 
     public function generatemasterkit(Request $request)
     {
