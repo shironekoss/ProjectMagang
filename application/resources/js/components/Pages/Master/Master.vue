@@ -476,6 +476,12 @@ export default {
                             icon: 'error'
                         });
                     }
+                    else if(response.data.statuscode==411){
+                        this.$swal({
+                            title: 'parameter tambahan kembar',
+                            icon: 'error'
+                        });
+                    }
                     else if(response.data.statuscode==200){
                         this.$swal({
                             title: 'sukses nambah data',

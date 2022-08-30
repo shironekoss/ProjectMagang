@@ -278,17 +278,29 @@ class MasterController extends Controller
                 if (count($param['newparameter']) == 0) {
                     $cekadditionalparameter = true;
                 } elseif (count($saved['newparameter']) == count($param['newparameter'])) {
+                    $judulparamsama = 0;
                     foreach ($saved['newparameter'] as $item) {
-                        if ($cekadditionalparameter) {
-                            break;
-                        }
                         foreach ($param['newparameter'] as $item2) {
                             if (strtoupper($item['newparam']) == strtoupper($item2['newparam'])) {
-                                if (count($item['components']) === count(array_unique($item2['components']))) {
-                                    $cekadditionalparameter = true;
-                                    break;
+                                $komponensama = 0;
+                                foreach ($item['components'] as $komponendatabase) {
+                                    foreach ($item2['components'] as $komponennew) {
+                                        if (strtoupper($komponendatabase) == strtoupper($komponennew)) {
+                                            $komponensama++;
+                                        }
+                                    }
+                                }
+                                if ($komponensama == count($item2['components'])) {
+                                    $judulparamsama++;
                                 }
                             }
+                        }
+                        if ($judulparamsama == count($saved['newparameter'])) {
+                            $cekadditionalparameter = true;
+                                // return response()->json([
+                                //     "success" => true,
+                                //     "statuscode" => 411,
+                                // ]);
                         }
                     }
                 }
@@ -301,17 +313,16 @@ class MasterController extends Controller
             }
             //   untuk pengecekkan result Head
             $kosongkit = false;
-            if ($kit['namakit'] !=null){
-                $kit['namakit'] =strtoupper($kit['namakit']);
+            if ($kit['namakit'] != null) {
+                $kit['namakit'] = strtoupper($kit['namakit']);
             }
-            if(count($kit['result']) > 0){
-                $j=0;
-                foreach ($kit['result'] as $result){
-                    $kit['result'][$j]['nama_komponen']=strtoupper($result['nama_komponen']);
+            if (count($kit['result']) > 0) {
+                $j = 0;
+                foreach ($kit['result'] as $result) {
+                    $kit['result'][$j]['nama_komponen'] = strtoupper($result['nama_komponen']);
                     $j++;
                 }
             }
-
             if ($kit['namakit'] == null) {
                 return response()->json([
                     "success" => true,
