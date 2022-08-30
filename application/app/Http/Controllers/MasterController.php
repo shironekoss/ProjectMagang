@@ -275,7 +275,7 @@ class MasterController extends Controller
                 if (strtoupper($saved['stall']) == strtoupper($param['stall'])) {
                     $cekstall = true;
                 }
-                if (count($param['newparameter']) == null) {
+                if (count($param['newparameter']) == 0) {
                     $cekadditionalparameter = true;
                 } elseif (count($saved['newparameter']) == count($param['newparameter'])) {
                     foreach ($saved['newparameter'] as $item) {
@@ -284,7 +284,7 @@ class MasterController extends Controller
                         }
                         foreach ($param['newparameter'] as $item2) {
                             if (strtoupper($item['newparam']) == strtoupper($item2['newparam'])) {
-                                if (count($item['components']) !== count(array_unique($item2['components']))) {
+                                if (count($item['components']) === count(array_unique($item2['components']))) {
                                     $cekadditionalparameter = true;
                                     break;
                                 }
@@ -344,15 +344,9 @@ class MasterController extends Controller
                 "kit" => $kit,
                 "parameter" => $param,
             ]);
-
-
             return response()->json([
                 "success" => true,
                 "statuscode" => 200,
-                // "param" => $param,
-                // "kit" => $kit,
-                // "master" => $allmaster[0],
-                // "status" => $cekadditionalparameter
             ]);
         } catch (\Throwable $th) {
             return response()->json([
