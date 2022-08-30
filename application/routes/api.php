@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\MasterController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SettingsController;
@@ -31,13 +32,14 @@ Route::post('tambahaccount',[SettingsController::class,'addAccount']);
 
 Route::delete('deleteaccount/{id}',[SettingsController::class,'removeaccount']);
 
-
 Route::post('tambahSPK',[SPKController::class,'tambahSPK']);
-
 Route::get('spklist',[SPKController::class,'spklist']);
 
 Route::post('tambahmaster',[MasterController::class,'tambahmaster']);
 Route::post('generatemasterkit',[MasterController::class,'generatemasterkit']);
+
+Route::get('listspkshow',[AdminController::class,'getdataspk']);
+
 // Route::resource('posts', PostController::class)->only([
 //     'destroy', 'show', 'store', 'update'
 //  ]);

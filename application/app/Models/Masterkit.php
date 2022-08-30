@@ -13,7 +13,6 @@ class Masterkit extends Model
     protected $connection = 'mongodb';
     protected $collection = 'MasterKit';
     public $timestamps      = true;
-
     protected $fillable = [
         'kode_kit',
         'stall',

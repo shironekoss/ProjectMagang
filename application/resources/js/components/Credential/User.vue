@@ -37,7 +37,6 @@ export default {
                 this.accounts = response.data
             })
         },
-
     }
 }
 </script>

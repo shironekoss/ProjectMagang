@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             AccountSeeder::class,
             KomponenSeeder::class,
             Masterkit::class,
+            SPKSeeder::class
         ]);
         // Product::factory(50)->create();
     }
