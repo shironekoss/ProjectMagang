@@ -62,7 +62,6 @@ const route = [
         path:'/inputadmin',
         component: inputadmin
     },
-
     {
         path:'*',
         component:NotFound
