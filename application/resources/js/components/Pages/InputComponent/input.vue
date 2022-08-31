@@ -11,7 +11,7 @@
                 </ul>
             </div>
             <span>STALL</span>
-            <input type="number" v-model="stall" :max="max" :min="1">
+            <input type="number" v-model="stall" :max="max" :min="min">
             <span>KODE</span>
             <input type="text" v-model="kode" disabled>
         </div>
@@ -38,7 +38,8 @@ export default {
             modal: false,
             kode: '',
             max: 0,
-            stall:1,
+            min:0,
+            stall:0,
             // selectItem: {},
         }
     },
@@ -99,8 +100,12 @@ export default {
                 if (response.data.status == 200) {
                     console.log(response.data.hasil)
                     this.max = response.data.hasil
+                    this.min = 1
+                    this.stall=1
                 } else if (response.data.status == 400) {
                     this.max = 0
+                    this.min = 0
+                    this.stall=0
                 }
 
             });
