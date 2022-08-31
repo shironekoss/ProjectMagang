@@ -42,6 +42,7 @@ export default {
     watch:{
         state(){
             this.filteredStates();
+            getkode(this.state);
         }
     },
 
@@ -70,7 +71,13 @@ export default {
         },
         setstate(state){
             this.state=state;
+        },
+        getkode(state){
+            axios.post('/api/getkode', state).then((response) => {
+
+            });
         }
+
         // selectItem(item) {
         //     this.selectItem = item;
         // }

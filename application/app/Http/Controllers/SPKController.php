@@ -13,7 +13,7 @@ class SPKController extends Controller
 {
     public function filternospk()
     {
-        $teks1 = "Bsas121A122";
+        $teks1 = "B09EKS29";
         $regex = "/[A-Z]{1,7}+/";
         $hasil = [];
         try {
