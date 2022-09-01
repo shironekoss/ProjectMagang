@@ -17,7 +17,7 @@
         </div>
         <br>
         <div style="margin-bottom: 20px; z-index: 1;position: relative">
-            <button class="btn btn-primary"> TAMBAH</button>
+            <button class="btn btn-primary" @click="tambah()"> TAMBAH</button>
             <button class="btn" style="background-color: yellow;"> CEK</button>
             <button class="btn btn-danger"> HAPUS</button>
             <button class="btn" style="background-color: grey;"> INPUT SPK</button>
@@ -38,8 +38,8 @@ export default {
             modal: false,
             kode: '',
             max: 0,
-            min:0,
-            stall:0,
+            min: 0,
+            stall: 0,
             // selectItem: {},
         }
     },
@@ -50,21 +50,13 @@ export default {
     watch: {
         state() {
             this.filterstates();
-
         }
     },
 
-    // computed: {
-    //     getId: function () {
-    //         alert(this.$ref.frmCompanyInput.id);
-    //     },
-    //     getValue: function () {
-    //         alert(this.$ref.frmCompanyInput.value);
-    //     }
-    // },
     methods: {
         getlistspk() {
             axios.get('/api/listspkshow').then((response) => {
+                this.listspk = []
                 this.listspk = response.data
                 this.listspk.forEach(element => {
                     this.states.push(element.NOSPK)
@@ -86,6 +78,17 @@ export default {
             this.state = state;
             this.modal = false;
         },
+        tambah() {
+            axios.post('/api/admintambahspk', { nospk: this.state, stall: this.stall, kode: this.kode }).then((response) => {
+                console.log(response.data);
+                if (response.data.status == 400) {
+                    this.$swal({
+                        title: 'pengisian SPK tidak Valid',
+                        icon: 'error'
+                    });
+                }
+            });
+        },
         getkode(state) {
             axios.post('/api/getkode', { maudikode: state }).then((response) => {
                 if (response.data.status == 200) {
@@ -101,11 +104,11 @@ export default {
                     console.log(response.data.hasil)
                     this.max = response.data.hasil
                     this.min = 1
-                    this.stall=1
+                    this.stall = 1
                 } else if (response.data.status == 400) {
                     this.max = 0
                     this.min = 0
-                    this.stall=0
+                    this.stall = 0
                 }
 
             });

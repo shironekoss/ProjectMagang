@@ -516,7 +516,6 @@ export default {
                         });
                     }
                 }
-
             }).catch((error) => {
                 this.errors = error.response.data.errors
             })

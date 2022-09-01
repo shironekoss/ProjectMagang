@@ -238,15 +238,15 @@ class MasterController extends Controller
             function fungsicekparameterterdaftar(array $array1, array $array2)
             {
                 $jumlahkesamaan = 0;
-                foreach ($array1 as $isiarray1) {
-                    foreach ($array2 as $isiarray2) {
+                foreach ($array2 as $isiarray2) {
+                    foreach ($array1 as $isiarray1) {
                         if (strtoupper($isiarray1) == strtoupper($isiarray2)) {
                             $jumlahkesamaan++;
                             break;
                         }
                     }
                 }
-                if ($jumlahkesamaan == count($array1)) {
+                if ($jumlahkesamaan >0) {
                     return true;
                 }
             }
