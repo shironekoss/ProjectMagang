@@ -86,6 +86,11 @@ export default {
                         title: 'pengisian SPK tidak Valid',
                         icon: 'error'
                     });
+                }else if (response.data.status == 401) {
+                    this.$swal({
+                        title: 'SPK sudah dimasukkan ke list',
+                        icon: 'error'
+                    });
                 }
             });
         },

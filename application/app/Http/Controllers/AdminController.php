@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Masterkit;
+use App\Models\SavedConversionResult;
 use App\Models\SPK;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Nette\Utils\Strings;
 
@@ -26,9 +28,29 @@ class AdminController extends Controller
                 "success" => true,
                 "status" => 400,
             ]);
-        }
-        else{
-            $spk = SPK::where('NOSPK',$nospk)->first();
+        } else {
+            $spk = SPK::where('NOSPK', $nospk)->first();
+            if ($spk->Stallused[$stall - 1] == false) {
+                $parameter = $spk->parameter;
+                $parameter["stall"] = $stall;
+                $newdata = SavedConversionResult::create([
+                    "NOSPK" => $spk->NOSPK,
+                    "stall" => $stall,
+                    "kode" => $kode,
+                    'parameter' => $parameter,
+                ]);
+                $spk->Stallused[$stall - 1] = false;
+                $spk->save();
+            } else {
+                return response()->json([
+                    "success" => true,
+                    "status" => 401,
+                ]);
+            }
+
+            // $newdata = SavedConversionResult::create([
+            //
+            // ]);
             try {
                 return response()->json([
                     "success" => true,
@@ -36,7 +58,7 @@ class AdminController extends Controller
                     "spk" => $nospk,
                     "stall" => $stall,
                     "kode" => $kode,
-                    "spk"=>$spk
+                    "spk" => $spk
                 ]);
             } catch (\Throwable $th) {
                 return response()->json([

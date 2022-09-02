@@ -12,6 +12,8 @@ class SavedConversionResult extends Model
     protected $collection = 'SavedConversionResult';
     protected $fillable = [
         'NOSPK',
+        'stall',
+        'kode',
         'kit',
         'parameter',
         'created_at',
