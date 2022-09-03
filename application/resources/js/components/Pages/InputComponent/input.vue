@@ -24,7 +24,7 @@
             <button class="btn" style="background-color: cyan;"> HELP</button>
         </div>
         <div v-if="datatable">
-            <table>
+            <table id="datatable">
                 <thead>
                     <tr>
                         <th>NO SPK</th>
@@ -46,6 +46,11 @@
 </template>
 
 <script>
+import "jquery/dist/jquery.min.js";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "datatables.net-dt/js/dataTables.dataTables";
+import "datatables.net-dt/css/jquery.dataTables.min.css";
+import $ from "jquery";
 export default {
     data() {
         return {
@@ -89,6 +94,18 @@ export default {
                 this.datatable = []
                 this.datatable = response.data
             })
+            var table = $("#datatable").DataTable();
+            
+
+            // $("#datatable").DataTable({
+
+            //     lengthMenu: [
+            //         [5, 10, 25, 50, -1],
+            //         [5, 10, 25, 50, "All"],
+            //     ],
+            //     pageLength: 5,
+            // });
+
         },
 
         filterstates() {
@@ -119,12 +136,13 @@ export default {
                         title: 'SPK sudah dimasukkan ke list',
                         icon: 'error'
                     });
-                }else if (response.data.status == 200) {
+                } else if (response.data.status == 200) {
                     this.$swal({
                         title: 'sukses menambahkan ',
                         icon: 'sucess'
                     });
-                    this.getdatatable()
+                    $("#datatable").DataTable().destroy();
+
                 }
             });
         },
