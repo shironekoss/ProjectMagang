@@ -17,6 +17,11 @@ class AdminController extends Controller
         $listspk = SPK::where('SPKactive', true)->get();
         return $listspk;
     }
+    public function getdatatable()
+    {
+        $listdata = SavedConversionResult::all();
+        return $listdata;
+    }
 
     public function admintambahspk(Request $request)
     {
@@ -29,43 +34,52 @@ class AdminController extends Controller
                 "status" => 400,
             ]);
         } else {
-            $spk = SPK::where('NOSPK', $nospk)->first();
-            if ($spk->Stallused[$stall - 1] == false) {
-                $parameter = $spk->parameter;
-                $parameter["stall"] = $stall;
-                $newdata = SavedConversionResult::create([
-                    "NOSPK" => $spk->NOSPK,
-                    "stall" => $stall,
-                    "kode" => $kode,
-                    'parameter' => $parameter,
-                ]);
-                $spk->Stallused[$stall - 1] = false;
-                $spk->save();
-            } else {
+            try {
+                $spk = SPK::where('NOSPK', $nospk)->first();
+                $array = $spk->StallUsed;
+                if ($spk["StallUsed"][$stall - 1] == false) {
+                    $parameter = $spk->parameter;
+                    $parameter["stall"] = $stall;
+                    $newdata = SavedConversionResult::create([
+                        "NOSPK" => $spk->NOSPK,
+                        "stall" => $stall,
+                        "kode" => $kode,
+                        'parameter' => $parameter,
+                    ]);
+
+                    $array[$stall - 1] = true;
+                    $spk->StallUsed = $array;
+                    $spk->save();
+                    return response()->json([
+                        "success" => true,
+                        "status" => 200,
+                        "spk" => $spk["StallUsed"],
+                        "newdata" => $parameter
+                    ]);
+                } elseif ($spk["StallUsed"][$stall - 1] == true) {
+                    return response()->json([
+                        "success" => true,
+                        "status" => 401,
+                        "spk" => "sudah ada woi",
+                        "newdata" => "Tidak ada data baru"
+                    ]);
+                }
+                //
+                //    else {
+                // }
+            } catch (\Throwable $th) {
                 return response()->json([
                     "success" => true,
-                    "status" => 401,
+                    "status" => 403,
                 ]);
             }
+
+
 
             // $newdata = SavedConversionResult::create([
             //
             // ]);
-            try {
-                return response()->json([
-                    "success" => true,
-                    "status" => 200,
-                    "spk" => $nospk,
-                    "stall" => $stall,
-                    "kode" => $kode,
-                    "spk" => $spk
-                ]);
-            } catch (\Throwable $th) {
-                return response()->json([
-                    "success" => true,
-                    "status" => 400,
-                ]);
-            }
+
         }
     }
 
@@ -77,7 +91,7 @@ class AdminController extends Controller
             return response()->json([
                 "success" => true,
                 "status" => 200,
-                "hasil" => $spk->Stall,
+                "hasil" => $spk->panjangstall,
             ]);
         } catch (\Throwable $th) {
             return response()->json([

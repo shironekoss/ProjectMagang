@@ -39,6 +39,7 @@ Route::post('tambahmaster',[MasterController::class,'tambahmaster']);
 Route::post('generatemasterkit',[MasterController::class,'generatemasterkit']);
 
 Route::get('listspkshow',[AdminController::class,'getdataspk']);
+Route::get('getdatatable',[AdminController::class,'getdatatable']);
 Route::post('getkode',[AdminController::class,'getkode']);
 Route::post('ambilmax',[AdminController::class,'ambilmax']);
 Route::post('admintambahspk',[AdminController::class,'admintambahspk']);

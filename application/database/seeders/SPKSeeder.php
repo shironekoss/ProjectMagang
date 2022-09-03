@@ -19,7 +19,7 @@ class SPKSeeder extends Seeder
         DB::table('SPK')->insert([
             [
                 'NOSPK' => 'B03EL22',
-                'Stall'=>6,
+                'panjangstall'=>6,
                 'StallUsed'=>[false,false,false,false,false,false],
                 'parameter' => [
                     'kodemobil'=>"EL",
@@ -37,7 +37,7 @@ class SPKSeeder extends Seeder
             ],
             [
                 'NOSPK' => 'B03ELF22',
-                'Stall'=>6,
+                'panjangstall'=>6,
                 'StallUsed'=>[false,false,false,false,false,false],
                 'parameter' => [
                     'kodemobil'=>"EL",
@@ -55,7 +55,7 @@ class SPKSeeder extends Seeder
             ],
             [
                 'NOSPK' => 'B05ELF22',
-                'Stall'=>3,
+                'panjangstall'=>3,
                 'StallUsed'=>[false,false,false],
                 'parameter' => [
                     'kodemobil'=>"ELF",
@@ -73,7 +73,7 @@ class SPKSeeder extends Seeder
             ],
             [
                 'NOSPK' => 'B01FEL22',
-                'Stall'=>5,
+                'panjangstall'=>5,
                 'StallUsed'=>[false,false,false,false,false],
                 'parameter' => [
                     'kodemobil'=>"FEL",
@@ -91,7 +91,7 @@ class SPKSeeder extends Seeder
             ],
             [
                 'NOSPK' => 'B01EL22',
-                'Stall'=>7,
+                'panjangstall'=>7,
                 'StallUsed'=>[false,false,false,false,false,false,false],
                 'parameter' => [
                     'kodemobil'=>"EL",

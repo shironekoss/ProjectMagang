@@ -23,6 +23,24 @@
             <button class="btn" style="background-color: grey;"> INPUT SPK</button>
             <button class="btn" style="background-color: cyan;"> HELP</button>
         </div>
+        <div v-if="datatable">
+            <table>
+                <thead>
+                    <tr>
+                        <th>NO SPK</th>
+                        <th>Stall</th>
+                        <th>Kode</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="SPK in datatable">
+                        <td>{{ SPK["NOSPK"] }}</td>
+                        <td>{{ SPK["stall"] }}</td>
+                        <td>{{ SPK["kode"] }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
 </template>
@@ -32,6 +50,7 @@ export default {
     data() {
         return {
             listspk: [],
+            datatable: [],
             filteredStates: [],
             states: [],
             state: '',
@@ -45,7 +64,7 @@ export default {
     },
     mounted() {
         this.getlistspk();
-
+        this.getdatatable();
     },
     watch: {
         state() {
@@ -64,6 +83,14 @@ export default {
                 this.filterstates();
             })
         },
+        async getdatatable() {
+            axios.get('/api/getdatatable').then((response) => {
+                console.log(response.data)
+                this.datatable = []
+                this.datatable = response.data
+            })
+        },
+
         filterstates() {
             if (this.state.length == 0) {
                 this.filteredStates = this.states;
@@ -86,11 +113,18 @@ export default {
                         title: 'pengisian SPK tidak Valid',
                         icon: 'error'
                     });
-                }else if (response.data.status == 401) {
+
+                } else if (response.data.status == 401) {
                     this.$swal({
                         title: 'SPK sudah dimasukkan ke list',
                         icon: 'error'
                     });
+                }else if (response.data.status == 200) {
+                    this.$swal({
+                        title: 'sukses menambahkan ',
+                        icon: 'sucess'
+                    });
+                    this.getdatatable()
                 }
             });
         },
@@ -114,6 +148,11 @@ export default {
                     this.max = 0
                     this.min = 0
                     this.stall = 0
+                } else if (response.data.status == 401) {
+                    this.$swal({
+                        title: 'SPK dengan Stall ini sudah terdaftar',
+                        icon: 'error'
+                    });
                 }
 
             });
