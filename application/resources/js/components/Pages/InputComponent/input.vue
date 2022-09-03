@@ -18,8 +18,7 @@
         <br>
         <div style="margin-bottom: 20px; z-index: 1;position: relative">
             <button class="btn btn-primary" @click="tambah()"> TAMBAH</button>
-            <button class="btn" style="background-color: yellow;"> CEK</button>
-            <button class="btn btn-danger"> HAPUS</button>
+            <button class="btn" style="background-color: yellow;" @click="cek()">CEK</button>
             <button class="btn" style="background-color: grey;"> INPUT SPK</button>
             <button class="btn" style="background-color: cyan;"> HELP</button>
             <button class="btn" style="background-color: greenyellow;" @click="pindahhistory()">History</button>
@@ -32,6 +31,7 @@
                         <th>Stall</th>
                         <th>Kode</th>
                         <th>Last Update</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -94,7 +94,7 @@ export default {
 
             this.datatable.forEach(element => {
                 if (!element["checked"]) {
-                    table.row.add([element["NOSPK"], element["stall"], element["kode"], element["updated_at"]])
+                    table.row.add([element["NOSPK"], element["stall"], element["kode"], element["updated_at"],'<button class="btn btn-danger"> HAPUS</button>'])
                         .draw()
                         .node();
                 }
@@ -141,6 +141,11 @@ export default {
                 }
             });
         },
+        cek(){
+            this.$router.push({
+                name: 'Cekresult'
+            })
+        },
         getkode(state) {
             axios.post('/api/getkode', { maudikode: state }).then((response) => {
                 if (response.data.status == 200) {
@@ -167,7 +172,6 @@ export default {
                         icon: 'error'
                     });
                 }
-
             });
         }
     }

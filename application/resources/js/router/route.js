@@ -13,6 +13,7 @@ const DaftarSPK = require('../components/Pages/InputNoSPK/DaftarSPK.vue').defaul
 const Master = require('../components/Pages/Master/Master.vue').default
 const inputadmin = require('../components/Pages/InputComponent/input.vue').default
 const history = require('../components/Pages/InputComponent/History.vue').default
+const Cekresult = require('../components/Pages/InputComponent/ShowResultComponent.vue').default
 // cara 2
 import NotFound from '../components/HandlingError/NotFound.vue'
 
@@ -67,6 +68,11 @@ const route = [
         name:'History',
         path:'/history',
         component: history
+    },
+    {
+        name:'Cekresult',
+        path:'/Cekresult',
+        component: Cekresult
     },
     {
         path:'*',
