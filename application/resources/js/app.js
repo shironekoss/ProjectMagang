@@ -7,7 +7,7 @@
 
 require('./bootstrap');
 
-
+import "bootstrap/dist/css/bootstrap.css"
 import Vue from 'vue'
 import router from './router/route.js'
 
@@ -15,6 +15,8 @@ import VueSweetalert2 from 'vue-sweetalert2';
 
 // If you don't need the styles, do not connect
 import 'sweetalert2/dist/sweetalert2.min.css';
+
+
 
 
 
@@ -58,3 +60,5 @@ const app = new Vue({
     },
     router,
 });
+
+import "bootstrap/dist/js/bootstrap.js"
