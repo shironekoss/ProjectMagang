@@ -22,6 +22,7 @@
             <button class="btn btn-danger"> HAPUS</button>
             <button class="btn" style="background-color: grey;"> INPUT SPK</button>
             <button class="btn" style="background-color: cyan;"> HELP</button>
+            <button class="btn" style="background-color: greenyellow;" @click="pindahhistory()">History</button>
         </div>
         <div v-if="datatable">
             <table id="datatable">
@@ -60,7 +61,6 @@ export default {
             max: 0,
             min: 0,
             stall: 0,
-            // selectItem: {},
         }
     },
     mounted() {
@@ -72,7 +72,6 @@ export default {
             this.filterstates();
         }
     },
-
     methods: {
         getlistspk() {
             axios.get('/api/listspkshow').then((response) => {
@@ -95,26 +94,17 @@ export default {
 
             this.datatable.forEach(element => {
                 if (!element["checked"]) {
-                    table.row.add([element["NOSPK"], element["stall"], element["kode"],element["updated_at"]])
+                    table.row.add([element["NOSPK"], element["stall"], element["kode"], element["updated_at"]])
                         .draw()
                         .node();
                 }
             });
-
-
-
-
-            // $("#datatable").DataTable({
-
-            //     lengthMenu: [
-            //         [5, 10, 25, 50, -1],
-            //         [5, 10, 25, 50, "All"],
-            //     ],
-            //     pageLength: 5,
-            // });
-
         },
-
+        pindahhistory() {
+            this.$router.push({
+                name: 'History'
+            })
+        },
         filterstates() {
             if (this.state.length == 0) {
                 this.filteredStates = this.states;
@@ -137,7 +127,6 @@ export default {
                         title: 'pengisian SPK tidak Valid',
                         icon: 'error'
                     });
-
                 } else if (response.data.status == 401) {
                     this.$swal({
                         title: 'SPK sudah dimasukkan ke list',
@@ -181,10 +170,6 @@ export default {
 
             });
         }
-
-        // selectItem(item) {
-        //     this.selectItem = item;
-        // }
     }
 }
 </script>

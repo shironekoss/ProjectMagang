@@ -12,6 +12,7 @@ const InputNoSPK = require('../components/Pages/InputNoSPK/InputSPKComponent.vue
 const DaftarSPK = require('../components/Pages/InputNoSPK/DaftarSPK.vue').default
 const Master = require('../components/Pages/Master/Master.vue').default
 const inputadmin = require('../components/Pages/InputComponent/input.vue').default
+const history = require('../components/Pages/InputComponent/History.vue').default
 // cara 2
 import NotFound from '../components/HandlingError/NotFound.vue'
 
@@ -61,6 +62,11 @@ const route = [
         name:'Inputadmin',
         path:'/inputadmin',
         component: inputadmin
+    },
+    {
+        name:'History',
+        path:'/history',
+        component: history
     },
     {
         path:'*',
