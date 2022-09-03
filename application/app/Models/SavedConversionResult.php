@@ -15,6 +15,7 @@ class SavedConversionResult extends Model
         'stall',
         'kode',
         'kit',
+        'checked',
         'parameter',
         'created_at',
         'updated_at'

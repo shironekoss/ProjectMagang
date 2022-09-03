@@ -43,8 +43,11 @@ class AdminController extends Controller
                     $newdata = SavedConversionResult::create([
                         "NOSPK" => $spk->NOSPK,
                         "stall" => $stall,
+                        "checked"=>false,
                         "kode" => $kode,
-                        'parameter' => $parameter,
+                        "parameter" => $parameter,
+                        "created_at"=>Carbon::now()->format('Y-m-d H:i:s'),
+                        "updated_at"=>Carbon::now()->format('Y-m-d H:i:s'),
                     ]);
 
                     $array[$stall - 1] = true;
@@ -73,13 +76,6 @@ class AdminController extends Controller
                     "status" => 403,
                 ]);
             }
-
-
-
-            // $newdata = SavedConversionResult::create([
-            //
-            // ]);
-
         }
     }
 

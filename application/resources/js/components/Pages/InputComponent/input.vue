@@ -30,14 +30,10 @@
                         <th>NO SPK</th>
                         <th>Stall</th>
                         <th>Kode</th>
+                        <th>Last Update</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="SPK in datatable">
-                        <td>{{ SPK["NOSPK"] }}</td>
-                        <td>{{ SPK["stall"] }}</td>
-                        <td>{{ SPK["kode"] }}</td>
-                    </tr>
                 </tbody>
             </table>
         </div>
@@ -89,13 +85,24 @@ export default {
             })
         },
         async getdatatable() {
-            axios.get('/api/getdatatable').then((response) => {
+            await axios.get('/api/getdatatable').then((response) => {
                 console.log(response.data)
                 this.datatable = []
                 this.datatable = response.data
             })
             var table = $("#datatable").DataTable();
-            
+            table.clear();
+
+            this.datatable.forEach(element => {
+                if (!element["checked"]) {
+                    table.row.add([element["NOSPK"], element["stall"], element["kode"],element["updated_at"]])
+                        .draw()
+                        .node();
+                }
+            });
+
+
+
 
             // $("#datatable").DataTable({
 
@@ -141,8 +148,7 @@ export default {
                         title: 'sukses menambahkan ',
                         icon: 'sucess'
                     });
-                    $("#datatable").DataTable().destroy();
-
+                    this.getdatatable();
                 }
             });
         },
