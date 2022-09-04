@@ -51,43 +51,62 @@ class AdminController extends Controller
     {
         $saved = SavedConversionResult::all();
         $master = Master::all();
-        $messages=[];
-        $results=[];
+        $messages = [];
+        $results = [];
         foreach ($saved as $item1) {
             $message = [];
-            $result=[];
-            $paramkodemobil=false;
-            foreach ($master as $item2 ) {
-                if(strtoupper($item1["parameter"]["kodemobil"])==strtoupper($item2["parameter"]["kodemobil"])){
-                    $paramkodemobil=true;
+            $result = [];
+            $paramkodemobil = false;
+            $kodemobilterdaftar = false;
+            $parammobilbagasi = false;
+            $parammobilbagasiterdaftar = false;
+            foreach ($master as $item2) {
+                if (strtoupper($item1["parameter"]["kodemobil"]) == strtoupper($item2["parameter"]["kodemobil"]) || strtoupper($item2["parameter"]["kodemobil"]) == "ALL") {
+                    $paramkodemobil = true;
+                    if(strtoupper($item1["parameter"]["kodemobil"]) == strtoupper($item2["parameter"]["kodemobil"])){
+                        $kodemobilterdaftar=true;
+                    }
                 }
-                if($paramkodemobil){
-                    array_push($result,$item2["kit"]);
-                    break;
+                foreach ($item2["parameter"]["modelbagasi"] as $item) {
+                    if (strtoupper($item) == "ALL" || strtoupper($item1["parameter"]["modelbagasi"]) == strtoupper($item)) {
+                        $parammobilbagasi = true;
+                        if(strtoupper($item1["parameter"]["modelbagasi"]) == strtoupper($item)){
+                            $parammobilbagasiterdaftar=true;
+                        }
+                        break;
+                    }
+                }
+                if ($paramkodemobil && $parammobilbagasi) {
+                    array_push($result, $item2["kit"]);
                 }
             }
-            array_push ($message,"SPK dengan Nomor " . $item1["NOSPK"]);
-            if($paramkodemobil==false){
-                array_push ($message,  "parameter kode mobil " . $item1["parameter"]["kodemobil"] . "merupakan parameter baru");
+            $newresult = [
+                'kit' => $result,
+                'NoSPK' => $item1->NOSPK,
+            ];
+
+            array_push($results, $newresult);
+            array_push($message, "SPK dengan Nomor " . $item1["NOSPK"]);
+            if (!$kodemobilterdaftar) {
+                array_push($message,  "parameter kode mobil " . $item1["parameter"]["kodemobil"] . " merupakan parameter baru");
+            }
+            if (!$parammobilbagasiterdaftar) {
+                array_push($message,  "parameter model bagasi " . $item1["parameter"]["modelbagasi"] . " merupakan parameter baru");
             }
             $newmessage = [
-                'NoSPK'=>$item1->NOSPK,
-               'Message'=>$message
+                'NoSPK' => $item1->NOSPK,
+                'Message' => $message
             ];
-            $newresult = [
-                'kit'=>$result,
-                'NoSPK'=>$item1->NOSPK,
-            ];
-            array_push($messages,$newmessage);
-            array_push($results,$newresult);
+
+            array_push($messages, $newmessage);
         }
         return response()->json([
             "success" => true,
             "status" => 200,
-            "saved"=>$saved,
-            "master"=>$master,
-            "message"=>$messages,
-            "result"=>$results
+            "saved" => $saved,
+            "master" => $master,
+            "message" => $messages,
+            "result" => $results
         ]);
     }
 
