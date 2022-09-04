@@ -24,52 +24,18 @@
             <button class="btn" style="background-color: greenyellow;" @click="pindahhistory()">History</button>
         </div>
         <div v-if="datatable">
-            <table id="datatable">
-                <thead>
-                    <tr>
-                        <th>NO SPK</th>
-                        <th>Stall</th>
-                        <th>Kode</th>
-                        <th>Status</th>
-                        <th>Last Update</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="items in datatable">
-                        <td>{{ items.NOSPK }}</td>
-                        <td>{{ items.stall }}</td>
-                        <td>{{ items.kode }}</td>
-                        <td>{{ items.status }}</td>
-                        <td>{{ items.updated_at }}</td>
-                        <td><button @click="pindahhistory()">Hapus</button></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div v-if="datatable">
-            <v-data-table :headers="headerstable">
+            <v-app>
+                <v-data-table dense :headers="headerstable" :items="datatable" :items-per-page="5" class="elevation-1 font-weight-bold">
 
-            </v-data-table>
+                </v-data-table>
+            </v-app>
+
         </div>
     </div>
 
 </template>
 
 <script>
-import "jquery/dist/jquery.min.js";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "datatables.net-dt/js/dataTables.dataTables";
-import "datatables.net-dt/css/jquery.dataTables.min.css";
-import $ from "jquery";
-
-const buttonhapus = {
-    template: `<button class="btn btn-danger" onclick="pindahhistory()"> HAPUS</button>`,
-}
-$("").click(function () {
-    alert("The paragraph was clicked.");
-});
-
 export default {
     data() {
         return {
@@ -89,19 +55,19 @@ export default {
                     text: 'NO SPK',
                     align: 'start',
                     sortable: false,
-                    value: 'name',
+                    value: 'NOSPK',
+                    class: "title text-uppercase font-weight-black black--text light-blue lighten-5"
                 },
-                { text: 'Stall', value: 'calories' },
-                { text: 'Kode', value: 'fat' },
-                { text: 'Status', value: 'carbs' },
-                { text: 'Last Update', value: 'protein' },
-                { text: 'Action', value: 'iron' },
+                { text: 'Stall', value: 'stall', class: "title text-uppercase font-weight-black black--text light-blue lighten-5"},
+                { text: 'Kode', value: 'kode'  ,class: "title text-uppercase font-weight-black black--text light-blue lighten-5"},
+                { text: 'Status', value: 'status',class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Last Update', value: 'updated_at',class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Action', value: 'iron',class: "title text-uppercase font-weight-black black--text light-blue lighten-5"},
             ],
         }
     },
     mounted() {
         this.getlistspk();
-        this.table = $("#datatable").DataTable();
         this.getdatatable();
     },
     watch: {
@@ -126,14 +92,6 @@ export default {
                 this.datatable = []
                 this.datatable = response.data
                 var i = 0;
-                this.datatable.forEach(element => {
-                    if (!element["checked"]) {
-                        this.table.row.add([element["NOSPK"], element["stall"], element["kode"], element["status"], element["updated_at"], buttonhapus.template])
-                            .draw()
-                            .node();
-                        i++;
-                    }
-                });
             })
         },
         pindahhistory() {
@@ -219,7 +177,5 @@ export default {
     }
 }
 </script>
-
-
 <style>
 </style>
