@@ -47,6 +47,11 @@
                 </tbody>
             </table>
         </div>
+        <div v-if="datatable">
+            <v-data-table :headers="headerstable">
+
+            </v-data-table>
+        </div>
     </div>
 
 </template>
@@ -79,7 +84,19 @@ export default {
             min: 0,
             stall: 0,
             table: null,
-
+            headerstable: [
+                {
+                    text: 'NO SPK',
+                    align: 'start',
+                    sortable: false,
+                    value: 'name',
+                },
+                { text: 'Stall', value: 'calories' },
+                { text: 'Kode', value: 'fat' },
+                { text: 'Status', value: 'carbs' },
+                { text: 'Last Update', value: 'protein' },
+                { text: 'Action', value: 'iron' },
+            ],
         }
     },
     mounted() {
