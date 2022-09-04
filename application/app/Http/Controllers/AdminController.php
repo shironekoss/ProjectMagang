@@ -62,6 +62,8 @@ class AdminController extends Controller
             $parammobilbagasiterdaftar = false;
             $parammodelpintu = false;
             $parammodelpintuterdaftar = false;
+            $parammodelbangku = false;
+            $parammodelbangkuterdaftar = false;
             foreach ($master as $item2) {
                 if (strtoupper($item1["parameter"]["kodemobil"]) == strtoupper($item2["parameter"]["kodemobil"]) || strtoupper($item2["parameter"]["kodemobil"]) == "ALL") {
                     $paramkodemobil = true;
@@ -87,7 +89,16 @@ class AdminController extends Controller
                         break;
                     }
                 }
-                if ($paramkodemobil && $parammobilbagasi && $parammodelpintu) {
+                foreach ($item2["parameter"]["modelbangku"] as $item) {
+                    if (strtoupper($item) == "ALL" || strtoupper($item1["parameter"]["modelbangku"]) == strtoupper($item)) {
+                        $parammodelbangku = true;
+                        if(strtoupper($item1["parameter"]["modelbangku"]) == strtoupper($item)){
+                            $parammodelbangkuterdaftar=true;
+                        }
+                        break;
+                    }
+                }
+                if ($paramkodemobil && $parammobilbagasi && $parammodelpintu && $parammodelbangku) {
                     array_push($result, $item2["kit"]);
                 }
             }
@@ -107,11 +118,21 @@ class AdminController extends Controller
             if (!$parammodelpintuterdaftar) {
                 array_push($message,  "parameter model pintu " . $item1["parameter"]["modelpintu"] . " merupakan parameter baru");
             }
+            if (!$parammodelbangkuterdaftar) {
+                array_push($message,  "parameter model bangku " . $item1["parameter"]["modelbangku"] . " merupakan parameter baru");
+            }
             $newmessage = [
                 'NoSPK' => $item1->NOSPK,
                 'Message' => $message
             ];
-
+            if($kodemobilterdaftar && $parammobilbagasiterdaftar && $parammodelpintuterdaftar && $parammodelbangkuterdaftar){
+                $item1["status"]="Done";
+                $item1->save();
+            }
+            else{
+                $item1["status"]="Master Not Updated";
+                $item1->save();
+            }
             array_push($messages, $newmessage);
         }
         return response()->json([
