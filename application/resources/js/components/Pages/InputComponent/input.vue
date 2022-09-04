@@ -40,7 +40,6 @@
                     </v-col>
                 </v-row>
             </v-container>
-
             <div v-if="datatable">
                 <v-data-table dense :headers="headerstable" :items="datatable" :items-per-page="5"
                     class="elevation-1 font-weight-bold">
@@ -143,10 +142,19 @@ export default {
             console.log(datahapus["_id"])
             axios.delete('/api/hapusdatatable' + datahapus["_id"]).then((response) => {
                 console.log(response.data)
+                if (response.data.status == 200) {
+                    this.$swal({
+                        title: 'Sukses Hapus Data',
+                        icon: 'success'
+                    });
+                    this.getdatatable();
+                }else if(response.data.status == 400){
+                    this.$swal({
+                        title: 'Gagal Hapus Data',
+                        icon: 'error'
+                    });
+                }
             })
-            // this.editedIndex = this.desserts.indexOf(item)
-            // this.editedItem = Object.assign({}, item)
-            // this.dialogDelete = true
             this.closeDelete()
         },
         async getdatatable() {

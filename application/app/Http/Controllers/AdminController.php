@@ -13,7 +13,6 @@ class AdminController extends Controller
 {
     public function getdataspk()
     {
-        // $listspk = SPK::where('SPKactive',true)->get();
         $listspk = SPK::where('SPKactive', true)->get();
         return $listspk;
     }
@@ -25,11 +24,26 @@ class AdminController extends Controller
 
     public function hapusdatatable(Request $request)
     {
-        return response()->json([
-            "success" => true,
-            "status" => 200,
-            "hasil" => $request->id,
-        ]);
+        try {
+            $saved = SavedConversionResult::where('_id', $request->id)->first();
+            $stall = $saved->stall;
+            $nospk = $saved->NOSPK;
+            $spk = SPK::where('NOSPK', $nospk)->first();
+            $stallused = $spk->StallUsed;
+            $stallused[$stall - 1] = false;
+            $saved->delete();
+            $spk->StallUsed = $stallused;
+            $spk->save();
+            return response()->json([
+                "success" => true,
+                "status" => 200,
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                "success" => true,
+                "status" => 400,
+            ]);
+        }
     }
 
     public function admintambahspk(Request $request)
@@ -52,12 +66,12 @@ class AdminController extends Controller
                     $newdata = SavedConversionResult::create([
                         "NOSPK" => $spk->NOSPK,
                         "stall" => $stall,
-                        "checked"=>false,
+                        "checked" => false,
                         "kode" => $kode,
-                        "status"=> "Pending",
+                        "status" => "Pending",
                         "parameter" => $parameter,
-                        "created_at"=>Carbon::now()->format('Y-m-d H:i:s'),
-                        "updated_at"=>Carbon::now()->format('Y-m-d H:i:s'),
+                        "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
+                        "updated_at" => Carbon::now()->format('Y-m-d H:i:s'),
                     ]);
 
                     $array[$stall - 1] = true;
