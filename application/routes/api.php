@@ -43,6 +43,7 @@ Route::get('getdatatable',[AdminController::class,'getdatatable']);
 Route::post('getkode',[AdminController::class,'getkode']);
 Route::post('ambilmax',[AdminController::class,'ambilmax']);
 Route::post('admintambahspk',[AdminController::class,'admintambahspk']);
+Route::post('konversikomponen',[AdminController::class,'konversikomponen']);
 Route::delete('hapusdatatable{id}',[AdminController::class,'hapusdatatable']);
 
 // Route::resource('posts', PostController::class)->only([

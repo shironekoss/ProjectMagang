@@ -531,72 +531,71 @@ export default {
                 dataparam: this.parameter
             }
             axios
-                .post('/api/tambahmaster', data)
-                .then((response) => {
-                    if (response.data.success) {
-                        if (response.data.statuscode == 402) {
-                            this.$swal({ title: 'Nama Kit Belum Diisi', icon: 'error' });
-                        } else if (response.data.statuscode == 403) {
-                            this.$swal({ title: 'Komponen Tidak ada', icon: 'error' });
-                        } else if (response.data.statuscode == 404) {
-                            this.$swal({ title: 'Pengisian komponen tidak lengkap', icon: 'error' });
-                        } else if (response.data.statuscode == 405) {
-                            this.$swal({ title: 'Pengisian Parameter Tidak Lengkap', icon: 'error' });
-                        } else if (response.data.statuscode == 406) {
-                            this.$swal({ title: 'Pengisian Parameter ada yang kembar', icon: 'error' });
-                        } else if (response.data.statuscode == 407) {
-                            this.$swal({ title: 'Master dengan parameter ini Sudah Terdaftar', icon: 'error' });
-                        } else if (response.data.statuscode == 408) {
-                            this.$swal({ title: 'Parameter tambahan ada yang Kosong', icon: 'error' });
-                        } else if (response.data.statuscode == 409) {
-                            this.$swal({ title: 'Parameter tambahan ada yang sama', icon: 'error' });
-                        } else if (response.data.statuscode == 410) {
-                            this.$swal({ title: 'dari rak ke rak belum diisi', icon: 'error' });
-                        } else if (response.data.statuscode == 411) {
-                            this.$swal({ title: 'parameter tambahan kembar', icon: 'error' });
-                        } else if (response.data.statuscode == 200) {
-                            this.$swal({ title: 'sukses nambah data', icon: 'success' });
-
-                        }
+            .post('/api/tambahmaster', data)
+            .then((response) => {
+                if (response.data.success) {
+                    if (response.data.statuscode == 402) {
+                        this.$swal({ title: 'Nama Kit Belum Diisi', icon: 'error' });
+                    } else if (response.data.statuscode == 403) {
+                        this.$swal({ title: 'Komponen Tidak ada', icon: 'error' });
+                    } else if (response.data.statuscode == 404) {
+                        this.$swal({ title: 'Pengisian komponen tidak lengkap', icon: 'error' });
+                    } else if (response.data.statuscode == 405) {
+                        this.$swal({ title: 'Pengisian Parameter Tidak Lengkap', icon: 'error' });
+                    } else if (response.data.statuscode == 406) {
+                        this.$swal({ title: 'Pengisian Parameter ada yang kembar', icon: 'error' });
+                    } else if (response.data.statuscode == 407) {
+                        this.$swal({ title: 'Master dengan parameter ini Sudah Terdaftar', icon: 'error' });
+                    } else if (response.data.statuscode == 408) {
+                        this.$swal({ title: 'Parameter tambahan ada yang Kosong', icon: 'error' });
+                    } else if (response.data.statuscode == 409) {
+                        this.$swal({ title: 'Parameter tambahan ada yang sama', icon: 'error' });
+                    } else if (response.data.statuscode == 410) {
+                        this.$swal({ title: 'dari rak ke rak belum diisi', icon: 'error' });
+                    } else if (response.data.statuscode == 411) {
+                        this.$swal({ title: 'parameter tambahan kembar', icon: 'error' });
+                    } else if (response.data.statuscode == 200) {
+                        this.$swal({ title: 'sukses nambah data', icon: 'success' });
                     }
-                })
-                .catch((error) => {
-                    this.errors = error.response.data.errors
-                })
-        },
-        generate() {
-            let data = {
-                param: this.parameter.kodekit
-            }
-            axios
-                .post('/api/generatemasterkit', data)
-                .then((response) => {
-                    if (response.data.success) {
-                        if (response.data.statuscode == 201) {
-                            console.log(response.data.result)
-                            this.kit.namakit = response.data.result.nama_kit
-                            this.kit.result = response.data.result.komponen
-                            this.$swal({
-                                title: 'Sukses generate data ' + this
-                                    .parameter
-                                    .kodekit
-                                    .toUpperCase(),
-                                icon: 'success'
-                            });
-                        } else if (response.data.statuscode == 401) {
-                            this.$swal({
-                                title: 'Kode Kit ' + this
-                                    .parameter
-                                    .kodekit
-                                    .toUpperCase() + " Tidak tersedia",
-                                icon: 'error'
-                            });
-                        }
+                }
+            })
+            .catch((error) => {
+                this.errors = error.response.data.errors
+            })
+    },
+    generate() {
+        let data = {
+            param: this.parameter.kodekit
+        }
+        axios
+            .post('/api/generatemasterkit', data)
+            .then((response) => {
+                if (response.data.success) {
+                    if (response.data.statuscode == 201) {
+                        console.log(response.data.result)
+                        this.kit.namakit = response.data.result.nama_kit
+                        this.kit.result = response.data.result.komponen
+                        this.$swal({
+                            title: 'Sukses generate data ' + this
+                                .parameter
+                                .kodekit
+                                .toUpperCase(),
+                            icon: 'success'
+                        });
+                    } else if (response.data.statuscode == 401) {
+                        this.$swal({
+                            title: 'Kode Kit ' + this
+                                .parameter
+                                .kodekit
+                                .toUpperCase() + " Tidak tersedia",
+                            icon: 'error'
+                        });
                     }
-                })
-                .catch((error) => {
-                    this.errors = error.response.data.errors
-                })
+                }
+            })
+            .catch((error) => {
+                this.errors = error.response.data.errors
+            })
         }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Master;
 use App\Models\Masterkit;
 use App\Models\SavedConversionResult;
 use App\Models\SPK;
@@ -44,6 +45,44 @@ class AdminController extends Controller
                 "status" => 400,
             ]);
         }
+    }
+
+    public function konversikomponen()
+    {
+        $saved = SavedConversionResult::all();
+        $master = Master::all();
+        $messages=[];
+        $result=[];
+        foreach ($saved as $item1) {
+            $message = [];
+            $paramkodemobil=false;
+            foreach ($master as $item2 ) {
+                if(strtoupper($item1["parameter"]["kodemobil"])==strtoupper($item2["parameter"]["kodemobil"])){
+                    $paramkodemobil=true;
+                }
+                if($paramkodemobil){
+                    array_push($result,$item2["kit"]);
+                    break;
+                }
+            }
+            array_push ($message,"SPK dengan Nomor " . $item1["NOSPK"]);
+            if($paramkodemobil==false){
+                array_push ($message,  "parameter kode mobil " . $item1["parameter"]["kodemobil"] . "merupakan parameter baru");
+            }
+            $newmessage = [
+                'NoSPK'=>$item1->NOSPK,
+               'Message'=>$message
+            ];
+            array_push($messages,$newmessage);
+        }
+        return response()->json([
+            "success" => true,
+            "status" => 200,
+            "saved"=>$saved,
+            "master"=>$master,
+            "message"=>$messages,
+            "result"=>$result
+        ]);
     }
 
     public function admintambahspk(Request $request)

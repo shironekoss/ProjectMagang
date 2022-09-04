@@ -3,7 +3,7 @@
         <v-app>
             <div style=" position: absolute; inset: 0; z-index: 0;" @click="modal = false"></div>
             <v-container style="z-index: 1;">
-                <v-row dense >
+                <v-row dense>
                     <v-col cols="12" sm="6" md="3">
                         <span>NO SPK</span>
                         <v-text-field dense autocomplete="off" v-model="state" @focus="modal = true"
@@ -132,16 +132,12 @@ export default {
             })
         },
         deleteItem(item) {
-            console.log(item["_id"])
             this.editedIndex = this.datatable.indexOf(item)
-            console.log(this.editedIndex)
             this.dialogDelete = true
         },
         deleteItemConfirm() {
             var datahapus = this.datatable[this.editedIndex]
-            console.log(datahapus["_id"])
             axios.delete('/api/hapusdatatable' + datahapus["_id"]).then((response) => {
-                console.log(response.data)
                 if (response.data.status == 200) {
                     this.$swal({
                         title: 'Sukses Hapus Data',
@@ -159,9 +155,8 @@ export default {
         },
         async getdatatable() {
             await axios.get('/api/getdatatable').then((response) => {
-                console.log(response.data)
                 this.datatable = []
-                this.datatable = response.data
+                this.datatable = response.data.reverse()
                 var i = 0;
             })
         },
@@ -171,9 +166,7 @@ export default {
             })
         },
         hapus(index) {
-            console.log(index);
             axios.post('/api/hapusspkshow', index).then((response) => {
-                console.log(response.data);
             });
         },
         filterstates() {
@@ -192,7 +185,6 @@ export default {
         },
         tambah() {
             axios.post('/api/admintambahspk', { nospk: this.state, stall: this.stall, kode: this.kode }).then((response) => {
-                console.log(response.data);
                 if (response.data.status == 400) {
                     this.$swal({
                         title: 'pengisian SPK tidak Valid',
@@ -213,9 +205,21 @@ export default {
             });
         },
         cek() {
-            this.$router.push({
-                name: 'Cekresult'
-            })
+            if(this.datatable.length<=0){
+                this.$swal({
+                    title: 'tidak ada SPK yang mau dicek, mohon input dulu',
+                    icon: 'error'
+                });
+            }
+            else{
+                axios.post('/api/konversikomponen').then((response) => {
+                if (response.data.status == 200) {
+                }
+            });
+            }
+            // this.$router.push({
+            //     name: 'Cekresult'
+            // })
         },
         getkode(state) {
             axios.post('/api/getkode', { maudikode: state }).then((response) => {
@@ -229,7 +233,6 @@ export default {
         getmaxvalue(state) {
             axios.post('/api/ambilmax', { kode: state }).then((response) => {
                 if (response.data.status == 200) {
-                    console.log(response.data.hasil)
                     this.max = response.data.hasil
                     this.min = 1
                     this.stall = 1

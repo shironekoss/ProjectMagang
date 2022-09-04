@@ -187,8 +187,6 @@ class MasterController extends Controller
                     "statuscode" => 406,
                 ]);
             }
-
-
             $paramtambahankosong = false;
             foreach ($param['newparameter'] as $newparam) {
                 if ($newparam['newparam'] == "" || $newparam['newparam'] == null) {

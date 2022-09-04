@@ -40,7 +40,7 @@ class SPKSeeder extends Seeder
                 'panjangstall'=>6,
                 'StallUsed'=>[false,false,false,false,false,false],
                 'parameter' => [
-                    'kodemobil'=>"EL",
+                    'kodemobil'=>"ELF",
                     'modelbagasi'=>"RANGKA LANTAI",
                     'modelpintu'=>"Pintu 1",
                     'modelbangku'=>"bangku2",
