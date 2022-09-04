@@ -214,6 +214,7 @@ export default {
             else{
                 axios.post('/api/konversikomponen').then((response) => {
                 if (response.data.status == 200) {
+                    console.log(response.data)
                 }
             });
             }

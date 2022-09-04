@@ -52,9 +52,10 @@ class AdminController extends Controller
         $saved = SavedConversionResult::all();
         $master = Master::all();
         $messages=[];
-        $result=[];
+        $results=[];
         foreach ($saved as $item1) {
             $message = [];
+            $result=[];
             $paramkodemobil=false;
             foreach ($master as $item2 ) {
                 if(strtoupper($item1["parameter"]["kodemobil"])==strtoupper($item2["parameter"]["kodemobil"])){
@@ -73,7 +74,12 @@ class AdminController extends Controller
                 'NoSPK'=>$item1->NOSPK,
                'Message'=>$message
             ];
+            $newresult = [
+                'kit'=>$result,
+                'NoSPK'=>$item1->NOSPK,
+            ];
             array_push($messages,$newmessage);
+            array_push($results,$newresult);
         }
         return response()->json([
             "success" => true,
@@ -81,7 +87,7 @@ class AdminController extends Controller
             "saved"=>$saved,
             "master"=>$master,
             "message"=>$messages,
-            "result"=>$result
+            "result"=>$results
         ]);
     }
 
