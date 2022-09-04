@@ -68,6 +68,8 @@ class AdminController extends Controller
             $parammodelbodyterdaftar = false;
             $parammodeltangga = false;
             $parammodeltanggaterdaftar = false;
+            $parammodellampubelakang = false;
+            $parammodellampubelakangterdaftar = false;
             foreach ($master as $item2) {
                 if (strtoupper($item1["parameter"]["kodemobil"]) == strtoupper($item2["parameter"]["kodemobil"]) || strtoupper($item2["parameter"]["kodemobil"]) == "ALL") {
                     $paramkodemobil = true;
@@ -120,7 +122,16 @@ class AdminController extends Controller
                         break;
                     }
                 }
-                if ($paramkodemobil && $parammobilbagasi && $parammodelpintu && $parammodelbangku &&$parammodelbody && $parammodeltangga) {
+                foreach ($item2["parameter"]["modellampubelakang"] as $item) {
+                    if (strtoupper($item) == "ALL" || strtoupper($item1["parameter"]["modellampubelakang"]) == strtoupper($item)) {
+                        $parammodellampubelakang = true;
+                        if(strtoupper($item1["parameter"]["modellampubelakang"]) == strtoupper($item)){
+                            $parammodellampubelakangterdaftar=true;
+                        }
+                        break;
+                    }
+                }
+                if ($paramkodemobil && $parammobilbagasi && $parammodelpintu && $parammodelbangku &&$parammodelbody && $parammodeltangga && $parammodellampubelakang) {
                     array_push($result, $item2["kit"]);
                 }
             }
@@ -148,11 +159,14 @@ class AdminController extends Controller
             if (!$parammodeltanggaterdaftar) {
                 array_push($message,  "parameter model tangga " . $item1["parameter"]["modeltangga"] . " merupakan parameter baru");
             }
+            if (!$parammodellampubelakangterdaftar) {
+                array_push($message,  "parameter model lampu belakang " . $item1["parameter"]["modellampubelakang"] . " merupakan parameter baru");
+            }
             $newmessage = [
                 'NoSPK' => $item1->NOSPK,
                 'Message' => $message
             ];
-            if($kodemobilterdaftar && $parammobilbagasiterdaftar && $parammodelpintuterdaftar && $parammodelbangkuterdaftar && $parammodelbodyterdaftar && $parammodeltanggaterdaftar){
+            if($kodemobilterdaftar && $parammobilbagasiterdaftar && $parammodelpintuterdaftar && $parammodelbangkuterdaftar && $parammodelbodyterdaftar && $parammodeltanggaterdaftar && $parammodellampubelakangterdaftar){
                 $item1["status"]="Done";
                 $item1->save();
             }
