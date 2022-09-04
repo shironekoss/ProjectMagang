@@ -30,11 +30,20 @@
                         <th>NO SPK</th>
                         <th>Stall</th>
                         <th>Kode</th>
+                        <th>Status</th>
                         <th>Last Update</th>
-                        <th></th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
+                    <tr v-for="items in datatable">
+                        <td>{{ items.NOSPK }}</td>
+                        <td>{{ items.stall }}</td>
+                        <td>{{ items.kode }}</td>
+                        <td>{{ items.status }}</td>
+                        <td>{{ items.updated_at }}</td>
+                        <td><button @click="pindahhistory()">Hapus</button></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -48,6 +57,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "datatables.net-dt/js/dataTables.dataTables";
 import "datatables.net-dt/css/jquery.dataTables.min.css";
 import $ from "jquery";
+
+const buttonhapus = {
+    template: `<button class="btn btn-danger" onclick="pindahhistory()"> HAPUS</button>`,
+}
+$("").click(function () {
+    alert("The paragraph was clicked.");
+});
+
 export default {
     data() {
         return {
@@ -61,10 +78,13 @@ export default {
             max: 0,
             min: 0,
             stall: 0,
+            table: null,
+
         }
     },
     mounted() {
         this.getlistspk();
+        this.table = $("#datatable").DataTable();
         this.getdatatable();
     },
     watch: {
@@ -88,22 +108,27 @@ export default {
                 console.log(response.data)
                 this.datatable = []
                 this.datatable = response.data
+                var i = 0;
+                this.datatable.forEach(element => {
+                    if (!element["checked"]) {
+                        this.table.row.add([element["NOSPK"], element["stall"], element["kode"], element["status"], element["updated_at"], buttonhapus.template])
+                            .draw()
+                            .node();
+                        i++;
+                    }
+                });
             })
-            var table = $("#datatable").DataTable();
-            table.clear();
-
-            this.datatable.forEach(element => {
-                if (!element["checked"]) {
-                    table.row.add([element["NOSPK"], element["stall"], element["kode"], element["updated_at"],'<button class="btn btn-danger"> HAPUS</button>'])
-                        .draw()
-                        .node();
-                }
-            });
         },
         pindahhistory() {
             this.$router.push({
                 name: 'History'
             })
+        },
+        hapus(index) {
+            console.log(index);
+            axios.post('/api/hapusspkshow', index).then((response) => {
+                console.log(response.data);
+            });
         },
         filterstates() {
             if (this.state.length == 0) {
@@ -141,7 +166,7 @@ export default {
                 }
             });
         },
-        cek(){
+        cek() {
             this.$router.push({
                 name: 'Cekresult'
             })

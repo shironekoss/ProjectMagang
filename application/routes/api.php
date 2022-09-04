@@ -43,6 +43,7 @@ Route::get('getdatatable',[AdminController::class,'getdatatable']);
 Route::post('getkode',[AdminController::class,'getkode']);
 Route::post('ambilmax',[AdminController::class,'ambilmax']);
 Route::post('admintambahspk',[AdminController::class,'admintambahspk']);
+Route::post('hapusspkshow',[AdminController::class,'hapusspkshow']);
 
 // Route::resource('posts', PostController::class)->only([
 //     'destroy', 'show', 'store', 'update'

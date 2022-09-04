@@ -45,6 +45,7 @@ class AdminController extends Controller
                         "stall" => $stall,
                         "checked"=>false,
                         "kode" => $kode,
+                        "status"=> "Pending",
                         "parameter" => $parameter,
                         "created_at"=>Carbon::now()->format('Y-m-d H:i:s'),
                         "updated_at"=>Carbon::now()->format('Y-m-d H:i:s'),
@@ -67,9 +68,6 @@ class AdminController extends Controller
                         "newdata" => "Tidak ada data baru"
                     ]);
                 }
-                //
-                //    else {
-                // }
             } catch (\Throwable $th) {
                 return response()->json([
                     "success" => true,
@@ -96,6 +94,22 @@ class AdminController extends Controller
             ]);
         }
     }
+    public function hapusspkshow(Request $request)
+    {
+        try {
+            return response()->json([
+                "success" => true,
+                "status" => 200,
+                "hasil" => $request,
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                "success" => true,
+                "status" => 400,
+            ]);
+        }
+    }
+
     public function getkode(Request $request)
     {
         $data = $request->maudikode;
