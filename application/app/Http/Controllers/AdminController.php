@@ -23,6 +23,15 @@ class AdminController extends Controller
         return $listdata;
     }
 
+    public function hapusdatatable(Request $request)
+    {
+        return response()->json([
+            "success" => true,
+            "status" => 200,
+            "hasil" => $request->id,
+        ]);
+    }
+
     public function admintambahspk(Request $request)
     {
         $nospk = strtoupper($request->nospk);
@@ -94,22 +103,6 @@ class AdminController extends Controller
             ]);
         }
     }
-    public function hapusspkshow(Request $request)
-    {
-        try {
-            return response()->json([
-                "success" => true,
-                "status" => 200,
-                "hasil" => $request,
-            ]);
-        } catch (\Throwable $th) {
-            return response()->json([
-                "success" => true,
-                "status" => 400,
-            ]);
-        }
-    }
-
     public function getkode(Request $request)
     {
         $data = $request->maudikode;
