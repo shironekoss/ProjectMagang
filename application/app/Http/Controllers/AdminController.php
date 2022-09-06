@@ -8,6 +8,7 @@ use App\Models\SavedConversionResult;
 use App\Models\SPK;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\View\Component;
 use Nette\Utils\Strings;
 
 class AdminController extends Controller
@@ -70,6 +71,8 @@ class AdminController extends Controller
             $parammodeltanggaterdaftar = false;
             $parammodellampubelakang = false;
             $parammodellampubelakangterdaftar = false;
+            $parammodelnewparameter = false;
+            $parammodelnewparameterterdaftar = false;
             foreach ($master as $item2) {
                 if (strtoupper($item1["parameter"]["kodemobil"]) == strtoupper($item2["parameter"]["kodemobil"]) || strtoupper($item2["parameter"]["kodemobil"]) == "ALL") {
                     $paramkodemobil = true;
@@ -131,7 +134,32 @@ class AdminController extends Controller
                         break;
                     }
                 }
-                if ($paramkodemobil && $parammobilbagasi && $parammodelpintu && $parammodelbangku &&$parammodelbody && $parammodeltangga && $parammodellampubelakang) {
+                if(count($item1["parameter"]["newparameter"])==0){
+                    $parammodelnewparameter=true;
+                }
+                else{
+                    foreach($item1["parameter"]["newparameter"] as $newparam1){
+                       $judulcomponent=0;
+                        foreach($item2["parameter"]["newparameter"] as $newparam2){
+                            if( strtoupper($newparam1["newparam"])== strtoupper($newparam2["newparam"])){
+                                foreach($newparam1["components"] as $components1){
+                                    $isicomponent = 0;
+                                    foreach($newparam2["components"] as $components2){
+                                        if($components1==$components2){
+                                            $isicomponent++;
+                                        }
+                                    }
+                                    if($isicomponent==count($newparam1["components"])){
+                                        $judulcomponent++;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // if()
+                }
+                if ($paramkodemobil && $parammobilbagasi && $parammodelpintu && $parammodelbangku &&$parammodelbody && $parammodeltangga && $parammodellampubelakang && $parammodelnewparameter) {
                     array_push($result, $item2["kit"]);
                 }
             }
@@ -162,6 +190,7 @@ class AdminController extends Controller
             if (!$parammodellampubelakangterdaftar) {
                 array_push($message,  "parameter model lampu belakang " . $item1["parameter"]["modellampubelakang"] . " merupakan parameter baru");
             }
+
             $newmessage = [
                 'NoSPK' => $item1->NOSPK,
                 'Message' => $message
@@ -182,7 +211,8 @@ class AdminController extends Controller
             "saved" => $saved,
             "master" => $master,
             "message" => $messages,
-            "result" => $results
+            "result" => $results,
+            "latihan nembak "=> count($master[8]["parameter"]["newparameter"])
         ]);
     }
 
