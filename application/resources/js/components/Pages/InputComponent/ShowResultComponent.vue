@@ -1,7 +1,6 @@
 <template>
     <div>
-        <h1>disini Result Component nanti</h1>
-        <v-data-table dense :headers="headerstable" :items="datatable" :items-per-page="10"
+        <v-data-table dense :headers="headerstable" :items="datatable" :items-per-page="30"
             class="elevation-1 font-weight-bold">
             <template v-slot:top>
                 <v-toolbar flat>
@@ -46,7 +45,7 @@ export default{
                     kits["result"].forEach(komponen => {
                     let obj ={};
                     obj['NoSPK'] = SPK.NoSPK;
-                    // obj['kode'] = array.NoSPK;
+                    obj['kode'] = kits.kodekit;
                     obj['namakit'] = kits.namakit;
                     obj['namakomponen'] = komponen.nama_komponen;
                     obj['Qty'] = komponen.qty;

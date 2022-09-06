@@ -16,7 +16,7 @@
                             <div class="col-9">
                                 <div class="row">
                                     <div class="col-6">
-                                        <input type="text" v-model="parameter.modelbagasi[0]" class="form-control"></input>
+                                        <input type="text" v-model="parameter.modelbagasi[0]" class="form-control">
                                     </div>
                                     <div class="col">
                                         <button type="button" :disabled='isActivebagasi' @click="add('modelbagasi')"
@@ -43,7 +43,7 @@
                             <div class="col-9">
                                 <div class="row">
                                     <div class="col-6">
-                                        <input type="text" v-model="parameter.modelpintu[0]" class="form-control"></input>
+                                        <input type="text" v-model="parameter.modelpintu[0]" class="form-control">
                                     </div>
                                     <div class="col">
                                         <button :disabled='isActivepintu' type="button" @click="add('modelpintu')"
@@ -68,7 +68,7 @@
                             <div class="col-9">
                                 <div class="row">
                                     <div class="col-6">
-                                        <input type="text" v-model="parameter.modelbangku[0]" class="form-control"></input>
+                                        <input type="text" v-model="parameter.modelbangku[0]" class="form-control">
                                     </div>
                                     <div class="col">
                                         <button type="button" :disabled='isActivebangku' @click="add('modelbangku')"
@@ -94,7 +94,7 @@
                             <div class="col-9">
                                 <div class="row">
                                     <div class="col-6">
-                                        <input type="text" v-model="parameter.modelbody[0]" class="form-control"></input>
+                                        <input type="text" v-model="parameter.modelbody[0]" class="form-control">
                                     </div>
                                     <div class="col">
                                         <button type="button" :disabled='isActivebody' @click="add('modelbody')"
@@ -158,7 +158,7 @@
                         <div class="row">
                             <div class="col">Kode Kit</div>
                             <div class="col-8">
-                                <input type="text" v-model="parameter.kodekit" class="form-control">
+                                <input type="text" v-model="kit.kodekit" class="form-control">
                                 <form @submit.prevent="generate" style="float: right; margin-right: 50%;">
                                     <button type="submit" class="btn btn-success">GENERATE</button>
                                 </form>
@@ -309,9 +309,9 @@ export default {
                 modellampubelakang: [],
                 newparameter: [],
                 stall: "",
-                kodekit: ""
             },
             kit: {
+                kodekit: "",
                 namakit: "",
                 result: []
             }
@@ -512,7 +512,6 @@ export default {
                 .splice(-1, 1);
         },
         remove(tipe) {
-            // console.log(id)
             if (tipe == 'modelbagasi') {
                 this
                     .componentsbagasi
@@ -575,8 +574,6 @@ export default {
             }
         },
         handleSubmit() {
-            console.log(this.kit)
-            console.log(this.parameter)
             let data = {
                 datakit: this.kit,
                 dataparam: this.parameter
@@ -616,19 +613,20 @@ export default {
     },
     generate() {
         let data = {
-            param: this.parameter.kodekit
+            param: this.kit.kodekit
         }
+
         axios
             .post('/api/generatemasterkit', data)
             .then((response) => {
+                console.log(response.data)
                 if (response.data.success) {
                     if (response.data.statuscode == 201) {
-                        console.log(response.data.result)
                         this.kit.namakit = response.data.result.nama_kit
                         this.kit.result = response.data.result.komponen
                         this.$swal({
                             title: 'Sukses generate data ' + this
-                                .parameter
+                                .kit
                                 .kodekit
                                 .toUpperCase(),
                             icon: 'success'
