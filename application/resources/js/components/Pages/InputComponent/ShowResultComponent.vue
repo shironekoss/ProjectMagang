@@ -24,25 +24,41 @@ export default{
                     value: 'NoSPK',
                     class: "title text-uppercase font-weight-black black--text light-blue lighten-5"
                 },
-                { text: 'Kode Kit', value: 'kit', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
-                { text: 'Nama Kit', value: 'kode', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
-                { text: 'Nama Komponen', value: 'status', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
-                { text: 'Kebutuhan', value: 'updated_at', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
-                { text: 'Dari', value: 'actions', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
-                { text: 'Ke', value: 'actions', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Kode Kit', value: 'kode', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Nama Kit', value: 'namakit', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Nama Komponen', value: 'namakomponen', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Kebutuhan', value: 'Qty', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Dari', value: 'Dari', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Ke', value: 'Kerak', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
             ],
         }
     },
     mounted(){
         this.datatable = this.$route.params.data
-        this.cetak()
+        this.datatable=this.konversi(this.datatable)
     },
     methods:{
-        cetak(){
-            console.log(this.datatable)
+        konversi(array){
+            console.log(array)
+            let newdata=[];
+            array.forEach(SPK => {
+                SPK["kit"].forEach(kits => {
+                    kits["result"].forEach(komponen => {
+                    let obj ={};
+                    obj['NoSPK'] = SPK.NoSPK;
+                    // obj['kode'] = array.NoSPK;
+                    obj['namakit'] = kits.namakit;
+                    obj['namakomponen'] = komponen.nama_komponen;
+                    obj['Qty'] = komponen.qty;
+                    obj['Dari'] = komponen.darirak;
+                    obj['Kerak'] = komponen.kerak;
+                    newdata.push(obj);
+                    });
+                });
+            });
+            return newdata;
         }
     }
-
 }
 </script>
 <style>
