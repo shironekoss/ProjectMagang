@@ -1,24 +1,34 @@
 <template>
 
     <div>
-        <div class="card" style="width: 80rem;">
+        <div class="card" style="width: 90rem;">
             <div class="card-body">
                 <div class="row">
                     <div class="col-6" style="float: left;">
                         <div class="row">
-                            <div class="col">Kode Mobil</div>
-                            <div class="col-8">
+                            <div class="col"> <h5>Kode Mobil</h5> </div>
+                            <div class="col-9">
                                 <input type="text" v-model="parameter.kodemobil" class="form-control">
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col">Model Bagasi</div>
-                            <div class="col-8">
-                                <input type="text" v-model="parameter.modelbagasi[0]" class="form-control">
-                                <button type="button" :disabled='isActivebagasi' @click="add('modelbagasi')"
-                                    class="btn btn-primary">Tambah</button>
-                                <button type="button" @click="remove('modelbagasi')" class="btn btn-danger">hapus
-                                    tambahan</button>
+                            <div class="col"><h5>Model Bagasi</h5></div>
+                            <div class="col-9">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <input type="text" v-model="parameter.modelbagasi[0]" class="form-control"></input>
+                                    </div>
+                                    <div class="col">
+                                        <button type="button" :disabled='isActivebagasi' @click="add('modelbagasi')"
+                                        class="btn btn-primary btn-sm">TAMBAH</button>
+                                    </div>
+                                    <div class="col">
+                                        <button type="button" @click="remove('modelbagasi')" class="btn btn-danger btn-sm">
+                                            HAPUS
+                                        </button>
+                                    </div>
+                                </div>
+
                                 <div v-for="(component, index) in componentsbagasi" :key="index" :id=index
                                     tipe="modelbagasi">
                                     <div class="col-10">
@@ -29,13 +39,21 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col">Model Pintu</div>
-                            <div class="col-8">
-                                <input type="text" v-model="parameter.modelpintu[0]" class="form-control">
-                                <button :disabled='isActivepintu' type="button" @click="add('modelpintu')"
-                                    class="btn btn-primary">Tambah</button>
-                                <button type="button" @click="remove('modelpintu')" class="btn btn-danger">hapus
-                                    tambahan</button>
+                            <div class="col"><h5>Model Pintu</h5></div>
+                            <div class="col-9">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <input type="text" v-model="parameter.modelpintu[0]" class="form-control"></input>
+                                    </div>
+                                    <div class="col">
+                                        <button :disabled='isActivepintu' type="button" @click="add('modelpintu')"
+                                        class="btn btn-primary btn-sm">TAMBAH</button>
+                                    </div>
+                                    <div class="col">
+                                        <button type="button" @click="remove('modelpintu')" class="btn btn-danger btn-sm">HAPUS
+                                        </button>
+                                    </div>
+                                </div>
                                 <component v-for="(component, index) in componentspintu" :key="index" :id=index
                                     tipe="modelpintu">
                                     <div class="col-10">
@@ -46,13 +64,22 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col">Bangku</div>
-                            <div class="col-8">
-                                <input type="text" v-model="parameter.modelbangku[0]" class="form-control">
-                                <button type="button" :disabled='isActivebangku' @click="add('modelbangku')"
-                                    class="btn btn-primary ">Tambah</button>
-                                <button type="button" @click="remove('modelbangku')" class="btn btn-danger">hapus
-                                    tambahan</button>
+                            <div class="col"><h5>Bangku</h5></div>
+                            <div class="col-9">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <input type="text" v-model="parameter.modelbangku[0]" class="form-control"></input>
+                                    </div>
+                                    <div class="col">
+                                        <button type="button" :disabled='isActivebangku' @click="add('modelbangku')"
+                                        class="btn btn-primary btn-sm">Tambah</button>
+                                    </div>
+                                    <div class="col">
+                                        <button type="button" @click="remove('modelbangku')" class="btn btn-danger btn-sm">HAPUS
+                                        </button>
+                                    </div>
+                                </div>
+
                                 <div v-for="(component, index) in componentsbangku" :key="index" :id=index
                                     tipe="modelbangku">
                                     <div class="col-10">
@@ -63,13 +90,22 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col">Model Body</div>
-                            <div class="col-8">
-                                <input type="text" v-model="parameter.modelbody[0]" class="form-control">
-                                <button type="button" :disabled='isActivebody' @click="add('modelbody')"
-                                    class="btn btn-primary">Tambah</button>
-                                <button type="button" @click="remove('modelbody')" class="btn btn-danger">hapus
-                                    tambahan</button>
+                            <div class="col"><h5>Model Body</h5></div>
+                            <div class="col-9">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <input type="text" v-model="parameter.modelbody[0]" class="form-control"></input>
+                                    </div>
+                                    <div class="col">
+                                        <button type="button" :disabled='isActivebody' @click="add('modelbody')"
+                                        class="btn btn-primary btn-sm">Tambah</button>
+                                    </div>
+                                    <div class="col">
+                                        <button type="button" @click="remove('modelbody')" class="btn btn-danger btn-sm">HAPUS
+                                        </button>
+                                    </div>
+                                </div>
+
                                 <div v-for="(component, index) in componentsbody" :key="index" :id=index
                                     tipe="modelbody">
                                     <div class="col-10">
@@ -171,16 +207,31 @@
                         <!-- <button type="button" @click="hapusresultkomponen()" class="btn btn-danger">Hapus Komponen</button><br> -->
                         <div v-for="(component, index) in kit.result" :key="index" :id=index>
                             <div class="row">
-                                <div class="col">Nama Komponen
-                                    <input type="text" v-model="kit.result[index].nama_komponen"
-                                        class="namakomponenbaru">
-                                    QTY :
-                                    <input type="number" v-model="kit.result[index].qty" class="numberinput">
-                                    dari Rak :
-                                    <input type="number" v-model="kit.result[index].darirak" class="numberinput"
-                                        min="0">
-                                    ke rak :
-                                    <input type="number" v-model="kit.result[index].kerak" class="numberinput" min="0">
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            Nama Komponen
+                                            <input type="text" v-model="kit.result[index].nama_komponen"
+                                                class="form-control">
+                                        </div>
+
+                                        <div class="col">
+                                            QTY :
+                                            <input type="number" v-model="kit.result[index].qty" class="form-control">
+                                        </div>
+
+                                        <div class="col">
+                                            dari Rak :
+                                            <input type="number" v-model="kit.result[index].darirak" class="form-control"
+                                                min="0">
+                                        </div>
+
+                                        <div class="col">
+                                            ke rak :
+                                            <input type="number" v-model="kit.result[index].kerak" class="form-control" min="0">
+                                        </div>
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
