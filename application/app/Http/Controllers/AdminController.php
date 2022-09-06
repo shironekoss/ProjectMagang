@@ -215,8 +215,7 @@ class AdminController extends Controller
             "saved" => $saved,
             "master" => $master,
             "message" => $messages,
-            "result" => $results,
-            "latihan nembak "=> count($master[3]["parameter"]["newparameter"])
+            "result" => $results
         ]);
     }
 
@@ -291,6 +290,7 @@ class AdminController extends Controller
             ]);
         }
     }
+
     public function getkode(Request $request)
     {
         $data = $request->maudikode;
