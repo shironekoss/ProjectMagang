@@ -72,7 +72,7 @@
                                     </div>
                                     <div class="col">
                                         <button type="button" :disabled='isActivebangku' @click="add('modelbangku')"
-                                        class="btn btn-primary btn-sm">Tambah</button>
+                                        class="btn btn-primary btn-sm">TAMBAH</button>
                                     </div>
                                     <div class="col">
                                         <button type="button" @click="remove('modelbangku')" class="btn btn-danger btn-sm">HAPUS
@@ -98,7 +98,7 @@
                                     </div>
                                     <div class="col">
                                         <button type="button" :disabled='isActivebody' @click="add('modelbody')"
-                                        class="btn btn-primary btn-sm">Tambah</button>
+                                        class="btn btn-primary btn-sm">TAMBAH</button>
                                     </div>
                                     <div class="col">
                                         <button type="button" @click="remove('modelbody')" class="btn btn-danger btn-sm">HAPUS
@@ -120,9 +120,9 @@
                             <div class="col-8">
                                 <input type="text" v-model="parameter.modeltangga[0]" class="form-control">
                                 <button type="button" :disabled='isActivetangga' @click="add('modeltraptangga')"
-                                    class="btn btn-primary">Tambah</button>
-                                <button type="button" @click="remove('modeltraptangga')" class="btn btn-danger">hapus
-                                    tambahan</button>
+                                    class="btn btn-primary">TAMBAH</button>
+                                <button type="button" @click="remove('modeltraptangga')" class="btn btn-danger">HAPUS
+                                    </button>
                                 <div v-for="(component, index) in componentstraptangga" :key="index" :id=index
                                     tipe="modeltraptangga">
                                     <div class="col-10">
@@ -137,9 +137,9 @@
                             <div class="col-8">
                                 <input type="text" v-model="parameter.modellampubelakang[0]" class="form-control">
                                 <button type="button" :disabled='isActivelampu' @click="add('modellampubelakang')"
-                                    class="btn btn-primary">Tambah</button>
-                                <button type="button" @click="remove('modellampubelakang')" class="btn btn-danger">hapus
-                                    tambahan</button>
+                                    class="btn btn-primary">TAMBAH</button>
+                                <button type="button" @click="remove('modellampubelakang')" class="btn btn-danger">HAPUS
+                                    </button>
                                 <div v-for="(component, index) in componentlampubelakang" :key="index" :id=index
                                     tipe="modellampubelakang">
                                     <div class="col-10">
