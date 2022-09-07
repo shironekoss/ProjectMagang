@@ -356,6 +356,7 @@ class MasterController extends Controller
             return response()->json([
                 "success" => true,
                 "statuscode" => 200,
+                "kit"=>$kit
             ]);
         } catch (\Throwable $th) {
             return response()->json([

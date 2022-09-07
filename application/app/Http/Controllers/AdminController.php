@@ -57,6 +57,7 @@ class AdminController extends Controller
         foreach ($saved as $item1) {
             $message = [];
             $result = [];
+            $messageforneparam=[];
             $paramkodemobil = false;
             $kodemobilterdaftar = false;
             $parammobilbagasi = false;
@@ -72,7 +73,6 @@ class AdminController extends Controller
             $parammodellampubelakang = false;
             $parammodellampubelakangterdaftar = false;
             $parammodelnewparameter = false;
-            $parammodelnewparameterterdaftar = false;
             foreach ($master as $item2) {
                 if (strtoupper($item1["parameter"]["kodemobil"]) == strtoupper($item2["parameter"]["kodemobil"]) || strtoupper($item2["parameter"]["kodemobil"]) == "ALL") {
                     $paramkodemobil = true;
@@ -138,26 +138,30 @@ class AdminController extends Controller
                     $parammodelnewparameter=true;
                 }
                 else{
+                    $judulcomponent=0;
                     foreach($item1["parameter"]["newparameter"] as $newparam1){
-                       $judulcomponent=0;
                         foreach($item2["parameter"]["newparameter"] as $newparam2){
                             if( strtoupper($newparam1["newparam"])== strtoupper($newparam2["newparam"])){
+                                $isicomponent = 0;
                                 foreach($newparam1["components"] as $components1){
-                                    $isicomponent = 0;
                                     foreach($newparam2["components"] as $components2){
                                         if($components1==$components2){
                                             $isicomponent++;
                                         }
                                     }
-                                    if($isicomponent==count($newparam1["components"])){
-                                        $judulcomponent++;
-                                    }
+                                }
+                                if($isicomponent==count($newparam1["components"])){
+                                    $judulcomponent++;
+                                }
+                                else{
+                                    array_push($messageforneparam, "parameter tambahan " . $item1["parameter"]["newparameter"]["newparam"] . " tolong dicek kembali");
                                 }
                             }
                         }
                     }
-
-                    // if()
+                    if($judulcomponent==count($item1["parameter"]["newparameter"])){
+                        $parammodelnewparameter=true;
+                    }
                 }
                 if ($paramkodemobil && $parammobilbagasi && $parammodelpintu && $parammodelbangku &&$parammodelbody && $parammodeltangga && $parammodellampubelakang && $parammodelnewparameter) {
                     array_push($result, $item2["kit"]);
@@ -168,7 +172,6 @@ class AdminController extends Controller
                 'NoSPK' => $item1->NOSPK,
             ];
             array_push($results, $newresult);
-            array_push($message, "SPK dengan Nomor " . $item1["NOSPK"]);
             if (!$kodemobilterdaftar) {
                 array_push($message,  "parameter kode mobil " . $item1["parameter"]["kodemobil"] . " merupakan parameter baru");
             }
@@ -193,7 +196,8 @@ class AdminController extends Controller
 
             $newmessage = [
                 'NoSPK' => $item1->NOSPK,
-                'Message' => $message
+                'Message' => $message,
+                'newMessage'=>$messageforneparam
             ];
             if($kodemobilterdaftar && $parammobilbagasiterdaftar && $parammodelpintuterdaftar && $parammodelbangkuterdaftar && $parammodelbodyterdaftar && $parammodeltanggaterdaftar && $parammodellampubelakangterdaftar){
                 $item1["status"]="Done";
@@ -211,8 +215,7 @@ class AdminController extends Controller
             "saved" => $saved,
             "master" => $master,
             "message" => $messages,
-            "result" => $results,
-            "latihan nembak "=> count($master[8]["parameter"]["newparameter"])
+            "result" => $results
         ]);
     }
 
@@ -287,6 +290,7 @@ class AdminController extends Controller
             ]);
         }
     }
+
     public function getkode(Request $request)
     {
         $data = $request->maudikode;

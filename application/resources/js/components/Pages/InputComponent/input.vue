@@ -41,7 +41,7 @@
                 </v-row>
             </v-container>
             <div v-if="datatable">
-                <v-data-table dense :headers="headerstable" :items="datatable" :items-per-page="5"
+                <v-data-table dense :headers="headerstable" :items="datatable" :items-per-page="10"
                     class="elevation-1 font-weight-bold">
                     <template v-slot:top>
                         <v-toolbar flat>
@@ -70,7 +70,6 @@
 
 <script>
 import axios from 'axios';
-
 export default {
     data() {
         return {
@@ -216,12 +215,14 @@ export default {
                 if (response.data.status == 200) {
                     console.log(response.data)
                     this.getdatatable()
+                    this.$router.push({
+                    name: 'Cekresult',
+                    params:{data:response.data.result}
+                     })
                 }
+
             });
             }
-            // this.$router.push({
-            //     name: 'Cekresult'
-            // })
         },
         getkode(state) {
             axios.post('/api/getkode', { maudikode: state }).then((response) => {
