@@ -54,10 +54,11 @@ class AdminController extends Controller
         $master = Master::all();
         $messages = [];
         $results = [];
+        $i = "";
         foreach ($saved as $item1) {
             $message = [];
             $result = [];
-            $messageforneparam=[];
+            $messageforneparam = [];
             $paramkodemobil = false;
             $kodemobilterdaftar = false;
             $parammobilbagasi = false;
@@ -72,19 +73,27 @@ class AdminController extends Controller
             $parammodeltanggaterdaftar = false;
             $parammodellampubelakang = false;
             $parammodellampubelakangterdaftar = false;
+            $parammodelstall = false;
+            $parammodelstallterdaftar = false;
             $parammodelnewparameter = false;
             foreach ($master as $item2) {
                 if (strtoupper($item1["parameter"]["kodemobil"]) == strtoupper($item2["parameter"]["kodemobil"]) || strtoupper($item2["parameter"]["kodemobil"]) == "ALL") {
                     $paramkodemobil = true;
-                    if(strtoupper($item1["parameter"]["kodemobil"]) == strtoupper($item2["parameter"]["kodemobil"])){
-                        $kodemobilterdaftar=true;
+                    if (strtoupper($item1["parameter"]["kodemobil"]) == strtoupper($item2["parameter"]["kodemobil"])) {
+                        $kodemobilterdaftar = true;
+                    }
+                }
+                if (strtoupper($item1["parameter"]["stall"]) == strtoupper($item2["parameter"]["stall"]) || strtoupper($item2["parameter"]["stall"]) == "ALL") {
+                    $parammodelstall = true;
+                    if (strtoupper($item1["parameter"]["stall"]) == strtoupper($item2["parameter"]["stall"])) {
+                        $parammodelstallterdaftar = true;
                     }
                 }
                 foreach ($item2["parameter"]["modelbagasi"] as $item) {
                     if (strtoupper($item) == "ALL" || strtoupper($item1["parameter"]["modelbagasi"]) == strtoupper($item)) {
                         $parammobilbagasi = true;
-                        if(strtoupper($item1["parameter"]["modelbagasi"]) == strtoupper($item)){
-                            $parammobilbagasiterdaftar=true;
+                        if (strtoupper($item1["parameter"]["modelbagasi"]) == strtoupper($item)) {
+                            $parammobilbagasiterdaftar = true;
                         }
                         break;
                     }
@@ -92,8 +101,8 @@ class AdminController extends Controller
                 foreach ($item2["parameter"]["modelpintu"] as $item) {
                     if (strtoupper($item) == "ALL" || strtoupper($item1["parameter"]["modelpintu"]) == strtoupper($item)) {
                         $parammodelpintu = true;
-                        if(strtoupper($item1["parameter"]["modelpintu"]) == strtoupper($item)){
-                            $parammodelpintuterdaftar=true;
+                        if (strtoupper($item1["parameter"]["modelpintu"]) == strtoupper($item)) {
+                            $parammodelpintuterdaftar = true;
                         }
                         break;
                     }
@@ -101,8 +110,8 @@ class AdminController extends Controller
                 foreach ($item2["parameter"]["modelbangku"] as $item) {
                     if (strtoupper($item) == "ALL" || strtoupper($item1["parameter"]["modelbangku"]) == strtoupper($item)) {
                         $parammodelbangku = true;
-                        if(strtoupper($item1["parameter"]["modelbangku"]) == strtoupper($item)){
-                            $parammodelbangkuterdaftar=true;
+                        if (strtoupper($item1["parameter"]["modelbangku"]) == strtoupper($item)) {
+                            $parammodelbangkuterdaftar = true;
                         }
                         break;
                     }
@@ -110,8 +119,8 @@ class AdminController extends Controller
                 foreach ($item2["parameter"]["modelbody"] as $item) {
                     if (strtoupper($item) == "ALL" || strtoupper($item1["parameter"]["modelbody"]) == strtoupper($item)) {
                         $parammodelbody = true;
-                        if(strtoupper($item1["parameter"]["modelbody"]) == strtoupper($item)){
-                            $parammodelbodyterdaftar=true;
+                        if (strtoupper($item1["parameter"]["modelbody"]) == strtoupper($item)) {
+                            $parammodelbodyterdaftar = true;
                         }
                         break;
                     }
@@ -119,8 +128,8 @@ class AdminController extends Controller
                 foreach ($item2["parameter"]["modeltangga"] as $item) {
                     if (strtoupper($item) == "ALL" || strtoupper($item1["parameter"]["modeltangga"]) == strtoupper($item)) {
                         $parammodeltangga = true;
-                        if(strtoupper($item1["parameter"]["modeltangga"]) == strtoupper($item)){
-                            $parammodeltanggaterdaftar=true;
+                        if (strtoupper($item1["parameter"]["modeltangga"]) == strtoupper($item)) {
+                            $parammodeltanggaterdaftar = true;
                         }
                         break;
                     }
@@ -128,44 +137,53 @@ class AdminController extends Controller
                 foreach ($item2["parameter"]["modellampubelakang"] as $item) {
                     if (strtoupper($item) == "ALL" || strtoupper($item1["parameter"]["modellampubelakang"]) == strtoupper($item)) {
                         $parammodellampubelakang = true;
-                        if(strtoupper($item1["parameter"]["modellampubelakang"]) == strtoupper($item)){
-                            $parammodellampubelakangterdaftar=true;
+                        if (strtoupper($item1["parameter"]["modellampubelakang"]) == strtoupper($item)) {
+                            $parammodellampubelakangterdaftar = true;
                         }
                         break;
                     }
                 }
-                if(count($item1["parameter"]["newparameter"])==0){
-                    $parammodelnewparameter=true;
-                }
-                else{
-                    $judulcomponent=0;
-                    foreach($item1["parameter"]["newparameter"] as $newparam1){
-                        foreach($item2["parameter"]["newparameter"] as $newparam2){
-                            if( strtoupper($newparam1["newparam"])== strtoupper($newparam2["newparam"])){
-                                $isicomponent = 0;
-                                foreach($newparam1["components"] as $components1){
-                                    foreach($newparam2["components"] as $components2){
-                                        if($components1==$components2){
-                                            $isicomponent++;
-                                        }
-                                    }
-                                }
-                                if($isicomponent==count($newparam1["components"])){
-                                    $judulcomponent++;
-                                }
-                                else{
-                                    array_push($messageforneparam, "parameter tambahan " . $item1["parameter"]["newparameter"]["newparam"] . " tolong dicek kembali");
-                                }
-                            }
-                        }
-                    }
-                    if($judulcomponent==count($item1["parameter"]["newparameter"])){
-                        $parammodelnewparameter=true;
-                    }
-                }
-                if ($paramkodemobil && $parammobilbagasi && $parammodelpintu && $parammodelbangku &&$parammodelbody && $parammodeltangga && $parammodellampubelakang && $parammodelnewparameter) {
-                    array_push($result, $item2["kit"]);
-                }
+            }
+            if ($item1["NOSPK"] == "B01FEL22") {
+                return response()->json([
+                    "i" => "a"
+                ]);
+            }
+            //     $parammodelnewparameter = true;
+            //     array_push($messageforneparam, "parameter tambahan " . " tolong dicek kembali");
+            // } else {
+            //     return response()->json([
+            //         "i"=>"b"
+            //      ]);
+            //     array_push($messageforneparam, "parameter tambahan " . " tolong dicek kembali");
+            //     // $judulcomponent = 0;
+            //     // foreach ($item1["parameter"]["newparameter"] as $newparam1) {
+            //     //     foreach ($item2["parameter"]["newparameter"] as $newparam2) {
+            //     //         if (strtoupper($newparam1["newparam"]) == strtoupper($newparam2["newparam"])) {
+            //     //             $isicomponent = 0;
+            //     //             foreach ($newparam1["components"] as $components1) {
+            //     //                 foreach ($newparam2["components"] as $components2) {
+            //     //                     if ($components1 == $components2) {
+            //     //                         $isicomponent++;
+            //     //                     }
+            //     //                 }
+            //     //             }
+            //     //             if ($isicomponent == count($newparam1["components"])) {
+            //     //                 $judulcomponent++;
+            //     //             } else {
+            //     //                 array_push($messageforneparam, "parameter tambahan " . $item1["parameter"]["newparameter"]["newparam"] . " tolong dicek kembali");
+            //     //             }
+            //     //         }
+            //     //     }
+            //     // }
+            //     // if ($judulcomponent == count($item1["parameter"]["newparameter"])) {
+            //     //     $parammodelnewparameter = true;
+            //     // }else if( count($messageforneparam)==0){
+            //     //     array_push($messageforneparam, "parameter tambahan " . $item1["parameter"]["newparameter"]["newparam"] . " tidak ada");
+            //     // }
+            // }
+            if ($paramkodemobil && $parammobilbagasi && $parammodelpintu && $parammodelbangku && $parammodelbody && $parammodeltangga && $parammodellampubelakang && $parammodelnewparameter && $parammodelstall) {
+                array_push($result, $item2["kit"]);
             }
             $newresult = [
                 'kit' => $result,
@@ -193,18 +211,20 @@ class AdminController extends Controller
             if (!$parammodellampubelakangterdaftar) {
                 array_push($message,  "parameter model lampu belakang " . $item1["parameter"]["modellampubelakang"] . " merupakan parameter baru");
             }
+            if (!$parammodelstallterdaftar) {
+                array_push($message,  "parameter stall " . $item1["parameter"]["modellampubelakang"] . " merupakan parameter baru");
+            }
 
             $newmessage = [
                 'NoSPK' => $item1->NOSPK,
                 'Message' => $message,
-                'newMessage'=>$messageforneparam
+                'newMessage' => $messageforneparam
             ];
-            if($kodemobilterdaftar && $parammobilbagasiterdaftar && $parammodelpintuterdaftar && $parammodelbangkuterdaftar && $parammodelbodyterdaftar && $parammodeltanggaterdaftar && $parammodellampubelakangterdaftar){
-                $item1["status"]="Done";
+            if ($kodemobilterdaftar && $parammobilbagasiterdaftar && $parammodelpintuterdaftar && $parammodelbangkuterdaftar && $parammodelbodyterdaftar && $parammodeltanggaterdaftar && $parammodellampubelakangterdaftar && $parammodelstallterdaftar) {
+                $item1["status"] = "Done";
                 $item1->save();
-            }
-            else{
-                $item1["status"]="Master Not Updated";
+            } else {
+                $item1["status"] = "Master Not Updated";
                 $item1->save();
             }
             array_push($messages, $newmessage);
@@ -215,7 +235,8 @@ class AdminController extends Controller
             "saved" => $saved,
             "master" => $master,
             "message" => $messages,
-            "result" => $results
+            "result" => $results,
+            "i" => $i
         ]);
     }
 

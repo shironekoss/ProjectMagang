@@ -215,10 +215,10 @@ export default {
                 if (response.data.status == 200) {
                     console.log(response.data)
                     this.getdatatable()
-                    this.$router.push({
-                    name: 'Cekresult',
-                    params:{data:response.data.result}
-                     })
+                    // this.$router.push({
+                    // name: 'Cekresult',
+                    // params:{data:response.data.result}
+                    //  })
                 }
 
             });
