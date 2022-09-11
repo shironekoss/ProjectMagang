@@ -4,7 +4,7 @@ Vue.use(VueRouter)
 
 // cara1
 const Home = require('../components/Pages/Home/Home.vue').default
-const Login =require('../components/Pages/Login/Login.vue').default
+const Login =require('../components/Credential/Login.vue').default
 const User =require('../components/Credential/User.vue').default
 const Userdetail =require('../components/Credential/Profile.vue').default
 const Register =require('../components/Pages/Register/Register.vue').default
