@@ -13,6 +13,7 @@ import Vue from 'vue'
 import router from './router/route.js'
 import VueSweetalert2 from 'vue-sweetalert2'
 import Vuetify from '../plugins/vuetify'
+import { createPinia, PiniaVuePlugin } from 'pinia'
 
 // If you don't need the styles, do not connect
 import 'sweetalert2/dist/sweetalert2.min.css';
@@ -40,7 +41,8 @@ Vue.component('footer-component', require('./components/General/FooterComponent.
 Vue.component('latihanbutton', require('./components/Pages/InputNoSPK/SpkInputtrigger.vue').default);
 
 Vue.use(VueSweetalert2);
-
+Vue.use(PiniaVuePlugin);
+const pinia = createPinia()
 // const NotFound =require('./components/HandlingError/NotFound.vue').default
 
 
@@ -58,6 +60,7 @@ const app = new Vue({
     data: {
         title: 'Rancangan Program SPK'
     },
+    pinia,
     router,
 });
 

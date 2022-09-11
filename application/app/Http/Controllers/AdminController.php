@@ -144,44 +144,53 @@ class AdminController extends Controller
                     }
                 }
             }
-            if ($item1["NOSPK"] == "B01FEL22") {
-                return response()->json([
-                    "i" => "a"
-                ]);
+            if (count($item1["parameter"]["newparameter"]) == 0) {
+                $parammodelnewparameter = true;
+            } else {
+                if (count($master) == 0) {
+                    foreach ($item1["parameter"]["newparameter"] as $parameterbaru) {
+                        array_push($messageforneparam, "parameter tambahan " . $parameterbaru["newparam"] . " tidak ada");
+                    }
+                } else {
+                    $masterempty = 0;
+                    foreach ($master as $item2) {
+                        if (count($item2["parameter"]["newparameter"]) != 0) {
+                            $masterempty += 1;
+                        }
+                    }
+                    if ($masterempty != 0) {
+                        array_push($messageforneparam, "parameter tambahan " . " tidak ada");
+                    } else {
+                        foreach ($master as $item2) {
+                            $judulcomponent = 0;
+                            foreach ($item1["parameter"]["newparameter"] as $newparam1) {
+                                foreach ($item2["parameter"]["newparameter"] as $newparam2) {
+                                    if (strtoupper($newparam1["newparam"]) == strtoupper($newparam2["newparam"])) {
+                                        $isicomponent = 0;
+                                        foreach ($newparam1["components"] as $components1) {
+                                            foreach ($newparam2["components"] as $components2) {
+                                                if ($components1 == $components2) {
+                                                    $isicomponent++;
+                                                }
+                                            }
+                                        }
+                                        if ($isicomponent == count($newparam1["components"])) {
+                                            $judulcomponent++;
+                                        } else {
+                                            array_push($messageforneparam, "parameter tambahan " . $item1["parameter"]["newparameter"]["newparam"] . " tolong dicek kembali");
+                                        }
+                                    }
+                                }
+                            }
+                            if ($judulcomponent == count($item1["parameter"]["newparameter"])) {
+                                $parammodelnewparameter = true;
+                            } else if (count($messageforneparam) == 0) {
+                                array_push($messageforneparam, "parameter tambahan " . $item1["parameter"]["newparameter"][0]["newparam"]. " tidak ada");
+                            }
+                        }
+                    }
+                }
             }
-            //     $parammodelnewparameter = true;
-            //     array_push($messageforneparam, "parameter tambahan " . " tolong dicek kembali");
-            // } else {
-            //     return response()->json([
-            //         "i"=>"b"
-            //      ]);
-            //     array_push($messageforneparam, "parameter tambahan " . " tolong dicek kembali");
-            //     // $judulcomponent = 0;
-            //     // foreach ($item1["parameter"]["newparameter"] as $newparam1) {
-            //     //     foreach ($item2["parameter"]["newparameter"] as $newparam2) {
-            //     //         if (strtoupper($newparam1["newparam"]) == strtoupper($newparam2["newparam"])) {
-            //     //             $isicomponent = 0;
-            //     //             foreach ($newparam1["components"] as $components1) {
-            //     //                 foreach ($newparam2["components"] as $components2) {
-            //     //                     if ($components1 == $components2) {
-            //     //                         $isicomponent++;
-            //     //                     }
-            //     //                 }
-            //     //             }
-            //     //             if ($isicomponent == count($newparam1["components"])) {
-            //     //                 $judulcomponent++;
-            //     //             } else {
-            //     //                 array_push($messageforneparam, "parameter tambahan " . $item1["parameter"]["newparameter"]["newparam"] . " tolong dicek kembali");
-            //     //             }
-            //     //         }
-            //     //     }
-            //     // }
-            //     // if ($judulcomponent == count($item1["parameter"]["newparameter"])) {
-            //     //     $parammodelnewparameter = true;
-            //     // }else if( count($messageforneparam)==0){
-            //     //     array_push($messageforneparam, "parameter tambahan " . $item1["parameter"]["newparameter"]["newparam"] . " tidak ada");
-            //     // }
-            // }
             if ($paramkodemobil && $parammobilbagasi && $parammodelpintu && $parammodelbangku && $parammodelbody && $parammodeltangga && $parammodellampubelakang && $parammodelnewparameter && $parammodelstall) {
                 array_push($result, $item2["kit"]);
             }
@@ -220,7 +229,7 @@ class AdminController extends Controller
                 'Message' => $message,
                 'newMessage' => $messageforneparam
             ];
-            if ($kodemobilterdaftar && $parammobilbagasiterdaftar && $parammodelpintuterdaftar && $parammodelbangkuterdaftar && $parammodelbodyterdaftar && $parammodeltanggaterdaftar && $parammodellampubelakangterdaftar && $parammodelstallterdaftar) {
+            if ($kodemobilterdaftar && $parammobilbagasiterdaftar && $parammodelpintuterdaftar && $parammodelbangkuterdaftar && $parammodelbodyterdaftar && $parammodeltanggaterdaftar && $parammodellampubelakangterdaftar && $parammodelstallterdaftar && $parammodelnewparameter) {
                 $item1["status"] = "Done";
                 $item1->save();
             } else {
