@@ -45,6 +45,8 @@
     </div>
 </template>
 <script>
+import axios from 'axios';
+
 export default {
     data() {
         return {
@@ -63,9 +65,10 @@ export default {
                 this.emptyFields = true;
             } else {
 
-                await axios.post('/api/login', {username:this.usernameLogin,password:this.passwordLogin}).then((response) => {
-                    
+                const{data}=await axios.post('/api/login', {username:this.usernameLogin,password:this.passwordLogin},{withCredentials:true}).then((response) => {
+
                 });
+                axios.defaults.headers.common['Authorization'] = `Bearer $`
                 alert("You are now logged in");
             }
         },

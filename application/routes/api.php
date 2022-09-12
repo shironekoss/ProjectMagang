@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\LoginAuthController;
 use App\Http\Controllers\MasterController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SettingsController;
@@ -45,6 +46,8 @@ Route::post('ambilmax',[AdminController::class,'ambilmax']);
 Route::post('admintambahspk',[AdminController::class,'admintambahspk']);
 Route::post('konversikomponen',[AdminController::class,'konversikomponen']);
 Route::delete('hapusdatatable{id}',[AdminController::class,'hapusdatatable']);
+
+Route::post('login',[LoginAuthController::class ,'loginfunction']);
 
 // Route::resource('posts', PostController::class)->only([
 //     'destroy', 'show', 'store', 'update'
