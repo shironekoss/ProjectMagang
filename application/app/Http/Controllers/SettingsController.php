@@ -19,6 +19,12 @@ class SettingsController extends Controller
         $users = Account::find($id);
        return $users;
     }
+
+    public function login(Request $request)
+    {
+        # code...
+    }
+
     public function addAccount(Request $request)
     {
         //cara eloquent fillable

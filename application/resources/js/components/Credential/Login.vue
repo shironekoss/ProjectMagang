@@ -11,7 +11,7 @@
                     <div class="col-lg-4 col-md-6 col-sm-8 mx-auto">
                         <!-- <div v-if="!registerActive" class="card login" v-bind:class="{ error: emptyFields }"> -->
                             <h1>Sign In</h1>
-                            <form class="form-group" @submit.prevent="login">
+                            <form class="form-group" @submit.prevent="Login">
                                 <input v-model="user.username" type="text" class="form-control" placeholder="Username"
                                     required>
                                 <input v-model="user.password" type="password" class="form-control"
@@ -47,11 +47,19 @@
 <script setup>
 import axios from 'axios';
 import { reactive } from 'vue';
+import {useAuth} from '../../../Stores/Auth';
+
+const Auth = useAuth();
 
 const user = reactive({
     username: '',
     password: '',
 });
+
+const Login = async() =>{
+    await Auth.Login(user);
+    
+}
 
 // export default {
 //     data() {

@@ -16,8 +16,10 @@ export const useAuth = defineStore('auth-store',()=>{
     const Login = async function(credentials){
         try {
             await axios.get('/sanctum/csrf-cookie');
-            await axios.post('api/login',credentials);
-            return "sukses";
+            await axios.get('api/login');
+
+            // await axios.post('api/login',credentials);
+            console.log(credentials);
         } catch (error) {
             user.value = null;
             console.error('Login gagal',error);
@@ -36,4 +38,7 @@ export const useAuth = defineStore('auth-store',()=>{
         }
     }
 
+    return {
+        Login,
+    }
 });
