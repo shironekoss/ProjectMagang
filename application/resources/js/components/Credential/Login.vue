@@ -1,29 +1,29 @@
 <template>
     <div>
         <div class="login-page">
-            <transition name="fade">
+            <!-- <transition name="fade">
                 <div v-if="!registerActive" class="wallpaper-login"></div>
-            </transition>
+            </transition> -->
             <div class="wallpaper-register"></div>
 
             <div class="container">
                 <div class="row">
                     <div class="col-lg-4 col-md-6 col-sm-8 mx-auto">
-                        <div v-if="!registerActive" class="card login" v-bind:class="{ error: emptyFields }">
+                        <!-- <div v-if="!registerActive" class="card login" v-bind:class="{ error: emptyFields }"> -->
                             <h1>Sign In</h1>
-                            <form class="form-group">
-                                <input v-model="usernameLogin" type="text" class="form-control" placeholder="Username"
+                            <form class="form-group" @submit.prevent="login">
+                                <input v-model="user.username" type="text" class="form-control" placeholder="Username"
                                     required>
-                                <input v-model="passwordLogin" type="password" class="form-control"
+                                <input v-model="user.password" type="password" class="form-control"
                                     placeholder="Password" required>
-                                <input type="submit" class="btn btn-primary" @click="doLogin">
+                                <input type="submit" class="btn btn-primary" >
                                 <p>Don't have an account? <a href="#"
                                         @click="registerActive = !registerActive, emptyFields = false">Sign up here</a>
                                 </p>
                                 <p><a href="#">Forgot your password?</a></p>
                             </form>
-                        </div>
-                        <div v-else class="card register" v-bind:class="{ error: emptyFields }">
+                        <!-- </div> -->
+                        <!-- <div v-else class="card register" v-bind:class="{ error: emptyFields }">
                             <h1>Sign Up</h1>
                             <form class="form-group">
                                 <input v-model="emailReg" type="text" class="form-control" placeholder="Username"
@@ -37,51 +37,55 @@
                                         @click="registerActive = !registerActive, emptyFields = false">Sign in here</a>
                                 </p>
                             </form>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </template>
-<script>
+<script setup>
 import axios from 'axios';
+import { reactive } from 'vue';
 
-export default {
-    data() {
-        return {
-            registerActive: false,
-            usernameLogin: "",
-            passwordLogin: "",
-            emailReg: "",
-            passwordReg: "",
-            confirmReg: "",
-            emptyFields: false
-        }
-    },
-    methods: {
-        async doLogin() {
-            if (this.usernameLogin === "" || this.passwordLogin === "") {
-                this.emptyFields = true;
-            } else {
+const user = reactive({
+    username: '',
+    password: '',
+});
 
-                const{data}=await axios.post('/api/login', {username:this.usernameLogin,password:this.passwordLogin},{withCredentials:true}).then((response) => {
+// export default {
+//     data() {
+//         return {
+//             registerActive: false,
+//             emailReg: "",
+//             passwordReg: "",
+//             confirmReg: "",
+//             emptyFields: false
+//         }
+//     },
+//     methods: {
+//         async doLogin() {
+//             // if (this.usernameLogin === "" || this.passwordLogin === "") {
+//             //     this.emptyFields = true;
+//             // } else {
 
-                });
-                axios.defaults.headers.common['Authorization'] = `Bearer $`
-                alert("You are now logged in");
-            }
-        },
+//             //     const{data}=await axios.post('/api/login', {username:this.usernameLogin,password:this.passwordLogin},{withCredentials:true}).then((response) => {
 
-        doRegister() {
-            if (this.emailReg === "" || this.passwordReg === "" || this.confirmReg === "") {
-                this.emptyFields = true;
-            } else {
-                alert("You are now registered");
-            }
-        }
-    }
-}
+//             //     });
+//             //     axios.defaults.headers.common['Authorization'] = `Bearer $`
+//             //     alert("You are now logged in");
+//             // }
+//         },
+
+//         // doRegister() {
+//         //     if (this.emailReg === "" || this.passwordReg === "" || this.confirmReg === "") {
+//         //         this.emptyFields = true;
+//         //     } else {
+//         //         alert("You are now registered");
+//         //     }
+//         // }
+//     }
+// }
 </script>
 
 <style lang="scss">

@@ -14,7 +14,7 @@ import router from './router/route.js'
 import VueSweetalert2 from 'vue-sweetalert2'
 import Vuetify from '../plugins/vuetify'
 import { createPinia, PiniaVuePlugin } from 'pinia'
-
+import axios from 'axios'
 // If you don't need the styles, do not connect
 import 'sweetalert2/dist/sweetalert2.min.css';
 
@@ -30,7 +30,7 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-
+axios.defaults.withCredentials=true;
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('header-component', require('./components/General/HeaderComponent.vue').default);
 Vue.component('footer-component', require('./components/General/FooterComponent.vue').default);
@@ -43,6 +43,7 @@ Vue.component('latihanbutton', require('./components/Pages/InputNoSPK/SpkInputtr
 Vue.use(VueSweetalert2);
 Vue.use(PiniaVuePlugin);
 const pinia = createPinia()
+
 // const NotFound =require('./components/HandlingError/NotFound.vue').default
 
 

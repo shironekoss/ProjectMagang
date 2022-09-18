@@ -30,6 +30,7 @@ Route::get('accounts',[SettingsController::class,'ambilaccounts']);
 Route::get('products',[ProductController::class,'frontend']);
 Route::get('users/{id}',[SettingsController::class,'show']);
 Route::post('tambahaccount',[SettingsController::class,'addAccount']);
+Route::post('login',[SettingsController::class,'login']);
 
 Route::delete('deleteaccount/{id}',[SettingsController::class,'removeaccount']);
 
