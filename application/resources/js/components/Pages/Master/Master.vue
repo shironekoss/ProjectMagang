@@ -20,10 +20,10 @@
                                     </div>
                                     <div class="col">
                                         <button type="button" :disabled='isActivebagasi' @click="add('modelbagasi')"
-                                        class="btn btn-primary btn-sm">TAMBAH</button>
+                                        class="btn btn-primary">TAMBAH</button>
                                     </div>
                                     <div class="col">
-                                        <button type="button" @click="remove('modelbagasi')" class="btn btn-danger btn-sm">
+                                        <button type="button" @click="remove('modelbagasi')" class="btn btn-danger">
                                             HAPUS
                                         </button>
                                     </div>
@@ -47,10 +47,10 @@
                                     </div>
                                     <div class="col">
                                         <button :disabled='isActivepintu' type="button" @click="add('modelpintu')"
-                                        class="btn btn-primary btn-sm">TAMBAH</button>
+                                        class="btn btn-primary">TAMBAH</button>
                                     </div>
                                     <div class="col">
-                                        <button type="button" @click="remove('modelpintu')" class="btn btn-danger btn-sm">HAPUS
+                                        <button type="button" @click="remove('modelpintu')" class="btn btn-danger">HAPUS
                                         </button>
                                     </div>
                                 </div>
@@ -72,10 +72,10 @@
                                     </div>
                                     <div class="col">
                                         <button type="button" :disabled='isActivebangku' @click="add('modelbangku')"
-                                        class="btn btn-primary btn-sm">TAMBAH</button>
+                                        class="btn btn-primary">TAMBAH</button>
                                     </div>
                                     <div class="col">
-                                        <button type="button" @click="remove('modelbangku')" class="btn btn-danger btn-sm">HAPUS
+                                        <button type="button" @click="remove('modelbangku')" class="btn btn-danger">HAPUS
                                         </button>
                                     </div>
                                 </div>
@@ -98,10 +98,10 @@
                                     </div>
                                     <div class="col">
                                         <button type="button" :disabled='isActivebody' @click="add('modelbody')"
-                                        class="btn btn-primary btn-sm">TAMBAH</button>
+                                        class="btn btn-primary">TAMBAH</button>
                                     </div>
                                     <div class="col">
-                                        <button type="button" @click="remove('modelbody')" class="btn btn-danger btn-sm">HAPUS
+                                        <button type="button" @click="remove('modelbody')" class="btn btn-danger">HAPUS
                                         </button>
                                     </div>
                                 </div>
@@ -116,13 +116,21 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col">Model Trap Tangga</div>
-                            <div class="col-8">
-                                <input type="text" v-model="parameter.modeltangga[0]" class="form-control">
-                                <button type="button" :disabled='isActivetangga' @click="add('modeltraptangga')"
-                                    class="btn btn-primary">TAMBAH</button>
-                                <button type="button" @click="remove('modeltraptangga')" class="btn btn-danger">HAPUS
-                                    </button>
+                            <div class="col"><h5>Model Trap Tangga</h5></div>
+                            <div class="col-9">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <input type="text" v-model="parameter.modeltangga[0]" class="form-control"></input>
+                                    </div>
+                                    <div class="col">
+                                        <button type="button" :disabled='isActivetangga' @click="add('modeltraptangga')" class="btn btn-primary">TAMBAH</button>
+                                    </div>
+                                    <div class="col">
+                                        <button type="button" @click="remove('modeltraptangga')" class="btn btn-danger">HAPUS
+                                        </button>
+                                    </div>
+                                </div>
+
                                 <div v-for="(component, index) in componentstraptangga" :key="index" :id=index
                                     tipe="modeltraptangga">
                                     <div class="col-10">
@@ -133,13 +141,21 @@
                             </div>
                         </div>
                         <div class=" row">
-                            <div class="col">Lampu Belakang</div>
-                            <div class="col-8">
-                                <input type="text" v-model="parameter.modellampubelakang[0]" class="form-control">
-                                <button type="button" :disabled='isActivelampu' @click="add('modellampubelakang')"
-                                    class="btn btn-primary">TAMBAH</button>
-                                <button type="button" @click="remove('modellampubelakang')" class="btn btn-danger">HAPUS
-                                    </button>
+                            <div class="col"><h5>Lampu Belakang</h5></div>
+                            <div class="col-9">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <input type="text" v-model="parameter.modellampubelakang[0]" class="form-control"> </input>
+                                    </div>
+                                    <div class="col">
+                                        <button type="button" :disabled='isActivelampu' @click="add('modellampubelakang')"
+                                        class="btn btn-primary">TAMBAH</button>
+                                    </div>
+                                    <div class="col">
+                                        <button type="button" @click="remove('modellampubelakang')" class="btn btn-danger">HAPUS</button>
+                                    </div>
+                                </div>
+
                                 <div v-for="(component, index) in componentlampubelakang" :key="index" :id=index
                                     tipe="modellampubelakang">
                                     <div class="col-10">
@@ -150,14 +166,14 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col">Stall</div>
-                            <div class="col-8">
+                            <div class="col"><h5>Stall</h5></div>
+                            <div class="col-9">
                                 <input type="text" v-model="parameter.stall" class="form-control">
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col">Kode Kit</div>
-                            <div class="col-8">
+                            <div class="col"><h5>Kode Kit</h5></div>
+                            <div class="col-9">
                                 <input type="text" v-model="kit.kodekit" class="form-control">
                                 <form @submit.prevent="generate" style="float: right; margin-right: 50%;">
                                     <button type="submit" class="btn btn-success">GENERATE</button>
@@ -252,18 +268,6 @@
     </div>
 
 </template>
-<style scoped>
-.row {
-    margin-bottom: 15px;
-}
-
-.panel {
-    flex: 5;
-    height: 100vh;
-    overflow: scroll;
-
-}
-</style>
 
 <script>
 import axios from 'axios'
@@ -649,35 +653,8 @@ export default {
     }
 }
 </script>
-                                                                                                    <style scoped>
-.inputtextparam {
-    width: 200px;
-}
 
-.btn-primary {
-    margin-left: 15px;
-    margin-right: 15px;
-}
-
-.additionalbutton {
-    margin-bottom: 15px;
-    margin-top: 15px;
-}
-
-.newparam {
-    min-width: 100px;
-    max-width: 130px;
-    max-height: 37px;
-}
-
-.numberinput {
-    width: 50px;
-}
-
-.namakomponenbaru {
-    min-width: 300px;
-}
-
+<style>
 .card {
     margin: 0 auto;
     /* Added */
