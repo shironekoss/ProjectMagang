@@ -31,6 +31,7 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 axios.defaults.withCredentials=true;
+axios.defaults.baseURL = 'http://localhost:8000/'
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('header-component', require('./components/General/HeaderComponent.vue').default);
 Vue.component('footer-component', require('./components/General/FooterComponent.vue').default);
@@ -62,7 +63,7 @@ const app = new Vue({
         title: 'Rancangan Program SPK'
     },
     pinia,
-    router,
+    router:router,
 });
 
 import "bootstrap/dist/js/bootstrap.js"

@@ -5,21 +5,13 @@ import { ref } from "vue";
 export const useAuth = defineStore('auth-store',()=>{
     const user = ref(null);
 
-    // const register = async function(crederntial){
-    //     try {
-    //         await.axios.get('/sanctum/csrf-cookie');
-    //     } catch (error) {
-
-    //     }
-    // }
-
-    const Login = async function(credentials){
+    const Login = async function(data){
         try {
             await axios.get('/sanctum/csrf-cookie');
-            await axios.get('api/login');
+            await axios.post('/api/login',data).then((response) => {
+                user.value=response.data.user
+            });
 
-            // await axios.post('api/login',credentials);
-            console.log(credentials);
         } catch (error) {
             user.value = null;
             console.error('Login gagal',error);

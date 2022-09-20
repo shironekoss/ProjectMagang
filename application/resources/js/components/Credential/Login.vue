@@ -45,11 +45,12 @@
     </div>
 </template>
 <script setup>
-import axios from 'axios';
 import { reactive } from 'vue';
 import {useAuth} from '../../../Stores/Auth';
+import router from '../../router/route';
 
 const Auth = useAuth();
+
 
 const user = reactive({
     username: '',
@@ -58,7 +59,7 @@ const user = reactive({
 
 const Login = async() =>{
     await Auth.Login(user);
-    
+    router.push({name:'User'});
 }
 
 // export default {

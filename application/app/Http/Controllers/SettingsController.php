@@ -20,10 +20,7 @@ class SettingsController extends Controller
        return $users;
     }
 
-    public function login(Request $request)
-    {
-        # code...
-    }
+
 
     public function addAccount(Request $request)
     {
