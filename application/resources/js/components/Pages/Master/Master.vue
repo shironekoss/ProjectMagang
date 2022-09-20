@@ -1,7 +1,7 @@
 <template>
 
     <div>
-        <div class="card" style="width: 90rem;">
+        <div class="card" style="width: 95rem;">
             <div class="card-body">
                 <div class="row">
                     <div class="col-6" style="float: left;">
@@ -89,6 +89,26 @@
                                 </div>
                             </div>
                         </div>
+
+
+                        <div class="row">
+                            <div class="col"><h5>Kode Kit</h5></div>
+                            <div class="col-9">
+                                <input type="text" v-model="kit.kodekit" class="form-control">
+                                <form @submit.prevent="generate" style="float: right; margin-right: 50%;">
+                                    <button type="submit" class="btn btn-success">GENERATE</button>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-6" style=" float: right;">
+                        <div class="row">
+                            <div class="col"><h5>Stall</h5></div>
+                            <div class="col-9">
+                                <input type="text" v-model="parameter.stall" class="form-control">
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col"><h5>Model Body</h5></div>
                             <div class="col-9">
@@ -166,54 +186,8 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col"><h5>Stall</h5></div>
+                            <div class="col"><h5>Nama Kit</h5></div>
                             <div class="col-9">
-                                <input type="text" v-model="parameter.stall" class="form-control">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col"><h5>Kode Kit</h5></div>
-                            <div class="col-9">
-                                <input type="text" v-model="kit.kodekit" class="form-control">
-                                <form @submit.prevent="generate" style="float: right; margin-right: 50%;">
-                                    <button type="submit" class="btn btn-success">GENERATE</button>
-                                </form>
-                            </div>
-                        </div>
-                        <hr>
-                        <h3>Additional Parameter</h3>
-                        <button type="button" @click="Tambahkomponen()" class="btn btn-primary additionalbutton">Tambah
-                            Parameter</button>
-                        <button type="button" @click="hapuskomponen()" class="btn btn-primary additionalbutton">Hapus
-                            Komponen</button>
-                        <div v-for="(component, index) in parameter.newparameter" :key="index" :id=index>
-                            <div class="row">
-                                <div class="col">
-                                    <input type="text" v-model="parameter.newparameter[index].newparam"
-                                        class="newparam">
-                                </div>
-                                <div class="col-10">
-                                    <input type="text" v-model="parameter.newparameter[index].components[0]">
-                                    <button type="button" @click="addnewcomponent(index)"
-                                        class="btn btn-primary">Tambah</button>
-                                    <button type="button" @click="removenewcomponen(index)" class="btn btn-danger">hapus
-                                        tambahan</button>
-                                    <div v-for="(component2, index2) in componentsnewparameter[index].components"
-                                        :key="index2" :id=index2>
-                                        <div class="col-10">
-                                            <input type="text"
-                                                v-model="parameter.newparameter[index].components[index2 + 1]"
-                                                class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6" style=" float: right;">
-                        <div class="row">
-                            <div class="col">Nama Kit</div>
-                            <div class="col-8">
                                 <input type="text" v-model="kit.namakit" class="form-control">
                             </div>
                         </div>
@@ -260,6 +234,43 @@
                             </center>
                         </div>
                     </form>
+                </div>
+
+                <div class="row">
+                    <div class="col tengah">
+                        <h3>Additional Parameter</h3>
+                        <button type="button" @click="Tambahkomponen()" class="btn btn-primary additionalbutton">Tambah
+                            Parameter</button>
+                        <button type="button" @click="hapuskomponen()" class="btn btn-primary additionalbutton">Hapus Komponen</button>
+
+                        <div v-for="(component, index) in parameter.newparameter" :key="index" :id=index>
+                            <div class="row">
+                                <div class="col">
+                                    <input type="text" v-model="parameter.newparameter[index].newparam"
+                                        class="newparam">
+                                </div>
+                                <div class="col-10">
+                                    <input type="text" v-model="parameter.newparameter[index].components[0]">
+                                    <button type="button" @click="addnewcomponent(index)"
+                                        class="btn btn-primary">Tambah</button>
+                                    <button type="button" @click="removenewcomponen(index)" class="btn btn-danger">hapus
+                                        tambahan</button>
+                                    <div v-for="(component2, index2) in componentsnewparameter[index].components"
+                                        :key="index2" :id=index2>
+                                        <div class="col-10">
+                                            <input type="text"
+                                                v-model="parameter.newparameter[index].components[index2 + 1]"
+                                                class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
                 </div>
 
             </div>
@@ -662,5 +673,13 @@ export default {
     /* Added */
     margin-bottom: 10px;
     /* Added */
+}
+.col{
+    padding: -30px;
+}
+.tengah{
+    margin: 0 auto;
+    /* Added */
+    float: none;
 }
 </style>
