@@ -675,7 +675,7 @@ export default {
     /* Added */
 }
 .col{
-    padding: -30px;
+    padding: -35px;
 }
 .tengah{
     margin: 0 auto;
