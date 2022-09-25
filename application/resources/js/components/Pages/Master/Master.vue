@@ -245,24 +245,27 @@
 
                         <div v-for="(component, index) in parameter.newparameter" :key="index" :id=index>
                             <div class="row">
-                                <div class="col">
+                                <div class="col-3">
                                     <input type="text" v-model="parameter.newparameter[index].newparam"
-                                        class="newparam">
+                                        class="newparam form-control">
                                 </div>
-                                <div class="col-10">
-                                    <input type="text" v-model="parameter.newparameter[index].components[0]">
-                                    <button type="button" @click="addnewcomponent(index)"
-                                        class="btn btn-primary">Tambah</button>
-                                    <button type="button" @click="removenewcomponen(index)" class="btn btn-danger">hapus
-                                        tambahan</button>
+                                <div class="col-3">
+                                    <input type="text" v-model="parameter.newparameter[index].components[0]" class="form-control">
                                     <div v-for="(component2, index2) in componentsnewparameter[index].components"
                                         :key="index2" :id=index2>
-                                        <div class="col-10">
+                                        <div class="col">
                                             <input type="text"
                                                 v-model="parameter.newparameter[index].components[index2 + 1]"
                                                 class="form-control">
                                         </div>
                                     </div>
+                                </div>
+                                <div class="col-3">
+                                    <button type="button" @click="addnewcomponent(index)"
+                                        class="btn btn-primary">Tambah</button>
+                                    <button type="button" @click="removenewcomponen(index)" class="btn btn-danger">hapus
+                                        tambahan</button>
+
                                 </div>
                             </div>
                         </div>
