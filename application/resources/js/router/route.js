@@ -17,6 +17,7 @@ const Master = require('../components/Pages/Master/Master.vue').default
 const inputadmin = require('../components/Pages/InputComponent/input.vue').default
 const history = require('../components/Pages/InputComponent/History.vue').default
 const Cekresult = require('../components/Pages/InputComponent/ShowResultComponent.vue').default
+const Settings = require('../components/Pages/Settings/Settings.vue').default
 // cara 2
 import NotFound from '../components/HandlingError/NotFound.vue'
 
@@ -82,6 +83,11 @@ const route = [
         name:'Cekresult',
         path:'/Cekresult',
         component: Cekresult
+    },
+    {
+        name:'Settings',
+        path:'/Settings',
+        component: Settings
     },
     {
         path:'*',
