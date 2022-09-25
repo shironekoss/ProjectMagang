@@ -41,16 +41,9 @@
             <v-btn>
                 <router-link :to="{ name: 'Settings' }">Settings</router-link>
             </v-btn>
-            <template v-slot:extension>
-                <v-tabs align-with-title>
-                    <v-tab>Departemen</v-tab>
-
-                    <v-tab>Account</v-tab>
-                </v-tabs>
-            </template>
         </v-app-bar>
         <v-sheet id="scrolling-techniques-2" class="overflow-y-auto" max-height="600">
-            <v-container style="height: 220px;"></v-container>
+            <v-container style="height: 120px;"></v-container>
         </v-sheet>
     </v-card>
 </template>
