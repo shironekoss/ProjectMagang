@@ -24,21 +24,21 @@
             <template v-slot:img="{ props }">
                 <v-img v-bind="props" gradient="to top right, rgba(19,84,122,.5), rgba(128,208,199,.8)"></v-img>
             </template>
-            <v-app-bar-nav-icon>
+            <v-app-bar-nav>
                 <v-toolbar-title>Program SPK</v-toolbar-title>
-            </v-app-bar-nav-icon>
+            </v-app-bar-nav>
 
             <v-spacer></v-spacer>
-            <v-btn icon>
+            <v-btn >
                 <router-link :to="{ name: 'Home' }">Home</router-link>
             </v-btn>
-            <v-btn icon>
+            <v-btn >
                 <router-link :to="{ name: 'Login' }">Login</router-link>
             </v-btn>
-            <v-btn icon>
+            <v-btn >
                 <router-link :to="{ name: 'User' }">User</router-link>
             </v-btn>
-            <v-btn icon>
+            <v-btn>
                 <router-link :to="{ name: 'Settings' }">Settings</router-link>
             </v-btn>
             <template v-slot:extension>
