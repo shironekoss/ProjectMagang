@@ -12,13 +12,23 @@ class LoginAuthController extends Controller
         $listuser = Account::all();
         foreach ($listuser as $user) {
             if($user->account_username == $request->username && $user->account_password == $request->password){
+                $token = $user->createToken('ApiToken')->plainTextToken;
                 return response()->json([
-                    "user"=>$user
+                    'user'=>$user,
+                    'token'=>$token
                 ]);
-                break;
             }
         }
+        return response()->json([
+            null
+        ]);
+    }
 
-
+    public function logout()
+    {
+        auth()->logout();
+        return response()->json([
+            'success'    => true
+        ], 200);
     }
 }

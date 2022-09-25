@@ -4,17 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Jenssegers\Mongodb\Eloquent\Model;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Jenssegers\Mongodb\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 use Laravel\Sanctum\HasApiTokens;
 
 
-class Account extends Model
-{
 
-    use HasFactory;
-    use SoftDeletes;
+class Account extends Authenticatable
+{
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+
     protected $connection = 'mongodb';
     protected $collection = 'accounts';
     // protected $table        = "accounts";
@@ -30,5 +30,13 @@ class Account extends Model
         'account_picture',
         'account_desc',
         'account_active',
+        'api_token'
+    ];
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+    protected $casts = [
+        'email_verified_at' => 'datetime',
     ];
 }

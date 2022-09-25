@@ -16,6 +16,9 @@
 
             </div>
             <div class="nav right">
+                <div>
+
+                </div>
                 <a href="#home" class="nav-link"><span class="nav-link-span"><span class="u-nav">
                             <router-link :to="{ name: 'Home' }">Home</router-link>
                         </span></span></a>
@@ -33,6 +36,12 @@
         </nav>
     </header>
 </template>
+
+
+<script>
+// import { useAuth } from '../../../Stores/Auth';
+// const Auth = useAuth();
+</script>
 
 
 <style lang="scss" scoped >

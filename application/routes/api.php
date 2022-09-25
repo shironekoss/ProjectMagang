@@ -47,7 +47,9 @@ Route::post('admintambahspk',[AdminController::class,'admintambahspk']);
 Route::post('konversikomponen',[AdminController::class,'konversikomponen']);
 Route::delete('hapusdatatable{id}',[AdminController::class,'hapusdatatable']);
 
-Route::post('login',[LoginAuthController::class ,'loginfunction']);
+// Route::post('login',[LoginAuthController::class ,'loginfunction']);
+Route::post('/login', [LoginAuthController::class,'loginfunction']);
+Route::get('/logout', [LoginAuthController::class,'logout']);
 
 // Route::resource('posts', PostController::class)->only([
 //     'destroy', 'show', 'store', 'update'

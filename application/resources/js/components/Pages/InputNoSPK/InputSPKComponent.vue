@@ -371,7 +371,7 @@
                                                                                                             <button type="button" @click="remove">hapus</button>
                                                                                                         </div>
                                                                                                 </div>
-                                                                                                
+
                                                                                             </div>
                                                                                     </div>
 
@@ -401,7 +401,7 @@
                                                                                                             <button type="button" @click="remove">hapus</button>
                                                                                                         </div>
                                                                                                 </div>
-                                                                                                
+
                                                                                             </div>
                                                                                     </div>
 
@@ -469,7 +469,7 @@
                                                                                     </div>
 
                                                                                     <!-- row comment -->
-                                                                                    
+
 
                                                                                         </div>
                                                                                     </div>
@@ -478,7 +478,6 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
 
                                                         </template>
 

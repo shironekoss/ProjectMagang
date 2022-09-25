@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import pinia from '../../Stores/Pinia'
+import {useAuth} from '../../Stores/Auth'
+
 Vue.use(VueRouter)
 
 // cara1
@@ -26,12 +29,18 @@ const route = [
     {
         name:'Login',
         path:'/login',
-        component: Login
+        component: Login,
+        meta:{
+            authPage:true
+        }
     },
     {
         name:'User',
         path:'/user',
         component: User,
+        meta:{
+            requireAuth:true
+        }
     },
     {
         name:'Register',
@@ -80,10 +89,38 @@ const route = [
     }
 ]
 
+
+
 const router = new VueRouter({
     linkActiveClass: 'active',
     mode:'history',
     routes:route
 })
+
+// router.beforeEach((to)=>{
+//     const user = useAuth();
+//     console.log(user)
+// })
+
+
+// router.beforeEach(async(to, from, next)=>{
+//     // if(to.meta.requireAuth){
+//     //     const auth = useAuth(pinia);
+//     //     // const user = await auth.getuser();
+//     //     console.log(auth);
+//     //     next();
+//     //     // if(auth.user){
+//     //     //     next()
+//     //     // }else{
+//     //     //     next({
+//     //     //         name:'Login'
+//     //     //     })
+//     //     // }
+//     // }
+//     // // if(to.meta.authPage){
+//     // //     const auth = useAuth();
+//     // //     await auth.getuser()
+//     // // }
+// })
 
 export default router

@@ -9,16 +9,15 @@ require('./bootstrap');
 
 import "bootstrap/dist/css/bootstrap.css"
 import 'vuetify/dist/vuetify.min.css'
-import Vue from 'vue'
-import router from './router/route.js'
-import VueSweetalert2 from 'vue-sweetalert2'
-import Vuetify from '../plugins/vuetify'
-import { createPinia, PiniaVuePlugin } from 'pinia'
-import axios from 'axios'
+import Vue from 'vue';
+import VueSweetalert2 from 'vue-sweetalert2';
+import Vuetify from '../plugins/vuetify';
+import { createPinia, PiniaVuePlugin } from 'pinia';
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
+import router from './router/route.js';
+import axios from 'axios';
 // If you don't need the styles, do not connect
-import 'sweetalert2/dist/sweetalert2.min.css';
-
-
+// import 'sweetalert2/dist/sweetalert2.min.css';
 
 /**
  * The following block of code may be used to automatically register your
@@ -27,26 +26,21 @@ import 'sweetalert2/dist/sweetalert2.min.css';
  *
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
-
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 axios.defaults.withCredentials=true;
 axios.defaults.baseURL = 'http://localhost:8000/'
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+
 Vue.component('header-component', require('./components/General/HeaderComponent.vue').default);
 Vue.component('footer-component', require('./components/General/FooterComponent.vue').default);
-
-
 
 // untuk latihan
 Vue.component('latihanbutton', require('./components/Pages/InputNoSPK/SpkInputtrigger.vue').default);
 
-Vue.use(VueSweetalert2);
+
 Vue.use(PiniaVuePlugin);
-const pinia = createPinia()
-
+const pinia = createPinia();
+pinia.use(piniaPluginPersistedstate);
+Vue.use(VueSweetalert2);
 // const NotFound =require('./components/HandlingError/NotFound.vue').default
-
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -54,16 +48,14 @@ const pinia = createPinia()
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-
-
 const app = new Vue({
     vuetify:Vuetify,
     el: '#app',
-    data: {
-        title: 'Rancangan Program SPK'
-    },
+    // data: {
+    //     title: 'Rancangan Program SPK'
+    // },
     pinia,
-    router:router,
+    router,
 });
 
-import "bootstrap/dist/js/bootstrap.js"
+

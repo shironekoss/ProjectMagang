@@ -18,9 +18,8 @@
 
 <body>
     <div id="app">
-
         <header-component></header-component>
-        <h3 v-text=" title "></h3>
+        {{-- <h3 v-text=" title "></h3> --}}
         <router-view></router-view>
         <footer-component></footer-component>
     </div>

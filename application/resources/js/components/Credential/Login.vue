@@ -5,23 +5,22 @@
                 <div v-if="!registerActive" class="wallpaper-login"></div>
             </transition> -->
             <div class="wallpaper-register"></div>
-
             <div class="container">
                 <div class="row">
                     <div class="col-lg-4 col-md-6 col-sm-8 mx-auto">
                         <!-- <div v-if="!registerActive" class="card login" v-bind:class="{ error: emptyFields }"> -->
-                            <h1>Sign In</h1>
-                            <form class="form-group" @submit.prevent="Login">
-                                <input v-model="user.username" type="text" class="form-control" placeholder="Username"
-                                    required>
-                                <input v-model="user.password" type="password" class="form-control"
-                                    placeholder="Password" required>
-                                <input type="submit" class="btn btn-primary" >
-                                <p>Don't have an account? <a href="#"
-                                        @click="registerActive = !registerActive, emptyFields = false">Sign up here</a>
-                                </p>
-                                <p><a href="#">Forgot your password?</a></p>
-                            </form>
+                        <h1>Sign In</h1>
+                        <form class="form-group" @submit.prevent="Login">
+                            <input v-model="user.username" type="text" class="form-control" placeholder="Username"
+                                required>
+                            <input v-model="user.password" type="password" class="form-control" placeholder="Password"
+                                required>
+                            <input type="submit" class="btn btn-primary">
+                            <p>Don't have an account? <a href="#"
+                                    @click="registerActive = !registerActive, emptyFields = false">Sign up here</a>
+                            </p>
+                            <p><a href="#">Forgot your password?</a></p>
+                        </form>
                         <!-- </div> -->
                         <!-- <div v-else class="card register" v-bind:class="{ error: emptyFields }">
                             <h1>Sign Up</h1>
@@ -46,22 +45,30 @@
 </template>
 <script setup>
 import { reactive } from 'vue';
-import {useAuth} from '../../../Stores/Auth';
+import { useAuth } from '../../../Stores/Auth';
 import router from '../../router/route';
+import Swal from 'sweetalert2'
 
 const Auth = useAuth();
-
-
 const user = reactive({
     username: '',
     password: '',
 });
 
-const Login = async() =>{
+const Login = async () => {
     await Auth.Login(user);
-    router.push({name:'User'});
+    if (Auth.user == null) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Periksa kembali username dan password anda',
+        })
+    }
+    else {
+        router.push({ name: 'User' });
+    }
 }
-
+//
 // export default {
 //     data() {
 //         return {

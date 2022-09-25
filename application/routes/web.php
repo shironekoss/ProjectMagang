@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\LoginAuthController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SPKController;
+use Illuminate\Auth\Events\Login;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,9 +24,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/testspk',[SPKController::class,'filternospk']);
 Route::get('/latihan',[SPKController::class,'latihan']);
+
 Route::get('/{any}', function () {
     return view('home');
 })->where('any','.*');
 
+
+// Route::middleware('auth:sanctum')->get('/api/user', function (Request $request) {
+//     return $request->user();
+// });
 // Route::get('/post/{slug}', [PostController::class, 'show']);
 
