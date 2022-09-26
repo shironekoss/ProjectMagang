@@ -26,6 +26,10 @@ use Illuminate\Support\Facades\Route;
 // });
 
 // Route::get('users',[SettingsController::class,'ambiluser']);
+
+Route::middleware('auth:sanctum')->get('/api/user', function (Request $request) {
+    return $request->user();
+});
 Route::get('accounts',[SettingsController::class,'ambilaccounts']);
 Route::get('products',[ProductController::class,'frontend']);
 Route::get('users/{id}',[SettingsController::class,'show']);

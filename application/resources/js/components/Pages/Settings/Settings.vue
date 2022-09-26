@@ -1,143 +1,36 @@
 <template>
     <div>
-        <!-- <div class="login-page"> -->
-            <!-- <transition name="fade">
-                <div v-if="!registerActive" class="wallpaper-login"></div>
-            </transition> -->
-            <!-- <div class="wallpaper-register"></div> -->
-            <!-- <div class="container">
-                <div class="row">
-                    <div class="col-lg-4 col-md-6 col-sm-8 mx-auto">
-                        <div v-if="!registerActive" class="card login" v-bind:class="{ error: emptyFields }"> -->
-                        <!-- <h1>Sign In</h1>
-                        <form class="form-group" @submit.prevent="Login">
-                            <input v-model="user.username" type="text" class="form-control" placeholder="Username"
-                                required>
-                            <input v-model="user.password" type="password" class="form-control" placeholder="Password"
-                                required>
-                            <input type="submit" class="btn btn-primary">
-                            <p>Don't have an account? <a href="#"
-                                    @click="registerActive = !registerActive, emptyFields = false">Sign up here</a>
-                            </p>
-                            <p><a href="#">Forgot your password?</a></p>
-                        </form> -->
-                        <!-- </div> -->
-                        <!-- <div v-else class="card register" v-bind:class="{ error: emptyFields }">
-                            <h1>Sign Up</h1>
-                            <form class="form-group">
-                                <input v-model="emailReg" type="text" class="form-control" placeholder="Username"
-                                    required>
-                                <input v-model="passwordReg" type="password" class="form-control" placeholder="Password"
-                                    required>
-                                <input v-model="confirmReg" type="password" class="form-control"
-                                    placeholder="Confirm Password" required>
-                                <input type="submit" class="btn btn-primary" @click="doRegister">
-                                <p>Already have an account? <a href="#"
-                                        @click="registerActive = !registerActive, emptyFields = false">Sign in here</a>
-                                </p>
-                            </form>
-                        </div> -->
-                    <!-- </div>
-                </div>
-            </div>
-        </div> -->
+        <v-row align="center" justify="center">
+            <v-btn-toggle>
+                <v-btn  @click="changetoggle('Account')" :class="[toggleAccount == 'Account' ? 'aa' : 'white']">
+                    <v-icon>Account</v-icon>
+                </v-btn>
+                <v-btn @click="changetoggle('Departemen')" :class="[toggleAccount == 'Departemen' ? 'aa' : 'white']"">
+                    <v-icon>Departemen</v-icon>
+                </v-btn>
+            </v-btn-toggle>
+        </v-row>
     </div>
 </template>
-<script setup>
-// import { reactive } from 'vue';
-// import { useAuth } from '../../../Stores/Auth';
-// import router from '../../router/route';
-// import Swal from 'sweetalert2'
-
-// const Auth = useAuth();
-// const user = reactive({
-//     username: '',
-//     password: '',
-// });
-
-// const Login = async () => {
-//     await Auth.Login(user);
-//     if (Auth.user == null) {
-//         Swal.fire({
-//             icon: 'error',
-//             title: 'Oops...',
-//             text: 'Periksa kembali username dan password anda',
-//         })
-//     }
-//     else {
-//         router.push({ name: 'User' });
-//     }
-// }
-</script>
-
-<style lang="scss">
-p {
-    line-height: 1rem;
+<style>
+.aa {
+    background: rgba(17, 156, 199, 0.8) !important;
 }
-
-.card {
-    padding: 20px;
-}
-
-.form-group {
-    input {
-        margin-bottom: 20px;
-    }
-}
-
-.login-page {
-    align-items: center;
-    display: flex;
-    height: 100vh;
-
-    .fade-enter-active,
-    .fade-leave-active {
-        transition: opacity .5s;
-    }
-
-    .fade-enter,
-    .fade-leave-to {
-        opacity: 0;
-    }
-
-    .wallpaper-register {
-        background: url(https://images.pexels.com/photos/533671/pexels-photo-533671.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260) no-repeat center center;
-        background-size: cover;
-        height: 100%;
-        position: absolute;
-        width: 100%;
-        z-index: -1;
-    }
-
-    h1 {
-        margin-bottom: 1.5rem;
-    }
-}
-
-.error {
-    animation-name: errorShake;
-    animation-duration: 0.3s;
-}
-
-@keyframes errorShake {
-    0% {
-        transform: translateX(-25px);
-    }
-
-    25% {
-        transform: translateX(25px);
-    }
-
-    50% {
-        transform: translateX(-25px);
-    }
-
-    75% {
-        transform: translateX(25px);
-    }
-
-    100% {
-        transform: translateX(0);
-    }
+.white{
+    background: rgba(255,255,255,255) !important;
 }
 </style>
+<script>
+export default {
+    data() {
+        return{
+            toggleAccount:"Account",
+        }
+    },
+    methods:{
+       changetoggle(message){
+        this.toggleAccount=message
+       }
+    }
+}
+</script>

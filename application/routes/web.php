@@ -30,8 +30,6 @@ Route::get('/{any}', function () {
 })->where('any','.*');
 
 
-// Route::middleware('auth:sanctum')->get('/api/user', function (Request $request) {
-//     return $request->user();
-// });
+
 // Route::get('/post/{slug}', [PostController::class, 'show']);
 

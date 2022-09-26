@@ -20,27 +20,27 @@
 <template>
     <v-card class="overflow-hidden">
         <v-app-bar absolute color="#6A76AB" dark shrink-on-scroll prominent src="https://picsum.photos/1920/1080?random"
-            fade-img-on-scroll scroll-target="#scrolling-techniques-3"  >
+            fade-img-on-scroll scroll-target="#scrolling-techniques-3">
             <template v-slot:img="{ props }">
                 <v-img v-bind="props" gradient="to top right, rgba(19,84,122,.5), rgba(128,208,199,.8)"></v-img>
             </template>
-            <v-app-bar-nav>
                 <v-toolbar-title>Program SPK</v-toolbar-title>
-            </v-app-bar-nav>
-
             <v-spacer></v-spacer>
-            <v-btn >
-                <router-link :to="{ name: 'Home' }">Home</router-link>
-            </v-btn>
-            <v-btn >
-                <router-link :to="{ name: 'Login' }">Login</router-link>
-            </v-btn>
-            <v-btn >
-                <router-link :to="{ name: 'User' }">User</router-link>
-            </v-btn>
-            <v-btn>
-                <router-link :to="{ name: 'Settings' }">Settings</router-link>
-            </v-btn>
+            <router-link :to="{ name: 'Login' }">
+                <v-btn>
+                    Login
+                </v-btn>
+            </router-link>
+            <router-link :to="{ name: 'Master' }">
+                <v-btn>
+                    master
+                </v-btn>
+             </router-link>
+            <router-link :to="{ name: 'Settings' }">
+                <v-btn>
+                    Settings
+                </v-btn>
+            </router-link>
         </v-app-bar>
         <v-sheet id="scrolling-techniques-2" class="overflow-y-auto" max-height="600">
             <v-container style="height: 120px;"></v-container>
