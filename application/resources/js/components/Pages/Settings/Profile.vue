@@ -20,7 +20,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="card mt-3">
+                        <div class="card mt-3">
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                     <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -79,7 +79,7 @@
                                     <span class="text-secondary">bootdey</span>
                                 </li>
                             </ul>
-                        </div> -->
+                        </div>
                     </div>
                     <div class="col-md-8">
                         <div class="card mb-3">
@@ -136,13 +136,67 @@
                                 </div>
                                 <hr>
                                 <div class="row">
-                                    <div class="col-sm-12">
-                                        <a class="btn btn-info " target="__blank"
-                                            href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Edit</a>
+                                    <div data-app>
+                                        <v-row justify="center">
+                                            <v-dialog v-model="dialog" persistent max-width="600px">
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-btn color="primary" dark v-bind="attrs" v-on="on">
+                                                        Edit User
+                                                    </v-btn>
+                                                </template>
+                                                <v-card>
+                                                    <v-card-title>
+                                                        <span class="text-h5">User Profile</span>
+                                                    </v-card-title>
+                                                    <v-card-text>
+                                                        <v-container>
+                                                            <v-row>
+                                                                <v-col cols="12" sm="6" md="4">
+                                                                    <v-text-field label="Username*"
+                                                                        v-model="detailuser.account_username" required>
+                                                                    </v-text-field>
+                                                                </v-col>
+                                                                <v-col cols="12">
+                                                                    <v-text-field label="FullName*"
+                                                                        v-model="detailuser.account_name" required>
+                                                                    </v-text-field>
+                                                                </v-col>
+                                                                <v-col cols="12">
+                                                                    <v-text-field label="Password*"
+                                                                        v-model="detailuser.account_password"
+                                                                        type="password" required>
+                                                                    </v-text-field>
+                                                                </v-col>
+                                                                <v-col cols="12" sm="6">
+                                                                    <v-select :items="['0-17', '18-29', '30-54', '54+']"
+                                                                        label="Departemen*" required></v-select>
+                                                                </v-col>
+                                                                <v-col cols="12" sm="6">
+                                                                    <v-select
+                                                                        :items="['SuperAdminRole', 'AdminRole', 'StaffRole']"
+                                                                        label="Role*" required></v-select>
+                                                                </v-col>
+                                                            </v-row>
+                                                        </v-container>
+                                                        <small>*indicates required field</small>
+                                                    </v-card-text>
+                                                    <v-card-actions>
+                                                        <v-spacer></v-spacer>
+                                                        <v-btn color="blue darken-1" text @click="dialog = false">
+                                                            Close
+                                                        </v-btn>
+                                                        <v-btn color="blue darken-1" text @click="dialog = false">
+                                                            Save
+                                                        </v-btn>
+                                                    </v-card-actions>
+                                                </v-card>
+                                            </v-dialog>
+                                        </v-row>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
 
                         <!-- <div class="row gutters-sm">
                             <div class="col-sm-6 mb-3">
@@ -177,8 +231,8 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div> -->
-                            <!-- <div class="col-sm-6 mb-3">
+                            </div>
+                            <div class="col-sm-6 mb-3">
                                 <div class="card h-100">
                                     <div class="card-body">
                                         <h6 class="d-flex align-items-center mb-3"><i
@@ -223,10 +277,10 @@ export default {
     props: ['id'],
     data() {
         return {
+            dialog: false,
             detailuser: {
                 account_privileges: {
-
-                }
+                },
             }
         }
     },
@@ -239,6 +293,6 @@ export default {
                 this.detailuser = response.data
             })
         },
-    }
+    },
 }
 </script>

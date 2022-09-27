@@ -551,13 +551,13 @@
                                                                 font-size: 3em;
                                                             }
 
-                                                            .tabel-data-spk {
+                                                            /* .tabel-data-spk { */
                                                                 /* background-color: lightgreen; */
-                                                            }
+                                                            /* } */
 
-                                                            .button-spk {
+                                                            /* .button-spk { */
                                                                 /* background-color: aqua; */
-                                                            }
+                                                            /* } */
 
                                                             .button-input {
                                                                 width: 70%;
