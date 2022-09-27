@@ -1,4 +1,6 @@
+import { fileURLToPath, URL } from 'url';
 import { defineConfig } from 'vite';
+
 import laravel from 'laravel-vite-plugin';
 
 export default defineConfig({
@@ -8,4 +10,9 @@ export default defineConfig({
             'resources/js/app.js',
         ]),
     ],
+    resolve: {
+        alias: {
+            '@': fileURLToPath(new URL('./resources', import.meta.url))
+        }
+    }
 });

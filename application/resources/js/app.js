@@ -10,12 +10,14 @@ require('./bootstrap');
 import "bootstrap/dist/css/bootstrap.css"
 import 'vuetify/dist/vuetify.min.css'
 import Vue from 'vue';
+import { createPinia, PiniaVuePlugin } from 'pinia';
 import VueSweetalert2 from 'vue-sweetalert2';
 import Vuetify from '../plugins/vuetify';
-import { createPinia, PiniaVuePlugin } from 'pinia';
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
-import router from './router/route.js';
+import router from '../../resources/js/router/route';
 import axios from 'axios';
+// import { fakeBackend } from '../Stores/helpers/fake-backend';
+// fakeBackend();
 // If you don't need the styles, do not connect
 // import 'sweetalert2/dist/sweetalert2.min.css';
 

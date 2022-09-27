@@ -8,8 +8,7 @@ Vue.use(VueRouter)
 // cara1
 const Home = require('../components/Pages/Home/Home.vue').default
 const Login =require('../components/Credential/Login.vue').default
-const User =require('../components/Credential/User.vue').default
-const Userdetail =require('../components/Credential/Profile.vue').default
+const Profile =require('../components/Pages/Settings/Profile.vue').default
 const Register =require('../components/Pages/Register/Register.vue').default
 const InputNoSPK = require('../components/Pages/InputNoSPK/InputSPKComponent.vue').default
 const DaftarSPK = require('../components/Pages/InputNoSPK/DaftarSPK.vue').default
@@ -36,22 +35,14 @@ const route = [
         }
     },
     {
-        name:'User',
-        path:'/user',
-        component: User,
-        meta:{
-            requireAuth:true
-        }
-    },
-    {
         name:'Register',
         path:'/user/create',
         component: Register,
     },
     {
-        name:'Userdetail',
+        name:'Profile',
         path:'/user/:id',
-        component: Userdetail,
+        component: Profile,
         props:true
     },
     {
@@ -102,6 +93,7 @@ const router = new VueRouter({
     mode:'history',
     routes:route
 })
+
 
 // router.beforeEach((to)=>{
 //     const user = useAuth();

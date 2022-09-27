@@ -23,7 +23,7 @@
         <router-view></router-view>
         <footer-component></footer-component>
     </div>
-    <script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('js/app.js') }}"></script>
     <script src="https://unpkg.com/vue"></script>
 {{-- <script src="https://unpkg.com/vue-material"></script> --}}
 </body>

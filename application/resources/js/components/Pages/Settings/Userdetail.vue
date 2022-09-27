@@ -1,12 +1,5 @@
 <template>
     <div>
-        <!-- <div class="container my-5">
-
-            <div class="card" style="max-width:550px">
-                <div class="card-body">
-                    <h5 class="card-title">Daftar User</h5>
-                    <ul class="list-group list-group-light"></ul> -->
-
         <li class="list-group-item d-flex justify-content-between align-items-center">
             <div class="d-flex align-items-center">
                 <div class="lightbox">
@@ -23,15 +16,10 @@
                 </div>
             </div>
             <div class="d-flex flex-row">
-                <a class="btn btn-link btn-rounded btn-sm me-2" href="#" role="button">View</a>
-                <!-- <a class="btn btn-primary btn-rounded btn-sm" href="#" role="button" data-mdb-toggle="modal"
-                                data-mdb-target="#exampleSideModal1"> -->
                 <a class="btn btn-info btn-rounded btn-sm" style="margin-right: 5px;"
                     @click.prevent="lihatuser(account._id)">
                     Edit User
                 </a>
-
-                <!-- <a href="" @click.prevent="lihatuser(user.id)">{{ user.name }}</a> -->
                 <a class="btn btn-danger btn-rounded btn-sm" style="margin-right: 5px;"
                     @click.prevent="accountdelete()">
                     Delete
@@ -63,10 +51,8 @@ export default {
             return "Role : " + this.account.account_privileges.title
         },
         lihatuser(idcari) {
-            // this.$router.push('/user/'+name.toLowerCase())
-            //cara3
             this.$router.push({
-                name: 'Userdetail',
+                name: 'Profile',
                 params: { id: idcari }
             })
         },
