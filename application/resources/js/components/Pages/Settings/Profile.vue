@@ -13,9 +13,6 @@
                                         <h4>{{ detailuser.account_name }}</h4>
                                         <p class="text-secondary mb-1">{{ detailuser.account_privileges.account_dept }}
                                         </p>
-                                        <p class="text-muted font-size-sm">Bay Area, San Francisco, CA</p>
-                                        <button class="btn btn-primary">Follow</button>
-                                        <button class="btn btn-outline-primary">Message</button>
                                     </div>
                                 </div>
                             </div>
@@ -172,7 +169,7 @@
                                                                         label="Departemen*" required></v-select>
                                                                 </v-col>
                                                                 <v-col cols="12" sm="6">
-                                                                    <v-select
+                                                                    <v-select v-model="detailuser.account_privileges.account_dept"
                                                                         :items="['SuperAdminRole', 'AdminRole', 'StaffRole']"
                                                                         label="Role*" required></v-select>
                                                                 </v-col>

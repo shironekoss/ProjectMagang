@@ -1,5 +1,6 @@
 <script>
 import User from './User.vue';
+import Departemen from './Departemen.vue';
 
 export default {
     data() {
@@ -12,7 +13,7 @@ export default {
             this.toggleAccount = message;
         }
     },
-    components: { User }
+    components: { User, Departemen }
 }
 </script>
 <template>
@@ -30,7 +31,7 @@ export default {
                 <User/>
             </div>
             <div v-if="toggleAccount==='Departemen'">
-                
+                <Departemen/>
             </div>
         </v-row>
     </div>
