@@ -57,6 +57,7 @@ const user = reactive({
 
 const Login = async () => {
     await Auth.Login(user);
+    console.log(Auth.user);
     if (Auth.user == null) {
         Swal.fire({
             icon: 'error',
@@ -65,7 +66,7 @@ const Login = async () => {
         })
     }
     else {
-        router.push({ name: 'User' });
+        router.push({ name: 'Setting' });
     }
 }
 //

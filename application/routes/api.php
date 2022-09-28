@@ -37,6 +37,11 @@ Route::post('tambahaccount',[SettingsController::class,'addAccount']);
 
 Route::delete('deleteaccount/{id}',[SettingsController::class,'removeaccount']);
 
+
+//setting departemen
+Route::get('showdepartemen',[SettingsController::class,'showdepartemen']);
+Route::delete('hapusdepartemen{id}',[SettingsController::class,'showdepartemen']);
+
 Route::post('tambahSPK',[SPKController::class,'tambahSPK']);
 Route::get('spklist',[SPKController::class,'spklist']);
 

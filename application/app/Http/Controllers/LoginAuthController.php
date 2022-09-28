@@ -13,10 +13,10 @@ class LoginAuthController extends Controller
         foreach ($listuser as $user) {
             if($user->account_username == $request->username && $user->account_password == $request->password){
                 $token = $user->createToken('ApiToken')->plainTextToken;
-                return response()->json([
+                return response()->json([[
                     'user'=>$user,
                     'token'=>$token
-                ]);
+                ]]);
             }
         }
         return response()->json([

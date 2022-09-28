@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use App\Models\Departemen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -12,12 +13,45 @@ class SettingsController extends Controller
     public function ambilaccounts()
     {
         $users = Account::all();
-       return $users;
+        return $users;
     }
     public function show($id)
     {
         $users = Account::find($id);
-       return $users;
+        return $users;
+    }
+
+    public function showdepartemen()
+    {
+        $departemens = Departemen::all();
+        return response()->json([
+            "statusresponse" => 200,
+            "data"=>$departemens
+        ]);
+    }
+
+    public function hapusdepartemen()
+    {
+        // try {
+        //     $saved = SavedConversionResult::where('_id', $request->id)->first();
+        //     $stall = $saved->stall;
+        //     $nospk = $saved->NOSPK;
+        //     $spk = SPK::where('NOSPK', $nospk)->first();
+        //     $stallused = $spk->StallUsed;
+        //     $stallused[$stall - 1] = false;
+        //     $saved->delete();
+        //     $spk->StallUsed = $stallused;
+        //     $spk->save();
+        //     return response()->json([
+        //         "success" => true,
+        //         "status" => 200,
+        //     ]);
+        // } catch (\Throwable $th) {
+        //     return response()->json([
+        //         "success" => true,
+        //         "status" => 400,
+        //     ]);
+        // }
     }
 
 
@@ -33,15 +67,15 @@ class SettingsController extends Controller
             'departemen' => 'required',
         ]);
 
-        $user =Account::create([
-            "account_username"=>$request->username,
-            "account_name"=>$request->name,
-            "password"=>$request->password,
-            'account_privileges'=>[
+        $user = Account::create([
+            "account_username" => $request->username,
+            "account_name" => $request->name,
+            "password" => $request->password,
+            'account_privileges' => [
                 'title' => $request->role,
                 'account_dept' => $request->departemen,
             ],
-            "account_active"=>false,
+            "account_active" => false,
         ]);
         //cara 2
         // $user = new User();
@@ -50,9 +84,9 @@ class SettingsController extends Controller
         // $user->password = Hash::make($request->password);
         // $user->save();
         return response()->json([
-            "status" =>true,
-            "message" =>'Data user berhasil disimpan',
-            "data"=>$user
+            "status" => true,
+            "message" => 'Data user berhasil disimpan',
+            "data" => $user
         ]);
     }
     public function removeaccount($id)
@@ -60,9 +94,8 @@ class SettingsController extends Controller
         $user = Account::find($id);
         $user->delete();
         return response()->json([
-            'status'=>true,
-            'message'=>'Data user berhasil dihapus',
+            'status' => true,
+            'message' => 'Data user berhasil dihapus',
         ]);
     }
 }
-

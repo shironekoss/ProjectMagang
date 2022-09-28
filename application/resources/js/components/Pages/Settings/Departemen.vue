@@ -1,28 +1,21 @@
 <template>
     <div>
         <v-app>
-            <div style=" position: absolute; inset: 0; z-index: 0;" @click="modal = false"></div>
-            <v-container style="z-index: 1;">
-                <v-row dense>
-                    <v-col cols="12" sm="6" md="5">
-                        <button class="btn btn-primary" @click="tambah()"> TAMBAH</button>
-                        <button class="btn" style="background-color: yellow;" @click="cek()">CEK</button>
-                    </v-col>
-                </v-row>
-            </v-container>
             <div v-if="datatable">
                 <v-data-table dense :headers="headerstable" :items="datatable" :items-per-page="10"
                     class="elevation-1 font-weight-bold">
                     <template v-slot:top>
                         <v-toolbar flat>
-                            <v-toolbar-title>List Terdaftar</v-toolbar-title>
+                                <v-toolbar-title>Daftar Departemen
+                                </v-toolbar-title>
+                                <button class="btn btn-primary" @click="tambah()"> TAMBAH</button>
                         </v-toolbar>
                         <v-dialog v-model="dialogDelete" max-width="500px">
                             <v-card>
                                 <v-card-title class="text-h5">Yakin Mau Menghapus Item ini ?</v-card-title>
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
-                                    <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
+                                    <v-btn color="blue darken-1" text @click="closeDialogDelete">Cancel</v-btn>
                                     <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
                                     <v-spacer></v-spacer>
                                 </v-card-actions>
@@ -43,58 +36,41 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            listspk: [],
+            listdepartemen: [],
             datatable: [],
-            filteredStates: [],
-            states: [],
-            state: '',
-            modal: false,
-            kode: '',
-            max: 0,
-            min: 0,
-            stall: 0,
-            dialogDelete: false,
-            editedIndex: -1,
             headerstable: [
-                {
-                    text: 'NO SPK',
-                    align: 'start',
-                    sortable: false,
-                    value: 'NOSPK',
-                    class: "title text-uppercase font-weight-black black--text light-blue lighten-5"
-                },
-                { text: 'Stall', value: 'stall', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
-                { text: 'Kode', value: 'kode', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
-                { text: 'Status', value: 'status', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
-                { text: 'Last Update', value: 'updated_at', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Nama Departemen', value: 'Nama_Departemen', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Jumlah Account', value: 'Jumlah_account', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Action', value: 'actions', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
             ],
+            dialogDelete: false,
         }
     },
     mounted() {
-        this.getlistspk();
-        this.getdatatable();
+        this.getlistdepartemen();
+        // this.getdatatable();
     },
     watch: {
-        state() {
-            this.filterstates();
-        },
+        // state() {
+        //     this.filterstates();
+        // },
         dialogDelete(val) {
-            val || this.closeDelete()
+            val || this.closeDialogDelete()
         },
     },
     methods: {
-        getlistspk() {
-            axios.get('/api/listspkshow').then((response) => {
-                this.listspk = []
-                this.listspk = response.data
-                this.listspk.forEach(element => {
-                    this.states.push(element.NOSPK)
-                });
-                this.filterstates();
+        getlistdepartemen() {
+            axios.get('/api/showdepartemen').then((response) => {
+                this.listdepartemen = []
+                this.listdepartemen = response.data
+                this.datatable = response.data.data
+                // this.listspk.forEach(element => {
+                //     this.states.push(element.NOSPK)
+                // });
+                // this.filterstates();
             })
         },
-        closeDelete() {
+        closeDialogDelete() {
             this.dialogDelete = false
             this.$nextTick(() => {
                 this.editedIndex = -1
@@ -106,123 +82,153 @@ export default {
         },
         deleteItemConfirm() {
             var datahapus = this.datatable[this.editedIndex]
-            axios.delete('/api/hapusdatatable' + datahapus["_id"]).then((response) => {
-                if (response.data.status == 200) {
-                    this.$swal({
-                        title: 'Sukses Hapus Data',
-                        icon: 'success'
-                    });
-                    this.getdatatable();
-                }else if(response.data.status == 400){
-                    this.$swal({
-                        title: 'Gagal Hapus Data',
-                        icon: 'error'
-                    });
-                }
-            })
-            this.closeDelete()
+            console.log(datahapus)
+            // axios.delete('/api/hapusdatatable' + datahapus["_id"]).then((response) => {
+            //     if (response.data.status == 200) {
+            //         this.$swal({
+            //             title: 'Sukses Hapus Data',
+            //             icon: 'success'
+            //         });
+            //         this.getdatatable();
+            //     } else if (response.data.status == 400) {
+            //         this.$swal({
+            //             title: 'Gagal Hapus Data',
+            //             icon: 'error'
+            //         });
+            //     }
+            // })
+            this.closeDialogDelete()
         },
-        async getdatatable() {
-            await axios.get('/api/getdatatable').then((response) => {
-                this.datatable = []
-                this.datatable = response.data.reverse()
-                var i = 0;
-            })
-        },
-        pindahhistory() {
-            this.$router.push({
-                name: 'History'
-            })
-        },
-        hapus(index) {
-            axios.post('/api/hapusspkshow', index).then((response) => {
-            });
-        },
-        filterstates() {
-            if (this.state.length == 0) {
-                this.filteredStates = this.states;
-            }
-            this.filteredStates = this.states.filter(state => {
-                return state.toLowerCase().startsWith(this.state.toLowerCase());
-            });
-            this.getkode(this.state)
-            this.getmaxvalue(this.state)
-        },
-        setstate(state) {
-            this.state = state;
-            this.modal = false;
-        },
-        tambah() {
-            axios.post('/api/admintambahspk', { nospk: this.state, stall: this.stall, kode: this.kode }).then((response) => {
-                if (response.data.status == 400) {
-                    this.$swal({
-                        title: 'pengisian SPK tidak Valid',
-                        icon: 'error'
-                    });
-                } else if (response.data.status == 401) {
-                    this.$swal({
-                        title: 'SPK sudah dimasukkan ke list',
-                        icon: 'error'
-                    });
-                } else if (response.data.status == 200) {
-                    this.$swal({
-                        title: 'sukses menambahkan ',
-                        icon: 'sucess'
-                    });
-                    this.getdatatable();
-                }
-            });
-        },
-        cek() {
-            if(this.datatable.length<=0){
-                this.$swal({
-                    title: 'tidak ada SPK yang mau dicek, mohon input dulu',
-                    icon: 'error'
-                });
-            }
-            else{
-                axios.post('/api/konversikomponen').then((response) => {
-                if (response.data.status == 200) {
-                    console.log(response.data)
-                    this.getdatatable()
-                    this.$router.push({
-                    name: 'Cekresult',
-                    params:{data:response.data.result}
-                     })
-                }
+        // },
+        // closeDelete() {
+        //     this.dialogDelete = false
+        //     this.$nextTick(() => {
+        //         this.editedIndex = -1
+        //     })
+        // },
+        // deleteItem(item) {
+        //     this.editedIndex = this.datatable.indexOf(item)
+        //     this.dialogDelete = true
+        // },
+        // deleteItemConfirm() {
+        //     var datahapus = this.datatable[this.editedIndex]
+        //     axios.delete('/api/hapusdatatable' + datahapus["_id"]).then((response) => {
+        //         if (response.data.status == 200) {
+        //             this.$swal({
+        //                 title: 'Sukses Hapus Data',
+        //                 icon: 'success'
+        //             });
+        //             this.getdatatable();
+        //         }else if(response.data.status == 400){
+        //             this.$swal({
+        //                 title: 'Gagal Hapus Data',
+        //                 icon: 'error'
+        //             });
+        //         }
+        //     })
+        //     this.closeDelete()
+        // },
+        // async getdatatable() {
+        //     await axios.get('/api/getdatatable').then((response) => {
+        //         this.datatable = []
+        //         this.datatable = response.data.reverse()
+        //         var i = 0;
+        //     })
+        // },
+        // pindahhistory() {
+        //     this.$router.push({
+        //         name: 'History'
+        //     })
+        // },
+        // hapus(index) {
+        //     axios.post('/api/hapusspkshow', index).then((response) => {
+        //     });
+        // },
+        // filterstates() {
+        //     if (this.state.length == 0) {
+        //         this.filteredStates = this.states;
+        //     }
+        //     this.filteredStates = this.states.filter(state => {
+        //         return state.toLowerCase().startsWith(this.state.toLowerCase());
+        //     });
+        //     this.getkode(this.state)
+        //     this.getmaxvalue(this.state)
+        // },
+        // setstate(state) {
+        //     this.state = state;
+        //     this.modal = false;
+        // },
+        // tambah() {
+        //     axios.post('/api/admintambahspk', { nospk: this.state, stall: this.stall, kode: this.kode }).then((response) => {
+        //         if (response.data.status == 400) {
+        //             this.$swal({
+        //                 title: 'pengisian SPK tidak Valid',
+        //                 icon: 'error'
+        //             });
+        //         } else if (response.data.status == 401) {
+        //             this.$swal({
+        //                 title: 'SPK sudah dimasukkan ke list',
+        //                 icon: 'error'
+        //             });
+        //         } else if (response.data.status == 200) {
+        //             this.$swal({
+        //                 title: 'sukses menambahkan ',
+        //                 icon: 'sucess'
+        //             });
+        //             this.getdatatable();
+        //         }
+        //     });
+        // },
+        // cek() {
+        //     if(this.datatable.length<=0){
+        //         this.$swal({
+        //             title: 'tidak ada SPK yang mau dicek, mohon input dulu',
+        //             icon: 'error'
+        //         });
+        //     }
+        //     else{
+        //         axios.post('/api/konversikomponen').then((response) => {
+        //         if (response.data.status == 200) {
+        //             console.log(response.data)
+        //             this.getdatatable()
+        //             this.$router.push({
+        //             name: 'Cekresult',
+        //             params:{data:response.data.result}
+        //              })
+        //         }
 
-            });
-            }
-        },
-        getkode(state) {
-            axios.post('/api/getkode', { maudikode: state }).then((response) => {
-                if (response.data.status == 200) {
-                    this.kode = response.data.hasil
-                } else if (response.data.status == 400) {
-                    this.kode = ''
-                }
-            });
-        },
-        getmaxvalue(state) {
-            axios.post('/api/ambilmax', { kode: state }).then((response) => {
-                if (response.data.status == 200) {
-                    this.max = response.data.hasil
-                    this.min = 1
-                    this.stall = 1
-                } else if (response.data.status == 400) {
-                    this.max = 0
-                    this.min = 0
-                    this.stall = 0
-                } else if (response.data.status == 401) {
-                    this.$swal({
-                        title: 'SPK dengan Stall ini sudah terdaftar',
-                        icon: 'error'
-                    });
-                }
-            });
-        }
+        //     });
+        //     }
+        // },
+        // getkode(state) {
+        //     axios.post('/api/getkode', { maudikode: state }).then((response) => {
+        //         if (response.data.status == 200) {
+        //             this.kode = response.data.hasil
+        //         } else if (response.data.status == 400) {
+        //             this.kode = ''
+        //         }
+        //     });
+        // },
+        // getmaxvalue(state) {
+        //     axios.post('/api/ambilmax', { kode: state }).then((response) => {
+        //         if (response.data.status == 200) {
+        //             this.max = response.data.hasil
+        //             this.min = 1
+        //             this.stall = 1
+        //         } else if (response.data.status == 400) {
+        //             this.max = 0
+        //             this.min = 0
+        //             this.stall = 0
+        //         } else if (response.data.status == 401) {
+        //             this.$swal({
+        //                 title: 'SPK dengan Stall ini sudah terdaftar',
+        //                 icon: 'error'
+        //             });
+        //         }
+        //     });
     }
 }
 </script>
 <style>
+
 </style>
