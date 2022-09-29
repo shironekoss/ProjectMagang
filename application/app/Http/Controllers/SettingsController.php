@@ -26,9 +26,38 @@ class SettingsController extends Controller
         $departemens = Departemen::all();
         return response()->json([
             "statusresponse" => 200,
-            "data"=>$departemens
+            "data" => $departemens
         ]);
     }
+    public function adddepartemen(Request $request)
+    {
+        if ($request->namadepartemen == null) {
+            return response()->json([
+                "statusresponse" => 400,
+                "data" => $request->namadepartemen,
+                "message"=>"Inputan nama departemen kosong"
+            ]);
+        }
+        $departemens = Departemen::all();
+        foreach($departemens as $departemen){
+            if( strtolower($departemen->Nama_Departemen)== strtolower($request->namadepartemen)){
+                return response()->json([
+                    "statusresponse" => 400,
+                    "data" => $request->namadepartemen,
+                    "message"=>"Nama departemen sudah terdaftar"
+                ]);
+            }
+        }
+        $newdept = Departemen::create([
+            'Nama_Departemen'=> ucwords($request->namadepartemen),
+            'Jumlah_account'=> 0,
+        ]);
+        return response()->json([
+            "statusresponse" => 200,
+            "message"=>"Berhasil menambahkan departemen ".  ucwords($request->namadepartemen)
+        ]);
+    }
+
 
     public function hapusdepartemen()
     {
