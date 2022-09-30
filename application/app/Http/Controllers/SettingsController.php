@@ -31,56 +31,68 @@ class SettingsController extends Controller
     }
     public function adddepartemen(Request $request)
     {
-        if ($request->namadepartemen == null) {
-            return response()->json([
-                "statusresponse" => 400,
-                "data" => $request->namadepartemen,
-                "message"=>"Inputan nama departemen kosong"
-            ]);
-        }
-        $departemens = Departemen::all();
-        foreach($departemens as $departemen){
-            if( strtolower($departemen->Nama_Departemen)== strtolower($request->namadepartemen)){
+        try {
+            if ($request->namadepartemen == null) {
                 return response()->json([
                     "statusresponse" => 400,
                     "data" => $request->namadepartemen,
-                    "message"=>"Nama departemen sudah terdaftar"
+                    "message" => "Inputan nama departemen kosong"
                 ]);
             }
+            $departemens = Departemen::all();
+            foreach ($departemens as $departemen) {
+                if (strtolower($departemen->Nama_Departemen) == strtolower($request->namadepartemen)) {
+                    return response()->json([
+                        "statusresponse" => 400,
+                        "data" => $request->namadepartemen,
+                        "message" => "Nama departemen sudah terdaftar"
+                    ]);
+                }
+            }
+            $newdept = Departemen::create([
+                'Nama_Departemen' => ucwords($request->namadepartemen),
+                'Jumlah_account' => 0,
+            ]);
+            return response()->json([
+                "statusresponse" => 200,
+                "message" => "Berhasil menambahkan departemen " .  ucwords($request->namadepartemen)
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                "statusresponse" => 400,
+                "message" => "Fitur Menambahkan gagal"
+            ]);
         }
-        $newdept = Departemen::create([
-            'Nama_Departemen'=> ucwords($request->namadepartemen),
-            'Jumlah_account'=> 0,
-        ]);
-        return response()->json([
-            "statusresponse" => 200,
-            "message"=>"Berhasil menambahkan departemen ".  ucwords($request->namadepartemen)
-        ]);
     }
 
 
-    public function hapusdepartemen()
+    public function hapusdepartemen(Request $request)
     {
-        // try {
-        //     $saved = SavedConversionResult::where('_id', $request->id)->first();
-        //     $stall = $saved->stall;
-        //     $nospk = $saved->NOSPK;
-        //     $spk = SPK::where('NOSPK', $nospk)->first();
-        //     $stallused = $spk->StallUsed;
-        //     $stallused[$stall - 1] = false;
-        //     $saved->delete();
-        //     $spk->StallUsed = $stallused;
-        //     $spk->save();
-        //     return response()->json([
-        //         "success" => true,
-        //         "status" => 200,
-        //     ]);
-        // } catch (\Throwable $th) {
-        //     return response()->json([
-        //         "success" => true,
-        //         "status" => 400,
-        //     ]);
-        // }
+        try {
+            $hapusdepartemen = Departemen::where('_id', $request->id)->first();
+            if($hapusdepartemen->Jumlah_account>0){
+                return response()->json([
+                    "statusresponse" => 400,
+                    "message" => "Hapus Gagal, Terdapat ".$hapusdepartemen->Jumlah_account. " akun yang terdaftar pada departemen"
+                ]);
+            }
+            else{
+                $hapusdepartemen->delete();
+                return response()->json([
+                    "statusresponse" => 200,
+                    'message' => $hapusdepartemen->Nama_Departemen . " Berhasil dihapus",
+                ]);
+            }
+            return response()->json([
+                "statusresponse" => 200,
+                "message" => $hapusdepartemen
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                "statusresponse" => 400,
+                "message" => "Fitur Menambahkan gagal"
+            ]);
+        }
     }
 
 
