@@ -143,7 +143,7 @@
                                                 </template>
                                                 <v-card>
                                                     <v-card-title>
-                                                        <span class="text-h5">User Profile</span>
+                                                        <span class="text-h5">Edit User Profile</span>
                                                     </v-card-title>
                                                     <v-card-text>
                                                         <v-container>
@@ -165,13 +165,16 @@
                                                                     </v-text-field>
                                                                 </v-col>
                                                                 <v-col cols="12" sm="6">
-                                                                    <v-select :items="['0-17', '18-29', '30-54', '54+']"
-                                                                        label="Departemen*" required></v-select>
+                                                                    <v-select :items="listdept" label="Departemen*"
+                                                                        item-text="text" item-value="value"
+                                                                        v-model="detailuser.account_privileges.account_dept"
+                                                                        required outlined></v-select>
                                                                 </v-col>
                                                                 <v-col cols="12" sm="6">
-                                                                    <v-select v-model="detailuser.account_privileges.account_dept"
-                                                                        :items="['SuperAdminRole', 'AdminRole', 'StaffRole']"
-                                                                        label="Role*" required></v-select>
+                                                                    <v-select :items="listrole" label="Role*"
+                                                                        item-text="text" item-value="value"
+                                                                        v-model="detailuser.account_privileges.title"
+                                                                        required outlined></v-select>
                                                                 </v-col>
                                                             </v-row>
                                                         </v-container>
@@ -179,10 +182,10 @@
                                                     </v-card-text>
                                                     <v-card-actions>
                                                         <v-spacer></v-spacer>
-                                                        <v-btn color="blue darken-1" text @click="dialog = false">
+                                                        <v-btn color="blue darken-1" text @click="closedialog">
                                                             Close
                                                         </v-btn>
-                                                        <v-btn color="blue darken-1" text @click="dialog = false">
+                                                        <v-btn color="blue darken-1" text @click="closedialog">
                                                             Save
                                                         </v-btn>
                                                     </v-card-actions>
@@ -274,15 +277,21 @@ export default {
     props: ['id'],
     data() {
         return {
+            defaultSelected: "Departemen Paneling",
             dialog: false,
             detailuser: {
                 account_privileges: {
                 },
-            }
+            },
+            listdept: [],
+            listrole: [{text: "Super Admin Role",value: "Super_Admin_role",},
+            {text: "Admin Role",value: "Admin_Role",},
+            {text: "Staff Role",value: "Staff_Role",},]
         }
     },
     mounted() {
-        this.getUser()
+        this.getUser(),
+            this.getlistdepartemen()
     },
     methods: {
         getUser() {
@@ -290,6 +299,15 @@ export default {
                 this.detailuser = response.data
             })
         },
+        getlistdepartemen() {
+            axios.get('/api/listdepartemen').then((response) => {
+                this.listdept = response.data.data
+            })
+        },
+        closedialog(){
+            this.dialog=false
+            this.getUser()
+        }
     },
 }
 </script>

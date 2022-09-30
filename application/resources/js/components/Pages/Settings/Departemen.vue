@@ -96,7 +96,6 @@ export default {
             })
         },
         addDepartemen() {
-            // console.log(this.namaDepartemen)
             axios.post('/api/adddepartemen', { namadepartemen: this.namaDepartemen }).then((response) => {
                 this.closeDialogTambah()
                 if (response.data.statusresponse == 400) {

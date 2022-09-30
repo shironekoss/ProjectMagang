@@ -29,6 +29,24 @@ class SettingsController extends Controller
             "data" => $departemens
         ]);
     }
+
+    public function getlistdepartemen()
+    {
+        $listdept = Departemen::pluck('Nama_Departemen')->all();
+        $result=[];
+        foreach ($listdept as $dept) {
+            $isiresult = (object) array(
+                'text' => $dept,
+                'value'=>$dept
+            );
+            array_push($result,$isiresult);
+        }
+        return response()->json([
+            "statusresponse" => 200,
+            "data" => $result
+        ]);
+    }
+
     public function adddepartemen(Request $request)
     {
         try {

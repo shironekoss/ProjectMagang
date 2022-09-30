@@ -25,7 +25,7 @@ class AccountSeeder extends Seeder
                 'account_password' => "elfan",
                 'account_privileges' => [
                     'title' => "Super_Admin_role",
-                    'account_dept' => "SPK Dept",
+                    'account_dept' => "Departemen Other",
                 ],
                 'account_active' => true,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
@@ -37,7 +37,7 @@ class AccountSeeder extends Seeder
                 'account_password' => "felis",
                 'account_privileges' => [
                     'title' => "Admin_role",
-                    'account_dept' => "SPK Dept",
+                    'account_dept' => "Departemen Other",
                 ],
                 'account_active' => true,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
@@ -49,7 +49,7 @@ class AccountSeeder extends Seeder
                 'account_password' => "charles",
                 'account_privileges' => [
                     'title' => "Staff_role",
-                    'account_dept' => "SPK Dept",
+                    'account_dept' => "Departemen Other",
                 ],
                 'account_active' => true,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
