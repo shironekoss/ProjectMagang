@@ -24,7 +24,7 @@ class AccountSeeder extends Seeder
                 'account_name' => "elfan",
                 'account_password' => "elfan",
                 'account_privileges' => [
-                    'title' => "Super_Admin_role",
+                    'title' => "Super Admin Role",
                     'account_dept' => "Departemen Other",
                 ],
                 'account_active' => true,
@@ -36,7 +36,7 @@ class AccountSeeder extends Seeder
                 'account_name' => "felis",
                 'account_password' => "felis",
                 'account_privileges' => [
-                    'title' => "Admin_role",
+                    'title' => "Admin Role",
                     'account_dept' => "Departemen Other",
                 ],
                 'account_active' => true,
@@ -48,7 +48,7 @@ class AccountSeeder extends Seeder
                 'account_name' => "charles",
                 'account_password' => "charles",
                 'account_privileges' => [
-                    'title' => "Staff_role",
+                    'title' => "Staff Role",
                     'account_dept' => "Departemen Other",
                 ],
                 'account_active' => true,
@@ -60,7 +60,7 @@ class AccountSeeder extends Seeder
                 'account_name' => "Heru",
                 'account_password' => "12345678",
                 'account_privileges' => [
-                    'title' => "Admin",
+                    'title' => "Admin Role",
                     'account_dept' => "Departemen Body Welding",
                 ],
                 'account_active' => true,
@@ -72,7 +72,7 @@ class AccountSeeder extends Seeder
                 'account_name' => "Heru",
                 'account_password' => "12345678",
                 'account_privileges' => [
-                    'title' => "Admin",
+                    'title' => "Admin Role",
                     'account_dept' => "Departemen Subassy Minibus",
                 ],
                 'account_active' => true,
@@ -84,7 +84,7 @@ class AccountSeeder extends Seeder
                 'account_name' => "Yohanes",
                 'account_password' => "12345678",
                 'account_privileges' => [
-                    'title' => "Admin",
+                    'title' => "Admin Role",
                     'account_dept' => "Departemen Subassy Bus",
                 ],
                 'account_active' => true,
@@ -96,7 +96,7 @@ class AccountSeeder extends Seeder
                 'account_name' => "Adit",
                 'account_password' => "12345678",
                 'account_privileges' => [
-                    'title' => "Admin",
+                    'title' => "Admin Role",
                     'account_dept' => "Departemen Paneling",
                 ],
                 'account_active' => true,
@@ -108,7 +108,7 @@ class AccountSeeder extends Seeder
                 'account_name' => "Adit",
                 'account_password' => "12345678",
                 'account_privileges' => [
-                    'title' => "Admin",
+                    'title' => "Admin Role",
                     'account_dept' => "Departemen Rangka Bus",
                 ],
                 'account_active' => true,
@@ -120,7 +120,7 @@ class AccountSeeder extends Seeder
                 'account_name' => "Adit",
                 'account_password' => "12345678",
                 'account_privileges' => [
-                    'title' => "Admin",
+                    'title' => "Admin Role",
                     'account_dept' => "Departemen Trimming Mini bus",
                 ],
                 'account_active' => true,
@@ -132,7 +132,7 @@ class AccountSeeder extends Seeder
                 'account_name' => "Denny",
                 'account_password' => "12345678",
                 'account_privileges' => [
-                    'title' => "Admin",
+                    'title' => "Admin Role",
                     'account_dept' => "Departemen Trimming Bus",
                 ],
                 'account_active' => true,

@@ -33,13 +33,13 @@ class SettingsController extends Controller
     public function getlistdepartemen()
     {
         $listdept = Departemen::pluck('Nama_Departemen')->all();
-        $result=[];
+        $result = [];
         foreach ($listdept as $dept) {
             $isiresult = (object) array(
                 'text' => $dept,
-                'value'=>$dept
+                'value' => $dept
             );
-            array_push($result,$isiresult);
+            array_push($result, $isiresult);
         }
         return response()->json([
             "statusresponse" => 200,
@@ -88,13 +88,12 @@ class SettingsController extends Controller
     {
         try {
             $hapusdepartemen = Departemen::where('_id', $request->id)->first();
-            if($hapusdepartemen->Jumlah_account>0){
+            if ($hapusdepartemen->Jumlah_account > 0) {
                 return response()->json([
                     "statusresponse" => 400,
-                    "message" => "Hapus Gagal, Terdapat ".$hapusdepartemen->Jumlah_account. " akun yang terdaftar pada departemen"
+                    "message" => "Hapus Gagal, Terdapat " . $hapusdepartemen->Jumlah_account . " akun yang terdaftar pada departemen"
                 ]);
-            }
-            else{
+            } else {
                 $hapusdepartemen->delete();
                 return response()->json([
                     "statusresponse" => 200,
@@ -113,7 +112,27 @@ class SettingsController extends Controller
         }
     }
 
+    public function saveuser(Request $request)
+    {
+        $validated = $request->validate([
+            'account_username' => 'required|min:5|max:20',
+            'account_name' => 'required|min:5|max:20',
+            'account_password' => 'required|min:5|max:20',
+        ]);
 
+
+        try {
+            return response()->json([
+                "statusresponse" => 200,
+                "message" => $request->account_name
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                "statusresponse" => 400,
+                "message" => "Fitur update user gagal"
+            ]);
+        }
+    }
 
     public function addAccount(Request $request)
     {
@@ -121,7 +140,7 @@ class SettingsController extends Controller
         $validated = $request->validate([
             'username' => 'required|min:5|max:20|unique:App\Models\Account,account_username',
             'name' => 'required|min:4|max:20',
-            'password' => 'required|confirmed|min:8|max:20',
+            'password' => 'required|confirmed|min:4|max:20',
             'role' => 'required',
             'departemen' => 'required',
         ]);

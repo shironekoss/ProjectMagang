@@ -150,18 +150,20 @@
                                                             <v-row>
                                                                 <v-col cols="12" sm="6" md="4">
                                                                     <v-text-field label="Username*"
-                                                                        v-model="detailuser.account_username" required>
+                                                                        v-model="detailuser.account_username"
+                                                                        :rules="usernameRules" color="blue" required>
                                                                     </v-text-field>
                                                                 </v-col>
                                                                 <v-col cols="12">
                                                                     <v-text-field label="FullName*"
-                                                                        v-model="detailuser.account_name" required>
+                                                                        v-model="detailuser.account_name"
+                                                                        :rules="fullnameRules" required>
                                                                     </v-text-field>
                                                                 </v-col>
                                                                 <v-col cols="12">
                                                                     <v-text-field label="Password*"
                                                                         v-model="detailuser.account_password"
-                                                                        type="password" required>
+                                                                        :rules="passwordRules" type="password" required>
                                                                     </v-text-field>
                                                                 </v-col>
                                                                 <v-col cols="12" sm="6">
@@ -185,7 +187,7 @@
                                                         <v-btn color="blue darken-1" text @click="closedialog">
                                                             Close
                                                         </v-btn>
-                                                        <v-btn color="blue darken-1" text @click="closedialog">
+                                                        <v-btn color="blue darken-1" text @click="saveuser">
                                                             Save
                                                         </v-btn>
                                                     </v-card-actions>
@@ -196,8 +198,6 @@
                                 </div>
                             </div>
                         </div>
-
-
                         <!-- <div class="row gutters-sm">
                             <div class="col-sm-6 mb-3">
                                 <div class="card h-100">
@@ -284,9 +284,26 @@ export default {
                 },
             },
             listdept: [],
-            listrole: [{text: "Super Admin Role",value: "Super_Admin_role",},
-            {text: "Admin Role",value: "Admin_Role",},
-            {text: "Staff Role",value: "Staff_Role",},]
+            listrole: [{ text: "Super Admin Role", value: "Super_Admin_role", },
+            { text: "Admin Role", value: "Admin_Role", },
+            { text: "Staff Role", value: "Staff_Role", },],
+            //rules
+            usernameRules: [
+                v => !!v || 'Username is required',
+                v => v.length <= 20 || 'username must be less than 20 characters',
+                v => v.length > 3 || 'username must be more than 4 characters',
+            ],
+            fullnameRules: [
+                v => !!v || 'Name is required',
+                v => v.length <= 20 || 'Name must be less than 20 characters',
+                v => v.length > 3 || 'Name must be more than 4 characters',
+            ],
+            passwordRules: [
+                v => !!v || 'Password is required',
+                v => v.length <= 20 || 'password  length must be less than 20 ',
+                v => v.length >= 5 || 'password length must be more than 4',
+            ],
+            errors: {}
         }
     },
     mounted() {
@@ -304,10 +321,40 @@ export default {
                 this.listdept = response.data.data
             })
         },
-        closedialog(){
-            this.dialog=false
+        closedialog() {
+            this.dialog = false
+            this.errors = {}
             this.getUser()
+        },
+        saveuser() {
+            axios.post('/api/saveuser', this.detailuser).then((response) => {
+                console.log(response)
+                this.dialog = false
+            }).catch((error) => {
+                this.errors = error.response.data.errors
+                let text = ""
+                if(this.errors.account_username){
+                    text= text + '<li>'+ this.errors.account_username +'</li>'
+                }
+                if(this.errors.account_name){
+                    text= text + '<li>'+ this.errors.account_name +'</li>'
+                }
+                if(this.errors.account_password){
+                    text= text + '<li>'+ this.errors.account_password +'</li>'
+                }
+                this.$swal({
+                    title: "Terdapat Kesalahan pengisian form",
+                    html: '<ol>'+ text +'</ol>',
+                    icon: 'error'
+                });
+            })
         }
     },
 }
 </script>
+
+<style scoped>
+.text-green input {
+    color: green !important;
+}
+</style>
