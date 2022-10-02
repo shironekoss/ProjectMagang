@@ -18,57 +18,28 @@
                         </div> -->
                         <div class="row">
                             <div class="col">
-                                <h5>Kode Mobil</h5>
-                            </div>
-                            <div class="col-9">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <input type="text" v-model="parameter.modelbagasi[0]" class="form-control">
-                                    </div>
-                                    <div class="col">
-                                        <button type="button" :disabled='isActivebagasi' @click="add('modelbagasi')"
-                                            class="btn btn-primary">TAMBAH</button>
-                                    </div>
-                                    <div class="col">
-                                        <button type="button" @click="remove('modelbagasi')" class="btn btn-danger">
-                                            HAPUS
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div v-for="(component, index) in componentsbagasi" :key="index" :id=index
-                                    tipe="modelbagasi">
-                                    <div class="col-10">
-                                        <input type="text" v-model="parameter.modelbagasi[index + 1]" required
-                                            class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
                                 <h5>Tipe Mobil</h5>
                             </div>
                             <div class="col-9">
                                 <div class="row">
                                     <div class="col-6">
-                                        <input type="text" v-model="parameter.modelbagasi[0]" class="form-control">
+                                        <input type="text" v-model="Parameter.TipeMobil[0]" class="form-control">
                                     </div>
                                     <div class="col">
-                                        <button type="button" :disabled='isActivebagasi' @click="add('modelbagasi')"
+                                        <button type="button" :disabled='isActiveTipeMobil' @click="add('TipeMobil')"
                                             class="btn btn-primary">TAMBAH</button>
                                     </div>
                                     <div class="col">
-                                        <button type="button" @click="remove('modelbagasi')" class="btn btn-danger">
+                                        <button type="button" @click="remove('TipeMobil')" class="btn btn-danger">
                                             HAPUS
                                         </button>
                                     </div>
                                 </div>
 
-                                <div v-for="(component, index) in componentsbagasi" :key="index" :id=index
-                                    tipe="modelbagasi">
+                                <div v-for="(component, index) in ComponentTambahanTipeMobil" :key="index" :id=index
+                                    tipe="TipeMobil">
                                     <div class="col-10">
-                                        <input type="text" v-model="parameter.modelbagasi[index + 1]" required
+                                        <input type="text" v-model="Parameter.TipeMobil[index + 1]" required
                                             class="form-control">
                                     </div>
                                 </div>
@@ -76,29 +47,31 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <h5>Departemen</h5>
+                                <h5>Model Mobil</h5>
                             </div>
                             <div class="col-9">
                                 <div class="row">
                                     <div class="col-6">
-                                        <input type="text" v-model="parameter.modelpintu[0]" class="form-control">
+                                        <input type="text" v-model="Parameter.ModelMobil[0]" class="form-control">
                                     </div>
                                     <div class="col">
-                                        <button :disabled='isActivepintu' type="button" @click="add('modelpintu')"
+                                        <button type="button" :disabled='isActiveModelMobil' @click="add('ModelMobil')"
                                             class="btn btn-primary">TAMBAH</button>
                                     </div>
                                     <div class="col">
-                                        <button type="button" @click="remove('modelpintu')" class="btn btn-danger">HAPUS
+                                        <button type="button" @click="remove('ModelMobil')" class="btn btn-danger">
+                                            HAPUS
                                         </button>
                                     </div>
                                 </div>
-                                <component v-for="(component, index) in componentspintu" :key="index" :id=index
-                                    tipe="modelpintu">
+
+                                <div v-for="(component, index) in ComponentTambahanModelMobil" :key="index" :id=index
+                                    tipe="modelbagasi">
                                     <div class="col-10">
-                                        <input type="text" v-model="parameter.modelpintu[index + 1]" required
+                                        <input type="text" v-model="Parameter.ModelMobil[index + 1]" required
                                             class="form-control">
                                     </div>
-                                </component>
+                                </div>
                             </div>
                         </div>
                         <div class="row">
@@ -108,7 +81,7 @@
                             <div class="col-9">
                                 <div class="row">
                                     <div class="col-6">
-                                        <input type="text" v-model="parameter.modelbangku[0]" class="form-control">
+                                        <input type="text" v-model="Parameter.TinggiMobil[0]" class="form-control">
                                     </div>
                                     <div class="col">
                                         <button type="button" :disabled='isActivebangku' @click="add('modelbangku')"
@@ -121,13 +94,40 @@
                                     </div>
                                 </div>
 
-                                <div v-for="(component, index) in componentsbangku" :key="index" :id=index
+                                <!-- <div v-for="(component, index) in componentsbangku" :key="index" :id=index
                                     tipe="modelbangku">
                                     <div class="col-10">
                                         <input type="text" v-model="parameter.modelbangku[index + 1]" required
                                             class="form-control">
                                     </div>
+                                </div> -->
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <h5>Departemen</h5>
+                            </div>
+                            <div class="col-9">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <input type="text" v-model="Parameter.Departemen[0]" class="form-control">
+                                    </div>
+                                    <div class="col">
+                                        <button :disabled='isActivepintu' type="button" @click="add('modelpintu')"
+                                            class="btn btn-primary">TAMBAH</button>
+                                    </div>
+                                    <div class="col">
+                                        <button type="button" @click="remove('modelpintu')" class="btn btn-danger">HAPUS
+                                        </button>
+                                    </div>
                                 </div>
+                                <!-- <component v-for="(component, index) in componentspintu" :key="index" :id=index
+                                    tipe="modelpintu">
+                                    <div class="col-10">
+                                        <input type="text" v-model="parameter.modelpintu[index + 1]" required
+                                            class="form-control">
+                                    </div>
+                                </component> -->
                             </div>
                         </div>
                         <div class="row">
@@ -137,7 +137,7 @@
                             <div class="col-9">
                                 <div class="row">
                                     <div class="col-6">
-                                        <input type="text" v-model="parameter.modelbagasi[0]" class="form-control">
+                                        <input type="text" v-model="Parameter.Stock[0]" class="form-control">
                                     </div>
                                     <div class="col">
                                         <button type="button" :disabled='isActivebagasi' @click="add('modelbagasi')"
@@ -149,162 +149,13 @@
                                         </button>
                                     </div>
                                 </div>
-                                <div v-for="(component, index) in componentsbagasi" :key="index" :id=index
+                                <!-- <div v-for="(component, index) in componentsbagasi" :key="index" :id=index
                                     tipe="modelbagasi">
                                     <div class="col-10">
                                         <input type="text" v-model="parameter.modelbagasi[index + 1]" required
                                             class="form-control">
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6" style=" float: right;">
-                        <div class="row">
-                            <div class="col">
-                                <h5>Kode Kit</h5>
-                            </div>
-                            <div class="col-9">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <input type="text" v-model="parameter.modelbangku[0]" class="form-control">
-                                    </div>
-                                    <div class="col">
-                                        <button type="button" :disabled='isActivebangku' @click="add('modelbangku')"
-                                            class="btn btn-primary">Generate</button>
-                                    </div>
-                                </div>
-
-                                <div v-for="(component, index) in componentsbangku" :key="index" :id=index
-                                    tipe="modelbangku">
-                                    <div class="col-10">
-                                        <input type="text" v-model="parameter.modelbangku[index + 1]" required
-                                            class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- <div class="row">
-                            <div class="col"><h5>Stall</h5></div>
-                            <div class="col-9">
-                                <input type="text" v-model="parameter.stall" class="form-control">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col"><h5>Model Body</h5></div>
-                            <div class="col-9">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <input type="text" v-model="parameter.modelbody[0]" class="form-control">
-                                    </div>
-                                    <div class="col">
-                                        <button type="button" :disabled='isActivebody' @click="add('modelbody')"
-                                        class="btn btn-primary">TAMBAH</button>
-                                    </div>
-                                    <div class="col">
-                                        <button type="button" @click="remove('modelbody')" class="btn btn-danger">HAPUS
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div v-for="(component, index) in componentsbody" :key="index" :id=index
-                                    tipe="modelbody">
-                                    <div class="col-10">
-                                        <input type="text" v-model="parameter.modelbody[index + 1]" required
-                                            class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col"><h5>Model Trap Tangga</h5></div>
-                            <div class="col-9">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <input type="text" v-model="parameter.modeltangga[0]" class="form-control">
-                                    </div>
-                                    <div class="col">
-                                        <button type="button" :disabled='isActivetangga' @click="add('modeltraptangga')" class="btn btn-primary">TAMBAH</button>
-                                    </div>
-                                    <div class="col">
-                                        <button type="button" @click="remove('modeltraptangga')" class="btn btn-danger">HAPUS
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div v-for="(component, index) in componentstraptangga" :key="index" :id=index
-                                    tipe="modeltraptangga">
-                                    <div class="col-10">
-                                        <input type="text" v-model="parameter.modeltangga[index + 1]" required
-                                            class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class=" row">
-                            <div class="col"><h5>Lampu Belakang</h5></div>
-                            <div class="col-9">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <input type="text" v-model="parameter.modellampubelakang[0]" class="form-control">
-                                    </div>
-                                    <div class="col">
-                                        <button type="button" :disabled='isActivelampu' @click="add('modellampubelakang')"
-                                        class="btn btn-primary">TAMBAH</button>
-                                    </div>
-                                    <div class="col">
-                                        <button type="button" @click="remove('modellampubelakang')" class="btn btn-danger">HAPUS</button>
-                                    </div>
-                                </div>
-
-                                <div v-for="(component, index) in componentlampubelakang" :key="index" :id=index
-                                    tipe="modellampubelakang">
-                                    <div class="col-10">
-                                        <input type="text" v-model="parameter.modellampubelakang[index + 1]" required
-                                            class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col"><h5>Nama Kit</h5></div>
-                            <div class="col-9">
-                                <input type="text" v-model="kit.namakit" class="form-control">
-                            </div>
-                        </div> -->
-                        <button type="button" @click="tambahresultkomponen()" class="btn btn-primary">Tambah
-                            Komponen</button>
-                        <br>
-                        <!-- <button type="button" @click="hapusresultkomponen()" class="btn btn-danger">Hapus Komponen</button><br> -->
-                        <div v-for="(component, index) in kit.result" :key="index" :id=index>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            Nama Komponen
-                                            <input type="text" v-model="kit.result[index].nama_komponen"
-                                                class="form-control">
-                                        </div>
-
-                                        <div class="col">
-                                            QTY :
-                                            <input type="number" v-model="kit.result[index].qty" class="form-control">
-                                        </div>
-
-                                        <div class="col">
-                                            dari Rak :
-                                            <input type="number" v-model="kit.result[index].darirak"
-                                                class="form-control" min="0">
-                                        </div>
-
-                                        <div class="col">
-                                            ke rak :
-                                            <input type="number" v-model="kit.result[index].kerak" class="form-control"
-                                                min="0">
-                                        </div>
-
-                                    </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -326,7 +177,7 @@
                         <button type="button" @click="hapuskomponen()" class="btn btn-primary additionalbutton">Hapus
                             Komponen</button>
 
-                        <div v-for="(component, index) in parameter.newparameter" :key="index" :id=index>
+                        <div v-for="(component, index) in Parameter.newparameter" :key="index" :id=index>
                             <div class="row">
                                 <div class="col-3">
                                     <input type="text" v-model="parameter.newparameter[index].newparam"
@@ -354,12 +205,7 @@
                             </div>
                         </div>
                     </div>
-
-
-
-
                 </div>
-
             </div>
         </div>
 
@@ -394,23 +240,26 @@ export default {
             isActivebody: true,
             isActivetangga: true,
             isActivelampu: true,
+
+            isActiveTipeMobil: true,
+            isActiveModelMobil: true,
+            isActiveTinggiMobil: true,
+            isActiveDepartemen: true,
+            isActiveStock: true,
+            ComponentTambahanTipeMobil: [],
+            ComponentTambahanModelMobil: [],
+
             componentsbagasi: [],
-            componentspintu: [],
-            componentsbangku: [],
-            componentsbody: [],
-            componentstraptangga: [],
-            componentlampubelakang: [],
-            componentsnewparameter: [],
-            parameter: {
-                kodemobil: "",
-                modelbagasi: [],
-                modelpintu: [],
-                modelbangku: [],
-                modelbody: [],
-                modeltangga: [],
-                modellampubelakang: [],
+
+
+            Parameter: {
+                TipeMobil: [],
+                ModelMobil: [],
+                TinggiMobil: [],
+                Departemen: [],
+                Stock: [],
+
                 newparameter: [],
-                stall: "",
             },
             kit: {
                 kodekit: "",
@@ -420,137 +269,54 @@ export default {
         }
     },
     watch: {
-        'parameter.modelbagasi': function () {
-            let sama = 0
-            this
-                .parameter
-                .modelbagasi
-                .forEach(element => {
+        'Parameter.TipeMobil': function () {
+            if (this.Parameter.TipeMobil.length == 0) {
+                return this.isActiveTipeMobil = true
+            } else {
+                let sama = 0
+                this.Parameter.TipeMobil.forEach(element => {
                     if (element == "") {
-                        sama++;
+                        sama++
                     }
                 });
-            if (sama == 0) {
-                return this.isActivebagasi = false
-            } else {
-                return this.isActivebagasi = true
+                if (sama == 0) {
+                    return this.isActiveTipeMobil = false
+                } else {
+                    return this.isActiveTipeMobil = true
+                }
             }
         },
-        'parameter.modelpintu': function () {
-            let sama = 0
-            this
-                .parameter
-                .modelpintu
-                .forEach(element => {
+        'Parameter.ModelMobil': function () {
+            if (this.Parameter.ModelMobil.length == 0) {
+                return this.isActiveModelMobil = true
+            } else {
+                let sama = 0
+                this.Parameter.ModelMobil.forEach(element => {
+                    console.log(element)
                     if (element == "") {
-                        sama++;
+                        sama++
                     }
                 });
-            if (sama == 0) {
-                return this.isActivepintu = false
-            } else {
-                return this.isActivepintu = true
-            }
-        },
-        'parameter.modelbangku': function () {
-            let sama = 0
-            this
-                .parameter
-                .modelbangku
-                .forEach(element => {
-                    if (element == "") {
-                        sama++;
-                    }
-                });
-            if (sama == 0) {
-                return this.isActivebangku = false
-            } else {
-                return this.isActivebangku = true
-            }
-        },
-        'parameter.modelbody': function () {
-            let sama = 0
-            this
-                .parameter
-                .modelbody
-                .forEach(element => {
-                    if (element == "") {
-                        sama++;
-                    }
-                });
-            if (sama == 0) {
-                return this.isActivebody = false
-            } else {
-                return this.isActivebody = true
-            }
-        },
-        'parameter.modeltangga': function () {
-            let sama = 0
-            this
-                .parameter
-                .modeltangga
-                .forEach(element => {
-                    if (element == "") {
-                        sama++;
-                    }
-                });
-            if (sama == 0) {
-                return this.isActivetangga = false
-            } else {
-                return this.isActivetangga = true
-            }
-        },
-        'parameter.modellampubelakang': function () {
-            let sama = 0
-            this
-                .parameter
-                .modellampubelakang
-                .forEach(element => {
-                    if (element == "") {
-                        sama++;
-                    }
-                });
-            if (sama == 0) {
-                return this.isActivelampu = false
-            } else {
-                return this.isActivelampu = true
+                if (sama == 0) {
+                    return this.isActiveModelMobil = false
+                } else {
+                    return this.isActiveModelMobil = true
+                }
             }
         }
     },
 
     methods: {
-
         add(param) {
-            if (param == 'modelbagasi') {
-                this
-                    .componentsbagasi
-                    .push(Componentnewfield)
+            if (param == 'TipeMobil') {
+                this.ComponentTambahanTipeMobil.push('true')
+                this.Parameter.TipeMobil.push("")
                 this.isActivebagasi = true
-            } else if (param == 'modelpintu') {
-                this
-                    .componentspintu
-                    .push(Componentnewfield)
-                this.isActivepintu = true
-            } else if (param == 'modelbangku') {
-                this
-                    .componentsbangku
-                    .push(Componentnewfield)
-                this.isActivebangku = true
-            } else if (param == 'modelbody') {
-                this
-                    .componentsbody
-                    .push(Componentnewfield)
-                this.isActivebody = true
-            } else if (param == 'modeltraptangga') {
-                this
-                    .componentstraptangga
-                    .push(Componentnewfield)
-                this.isActivetangga = true
-            } else if (param == 'modellampubelakang') {
-                this
-                    .componentlampubelakang
-                    .push(Componentnewfield)
-                this.isActivelampu = true
+            }
+            if (param == 'ModelMobil') {
+                this.ComponentTambahanModelMobil.push('true')
+                this.Parameter.ModelMobil.push("")
+                this.isActiveModelMobil = true
             }
         },
         Tambahkomponen() {
@@ -614,65 +380,13 @@ export default {
                 .splice(-1, 1);
         },
         remove(tipe) {
-            if (tipe == 'modelbagasi') {
-                this
-                    .componentsbagasi
-                    .splice(-1, 1);
-                this
-                    .parameter
-                    .modelbagasi
-                    .splice(-1, 1);
-                this.isActivebagasi = true
+            if (tipe == 'TipeMobil') {
+                this.ComponentTambahanTipeMobil.splice(-1, 1)
+                this.Parameter.TipeMobil.splice(-1, 1)
             }
-            if (tipe == 'modelpintu') {
-                this
-                    .componentspintu
-                    .splice(-1, 1);
-                this
-                    .parameter
-                    .modelpintu
-                    .splice(-1, 1);
-                this.isActivepintu = true
-            }
-            if (tipe == 'modelbangku') {
-                this
-                    .componentsbangku
-                    .splice(-1, 1);
-                this
-                    .parameter
-                    .modelbangku
-                    .splice(-1, 1);
-                this.isActivebangku = true
-            }
-            if (tipe == 'modelbody') {
-                this
-                    .componentsbody
-                    .splice(-1, 1);
-                this
-                    .parameter
-                    .modelbody
-                    .splice(-1, 1);
-                this.isActivebody = true
-            }
-            if (tipe == 'modeltraptangga') {
-                this
-                    .componentstraptangga
-                    .splice(-1, 1);
-                this
-                    .parameter
-                    .modeltangga
-                    .splice(-1, 1);
-                this.isActivetangga = true
-            }
-            if (tipe == 'modellampubelakang') {
-                this
-                    .componentlampubelakang
-                    .splice(-1, 1);
-                this
-                    .parameter
-                    .modellampubelakang
-                    .splice(-1, 1);
-                this.isActivelampu = true
+            if (tipe == 'ModelMobil') {
+                this.ComponentTambahanModelMobil.splice(-1, 1)
+                this.Parameter.ModelMobil.splice(-1, 1)
             }
         },
         handleSubmit() {
