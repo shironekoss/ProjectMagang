@@ -35,10 +35,9 @@
                                         </button>
                                     </div>
                                 </div>
-
                                 <div v-for="(component, index) in ComponentTambahanTipeMobil" :key="index" :id=index
-                                    tipe="TipeMobil">
-                                    <div class="col-10">
+                                    tipe="TipeMobil" class="row">
+                                    <div class="col-6">
                                         <input type="text" v-model="Parameter.TipeMobil[index + 1]" required
                                             class="form-control">
                                     </div>
@@ -66,8 +65,8 @@
                                 </div>
 
                                 <div v-for="(component, index) in ComponentTambahanModelMobil" :key="index" :id=index
-                                    tipe="modelbagasi">
-                                    <div class="col-10">
+                                    tipe="ModelMobil" class="row">
+                                    <div class="col-6">
                                         <input type="text" v-model="Parameter.ModelMobil[index + 1]" required
                                             class="form-control">
                                     </div>
@@ -84,23 +83,22 @@
                                         <input type="text" v-model="Parameter.TinggiMobil[0]" class="form-control">
                                     </div>
                                     <div class="col">
-                                        <button type="button" :disabled='isActivebangku' @click="add('modelbangku')"
-                                            class="btn btn-primary">TAMBAH</button>
+                                        <button type="button" :disabled='isActiveTinggiMobil'
+                                            @click="add('TinggiMobil')" class="btn btn-primary">TAMBAH</button>
                                     </div>
                                     <div class="col">
-                                        <button type="button" @click="remove('modelbangku')"
+                                        <button type="button" @click="remove('TinggiMobil')"
                                             class="btn btn-danger">HAPUS
                                         </button>
                                     </div>
                                 </div>
-
-                                <!-- <div v-for="(component, index) in componentsbangku" :key="index" :id=index
-                                    tipe="modelbangku">
-                                    <div class="col-10">
-                                        <input type="text" v-model="parameter.modelbangku[index + 1]" required
+                                <div v-for="(component, index) in ComponentTambahanTinggiMobil" :key="index" :id=index
+                                    tipe="TinggiMobil" class="row">
+                                    <div class="col-6">
+                                        <input type="text" v-model="Parameter.TinggiMobil[index + 1]" required
                                             class="form-control">
                                     </div>
-                                </div> -->
+                                </div>
                             </div>
                         </div>
                         <div class="row">
@@ -113,21 +111,21 @@
                                         <input type="text" v-model="Parameter.Departemen[0]" class="form-control">
                                     </div>
                                     <div class="col">
-                                        <button :disabled='isActivepintu' type="button" @click="add('modelpintu')"
+                                        <button type="button" :disabled='isActiveDepartemen' @click="add('Departemen')"
                                             class="btn btn-primary">TAMBAH</button>
                                     </div>
                                     <div class="col">
-                                        <button type="button" @click="remove('modelpintu')" class="btn btn-danger">HAPUS
+                                        <button type="button" @click="remove('Departemen')" class="btn btn-danger">HAPUS
                                         </button>
                                     </div>
                                 </div>
-                                <!-- <component v-for="(component, index) in componentspintu" :key="index" :id=index
-                                    tipe="modelpintu">
-                                    <div class="col-10">
-                                        <input type="text" v-model="parameter.modelpintu[index + 1]" required
+                                <div v-for="(component, index) in ComponentTambahanDepartemen" :key="index" :id=index
+                                    tipe="Departemen" class="row">
+                                    <div class="col-6">
+                                        <input type="text" v-model="Parameter.Departemen[index + 1]" required
                                             class="form-control">
                                     </div>
-                                </component> -->
+                                </div>
                             </div>
                         </div>
                         <div class="row">
@@ -140,25 +138,85 @@
                                         <input type="text" v-model="Parameter.Stock[0]" class="form-control">
                                     </div>
                                     <div class="col">
-                                        <button type="button" :disabled='isActivebagasi' @click="add('modelbagasi')"
+                                        <button type="button" :disabled='isActiveStock' @click="add('Stock')"
                                             class="btn btn-primary">TAMBAH</button>
                                     </div>
                                     <div class="col">
-                                        <button type="button" @click="remove('modelbagasi')" class="btn btn-danger">
-                                            HAPUS
+                                        <button type="button" @click="remove('Stock')" class="btn btn-danger">HAPUS
                                         </button>
                                     </div>
                                 </div>
-                                <!-- <div v-for="(component, index) in componentsbagasi" :key="index" :id=index
-                                    tipe="modelbagasi">
-                                    <div class="col-10">
-                                        <input type="text" v-model="parameter.modelbagasi[index + 1]" required
+                                <div v-for="(component, index) in ComponentTambahanStock" :key="index" :id=index
+                                    tipe="Stock" class="row">
+                                    <div class="col-6">
+                                        <input type="text" v-model="Parameter.Stock[index + 1]" required
                                             class="form-control">
                                     </div>
-                                </div> -->
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <!-- <div class="col-6" style=" float: right;">
+                        <div class="row">
+                            <div class="col">
+                                <h5>Kode Kit</h5>
+                            </div>
+                            <div class="col-9">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <input type="text" v-model="parameter.modelbangku[0]" class="form-control">
+                                    </div>
+                                    <div class="col">
+                                        <button type="button" :disabled='isActivebangku' @click="add('modelbangku')"
+                                            class="btn btn-primary">Generate</button>
+                                    </div>
+                                </div>
+
+                                <div v-for="(component, index) in componentsbangku" :key="index" :id=index
+                                    tipe="modelbangku">
+                                    <div class="col-10">
+                                        <input type="text" v-model="parameter.modelbangku[index + 1]" required
+                                            class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" @click="tambahresultkomponen()" class="btn btn-primary">Tambah
+                            Komponen</button>
+                        <br> -->
+                    <!-- <button type="button" @click="hapusresultkomponen()" class="btn btn-danger">Hapus Komponen</button><br> -->
+                    <!-- <div v-for="(component, index) in kit.result" :key="index" :id=index>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            Nama Komponen
+                                            <input type="text" v-model="kit.result[index].nama_komponen"
+                                                class="form-control">
+                                        </div>
+
+                                        <div class="col">
+                                            QTY :
+                                            <input type="number" v-model="kit.result[index].qty" class="form-control">
+                                        </div>
+
+                                        <div class="col">
+                                            dari Rak :
+                                            <input type="number" v-model="kit.result[index].darirak"
+                                                class="form-control" min="0">
+                                        </div>
+
+                                        <div class="col">
+                                            ke rak :
+                                            <input type="number" v-model="kit.result[index].kerak" class="form-control"
+                                                min="0">
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
                     <form @submit.prevent="handleSubmit">
                         <div class="row">
                             <center>
@@ -176,7 +234,6 @@
                             Parameter</button>
                         <button type="button" @click="hapuskomponen()" class="btn btn-primary additionalbutton">Hapus
                             Komponen</button>
-
                         <div v-for="(component, index) in Parameter.newparameter" :key="index" :id=index>
                             <div class="row">
                                 <div class="col-3">
@@ -200,7 +257,6 @@
                                         class="btn btn-primary">Tambah</button>
                                     <button type="button" @click="removenewcomponen(index)" class="btn btn-danger">hapus
                                         tambahan</button>
-
                                 </div>
                             </div>
                         </div>
@@ -248,9 +304,9 @@ export default {
             isActiveStock: true,
             ComponentTambahanTipeMobil: [],
             ComponentTambahanModelMobil: [],
-
-            componentsbagasi: [],
-
+            ComponentTambahanTinggiMobil: [],
+            ComponentTambahanDepartemen: [],
+            ComponentTambahanStock: [],
 
             Parameter: {
                 TipeMobil: [],
@@ -292,7 +348,6 @@ export default {
             } else {
                 let sama = 0
                 this.Parameter.ModelMobil.forEach(element => {
-                    console.log(element)
                     if (element == "") {
                         sama++
                     }
@@ -303,6 +358,57 @@ export default {
                     return this.isActiveModelMobil = true
                 }
             }
+        },
+        'Parameter.TinggiMobil': function () {
+            if (this.Parameter.TinggiMobil.length == 0) {
+                return this.isActiveTinggiMobil = true
+            } else {
+                let sama = 0
+                this.Parameter.TinggiMobil.forEach(element => {
+                    if (element == "") {
+                        sama++
+                    }
+                });
+                if (sama == 0) {
+                    return this.isActiveTinggiMobil = false
+                } else {
+                    return this.isActiveTinggiMobil = true
+                }
+            }
+        },
+        'Parameter.Departemen': function () {
+            if (this.Parameter.Departemen.length == 0) {
+                return this.isActiveDepartemen = true
+            } else {
+                let sama = 0
+                this.Parameter.Departemen.forEach(element => {
+                    if (element == "") {
+                        sama++
+                    }
+                });
+                if (sama == 0) {
+                    return this.isActiveDepartemen = false
+                } else {
+                    return this.isActiveDepartemen = true
+                }
+            }
+        },
+        'Parameter.Stock': function () {
+            if (this.Parameter.Stock.length == 0) {
+                return this.isActiveStock = true
+            } else {
+                let sama = 0
+                this.Parameter.Stock.forEach(element => {
+                    if (element == "") {
+                        sama++
+                    }
+                });
+                if (sama == 0) {
+                    return this.isActiveStock = false
+                } else {
+                    return this.isActiveStock = true
+                }
+            }
         }
     },
 
@@ -311,14 +417,24 @@ export default {
             if (param == 'TipeMobil') {
                 this.ComponentTambahanTipeMobil.push('true')
                 this.Parameter.TipeMobil.push("")
-                this.isActivebagasi = true
-            }
-            if (param == 'ModelMobil') {
+            } else if (param == 'ModelMobil') {
                 this.ComponentTambahanModelMobil.push('true')
                 this.Parameter.ModelMobil.push("")
-                this.isActiveModelMobil = true
+            } else if (param == 'TinggiMobil') {
+                this.ComponentTambahanTinggiMobil.push('true')
+                this.Parameter.TinggiMobil.push("")
+            } else if (param == 'Departemen') {
+                this.ComponentTambahanDepartemen.push('true')
+                this.Parameter.Departemen.push("")
+            } else if (param == 'Stock') {
+                this.ComponentTambahanStock.push('true')
+                this.Parameter.Stock.push("")
             }
+
         },
+
+
+
         Tambahkomponen() {
             let objnewparam = {
                 newparam: "",
@@ -387,6 +503,18 @@ export default {
             if (tipe == 'ModelMobil') {
                 this.ComponentTambahanModelMobil.splice(-1, 1)
                 this.Parameter.ModelMobil.splice(-1, 1)
+            }
+            if (tipe == 'TinggiMobil') {
+                this.ComponentTambahanTinggiMobil.splice(-1, 1)
+                this.Parameter.TinggiMobil.splice(-1, 1)
+            }
+            if (tipe == 'Departemen') {
+                this.ComponentTambahanDepartemen.splice(-1, 1)
+                this.Parameter.Departemen.splice(-1, 1)
+            }
+            if (tipe == 'Stock') {
+                this.ComponentTambahanStock.splice(-1, 1)
+                this.Parameter.Stock.splice(-1, 1)
             }
         },
         handleSubmit() {
