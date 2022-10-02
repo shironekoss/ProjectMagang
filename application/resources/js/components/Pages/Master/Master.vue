@@ -130,20 +130,34 @@
                                 </div>
                             </div>
                         </div>
-
-
-                        <!-- <div class="row">
+                        <div class="row">
                             <div class="col">
-                                <h5>Kode Kit</h5>
+                                <h5>Stock</h5>
                             </div>
                             <div class="col-9">
-                                <input type="text" v-model="kit.kodekit" class="form-control">
-                                <form @submit.prevent="generate" style="float: right; margin-right: 50%;">
-                                    <button type="submit" class="btn btn-success">GENERATE</button>
-                                </form>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <input type="text" v-model="parameter.modelbagasi[0]" class="form-control">
+                                    </div>
+                                    <div class="col">
+                                        <button type="button" :disabled='isActivebagasi' @click="add('modelbagasi')"
+                                            class="btn btn-primary">TAMBAH</button>
+                                    </div>
+                                    <div class="col">
+                                        <button type="button" @click="remove('modelbagasi')" class="btn btn-danger">
+                                            HAPUS
+                                        </button>
+                                    </div>
+                                </div>
+                                <div v-for="(component, index) in componentsbagasi" :key="index" :id=index
+                                    tipe="modelbagasi">
+                                    <div class="col-10">
+                                        <input type="text" v-model="parameter.modelbagasi[index + 1]" required
+                                            class="form-control">
+                                    </div>
+                                </div>
                             </div>
-                        </div> -->
-
+                        </div>
                     </div>
                     <div class="col-6" style=" float: right;">
                         <div class="row">
