@@ -107,8 +107,15 @@
                             </div>
                             <div class="col-9">
                                 <div class="row">
-                                    <div class="col-6">
+                                    <!-- <div class="col-6">
                                         <input type="text" v-model="Parameter.Departemen[0]" class="form-control">
+                                    </div> -->
+                                    <div class="col-6">
+                                        <div data-app>
+                                            <v-select :items="ListDept" item-text="text" item-value="value"
+                                                v-model="Parameter.Departemen[0]" required class="form-control">
+                                            </v-select>
+                                        </div>
                                     </div>
                                     <div class="col">
                                         <button type="button" :disabled='isActiveDepartemen' @click="add('Departemen')"
@@ -122,8 +129,11 @@
                                 <div v-for="(component, index) in ComponentTambahanDepartemen" :key="index" :id=index
                                     tipe="Departemen" class="row">
                                     <div class="col-6">
-                                        <input type="text" v-model="Parameter.Departemen[index + 1]" required
-                                            class="form-control">
+                                        <div data-app>
+                                            <v-select :items="ListDept" item-text="text" item-value="value"
+                                                v-model="Parameter.Departemen[0]" required class="form-control">
+                                            </v-select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -156,7 +166,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="col-6" style=" float: right;">
+                    <div class="col-6" style=" float: right;">
                         <div class="row">
                             <div class="col">
                                 <h5>Kode Kit</h5>
@@ -164,51 +174,40 @@
                             <div class="col-9">
                                 <div class="row">
                                     <div class="col-6">
-                                        <input type="text" v-model="parameter.modelbangku[0]" class="form-control">
+                                        <input type="text" v-model="InputKodeKit" class="form-control">
                                     </div>
                                     <div class="col">
-                                        <button type="button" :disabled='isActivebangku' @click="add('modelbangku')"
-                                            class="btn btn-primary">Generate</button>
-                                    </div>
-                                </div>
-
-                                <div v-for="(component, index) in componentsbangku" :key="index" :id=index
-                                    tipe="modelbangku">
-                                    <div class="col-10">
-                                        <input type="text" v-model="parameter.modelbangku[index + 1]" required
-                                            class="form-control">
+                                        <button type="button" @click="generate"
+                                            class="btn btn-secondary">Generate</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <button type="button" @click="tambahresultkomponen()" class="btn btn-primary">Tambah
-                            Komponen</button>
-                        <br> -->
-                    <!-- <button type="button" @click="hapusresultkomponen()" class="btn btn-danger">Hapus Komponen</button><br> -->
-                    <!-- <div v-for="(component, index) in kit.result" :key="index" :id=index>
+
+                        <div v-for="(component, index) in Kit.IsiKit" :key="index" :id=index>
                             <div class="row">
                                 <div class="col">
                                     <div class="row">
                                         <div class="col-6">
                                             Nama Komponen
-                                            <input type="text" v-model="kit.result[index].nama_komponen"
+                                            <input type="text" v-model="Kit.IsiKit[index].nama_komponen"
                                                 class="form-control">
                                         </div>
 
                                         <div class="col">
                                             QTY :
-                                            <input type="number" v-model="kit.result[index].qty" class="form-control">
+                                            <input type="number" v-model="Kit.IsiKit[index].qty" class="form-control">
                                         </div>
 
                                         <div class="col">
                                             dari Rak :
-                                            <input type="number" v-model="kit.result[index].darirak"
+                                            <input type="text" v-model="Kit.IsiKit[index].darirak"
                                                 class="form-control" min="0">
                                         </div>
 
                                         <div class="col">
                                             ke rak :
-                                            <input type="number" v-model="kit.result[index].kerak" class="form-control"
+                                            <input type="text" v-model="Kit.IsiKit[index].kerak" class="form-control"
                                                 min="0">
                                         </div>
 
@@ -216,7 +215,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div> -->
+                    </div>
                     <form @submit.prevent="handleSubmit">
                         <div class="row">
                             <center>
@@ -290,23 +289,21 @@ const Componentnewfield = {
 export default {
     data() {
         return {
-            isActivepintu: true,
-            isActivebagasi: true,
             isActivebangku: true,
-            isActivebody: true,
-            isActivetangga: true,
-            isActivelampu: true,
 
             isActiveTipeMobil: true,
             isActiveModelMobil: true,
             isActiveTinggiMobil: true,
             isActiveDepartemen: true,
             isActiveStock: true,
+
             ComponentTambahanTipeMobil: [],
             ComponentTambahanModelMobil: [],
             ComponentTambahanTinggiMobil: [],
             ComponentTambahanDepartemen: [],
             ComponentTambahanStock: [],
+
+            InputKodeKit: "",
 
             Parameter: {
                 TipeMobil: [],
@@ -317,12 +314,16 @@ export default {
 
                 newparameter: [],
             },
-            kit: {
-                kodekit: "",
-                namakit: "",
-                result: []
-            }
+            Kit: {
+                KodeKit: "",
+                NamaKit: "",
+                IsiKit: []
+            },
+            ListDept: [],
         }
+    },
+    mounted() {
+        this.getlistdepartemen()
     },
     watch: {
         'Parameter.TipeMobil': function () {
@@ -430,11 +431,38 @@ export default {
                 this.ComponentTambahanStock.push('true')
                 this.Parameter.Stock.push("")
             }
-
         },
-
-
-
+        getlistdepartemen() {
+            axios.get('/api/listdepartemen').then((response) => {
+                this.ListDept = response.data.data
+            })
+        },
+        generate() {
+            let data = {
+                param: this.InputKodeKit
+            }
+            axios.post('/api/generatemasterkit', data).then((response) => {
+                console.log(response.data)
+                if (response.data.success) {
+                    if (response.data.statuscode == 201) {
+                        this.Kit.NamaKit = response.data.result.nama_kit
+                        this.Kit.KodeKit = response.data.result.kode_kit
+                        this.Kit.IsiKit = response.data.result.komponen
+                        this.$swal({
+                            title: 'Sukses generate data ' + response.data.result.kode_kit.toUpperCase(),
+                            icon: 'success'
+                        });
+                    } else if (response.data.statuscode == 401) {
+                        this.$swal({
+                            title: 'Kode Kit ' + response.data.result.kode_kit.toUpperCase() + " Tidak tersedia",
+                            icon: 'error'
+                        });
+                    }
+                }
+            }).catch((error) => {
+                this.errors = error.response.data.errors
+            })
+        },
         Tambahkomponen() {
             let objnewparam = {
                 newparam: "",
@@ -555,41 +583,7 @@ export default {
                     this.errors = error.response.data.errors
                 })
         },
-        generate() {
-            let data = {
-                param: this.kit.kodekit
-            }
 
-            axios
-                .post('/api/generatemasterkit', data)
-                .then((response) => {
-                    console.log(response.data)
-                    if (response.data.success) {
-                        if (response.data.statuscode == 201) {
-                            this.kit.namakit = response.data.result.nama_kit
-                            this.kit.result = response.data.result.komponen
-                            this.$swal({
-                                title: 'Sukses generate data ' + this
-                                    .kit
-                                    .kodekit
-                                    .toUpperCase(),
-                                icon: 'success'
-                            });
-                        } else if (response.data.statuscode == 401) {
-                            this.$swal({
-                                title: 'Kode Kit ' + this
-                                    .parameter
-                                    .kodekit
-                                    .toUpperCase() + " Tidak tersedia",
-                                icon: 'error'
-                            });
-                        }
-                    }
-                })
-                .catch((error) => {
-                    this.errors = error.response.data.errors
-                })
-        }
     }
 }
 </script>

@@ -308,7 +308,7 @@ export default {
     },
     mounted() {
         this.getUser(),
-            this.getlistdepartemen()
+        this.getlistdepartemen()
     },
     methods: {
         getUser() {
