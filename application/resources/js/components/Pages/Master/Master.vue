@@ -183,38 +183,43 @@
                                 </div>
                             </div>
                         </div>
+                        <div v-for="(component, index) in Result" :key="index" :id=index
+                            style="border: 2px solid blue; border-radius: 25px; padding: 10px; margin: 5px;">
+                            <h4> Nama Kit : {{component.NamaKit}} <span><Button @click="HapusResult(index)"
+                                        class="btn btn-danger">Hapus</Button></span></h4>
+                            <div v-for="(subcomponent, index2) in component.IsiKit" :key="index2" :id=index2>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                Nama Komponen
+                                                <input type="text" v-model="component.IsiKit[index2].nama_komponen"
+                                                    class="form-control">
+                                            </div>
 
-                        <div v-for="(component, index) in Kit.IsiKit" :key="index" :id=index>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            Nama Komponen
-                                            <input type="text" v-model="Kit.IsiKit[index].nama_komponen"
-                                                class="form-control">
+                                            <div class="col">
+                                                QTY :
+                                                <input type="number" v-model="component.IsiKit[index2].qty"
+                                                    class="form-control">
+                                            </div>
+
+                                            <div class="col">
+                                                dari Rak :
+                                                <input type="text" v-model="component.IsiKit[index2].darirak"
+                                                    class="form-control" min="0">
+                                            </div>
+
+                                            <div class="col">
+                                                ke rak :
+                                                <input type="text" v-model="component.IsiKit[index2].kerak"
+                                                    class="form-control" min="0">
+                                            </div>
                                         </div>
-
-                                        <div class="col">
-                                            QTY :
-                                            <input type="number" v-model="Kit.IsiKit[index].qty" class="form-control">
-                                        </div>
-
-                                        <div class="col">
-                                            dari Rak :
-                                            <input type="text" v-model="Kit.IsiKit[index].darirak"
-                                                class="form-control" min="0">
-                                        </div>
-
-                                        <div class="col">
-                                            ke rak :
-                                            <input type="text" v-model="Kit.IsiKit[index].kerak" class="form-control"
-                                                min="0">
-                                        </div>
-
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                     <form @submit.prevent="handleSubmit">
                         <div class="row">
@@ -314,11 +319,7 @@ export default {
 
                 newparameter: [],
             },
-            Kit: {
-                KodeKit: "",
-                NamaKit: "",
-                IsiKit: []
-            },
+            Result: [],
             ListDept: [],
         }
     },
@@ -445,16 +446,30 @@ export default {
                 console.log(response.data)
                 if (response.data.success) {
                     if (response.data.statuscode == 201) {
-                        this.Kit.NamaKit = response.data.result.nama_kit
-                        this.Kit.KodeKit = response.data.result.kode_kit
-                        this.Kit.IsiKit = response.data.result.komponen
-                        this.$swal({
-                            title: 'Sukses generate data ' + response.data.result.kode_kit.toUpperCase(),
-                            icon: 'success'
+                        let datanamakit = response.data.result.nama_kit
+                        let dataKodeKit = response.data.result.kode_kit
+                        let dataisikit = response.data.result.komponen
+                        let kembar = false
+                        this.Result.forEach(element => {
+                            if (element.NamaKit.toUpperCase() == datanamakit.toUpperCase()) {
+                                kembar = true
+                            }
                         });
-                    } else if (response.data.statuscode == 401) {
+                        if (kembar) {
+                            this.$swal({
+                                title: 'Kode Kit ' + this.InputKodeKit + ' sudah ada',
+                                icon: 'error'
+                            });
+                        } else {
+                            this.Result.push({ NamaKit: datanamakit, Kodekit: dataKodeKit, IsiKit: dataisikit })
+                            this.$swal({
+                                title: 'Sukses generate data ' + response.data.result.kode_kit.toUpperCase(),
+                                icon: 'success'
+                            });
+                        }
+                    } else if (response.data.statuscode == 400) {
                         this.$swal({
-                            title: 'Kode Kit ' + response.data.result.kode_kit.toUpperCase() + " Tidak tersedia",
+                            title: 'Kode Kit ' + this.InputKodeKit + ' ' + response.data.message,
                             icon: 'error'
                         });
                     }
@@ -463,6 +478,12 @@ export default {
                 this.errors = error.response.data.errors
             })
         },
+        HapusResult(index) {
+            if (index > -1) {
+                this.Result.splice(index, 1)
+            }
+        },
+
         Tambahkomponen() {
             let objnewparam = {
                 newparam: "",

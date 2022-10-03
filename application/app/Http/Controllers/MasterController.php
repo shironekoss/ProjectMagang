@@ -387,7 +387,7 @@ class MasterController extends Controller
             }
             return response()->json([
                 "success" => true,
-                "statuscode" => 401,
+                "statuscode" => 400,
                 "data" => $request->param,
                 "message" => "tidak ditemukan",
             ]); //throw $th;
@@ -395,7 +395,7 @@ class MasterController extends Controller
         } catch (\Throwable $th) {
             return response()->json([
                 "success" => true,
-                "statuscode" => 401,
+                "statuscode" => 400,
                 "data" => $request->param,
                 "message" => "tidak ditemukan",
             ]); //throw $th;

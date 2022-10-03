@@ -11,7 +11,7 @@ class Master extends Model
     use HasFactory;
     use SoftDeletes;
     protected $connection = 'mongodb';
-    protected $collection = 'master';
+    protected $collection = 'Master_Db';
     // protected $table        = "accounts";
     // protected $primaryKey   = "account_id";
     // public $incrementing    = true;
