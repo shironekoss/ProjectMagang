@@ -230,7 +230,6 @@
                         </div>
                     </form>
                 </div>
-
                 <div class="row">
                     <div class="col tengah">
                         <h3>Additional Parameter</h3>
@@ -238,20 +237,20 @@
                             Parameter</button>
                         <button type="button" @click="hapuskomponen()" class="btn btn-primary additionalbutton">Hapus
                             Komponen</button>
-                        <div v-for="(component, index) in Parameter.newparameter" :key="index" :id=index>
+                        <div v-for="(component, index) in Parameter.NewParameter" :key="index" :id=index>
                             <div class="row">
                                 <div class="col-3">
-                                    <input type="text" v-model="parameter.newparameter[index].newparam"
+                                    <input type="text" v-model="Parameter.NewParameter[index].Newparam"
                                         class="newparam form-control">
                                 </div>
                                 <div class="col-3">
-                                    <input type="text" v-model="parameter.newparameter[index].components[0]"
-                                        class="form-control">
-                                    <div v-for="(component2, index2) in componentsnewparameter[index].components"
+                                    <!-- <input type="text" v-model="Parameter.NewParameter[index].Component[0]"
+                                        class="form-control"> -->
+                                    <div v-for="(component2, index2) in component.Component"
                                         :key="index2" :id=index2>
                                         <div class="col">
                                             <input type="text"
-                                                v-model="parameter.newparameter[index].components[index2 + 1]"
+                                                v-model="Parameter.NewParameter[index].Component[index2]"
                                                 class="form-control">
                                         </div>
                                     </div>
@@ -301,26 +300,24 @@ export default {
             isActiveTinggiMobil: true,
             isActiveDepartemen: true,
             isActiveStock: true,
-
             ComponentTambahanTipeMobil: [],
             ComponentTambahanModelMobil: [],
             ComponentTambahanTinggiMobil: [],
             ComponentTambahanDepartemen: [],
             ComponentTambahanStock: [],
-
             InputKodeKit: "",
-
             Parameter: {
                 TipeMobil: [],
                 ModelMobil: [],
                 TinggiMobil: [],
                 Departemen: [],
                 Stock: [],
-
-                newparameter: [],
+                NewParameter: [],
             },
             Result: [],
             ListDept: [],
+
+            componentsnewparameter: []
         }
     },
     mounted() {
@@ -483,45 +480,22 @@ export default {
                 this.Result.splice(index, 1)
             }
         },
-
         Tambahkomponen() {
             let objnewparam = {
-                newparam: "",
-                components: [""]
+                Newparam: "",
+                Component: [""]
             }
-            let temp = {
-                newparam: "",
-                components: []
-            }
-            this
-                .parameter
-                .newparameter
-                .push(objnewparam)
-            this
-                .componentsnewparameter
-                .push(temp)
+            this.Parameter.NewParameter.push(objnewparam)
+            // this.componentsnewparameter.push(objnewparam)
         },
         hapuskomponen() {
-            this
-                .componentsnewparameter
-                .splice(-1, 1);
-            this
-                .parameter
-                .newparameter
-                .splice(-1, 1);
+            // this.componentsnewparameter.splice(-1, 1);
+            this.Parameter.NewParameter.splice(-1, 1);
         },
-        tambahresultkomponen() {
-            let temp = {
-                nama_komponen: "",
-                qty: null,
-                darirak: null,
-                kerak: null
-            }
-            this
-                .kit
-                .result
-                .push(temp)
-        },
+
+
+
+
         addnewcomponent(index) {
             this
                 .componentsnewparameter[index]
