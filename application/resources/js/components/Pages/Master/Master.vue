@@ -166,7 +166,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col ">
+                            <div class="col">
                                 <h3>Additional Parameter</h3>
                                 <button type="button" @click="Tambahkomponen()"
                                     class="btn btn-primary additionalbutton">Tambah
@@ -177,17 +177,15 @@
                                 <div v-for="(component, index) in Parameter.NewParameter" :key="index" :id=index>
                                     <div class="row">
                                         <div class="col-3">
-                                            <input type="text" v-model="Parameter.NewParameter[index].Newparam"
-                                                class="newparam form-control">
+                                                <input type="text" v-model="Parameter.NewParameter[index].Newparam"
+                                                    class="newparam form-control">
                                         </div>
                                         <div class="col-6">
                                             <div v-for="(component2, index2) in component.Component" :key="index2"
                                                 :id=index2>
-                                                <div class="col">
                                                     <input type="text"
                                                         v-model="Parameter.NewParameter[index].Component[index2]"
                                                         class="form-control">
-                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-3">
@@ -195,7 +193,7 @@
                                                 class="btn btn-primary">Tambah</button>
                                             <button type="button" @click="removenewcomponen(index)"
                                                 class="btn btn-danger">hapus
-                                                </button>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
