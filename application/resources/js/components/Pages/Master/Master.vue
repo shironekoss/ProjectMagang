@@ -165,6 +165,42 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col ">
+                                <h3>Additional Parameter</h3>
+                                <button type="button" @click="Tambahkomponen()"
+                                    class="btn btn-primary additionalbutton">Tambah
+                                    Parameter</button>
+                                <button type="button" @click="hapuskomponen()"
+                                    class="btn btn-primary additionalbutton">Hapus
+                                    Komponen</button>
+                                <div v-for="(component, index) in Parameter.NewParameter" :key="index" :id=index>
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <input type="text" v-model="Parameter.NewParameter[index].Newparam"
+                                                class="newparam form-control">
+                                        </div>
+                                        <div class="col-6">
+                                            <div v-for="(component2, index2) in component.Component" :key="index2"
+                                                :id=index2>
+                                                <div class="col">
+                                                    <input type="text"
+                                                        v-model="Parameter.NewParameter[index].Component[index2]"
+                                                        class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <button type="button" @click="addnewcomponent(index)"
+                                                class="btn btn-primary">Tambah</button>
+                                            <button type="button" @click="removenewcomponen(index)"
+                                                class="btn btn-danger">hapus
+                                                </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-6" style=" float: right;">
                         <div class="row">
@@ -229,41 +265,6 @@
                             </center>
                         </div>
                     </form>
-                </div>
-                <div class="row">
-                    <div class="col tengah">
-                        <h3>Additional Parameter</h3>
-                        <button type="button" @click="Tambahkomponen()" class="btn btn-primary additionalbutton">Tambah
-                            Parameter</button>
-                        <button type="button" @click="hapuskomponen()" class="btn btn-primary additionalbutton">Hapus
-                            Komponen</button>
-                        <div v-for="(component, index) in Parameter.NewParameter" :key="index" :id=index>
-                            <div class="row">
-                                <div class="col-3">
-                                    <input type="text" v-model="Parameter.NewParameter[index].Newparam"
-                                        class="newparam form-control">
-                                </div>
-                                <div class="col-3">
-                                    <!-- <input type="text" v-model="Parameter.NewParameter[index].Component[0]"
-                                        class="form-control"> -->
-                                    <div v-for="(component2, index2) in component.Component"
-                                        :key="index2" :id=index2>
-                                        <div class="col">
-                                            <input type="text"
-                                                v-model="Parameter.NewParameter[index].Component[index2]"
-                                                class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <button type="button" @click="addnewcomponent(index)"
-                                        class="btn btn-primary">Tambah</button>
-                                    <button type="button" @click="removenewcomponen(index)" class="btn btn-danger">hapus
-                                        tambahan</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -492,31 +493,13 @@ export default {
             // this.componentsnewparameter.splice(-1, 1);
             this.Parameter.NewParameter.splice(-1, 1);
         },
-
-
-
-
         addnewcomponent(index) {
-            this
-                .componentsnewparameter[index]
-                .components
-                .push("")
-            this
-                .parameter
-                .newparameter[index]
-                .components
-                .push("")
+            this.Parameter.NewParameter[index].Component.push("")
         },
         removenewcomponen(index) {
-            this
-                .componentsnewparameter[index]
-                .components
-                .splice(-1, 1);
-            this
-                .parameter
-                .newparameter[index]
-                .components
-                .splice(-1, 1);
+            if (this.Parameter.NewParameter[index].Component.length > 1) {
+                this.Parameter.NewParameter[index].Component.splice(-1, 1)
+            }
         },
         remove(tipe) {
             if (tipe == 'TipeMobil') {
@@ -540,40 +523,39 @@ export default {
                 this.Parameter.Stock.splice(-1, 1)
             }
         },
+
         handleSubmit() {
             let data = {
-                datakit: this.kit,
-                dataparam: this.parameter
+                datakit: this.Result,
+                dataparam: this.Parameter
             }
-            axios
-                .post('/api/tambahmaster', data)
-                .then((response) => {
-                    if (response.data.success) {
-                        if (response.data.statuscode == 402) {
-                            this.$swal({ title: 'Nama Kit Belum Diisi', icon: 'error' });
-                        } else if (response.data.statuscode == 403) {
-                            this.$swal({ title: 'Komponen Tidak ada', icon: 'error' });
-                        } else if (response.data.statuscode == 404) {
-                            this.$swal({ title: 'Pengisian komponen tidak lengkap', icon: 'error' });
-                        } else if (response.data.statuscode == 405) {
-                            this.$swal({ title: 'Pengisian Parameter Tidak Lengkap', icon: 'error' });
-                        } else if (response.data.statuscode == 406) {
-                            this.$swal({ title: 'Pengisian Parameter ada yang kembar', icon: 'error' });
-                        } else if (response.data.statuscode == 407) {
-                            this.$swal({ title: 'Master dengan parameter ini Sudah Terdaftar', icon: 'error' });
-                        } else if (response.data.statuscode == 408) {
-                            this.$swal({ title: 'Parameter tambahan ada yang Kosong', icon: 'error' });
-                        } else if (response.data.statuscode == 409) {
-                            this.$swal({ title: 'Parameter tambahan ada yang sama', icon: 'error' });
-                        } else if (response.data.statuscode == 410) {
-                            this.$swal({ title: 'dari rak ke rak belum diisi', icon: 'error' });
-                        } else if (response.data.statuscode == 411) {
-                            this.$swal({ title: 'parameter tambahan kembar', icon: 'error' });
-                        } else if (response.data.statuscode == 200) {
-                            this.$swal({ title: 'sukses nambah data', icon: 'success' });
-                        }
+            axios.post('/api/tambahmaster', data).then((response) => {
+                if (response.data.success) {
+                    if (response.data.statuscode == 402) {
+                        this.$swal({ title: 'Nama Kit Belum Diisi', icon: 'error' });
+                    } else if (response.data.statuscode == 403) {
+                        this.$swal({ title: 'Komponen Tidak ada', icon: 'error' });
+                    } else if (response.data.statuscode == 404) {
+                        this.$swal({ title: 'Pengisian komponen tidak lengkap', icon: 'error' });
+                    } else if (response.data.statuscode == 405) {
+                        this.$swal({ title: 'Pengisian Parameter Tidak Lengkap', icon: 'error' });
+                    } else if (response.data.statuscode == 406) {
+                        this.$swal({ title: 'Pengisian Parameter ada yang kembar', icon: 'error' });
+                    } else if (response.data.statuscode == 407) {
+                        this.$swal({ title: 'Master dengan parameter ini Sudah Terdaftar', icon: 'error' });
+                    } else if (response.data.statuscode == 408) {
+                        this.$swal({ title: 'Parameter tambahan ada yang Kosong', icon: 'error' });
+                    } else if (response.data.statuscode == 409) {
+                        this.$swal({ title: 'Parameter tambahan ada yang sama', icon: 'error' });
+                    } else if (response.data.statuscode == 410) {
+                        this.$swal({ title: 'dari rak ke rak belum diisi', icon: 'error' });
+                    } else if (response.data.statuscode == 411) {
+                        this.$swal({ title: 'parameter tambahan kembar', icon: 'error' });
+                    } else if (response.data.statuscode == 200) {
+                        this.$swal({ title: 'sukses nambah data', icon: 'success' });
                     }
-                })
+                }
+            })
                 .catch((error) => {
                     this.errors = error.response.data.errors
                 })
