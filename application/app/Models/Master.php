@@ -18,7 +18,7 @@ class Master extends Model
     public $timestamps      = true;
 
     protected $fillable = [
-        'kit',
-        'parameter',
+        'Kit',
+        'Parameter',
     ];
 }

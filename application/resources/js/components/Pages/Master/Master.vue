@@ -492,7 +492,7 @@ export default {
             this.Parameter.NewParameter.splice(-1, 1);
         },
         addnewcomponent(index) {
-            this.Parameter.NewParameter[index].Component.push("")
+            this.Parameter.NewParameter[index].Component.push("");
         },
         removenewcomponen(index) {
             if (this.Parameter.NewParameter[index].Component.length > 1) {
@@ -529,34 +529,14 @@ export default {
             }
             axios.post('/api/tambahmaster', data).then((response) => {
                 if (response.data.success) {
-                    if (response.data.statuscode == 402) {
-                        this.$swal({ title: 'Nama Kit Belum Diisi', icon: 'error' });
-                    } else if (response.data.statuscode == 403) {
-                        this.$swal({ title: 'Komponen Tidak ada', icon: 'error' });
-                    } else if (response.data.statuscode == 404) {
-                        this.$swal({ title: 'Pengisian komponen tidak lengkap', icon: 'error' });
-                    } else if (response.data.statuscode == 405) {
-                        this.$swal({ title: 'Pengisian Parameter Tidak Lengkap', icon: 'error' });
-                    } else if (response.data.statuscode == 406) {
-                        this.$swal({ title: 'Pengisian Parameter ada yang kembar', icon: 'error' });
-                    } else if (response.data.statuscode == 407) {
-                        this.$swal({ title: 'Master dengan parameter ini Sudah Terdaftar', icon: 'error' });
-                    } else if (response.data.statuscode == 408) {
-                        this.$swal({ title: 'Parameter tambahan ada yang Kosong', icon: 'error' });
-                    } else if (response.data.statuscode == 409) {
-                        this.$swal({ title: 'Parameter tambahan ada yang sama', icon: 'error' });
-                    } else if (response.data.statuscode == 410) {
-                        this.$swal({ title: 'dari rak ke rak belum diisi', icon: 'error' });
-                    } else if (response.data.statuscode == 411) {
-                        this.$swal({ title: 'parameter tambahan kembar', icon: 'error' });
-                    } else if (response.data.statuscode == 200) {
-                        this.$swal({ title: 'sukses nambah data', icon: 'success' });
+                    if (response.data.statuscode == 401) {
+                        this.$swal({ title: 'Ada Parameter yang Kosong', icon: 'error' });
                     }
                 }
             })
-                .catch((error) => {
-                    this.errors = error.response.data.errors
-                })
+            .catch((error) => {
+                this.errors = error.response.data.errors
+            })
         },
 
     }
@@ -577,9 +557,4 @@ export default {
     padding: -35px;
 }
 
-.tengah {
-    margin: 0 auto;
-    /* Added */
-    float: none;
-}
 </style>
