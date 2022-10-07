@@ -53,7 +53,6 @@ class MasterController extends Controller
                 $i++;
             }
 
-
             //cek parameter ada yg kosong
             function FungsicekKosong(array $cek)
             {
@@ -73,7 +72,7 @@ class MasterController extends Controller
                 $paramkosong = FungsicekKosong($param['TinggiMobil']);
             }
             if (!$paramkosong) {
-                $paramkosong = FungsicekKosong($param['Departemen']);
+                $paramkosong = FungsicekKosong($param['Stock']);
             }
 
             if ($paramkosong) {
@@ -83,65 +82,37 @@ class MasterController extends Controller
                 ]);
             }
 
+            // cek Parameter kembar
+            function fungsiceksama(array $cek)
+            {
+                if (count($cek) !== count(array_unique($cek))) {
+                    return true;
+                }
+            }
 
-            return response()->json([
+            $paramsama = false;
+
+            if (!$paramsama) {
+                $paramsama = fungsiceksama($param['TipeMobil']);
+            }if (!$paramsama) {
+                $paramsama = fungsiceksama($param['ModelMobil']);
+            }if (!$paramsama) {
+                $paramsama = fungsiceksama($param['TinggiMobil']);
+            }if (!$paramsama) {
+                $paramsama = fungsiceksama($param['Departemen']);
+            }if (!$paramsama) {
+                $paramsama = fungsiceksama($param['Departemen']);
+            }
+
+            if ($paramsama) {
+                return response()->json([
                     "success" => true,
-                    "statuscode" => 200,
-                    "y"=>$param['TipeMobil']
+                    "statuscode" => 406,
                 ]);
+            }
 
-
-
-
-
-
-
-
-
-            // cek Parameter kosong dan kembar
-
-
-            // function fungsiceksama(array $cek)
-            // {
-            //     if (count($cek) !== count(array_unique($cek))) {
-            //         return true;
-            //     }
-            // }
-
-            // $paramsama = false;
-
-            // if (!$paramsama) {
-            //     $paramsama = fungsiceksama($param['modelbagasi']);
-            // }
-            // if (!$paramsama) {
-            //     $paramsama = fungsiceksama($param['modelpintu']);
-            // }
-            // if (!$paramsama) {
-            //     $paramsama = fungsiceksama($param['modelbangku']);
-            // }
-            // if (!$paramsama) {
-            //     $paramsama = fungsiceksama($param['modelbody']);
-            // }
-            // if (!$paramsama) {
-            //     $paramsama = fungsiceksama($param['modellampubelakang']);
-            // }
-            // if (!$paramsama) {
-            //     $paramsama = fungsiceksama($param['modeltangga']);
-            // }
-
-            // if ($paramkosong) {
-            //     return response()->json([
-            //         "success" => true,
-            //         "statuscode" => 405,
-            //     ]);
-            // }
-            // if ($paramsama) {
-            //     return response()->json([
-            //         "success" => true,
-            //         "statuscode" => 406,
-            //     ]);
-            // }
-            // $paramtambahankosong = false;
+            //untuk pengecekkan tambahan
+             // $paramtambahankosong = false;
             // foreach ($param['newparameter'] as $newparam) {
             //     if ($newparam['newparam'] == "" || $newparam['newparam'] == null) {
             //         $paramtambahankosong = true;
@@ -163,6 +134,15 @@ class MasterController extends Controller
             //         "statuscode" => 408,
             //     ]);
             // }
+
+            return response()->json([
+                    "success" => true,
+                    "statuscode" => 200,
+                    "y"=>$param['TipeMobil']
+                ]);
+
+
+           
 
             // $paramtambahansama = false;
             // $judulparamtambahankembar = array();
