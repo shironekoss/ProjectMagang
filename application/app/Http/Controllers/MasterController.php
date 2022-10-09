@@ -6,15 +6,27 @@ use App\Models\Komponen;
 use App\Models\Master;
 use App\Models\Masterkit;
 use Illuminate\Http\Request;
+use PhpParser\Node\Stmt\Foreach_;
 
 class MasterController extends Controller
 {
     public function listmaster()
     {
-        $master = Master::all();
+        $masters = Master::all();
+        $data=[];
+        Foreach($masters as $master){
+            foreach($master["Kit"] as $kit){
+                array_push($data,[
+                    "NamaKit"=>$kit['NamaKit'],
+                    "Kodekit"=>$kit['Kodekit'],
+                    "_id"=>$master['_id'],
+                    "updated_at"=>$master['updated_at'],
+                ]);
+            }
+        }
         return response()->json([
             "statusresponse" => 200,
-            "data" => $master
+            "data" => $data
         ]);
     }
 

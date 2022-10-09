@@ -2,7 +2,7 @@
     <div>
         <v-app>
             <div v-if="datatable">
-                <v-data-table dense :headers="headerstable" :items="datatable" :items-per-page="20"
+                <v-data-table dense :headers="headerstable" :items="datatable" :items-per-page="10" :search="search"
                     class="elevation-1 font-weight-bold">
                     <template v-slot:top>
                         <v-toolbar flat>
@@ -10,10 +10,15 @@
                             </v-toolbar-title>
                             <button class="btn btn-primary" @click="TambahMaster"> Tambah Master </button>
                         </v-toolbar>
+                        <v-card-title>
+                            <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line
+                                hide-details>
+                            </v-text-field>
+                        </v-card-title>
                         <v-dialog v-model="dialogDelete" max-width="500px">
                             <v-card>
                                 <v-card-title class="text-h5">Yakin Mau Menghapus&nbsp; <span
-                                        v-html="namaDepartemenHapus"></span> ?</v-card-title>
+                                        v-html="NamaKitHapus"></span> ?</v-card-title>
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
                                     <v-btn color="blue darken-1" text @click="closeDialogDelete">Cancel</v-btn>
@@ -24,6 +29,7 @@
                         </v-dialog>
                     </template>
                     <template v-slot:item.actions="{ item }">
+                        <v-btn depressed color="teal lighten-3" @click="Edit(item)">Edit</v-btn>
                         <v-btn depressed color="error" @click="deleteItem(item)">Hapus</v-btn>
                     </template>
                 </v-data-table>
@@ -38,17 +44,17 @@ export default {
     data() {
         return {
             listMaster: [],
+            search: '',
             datatable: [],
             headerstable: [
-                { text: 'No', value: 'Nama_Departemen', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
-                { text: 'Nama Departemen', value: 'Nama_Departemen', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
-                { text: 'Jumlah Account', value: 'Jumlah_account', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Kode Kit', value: 'NamaKit', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Nama Kit', value: 'Kodekit', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'updated_at', value: 'updated_at', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Action', value: 'actions', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
             ],
             dialogDelete: false,
             dialogTambah: false,
-            namaDepartemen: "",
-            namaDepartemenHapus: "",
+            NamaKitHapus: "",
         }
     },
     mounted() {
@@ -76,36 +82,18 @@ export default {
                 // this.filterstates();
             })
         },
-        TambahMaster(){
+        TambahMaster() {
             this.$router.push('Master')
-        },
-        addDepartemen() {
-            axios.post('/api/adddepartemen', { namadepartemen: this.namaDepartemen }).then((response) => {
-                this.closeDialogTambah()
-                if (response.data.statusresponse == 400) {
-                    this.$swal({
-                        title: response.data.message,
-                        icon: 'error'
-                    });
-                }
-                else if (response.data.statusresponse == 200) {
-                    this.$swal({
-                        title: response.data.message,
-                        icon: 'success'
-                    });
-                    this.getlistdepartemen();
-                }
-            })
         },
         closeDialogDelete() {
             this.dialogDelete = false
             this.$nextTick(() => {
                 this.editedIndex = -1
             })
-            this.namaDepartemenHapus = ""
+            this.NamaKitHapus = ""
         },
         deleteItem(item) {
-            this.namaDepartemenHapus = item.Nama_Departemen
+            this.NamaKitHapus = item.NamaKit
             this.editedIndex = this.datatable.indexOf(item)
             this.dialogDelete = true
         },
