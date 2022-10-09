@@ -131,7 +131,7 @@
                                     <div class="col-6">
                                         <div data-app>
                                             <v-select :items="ListDept" item-text="text" item-value="value"
-                                                v-model="Parameter.Departemen[0]" required class="form-control">
+                                                v-model="Parameter.Departemen[index+1]" required class="form-control">
                                             </v-select>
                                         </div>
                                     </div>
@@ -531,6 +531,15 @@ export default {
                 if (response.data.success) {
                     if (response.data.statuscode == 401) {
                         this.$swal({ title: 'Ada Parameter yang Kosong', icon: 'error' });
+                    }
+                    if (response.data.statuscode == 402) {
+                        this.$swal({ title: 'Ada Field yang memiliki parameter kembar', icon: 'error' });
+                    }
+                    if (response.data.statuscode == 403) {
+                        this.$swal({ title: 'Pengisian Parameter Tambahan ada yang Kosong', icon: 'error' });
+                    }
+                    if (response.data.statuscode == 404) {
+                        this.$swal({ title: 'Pengisian Parameter Tambahan kembar, perhatikan kembali pengisiannya', icon: 'error' });
                     }
                 }
             })
