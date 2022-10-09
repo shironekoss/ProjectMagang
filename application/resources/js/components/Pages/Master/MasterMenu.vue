@@ -100,7 +100,7 @@ export default {
         deleteItemConfirm() {
             var datahapus = this.datatable[this.editedIndex]
             this.closeDialogDelete()
-            axios.delete('/api/hapusdepartemen' + datahapus["_id"]).then((response) => {
+            axios.delete('/api/hapusmaster' + datahapus["_id"]).then((response) => {
                 if (response.data.statusresponse == 400) {
                     this.$swal({
                         title: response.data.message,
@@ -112,7 +112,7 @@ export default {
                         title: response.data.message,
                         icon: 'success'
                     });
-                    this.getlistdepartemen()
+                    this.getlistmaster()
                 }
             })
             this.closeDialogDelete()

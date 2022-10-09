@@ -13,14 +13,14 @@ class MasterController extends Controller
     public function listmaster()
     {
         $masters = Master::all();
-        $data=[];
-        Foreach($masters as $master){
-            foreach($master["Kit"] as $kit){
-                array_push($data,[
-                    "NamaKit"=>$kit['NamaKit'],
-                    "Kodekit"=>$kit['Kodekit'],
-                    "_id"=>$master['_id'],
-                    "updated_at"=>$master['updated_at'],
+        $data = [];
+        foreach ($masters as $master) {
+            foreach ($master["Kit"] as $kit) {
+                array_push($data, [
+                    "NamaKit" => $kit['NamaKit'],
+                    "Kodekit" => $kit['Kodekit'],
+                    "_id" => $master['_id'],
+                    "updated_at" => $master['updated_at'],
                 ]);
             }
         }
@@ -30,6 +30,22 @@ class MasterController extends Controller
         ]);
     }
 
+    public function hapusmaster(Request $request)
+    {
+        try {
+            $saved = Master::where('_id', $request->id)->first();
+            $saved->delete();
+            return response()->json([
+                "statusresponse" => 200,
+                'message' =>" Berhasil Menghapus",
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                "statusresponse" => 400,
+                "message" => "Gagal menghapus"
+            ]);
+        }
+    }
 
     public function tambahmaster(Request $request)
     {

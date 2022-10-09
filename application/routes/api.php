@@ -52,6 +52,7 @@ Route::get('spklist',[SPKController::class,'spklist']);
 Route::post('tambahmaster',[MasterController::class,'tambahmaster']);
 Route::post('generatemasterkit',[MasterController::class,'generatemasterkit']);
 Route::get('listmaster',[MasterController::class,'listmaster']);
+Route::delete('hapusmaster{id}',[MasterController::class,'hapusmaster']);
 
 
 Route::get('listspkshow',[AdminController::class,'getdataspk']);
