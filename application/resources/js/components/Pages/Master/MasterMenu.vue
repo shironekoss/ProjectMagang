@@ -2,13 +2,13 @@
     <div>
         <v-app>
             <div v-if="datatable">
-                <v-data-table dense :headers="headerstable" :items="datatable" :items-per-page="10"
+                <v-data-table dense :headers="headerstable" :items="datatable" :items-per-page="20"
                     class="elevation-1 font-weight-bold">
                     <template v-slot:top>
                         <v-toolbar flat>
-                            <v-toolbar-title>Daftar Departemen
+                            <v-toolbar-title>Tambahkan Master
                             </v-toolbar-title>
-                            <button class="btn btn-primary" @click="dialogTambah=true"> TAMBAH</button>
+                            <button class="btn btn-primary" @click="TambahMaster"> Tambah Master </button>
                         </v-toolbar>
                         <v-dialog v-model="dialogDelete" max-width="500px">
                             <v-card>
@@ -18,23 +18,6 @@
                                     <v-spacer></v-spacer>
                                     <v-btn color="blue darken-1" text @click="closeDialogDelete">Cancel</v-btn>
                                     <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
-                                    <v-spacer></v-spacer>
-                                </v-card-actions>
-                            </v-card>
-                        </v-dialog>
-                        <v-dialog v-model="dialogTambah" max-width="500px">
-                            <v-card>
-                                <v-card-title class="text-h5">Tambah Departemen</v-card-title>
-                                <v-container>
-                                    <v-col cols="12" sm="6" md="10">
-                                        <v-text-field label="Nama Departemen" required v-model="namaDepartemen">
-                                        </v-text-field>
-                                    </v-col>
-                                </v-container>
-                                <v-card-actions>
-                                    <v-spacer></v-spacer>
-                                    <v-btn color="blue darken-1" text @click="closeDialogTambah">Cancel</v-btn>
-                                    <v-btn color="blue darken-1" text @click="addDepartemen">Save</v-btn>
                                     <v-spacer></v-spacer>
                                 </v-card-actions>
                             </v-card>
@@ -54,9 +37,10 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            listdepartemen: [],
+            listMaster: [],
             datatable: [],
             headerstable: [
+                { text: 'No', value: 'Nama_Departemen', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Nama Departemen', value: 'Nama_Departemen', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Jumlah Account', value: 'Jumlah_account', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Action', value: 'actions', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
@@ -68,7 +52,7 @@ export default {
         }
     },
     mounted() {
-        this.getlistdepartemen();
+        this.getlistmaster();
         // this.getdatatable();
     },
     watch: {
@@ -78,21 +62,22 @@ export default {
         dialogDelete(val) {
             val || this.closeDialogDelete()
         },
-        dialogTambah(val) {
-            val || this.closeDialogTambah()
-        },
+
     },
     methods: {
-        getlistdepartemen() {
-            axios.get('/api/showdepartemen').then((response) => {
-                this.listdepartemen = []
-                this.listdepartemen = response.data
+        getlistmaster() {
+            axios.get('/api/listmaster').then((response) => {
+                this.listMaster = []
+                this.listMaster = response.data
                 this.datatable = response.data.data
                 // this.listspk.forEach(element => {
                 //     this.states.push(element.NOSPK)
                 // });
                 // this.filterstates();
             })
+        },
+        TambahMaster(){
+            this.$router.push('Master')
         },
         addDepartemen() {
             axios.post('/api/adddepartemen', { namadepartemen: this.namaDepartemen }).then((response) => {
@@ -111,13 +96,6 @@ export default {
                     this.getlistdepartemen();
                 }
             })
-        },
-        closeDialogTambah() {
-            this.dialogTambah = false
-            this.$nextTick(() => {
-                this.editedIndex = -1
-            })
-            this.namaDepartemen = ""
         },
         closeDialogDelete() {
             this.dialogDelete = false

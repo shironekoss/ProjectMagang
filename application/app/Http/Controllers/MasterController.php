@@ -9,12 +9,21 @@ use Illuminate\Http\Request;
 
 class MasterController extends Controller
 {
+    public function listmaster()
+    {
+        $master = Master::all();
+        return response()->json([
+            "statusresponse" => 200,
+            "data" => $master
+        ]);
+    }
+
+
     public function tambahmaster(Request $request)
     {
         try {
-
             $param = $request->dataparam;
-            // $kit = $request->datakit;
+            $kit = $request->datakit;
 
             //buat word menarik
             $i = 0;
@@ -159,145 +168,125 @@ class MasterController extends Controller
             }
 
 
+
+            //  Cek parameter sama atau sudah terdaftar
+            function fungsicekparameterterdaftar(array $array1, array $array2)
+            {
+                $jumlahkesamaan = 0;
+                foreach ($array2 as $isiarray2) {
+                    foreach ($array1 as $isiarray1) {
+                        if (strtoupper($isiarray1) == strtoupper($isiarray2)) {
+                            $jumlahkesamaan++;
+                            break;
+                        }
+                    }
+                }
+                if ($jumlahkesamaan == count($array2)) {
+                    return true;
+                }
+            }
+
+            $allmaster = Master::all();
+            foreach ($allmaster as $master) {
+                $saved = $master->Parameter;
+                $cekTipeMobil = false;
+                $cekModelMobil = false;
+                $cekTinggiMobil = false;
+                $cekDepartemen = false;
+                $cekStock = false;
+                $cekAdditionaParameter = false;
+
+                $cekTipeMobil = fungsicekparameterterdaftar($saved['TipeMobil'], $param['TipeMobil']);
+                $cekModelMobil = fungsicekparameterterdaftar($saved['ModelMobil'], $param['ModelMobil']);
+                $cekTinggiMobil = fungsicekparameterterdaftar($saved['TinggiMobil'], $param['TinggiMobil']);
+                $cekDepartemen = fungsicekparameterterdaftar($saved['Departemen'], $param['Departemen']);
+                if (count($param['Stock']) == 0 && count($saved['Stock']) == 0) {
+                    $cekStock = true;
+                } else {
+                    $cekStock = fungsicekparameterterdaftar($saved['Stock'], $param['Stock']);
+                }
+
+                if (count($param['NewParameter']) == 0 && count($saved['NewParameter']) == 0) {
+                    $cekAdditionaParameter = true;
+                } elseif (count($saved['NewParameter']) == count($param['NewParameter'])) {
+                    $judulparamsama = 0;
+                    foreach ($saved['NewParameter'] as $item) {
+                        foreach ($param['NewParameter'] as $item2) {
+                            if (strtoupper($item['Newparam']) == strtoupper($item2['Newparam'])) {
+                                $komponensama = 0;
+                                foreach ($item['Component'] as $komponendatabase) {
+                                    foreach ($item2['Component'] as $komponennew) {
+                                        if (strtoupper($komponendatabase) == strtoupper($komponennew)) {
+                                            $komponensama++;
+                                        }
+                                    }
+                                }
+                                if ($komponensama == count($item2['Component'])) {
+                                    $judulparamsama++;
+                                }
+                            }
+                        }
+                    }
+                    if ($judulparamsama == count($saved['NewParameter'])) {
+                        $cekAdditionaParameter = true;
+                    }
+                }
+
+                if ($cekTipeMobil && $cekModelMobil && $cekTinggiMobil && $cekDepartemen && $cekStock && $cekAdditionaParameter) {
+                    return response()->json([
+                        "success" => true,
+                        "statuscode" => 406,
+                    ]);
+                }
+            }
+
+
+            //   untuk pengecekkan result
+            $kosongkit = false;
+            if (count($kit) > 0) {
+                foreach ($kit as $subkit) {
+                    $subkit["NamaKit"] = ucwords($subkit["NamaKit"]);
+                    if (count($subkit['IsiKit']) > 0) {
+                        $j = 0;
+                        foreach ($subkit['IsiKit'] as $komponen) {
+                            $komponen[$j]['nama_komponen'] = ucwords($komponen['nama_komponen']);
+                            $j++;
+                        }
+                    }
+                    foreach ($subkit['IsiKit'] as $komponen) {
+                        // if ($komponen['nama_komponen'] == null || $komponen['qty'] == null || $komponen['darirak'] == null || $komponen['kerak'] == null) {
+                        //     $kosongkit = true;
+                        //     break;
+                        // }
+                        if ($komponen['nama_komponen'] == null || $komponen['qty'] == null) {
+                            $kosongkit = true;
+                            break;
+                        }
+                    }
+                }
+            } else {
+                return response()->json([
+                    "success" => true,
+                    "statuscode" => 405,
+                ]);
+            }
+            if ($kosongkit) {
+                return response()->json([
+                    "success" => true,
+                    "statuscode" => 408,
+                ]);
+            }
+
+            // insert data
+            $Newmaster = Master::create([
+                "Kit" => $kit,
+                "Parameter" => $param,
+            ]);
             return response()->json([
                 "success" => true,
                 "statuscode" => 200,
-                "y" => $param
+                "kit" => $kit
             ]);
-
-
-
-
-
-
-
-
-
-            //     function fungsicekparameterterdaftar(array $array1, array $array2)
-            //     {
-            //         $jumlahkesamaan = 0;
-            //         foreach ($array2 as $isiarray2) {
-            //             foreach ($array1 as $isiarray1) {
-            //                 if (strtoupper($isiarray1) == strtoupper($isiarray2)) {
-            //                     $jumlahkesamaan++;
-            //                     break;
-            //                 }
-            //             }
-            //         }
-            //         if ($jumlahkesamaan > 0) {
-            //             return true;
-            //         }
-            //     }
-
-            //     $allmaster = Master::all();
-            //     foreach ($allmaster as $master) {
-            //         $saved = $master->parameter;
-            //         $cekkodemobil = false;
-            //         $cekmodelbagasi = false;
-            //         $cekmodelpintu = false;
-            //         $cekmodelbangku = false;
-            //         $cekmodelbody = false;
-            //         $cekmodellampubelakang = false;
-            //         $cekmodeltangga = false;
-            //         $cekstall = false;
-            //         $cekadditionalparameter = false;
-            //         if (strtoupper($saved['kodemobil']) == strtoupper($param['kodemobil'])) {
-            //             $cekkodemobil = true;
-            //         }
-            //         $cekmodelbagasi = fungsicekparameterterdaftar($saved['modelbagasi'], $param['modelbagasi']);
-            //         $cekmodelpintu = fungsicekparameterterdaftar($saved['modelpintu'], $param['modelpintu']);
-            //         $cekmodelbangku = fungsicekparameterterdaftar($saved['modelbangku'], $param['modelbangku']);
-            //         $cekmodelbody = fungsicekparameterterdaftar($saved['modelbody'], $param['modelbody']);
-            //         $cekmodellampubelakang = fungsicekparameterterdaftar($saved['modellampubelakang'], $param['modellampubelakang']);
-            //         $cekmodeltangga = fungsicekparameterterdaftar($saved['modeltangga'], $param['modeltangga']);
-            //         if (strtoupper($saved['stall']) == strtoupper($param['stall'])) {
-            //             $cekstall = true;
-            //         }
-            //         if (count($param['newparameter']) == 0) {
-            //             $cekadditionalparameter = true;
-            //         } elseif (count($saved['newparameter']) == count($param['newparameter'])) {
-            //             $judulparamsama = 0;
-            //             foreach ($saved['newparameter'] as $item) {
-            //                 foreach ($param['newparameter'] as $item2) {
-            //                     if (strtoupper($item['newparam']) == strtoupper($item2['newparam'])) {
-            //                         $komponensama = 0;
-            //                         foreach ($item['components'] as $komponendatabase) {
-            //                             foreach ($item2['components'] as $komponennew) {
-            //                                 if (strtoupper($komponendatabase) == strtoupper($komponennew)) {
-            //                                     $komponensama++;
-            //                                 }
-            //                             }
-            //                         }
-            //                         if ($komponensama == count($item2['components'])) {
-            //                             $judulparamsama++;
-            //                         }
-            //                     }
-            //                 }
-            //                 if ($judulparamsama == count($saved['newparameter'])) {
-            //                     $cekadditionalparameter = true;
-            //                     // return response()->json([
-            //                     //     "success" => true,
-            //                     //     "statuscode" => 411,
-            //                     // ]);
-            //                 }
-            //             }
-            //         }
-            //         if ($cekkodemobil && $cekmodelbagasi && $cekmodelpintu && $cekmodelbangku && $cekmodelbody && $cekmodellampubelakang && $cekmodeltangga && $cekstall && $cekadditionalparameter) {
-            //             return response()->json([
-            //                 "success" => true,
-            //                 "statuscode" => 407,
-            //             ]);
-            //         }
-            //     }
-            //     //   untuk pengecekkan result Head
-            //     $kosongkit = false;
-            //     if ($kit['namakit'] != null) {
-            //         $kit['namakit'] = strtoupper($kit['namakit']);
-            //     }
-            //     if (count($kit['result']) > 0) {
-            //         $j = 0;
-            //         foreach ($kit['result'] as $result) {
-            //             $kit['result'][$j]['nama_komponen'] = strtoupper($result['nama_komponen']);
-            //             $j++;
-            //         }
-            //     }
-            //     if ($kit['namakit'] == null) {
-            //         return response()->json([
-            //             "success" => true,
-            //             "statuscode" => 402,
-            //         ]);
-            //     } elseif (count($kit['result']) == 0) {
-            //         return response()->json([
-            //             "success" => true,
-            //             "statuscode" => 403,
-            //         ]);
-            //     } elseif (count($kit['result']) > 0) {
-
-            //         foreach ($kit['result'] as $result) {
-            //             if ($result['nama_komponen'] == null || $result['qty'] == null || $result['darirak'] == null || $result['kerak'] == null) {
-            //                 $kosongkit = true;
-            //                 break;
-            //             }
-            //         }
-            //     }
-            //     if ($kosongkit) {
-            //         return response()->json([
-            //             "success" => true,
-            //             "statuscode" => 404,
-            //         ]);
-            //     }
-            //     // cek komponen sampai sini Tail
-
-            //     // insert data
-            //     $Newmaster = Master::create([
-            //         "kit" => $kit,
-            //         "parameter" => $param,
-            //     ]);
-            //     return response()->json([
-            //         "success" => true,
-            //         "statuscode" => 200,
-            //         "kit" => $kit
-            //     ]);
         } catch (\Throwable $th) {
             return response()->json([
                 "success" => true,
@@ -330,8 +319,7 @@ class MasterController extends Controller
                 "statuscode" => 400,
                 "data" => $request->param,
                 "message" => "tidak ditemukan",
-            ]); //throw $th;
-
+            ]);
         } catch (\Throwable $th) {
             return response()->json([
                 "success" => true,

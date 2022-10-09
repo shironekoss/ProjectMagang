@@ -31,7 +31,7 @@
                     Login
                 </v-btn>
             </router-link>
-            <router-link :to="{ name: 'Master' }">
+            <router-link :to="{ name: 'MasterList' }">
                 <v-btn>
                     master
                 </v-btn>

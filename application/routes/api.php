@@ -48,8 +48,11 @@ Route::get('listdepartemen',[SettingsController::class,'getlistdepartemen']);
 Route::post('tambahSPK',[SPKController::class,'tambahSPK']);
 Route::get('spklist',[SPKController::class,'spklist']);
 
+
 Route::post('tambahmaster',[MasterController::class,'tambahmaster']);
 Route::post('generatemasterkit',[MasterController::class,'generatemasterkit']);
+Route::get('listmaster',[MasterController::class,'listmaster']);
+
 
 Route::get('listspkshow',[AdminController::class,'getdataspk']);
 Route::get('getdatatable',[AdminController::class,'getdatatable']);

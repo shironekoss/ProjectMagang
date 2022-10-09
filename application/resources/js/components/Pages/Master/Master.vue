@@ -457,7 +457,7 @@ export default {
                                 icon: 'error'
                             });
                         } else {
-                            this.Result.push({ NamaKit: datanamakit, Kodekit: dataKodeKit, IsiKit: dataisikit })
+                            this.Result.push({ NamaKit: datanamakit, Kodekit: dataKodeKit, IsiKit: dataisikit})
                             this.$swal({
                                 title: 'Sukses generate data ' + response.data.result.kode_kit.toUpperCase(),
                                 icon: 'success'
@@ -541,6 +541,25 @@ export default {
                     if (response.data.statuscode == 404) {
                         this.$swal({ title: 'Pengisian Parameter Tambahan kembar, perhatikan kembali pengisiannya', icon: 'error' });
                     }
+                    if (response.data.statuscode == 405) {
+                        this.$swal({ title: 'Kit Kosong Harus ada kit Minimal 1, Tolong generate', icon: 'error' });
+                    }
+                    if (response.data.statuscode == 406) {
+                        this.$swal({ title: 'Master dengan Parameter ini sudah terdaftar', icon: 'error' });
+                    }
+                    if (response.data.statuscode == 407) {
+                        this.$swal({ title: 'Pengisian Additional parameter ', icon: 'error' });
+                    }
+                    if (response.data.statuscode == 408) {
+                        this.$swal({ title: 'Nama Komponen Kit atau Qty Tidak boleh Kosong ', icon: 'error' });
+                    }
+                    if (response.data.statuscode == 410) {
+                        this.$swal({ title: 'Kit Rak masih ada yang kosong', icon: 'error' });
+                    }
+                    if (response.data.statuscode == 200) {
+                        this.$swal({ title: 'Sukses Menambahkan Master', icon: 'success' });
+                    }
+
                 }
             })
             .catch((error) => {
