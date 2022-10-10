@@ -30,6 +30,12 @@ class MasterController extends Controller
         ]);
     }
 
+    public function carimaster($id)
+    {
+        $master = Master::find($id);
+        return $master;
+    }
+
     public function hapusmaster(Request $request)
     {
         try {
@@ -37,7 +43,7 @@ class MasterController extends Controller
             $saved->delete();
             return response()->json([
                 "statusresponse" => 200,
-                'message' =>" Berhasil Menghapus",
+                'message' => " Berhasil Menghapus",
             ]);
         } catch (\Throwable $th) {
             return response()->json([
@@ -315,6 +321,266 @@ class MasterController extends Controller
                 "statuscode" => 200,
                 "kit" => $kit
             ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                "success" => true,
+                "statuscode" => 410,
+                "message" => "Response salah",
+                // "message" => $allmaster,
+            ]);
+        }
+    }
+
+    public function updatemaster(Request $request)
+    {
+
+        try {
+            $param = $request->dataparam;
+            $kit = $request->datakit;
+
+            //buat word menarik
+            $i = 0;
+            foreach ($param['TipeMobil'] as $item) {
+                $param['TipeMobil'][$i] = ucwords($item);
+                $i++;
+            }
+            $i = 0;
+            foreach ($param['ModelMobil'] as $item) {
+                $param['ModelMobil'][$i] = ucwords($item);
+                $i++;
+            }
+            $i = 0;
+            foreach ($param['TinggiMobil'] as $item) {
+                $param['TinggiMobil'][$i] = ucwords($item);
+                $i++;
+            }
+            $i = 0;
+            foreach ($param['Departemen'] as $item) {
+                $param['Departemen'][$i] = ucwords($item);
+                $i++;
+            }
+            $i = 0;
+            foreach ($param['Stock'] as $item) {
+                $param['Stock'][$i] = ucwords($item);
+                $i++;
+            }
+            $i = 0;
+            foreach ($param['NewParameter'] as $newparam) {
+                $param['NewParameter'][$i]['Newparam'] = ucwords($newparam['Newparam']);
+                $j = 0;
+                foreach ($newparam['Component'] as $parameterbaru) {
+                    $param['NewParameter'][$i]['Component'][$j] = ucwords($parameterbaru);
+                    $j++;
+                }
+                $i++;
+            }
+
+             function FungsiUpdatecekKosong(array $cek)
+            {
+                if (count($cek) == 0) {
+                    return true;
+                }
+            }
+
+            $paramkosong = false;
+            if (!$paramkosong) {
+                $paramkosong = FungsiUpdatecekKosong($param['TipeMobil']);
+            }
+            if (!$paramkosong) {
+                $paramkosong = FungsiUpdatecekKosong($param['ModelMobil']);
+            }
+            if (!$paramkosong) {
+                $paramkosong = FungsiUpdatecekKosong($param['TinggiMobil']);
+            }
+            if (!$paramkosong) {
+                $paramkosong = FungsiUpdatecekKosong($param['Departemen']);
+            }
+
+            if ($paramkosong) {
+                return response()->json([
+                    "success" => true,
+                    "statuscode" => 401,
+                ]);
+            }
+
+            function fungsiupdateceksama(array $cek)
+            {
+                if (count($cek) !== count(array_unique($cek))) {
+                    return true;
+                }
+            }
+
+            $paramsama = false;
+            if (!$paramsama) {
+                $paramsama = fungsiupdateceksama($param['TipeMobil']);
+            }
+            if (!$paramsama) {
+                $paramsama = fungsiupdateceksama($param['ModelMobil']);
+            }
+            if (!$paramsama) {
+                $paramsama = fungsiupdateceksama($param['TinggiMobil']);
+            }
+            if (!$paramsama) {
+                $paramsama = fungsiupdateceksama($param['Departemen']);
+            }
+            if (!$paramsama) {
+                $paramsama = fungsiupdateceksama($param['Stock']);
+            }
+
+            if ($paramsama) {
+                return response()->json([
+                    "success" => true,
+                    "statuscode" => 402,
+                ]);
+            }
+
+            //untuk pengecekkan tambahan
+            $paramtambahankosong = false;
+            foreach ($param['NewParameter'] as $newparam) {
+                if ($newparam['Newparam'] == "" || $newparam['Newparam'] == null) {
+                    $paramtambahankosong = true;
+                    break;
+                }
+                foreach ($newparam['Component'] as $komponen) {
+                    if ($komponen == "" || $komponen == null) {
+                        $paramtambahankosong = true;
+                        break;
+                    }
+                }
+                if ($paramtambahankosong) {
+                    break;
+                }
+            }
+            if ($paramtambahankosong) {
+                return response()->json([
+                    "success" => true,
+                    "statuscode" => 403,
+                ]);
+            }
+
+            //untuk pengecekkan paramtambahansama
+            $paramtambahansama = false;
+            $judulparamtambahankembar = array();
+            foreach ($param['NewParameter'] as $newparam) {
+                array_push($judulparamtambahankembar, $newparam['Newparam']);
+                if (count($newparam['Component']) !== count(array_unique($newparam['Component']))) {
+                    $paramtambahansama = true;
+                    break;
+                }
+            }
+            if (count($judulparamtambahankembar) !== count(array_unique($judulparamtambahankembar))) {
+                $paramtambahansama = true;
+            }
+            if ($paramtambahansama) {
+                return response()->json([
+                    "success" => true,
+                    "statuscode" => 404,
+                ]);
+            }
+
+            $allmaster = Master::all()->where('_id','!=',$request->id);
+            foreach ($allmaster as $master) {
+                $saved = $master->Parameter;
+                $cekTipeMobil = false;
+                $cekModelMobil = false;
+                $cekTinggiMobil = false;
+                $cekDepartemen = false;
+                $cekStock = false;
+                $cekAdditionaParameter = false;
+                $cekTipeMobil = fungsicekparameterterdaftar($saved['TipeMobil'], $param['TipeMobil']);
+                $cekModelMobil = fungsicekparameterterdaftar($saved['ModelMobil'], $param['ModelMobil']);
+                $cekTinggiMobil = fungsicekparameterterdaftar($saved['TinggiMobil'], $param['TinggiMobil']);
+                $cekDepartemen = fungsicekparameterterdaftar($saved['Departemen'], $param['Departemen']);
+                if (count($param['Stock']) == 0 && count($saved['Stock']) == 0) {
+                    $cekStock = true;
+                } else {
+                    $cekStock = fungsicekparameterterdaftar($saved['Stock'], $param['Stock']);
+                }
+
+                if (count($param['NewParameter']) == 0 && count($saved['NewParameter']) == 0) {
+                    $cekAdditionaParameter = true;
+                } elseif (count($saved['NewParameter']) == count($param['NewParameter'])) {
+                    $judulparamsama = 0;
+                    foreach ($saved['NewParameter'] as $item) {
+                        foreach ($param['NewParameter'] as $item2) {
+                            if (strtoupper($item['Newparam']) == strtoupper($item2['Newparam'])) {
+                                $komponensama = 0;
+                                foreach ($item['Component'] as $komponendatabase) {
+                                    foreach ($item2['Component'] as $komponennew) {
+                                        if (strtoupper($komponendatabase) == strtoupper($komponennew)) {
+                                            $komponensama++;
+                                        }
+                                    }
+                                }
+                                if ($komponensama == count($item2['Component'])) {
+                                    $judulparamsama++;
+                                }
+                            }
+                        }
+                    }
+                    if ($judulparamsama == count($saved['NewParameter'])) {
+                        $cekAdditionaParameter = true;
+                    }
+                }
+
+                if ($cekTipeMobil && $cekModelMobil && $cekTinggiMobil && $cekDepartemen && $cekStock && $cekAdditionaParameter) {
+                    return response()->json([
+                        "success" => true,
+                        "statuscode" => 406,
+                    ]);
+                }
+            }
+
+
+
+            //   untuk pengecekkan result
+            $kosongkit = false;
+            if (count($kit) > 0) {
+                foreach ($kit as $subkit) {
+                    $subkit["NamaKit"] = ucwords($subkit["NamaKit"]);
+                    if (count($subkit['IsiKit']) > 0) {
+                        $j = 0;
+                        foreach ($subkit['IsiKit'] as $komponen) {
+                            $komponen[$j]['nama_komponen'] = ucwords($komponen['nama_komponen']);
+                            $j++;
+                        }
+                    }
+                    foreach ($subkit['IsiKit'] as $komponen) {
+                        // if ($komponen['nama_komponen'] == null || $komponen['qty'] == null || $komponen['darirak'] == null || $komponen['kerak'] == null) {
+                        //     $kosongkit = true;
+                        //     break;
+                        // }
+                        if ($komponen['nama_komponen'] == null || $komponen['qty'] == null) {
+                            $kosongkit = true;
+                            break;
+                        }
+                    }
+                }
+            } else {
+                return response()->json([
+                    "success" => true,
+                    "statuscode" => 405,
+                ]);
+            }
+            if ($kosongkit) {
+                return response()->json([
+                    "success" => true,
+                    "statuscode" => 408,
+                ]);
+            }
+
+            // insert data
+            $newupdate = Master::find($request->id);
+            $newupdate->Kit= $kit;
+            $newupdate->Parameter= $param;
+            $newupdate->save();
+
+            return response()->json([
+                "success" => true,
+                "statuscode" => 200,
+                "kit" => $newupdate
+            ]);
+
         } catch (\Throwable $th) {
             return response()->json([
                 "success" => true,

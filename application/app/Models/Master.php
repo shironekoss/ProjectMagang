@@ -12,9 +12,6 @@ class Master extends Model
     use SoftDeletes;
     protected $connection = 'mongodb';
     protected $collection = 'Master_Db';
-    // protected $table        = "accounts";
-    // protected $primaryKey   = "account_id";
-    // public $incrementing    = true;
     public $timestamps      = true;
 
     protected $fillable = [

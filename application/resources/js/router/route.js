@@ -14,6 +14,7 @@ const InputNoSPK = require('../components/Pages/InputNoSPK/InputSPKComponent.vue
 const DaftarSPK = require('../components/Pages/InputNoSPK/DaftarSPK.vue').default
 const Master = require('../components/Pages/Master/Master.vue').default
 const MasterList = require('../components/Pages/Master/MasterMenu.vue').default
+const EditMaster = require('../components/Pages/Master/Masteredit.vue').default
 const inputadmin = require('../components/Pages/InputComponent/input.vue').default
 const history = require('../components/Pages/InputComponent/History.vue').default
 const Cekresult = require('../components/Pages/InputComponent/ShowResultComponent.vue').default
@@ -60,6 +61,12 @@ const route = [
         name:'Master',
         path:'/Master',
         component: Master
+    },
+    {
+        name:'MasterEdit',
+        path:'/Master/:id',
+        component: EditMaster,
+        props:true
     },
     {
         name:'MasterList',

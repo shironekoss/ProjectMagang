@@ -29,7 +29,7 @@
                         </v-dialog>
                     </template>
                     <template v-slot:item.actions="{ item }">
-                        <v-btn depressed color="teal lighten-3" @click="Edit(item)">Edit</v-btn>
+                        <v-btn depressed color="teal lighten-3" @click="editmaster(item)">Edit</v-btn>
                         <v-btn depressed color="error" @click="deleteItem(item)">Hapus</v-btn>
                     </template>
                 </v-data-table>
@@ -91,6 +91,12 @@ export default {
                 this.editedIndex = -1
             })
             this.NamaKitHapus = ""
+        },
+        editmaster(item) {
+            this.$router.push({
+                name: 'MasterEdit',
+                params: { id: item['_id'] }
+            })
         },
         deleteItem(item) {
             this.NamaKitHapus = item.NamaKit
