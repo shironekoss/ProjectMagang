@@ -315,8 +315,6 @@ export default {
             },
             Result: [],
             ListDept: [],
-
-            componentsnewparameter: []
         }
     },
     mounted() {
@@ -485,10 +483,8 @@ export default {
                 Component: [""]
             }
             this.Parameter.NewParameter.push(objnewparam)
-            // this.componentsnewparameter.push(objnewparam)
         },
         hapuskomponen() {
-            // this.componentsnewparameter.splice(-1, 1);
             this.Parameter.NewParameter.splice(-1, 1);
         },
         addnewcomponent(index) {

@@ -300,8 +300,6 @@ export default {
             },
             Result: [],
             ListDept: [],
-
-            componentsnewparameter: []
         }
     },
     mounted() {
@@ -419,6 +417,31 @@ export default {
             axios.get('/api/master/' + this.id).then((response) => {
                 this.Parameter=response.data.Parameter
                 this.Result=response.data.Kit
+                if(this.Parameter['TipeMobil'].length>1){
+                    for (let i = 1; i < this.Parameter['TipeMobil'].length; i++) {
+                        this.ComponentTambahanTipeMobil.push('true')
+                    }
+                }
+                if(this.Parameter['ModelMobil'].length>1){
+                    for (let i = 1; i < this.Parameter['ModelMobil'].length; i++) {
+                        this.ComponentTambahanModelMobil.push('true')
+                    }
+                }
+                if(this.Parameter['TinggiMobil'].length>1){
+                    for (let i = 1; i < this.Parameter['TinggiMobil'].length; i++) {
+                        this.ComponentTambahanTinggiMobil.push('true')
+                    }
+                }
+                if(this.Parameter['Departemen'].length>1){
+                    for (let i = 1; i < this.Parameter['Departemen'].length; i++) {
+                        this.ComponentTambahanDepartemen.push('true')
+                    }
+                }
+                if(this.Parameter['Stock'].length>1){
+                    for (let i = 1; i < this.Parameter['Stock'].length; i++) {
+                        this.ComponentTambahanStock.push('true')
+                    }
+                }
             })
         },
         getlistdepartemen() {
@@ -477,10 +500,8 @@ export default {
                 Component: [""]
             }
             this.Parameter.NewParameter.push(objnewparam)
-            // this.componentsnewparameter.push(objnewparam)
         },
         hapuskomponen() {
-            // this.componentsnewparameter.splice(-1, 1);
             this.Parameter.NewParameter.splice(-1, 1);
         },
         addnewcomponent(index) {

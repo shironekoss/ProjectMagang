@@ -478,7 +478,23 @@ class MasterController extends Controller
                 ]);
             }
 
-            $allmaster = Master::all()->where('_id','!=',$request->id);
+
+            function fungsicekparameterupdatetambahan(array $array1, array $array2)
+            {
+                $jumlahkesamaan = 0;
+                foreach ($array2 as $isiarray2) {
+                    foreach ($array1 as $isiarray1) {
+                        if (strtoupper($isiarray1) == strtoupper($isiarray2)) {
+                            $jumlahkesamaan++;
+                            break;
+                        }
+                    }
+                }
+                if ($jumlahkesamaan == count($array2)) {
+                    return true;
+                }
+            }
+            $allmaster = Master::where('_id','!=',$request->id)->get();
             foreach ($allmaster as $master) {
                 $saved = $master->Parameter;
                 $cekTipeMobil = false;
@@ -487,16 +503,15 @@ class MasterController extends Controller
                 $cekDepartemen = false;
                 $cekStock = false;
                 $cekAdditionaParameter = false;
-                $cekTipeMobil = fungsicekparameterterdaftar($saved['TipeMobil'], $param['TipeMobil']);
-                $cekModelMobil = fungsicekparameterterdaftar($saved['ModelMobil'], $param['ModelMobil']);
-                $cekTinggiMobil = fungsicekparameterterdaftar($saved['TinggiMobil'], $param['TinggiMobil']);
-                $cekDepartemen = fungsicekparameterterdaftar($saved['Departemen'], $param['Departemen']);
+                $cekTipeMobil = fungsicekparameterupdatetambahan($saved['TipeMobil'], $param['TipeMobil']);
+                $cekModelMobil = fungsicekparameterupdatetambahan($saved['ModelMobil'], $param['ModelMobil']);
+                $cekTinggiMobil = fungsicekparameterupdatetambahan($saved['TinggiMobil'], $param['TinggiMobil']);
+                $cekDepartemen = fungsicekparameterupdatetambahan($saved['Departemen'], $param['Departemen']);
                 if (count($param['Stock']) == 0 && count($saved['Stock']) == 0) {
                     $cekStock = true;
                 } else {
-                    $cekStock = fungsicekparameterterdaftar($saved['Stock'], $param['Stock']);
+                    $cekStock = fungsicekparameterupdatetambahan($saved['Stock'], $param['Stock']);
                 }
-
                 if (count($param['NewParameter']) == 0 && count($saved['NewParameter']) == 0) {
                     $cekAdditionaParameter = true;
                 } elseif (count($saved['NewParameter']) == count($param['NewParameter'])) {
@@ -530,9 +545,6 @@ class MasterController extends Controller
                     ]);
                 }
             }
-
-
-
             //   untuk pengecekkan result
             $kosongkit = false;
             if (count($kit) > 0) {
@@ -578,7 +590,7 @@ class MasterController extends Controller
             return response()->json([
                 "success" => true,
                 "statuscode" => 200,
-                "kit" => $newupdate
+                "kit" => $allmaster
             ]);
 
         } catch (\Throwable $th) {
