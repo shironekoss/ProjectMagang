@@ -7,7 +7,7 @@
                     <v-col cols="12" sm="6" md="3">
                         <span>NO SPK</span>
                         <v-select :items="listspk" item-text="text" item-value="value" required class="form-control"
-                            placeholder="Pilih Nomor SPK" v-model="state">
+                            placeholder="Pilih Nomor SPK" v-model="SPKfield">
                         </v-select>
                         <div v-if="filteredStates && modal">
                             <ul style="width: 48em;	background-color: rgb(31 41 55); color: white;">
@@ -19,23 +19,12 @@
                     </v-col>
                     <v-col cols="12" sm="6" md="3">
                         <span>STALL</span>
-
-                        <div v-if="ChangeStallmode">
-                            <v-text-field dense type="number" v-model="stall" :max="max" :min="min"
-                                placeholder="Masukkan Nomor Stall" outlined>
+                            <v-text-field dense :type="Changemode" v-model="stall"
+                              outlined :placeholder="Placeholdertext">
                             </v-text-field>
-                        </div>
-                        <div v-else>
-                            <v-text-field dense type="text" v-model="stall"
-                                placeholder="Masukkan nama Stock" outlined>
-                            </v-text-field>
-                        </div>
-
-
-
                     </v-col>
                     <v-col cols="12" sm="6" md="3">
-                        <span>KODE</span>
+                        <span>Departemen</span>
                         <v-text-field dense type="text" v-model="kode" disabled outlined>
                         </v-text-field>
                     </v-col>
@@ -88,7 +77,8 @@ export default {
             datatable: [],
             filteredStates: [],
             SPKfield: "",
-            ChangeStallmode: true,
+            Placeholdertext: "Masukkan Stall",
+            Changemode:"number",
             states: [],
             state: '',
             modal: false,
@@ -125,13 +115,21 @@ export default {
         dialogDelete(val) {
             val || this.closeDelete()
         },
-        SPKfield() {
-            if (this.SPKfield != "STOCK") {
-                ChangeStallmode = !ChangeStallmode;
+        SPKfield:function() {
+            if (this.SPKfield == "STOCK") {
+                this.Changemode="text"
+                this.Placeholdertext="Masukkan Nama Stall"
+                this.stall=""
             }
-        }
+            else{
+                this.stall=0
+            }
+        },
     },
     methods: {
+        changevalue(value){
+            this.ChangeStallmode=value
+        },
         getlistspk() {
             axios.get('/api/listspkshow').then((response) => {
                 this.listspk = []
