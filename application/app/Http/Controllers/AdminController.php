@@ -185,7 +185,7 @@ class AdminController extends Controller
                             if ($judulcomponent == count($item1["parameter"]["newparameter"])) {
                                 $parammodelnewparameter = true;
                             } else if (count($messageforneparam) == 0) {
-                                array_push($messageforneparam, "parameter tambahan " . $item1["parameter"]["newparameter"][0]["newparam"]. " tidak ada");
+                                array_push($messageforneparam, "parameter tambahan " . $item1["parameter"]["newparameter"][0]["newparam"] . " tidak ada");
                             }
                         }
                     }
@@ -253,18 +253,29 @@ class AdminController extends Controller
     {
         $nospk = strtoupper($request->Nospk);
         $stall = $request->Stall;
-        if ($stall == 0 || $nospk == null) {
+        if ($stall == 0 || $stall == "" || $nospk == null) {
             return response()->json([
                 "success" => true,
                 "status" => 400,
             ]);
         } else {
             try {
-                $spk = SPK::where('NOSPK', $nospk)->first();
-                $array = $spk->StallUsed;
-                if ($spk["StallUsed"][$stall - 1] == false) {
+                if ($nospk == "STOCK") {
+                    $newdata = SavedConversionResult::create([
+                        "NOSPK" => $nospk,
+                        "stall" => $stall,
+                        "checked" => false,
+                        "status" => "Pending",
+                        "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
+                        "updated_at" => Carbon::now()->format('Y-m-d H:i:s'),
+                    ]);
+                    return response()->json([
+                        "success" => true,
+                        "status" => 200,
+                    ]);
+                } else {
+                    $spk = SPK::where('NOSPK', $nospk)->first();
                     $parameter = $spk->parameter;
-                    $parameter["stall"] = $stall;
                     $newdata = SavedConversionResult::create([
                         "NOSPK" => $spk->NOSPK,
                         "stall" => $stall,
@@ -274,22 +285,11 @@ class AdminController extends Controller
                         "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
                         "updated_at" => Carbon::now()->format('Y-m-d H:i:s'),
                     ]);
-
-                    $array[$stall - 1] = true;
-                    $spk->StallUsed = $array;
-                    $spk->save();
                     return response()->json([
                         "success" => true,
                         "status" => 200,
-                        "spk" => $spk["StallUsed"],
+                        "spk" => $spk,
                         "newdata" => $parameter
-                    ]);
-                } elseif ($spk["StallUsed"][$stall - 1] == true) {
-                    return response()->json([
-                        "success" => true,
-                        "status" => 401,
-                        "spk" => "sudah ada woi",
-                        "newdata" => "Tidak ada data baru"
                     ]);
                 }
             } catch (\Throwable $th) {
