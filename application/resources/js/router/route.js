@@ -15,8 +15,8 @@ const DaftarSPK = require('../components/Pages/InputNoSPK/DaftarSPK.vue').defaul
 const Master = require('../components/Pages/Master/Master.vue').default
 const MasterList = require('../components/Pages/Master/MasterMenu.vue').default
 const EditMaster = require('../components/Pages/Master/Masteredit.vue').default
-const inputadmin = require('../components/Pages/InputComponent/input.vue').default
-const inputadmintemp = require('../components/Pages/InputComponent/inputtemp.vue').default
+// const inputadmin = require('../components/Pages/InputComponent/input.vue').default
+const inputadmin = require('../components/Pages/InputComponent/inputtemp.vue').default
 const history = require('../components/Pages/InputComponent/History.vue').default
 const Cekresult = require('../components/Pages/InputComponent/ShowResultComponent.vue').default
 const Settings = require('../components/Pages/Settings/Settings.vue').default
@@ -52,11 +52,6 @@ const route = [
         name:'InputNoSPK',
         path:'/inputspk',
         component: InputNoSPK
-    },
-    {
-        name:'INPUTSPKTEMP',
-        path:'/inputadmintemp',
-        component: inputadmintemp
     },
     {
         name:'DaftarSPK',
