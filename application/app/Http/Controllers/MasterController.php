@@ -117,6 +117,9 @@ class MasterController extends Controller
             if (!$paramkosong) {
                 $paramkosong = FungsicekKosong($param['Departemen']);
             }
+            if (!$paramkosong) {
+                $paramkosong = FungsicekKosong($param['Stall']);
+            }
 
             if ($paramkosong) {
                 return response()->json([
@@ -145,6 +148,9 @@ class MasterController extends Controller
             }
             if (!$paramsama) {
                 $paramsama = fungsiceksama($param['Departemen']);
+            }
+            if (!$paramsama) {
+                $paramsama = fungsiceksama($param['Stall']);
             }
             if (!$paramsama) {
                 $paramsama = fungsiceksama($param['Stock']);
@@ -227,13 +233,14 @@ class MasterController extends Controller
                 $cekModelMobil = false;
                 $cekTinggiMobil = false;
                 $cekDepartemen = false;
+                $cekstall = false;
                 $cekStock = false;
                 $cekAdditionaParameter = false;
-
                 $cekTipeMobil = fungsicekparameterterdaftar($saved['TipeMobil'], $param['TipeMobil']);
                 $cekModelMobil = fungsicekparameterterdaftar($saved['ModelMobil'], $param['ModelMobil']);
                 $cekTinggiMobil = fungsicekparameterterdaftar($saved['TinggiMobil'], $param['TinggiMobil']);
                 $cekDepartemen = fungsicekparameterterdaftar($saved['Departemen'], $param['Departemen']);
+                $cekstall = fungsicekparameterterdaftar($saved['Stall'], $param['Stall']);
                 if (count($param['Stock']) == 0 && count($saved['Stock']) == 0) {
                     $cekStock = true;
                 } else {
@@ -266,7 +273,7 @@ class MasterController extends Controller
                     }
                 }
 
-                if ($cekTipeMobil && $cekModelMobil && $cekTinggiMobil && $cekDepartemen && $cekStock && $cekAdditionaParameter) {
+                if ($cekTipeMobil && $cekModelMobil && $cekTinggiMobil && $cekDepartemen && $cekStock &&$cekstall && $cekAdditionaParameter) {
                     return response()->json([
                         "success" => true,
                         "statuscode" => 406,
@@ -333,7 +340,6 @@ class MasterController extends Controller
 
     public function updatemaster(Request $request)
     {
-
         try {
             $param = $request->dataparam;
             $kit = $request->datakit;
@@ -395,6 +401,12 @@ class MasterController extends Controller
             if (!$paramkosong) {
                 $paramkosong = FungsiUpdatecekKosong($param['Departemen']);
             }
+            if (!$paramkosong) {
+                $paramsama = FungsiUpdatecekKosong($param['Stall']);
+            }
+            if (!$paramkosong) {
+                $paramsama = FungsiUpdatecekKosong($param['Stock']);
+            }
 
             if ($paramkosong) {
                 return response()->json([
@@ -422,6 +434,9 @@ class MasterController extends Controller
             }
             if (!$paramsama) {
                 $paramsama = fungsiupdateceksama($param['Departemen']);
+            }
+             if (!$paramsama) {
+                $paramsama = fungsiupdateceksama($param['Stall']);
             }
             if (!$paramsama) {
                 $paramsama = fungsiupdateceksama($param['Stock']);
@@ -501,12 +516,14 @@ class MasterController extends Controller
                 $cekModelMobil = false;
                 $cekTinggiMobil = false;
                 $cekDepartemen = false;
+                $cekstall=false;
                 $cekStock = false;
                 $cekAdditionaParameter = false;
                 $cekTipeMobil = fungsicekparameterupdatetambahan($saved['TipeMobil'], $param['TipeMobil']);
                 $cekModelMobil = fungsicekparameterupdatetambahan($saved['ModelMobil'], $param['ModelMobil']);
                 $cekTinggiMobil = fungsicekparameterupdatetambahan($saved['TinggiMobil'], $param['TinggiMobil']);
                 $cekDepartemen = fungsicekparameterupdatetambahan($saved['Departemen'], $param['Departemen']);
+                $cekstall = fungsicekparameterupdatetambahan($saved['Stall'], $param['Stall']);
                 if (count($param['Stock']) == 0 && count($saved['Stock']) == 0) {
                     $cekStock = true;
                 } else {
@@ -538,7 +555,7 @@ class MasterController extends Controller
                     }
                 }
 
-                if ($cekTipeMobil && $cekModelMobil && $cekTinggiMobil && $cekDepartemen && $cekStock && $cekAdditionaParameter) {
+                if ($cekTipeMobil && $cekModelMobil && $cekTinggiMobil && $cekDepartemen && $cekStock && $cekAdditionaParameter && $cekstall) {
                     return response()->json([
                         "success" => true,
                         "statuscode" => 406,

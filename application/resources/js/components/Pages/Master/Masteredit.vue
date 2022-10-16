@@ -140,6 +140,34 @@
                         </div>
                         <div class="row">
                             <div class="col">
+                                <h5>Stall</h5>
+                            </div>
+                            <div class="col-9">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <input type="number" v-model="Parameter.Stall[0]" class="form-control">
+                                    </div>
+                                    <div class="col">
+                                        <button type="button" :disabled='isActiveStall'
+                                            @click="add('Stall')" class="btn btn-primary">TAMBAH</button>
+                                    </div>
+                                    <div class="col">
+                                        <button type="button" @click="remove('Stall')"
+                                            class="btn btn-danger">HAPUS
+                                        </button>
+                                    </div>
+                                </div>
+                                <div v-for="(component, index) in ComponentTambahanStall" :key="index" :id=index
+                                    tipe="StallMobil" class="row">
+                                    <div class="col-6">
+                                        <input type="text" v-model="Parameter.Stall[index + 1]" required
+                                            class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
                                 <h5>Stock</h5>
                             </div>
                             <div class="col-9">
@@ -278,7 +306,7 @@ export default {
     data() {
         return {
             isActivebangku: true,
-
+            isActiveStall: true,
             isActiveTipeMobil: true,
             isActiveModelMobil: true,
             isActiveTinggiMobil: true,
@@ -289,12 +317,14 @@ export default {
             ComponentTambahanTinggiMobil: [],
             ComponentTambahanDepartemen: [],
             ComponentTambahanStock: [],
+            ComponentTambahanStall: [],
             InputKodeKit: "",
             Parameter: {
                 TipeMobil: [],
                 ModelMobil: [],
                 TinggiMobil: [],
                 Departemen: [],
+                Stall:[],
                 Stock: [],
                 NewParameter: [],
             },
@@ -375,6 +405,23 @@ export default {
                 }
             }
         },
+        'Parameter.Stall': function () {
+            if (this.Parameter.Stall.length == 0) {
+                return this.isActiveStall = true
+            } else {
+                let sama = 0
+                this.Parameter.Stall.forEach(element => {
+                    if (element == "") {
+                        sama++
+                    }
+                });
+                if (sama == 0) {
+                    return this.isActiveStall = false
+                } else {
+                    return this.isActiveStall = true
+                }
+            }
+        },
         'Parameter.Stock': function () {
             if (this.Parameter.Stock.length == 0) {
                 return this.isActiveStock = true
@@ -411,6 +458,9 @@ export default {
             } else if (param == 'Stock') {
                 this.ComponentTambahanStock.push('true')
                 this.Parameter.Stock.push("")
+            }else if (param == 'Stall') {
+                this.ComponentTambahanStall.push('true')
+                this.Parameter.Stall.push("")
             }
         },
         getspk() {
@@ -435,6 +485,11 @@ export default {
                 if(this.Parameter['Departemen'].length>1){
                     for (let i = 1; i < this.Parameter['Departemen'].length; i++) {
                         this.ComponentTambahanDepartemen.push('true')
+                    }
+                }
+                if(this.Parameter['Stall'].length>1){
+                    for (let i = 1; i < this.Parameter['Stall'].length; i++) {
+                        this.ComponentTambahanStall.push('true')
                     }
                 }
                 if(this.Parameter['Stock'].length>1){
@@ -533,6 +588,10 @@ export default {
                 this.ComponentTambahanStock.splice(-1, 1)
                 this.Parameter.Stock.splice(-1, 1)
             }
+            if (tipe == 'Stall') {
+                this.ComponentTambahanStall.splice(-1, 1)
+                this.Parameter.Stall.splice(-1, 1)
+            }
         },
 
         handleSubmit() {
@@ -571,7 +630,7 @@ export default {
                         this.$swal({ title: 'Kit Rak masih ada yang kosong', icon: 'error' });
                     }
                     if (response.data.statuscode == 200) {
-                        this.$swal({ title: 'Sukses Menambahkan Master', icon: 'success' });
+                        this.$swal({ title: 'Sukses Mengupdate Master', icon: 'success' });
                     }
 
                 }

@@ -6,8 +6,8 @@
                 <v-row dense>
                     <v-col cols="12" sm="6" md="3">
                         <span>NO SPK</span>
-                        <v-select :items="ListDept" item-text="text" item-value="value"
-                           required class="form-control" placeholder="Pilih Nomor SPK">
+                        <v-select :items="listspk" item-text="text" item-value="value" required class="form-control"
+                            placeholder="Pilih Nomor SPK" v-model="state">
                         </v-select>
                         <div v-if="filteredStates && modal">
                             <ul style="width: 48em;	background-color: rgb(31 41 55); color: white;">
@@ -19,9 +19,20 @@
                     </v-col>
                     <v-col cols="12" sm="6" md="3">
                         <span>STALL</span>
-                        <v-text-field dense type="number" v-model="stall" :max="max" :min="min"
-                            placeholder="Masukkan Nomor Stall" outlined>
-                        </v-text-field>
+
+                        <div v-if="ChangeStallmode">
+                            <v-text-field dense type="number" v-model="stall" :max="max" :min="min"
+                                placeholder="Masukkan Nomor Stall" outlined>
+                            </v-text-field>
+                        </div>
+                        <div v-else>
+                            <v-text-field dense type="text" v-model="stall"
+                                placeholder="Masukkan nama Stock" outlined>
+                            </v-text-field>
+                        </div>
+
+
+
                     </v-col>
                     <v-col cols="12" sm="6" md="3">
                         <span>KODE</span>
@@ -76,6 +87,8 @@ export default {
             listspk: [],
             datatable: [],
             filteredStates: [],
+            SPKfield: "",
+            ChangeStallmode: true,
             states: [],
             state: '',
             modal: false,
@@ -112,15 +125,30 @@ export default {
         dialogDelete(val) {
             val || this.closeDelete()
         },
+        SPKfield() {
+            if (this.SPKfield != "STOCK") {
+                ChangeStallmode = !ChangeStallmode;
+            }
+        }
     },
     methods: {
         getlistspk() {
             axios.get('/api/listspkshow').then((response) => {
                 this.listspk = []
-                this.listspk = response.data
-                this.listspk.forEach(element => {
-                    this.states.push(element.NOSPK)
+                response.data.forEach(element => {
+                    this.listspk.push({
+                        'text': element.NOSPK,
+                        'value': element.NOSPK
+                    })
                 });
+                this.listspk.push({
+                    'text': "STOCK",
+                    'value': "STOCK"
+                })
+                // this.listspk = response.data
+                // this.listspk.forEach(element => {
+                //     this.states.push(element.NOSPK)
+                // });
                 this.filterstates();
             })
         },
