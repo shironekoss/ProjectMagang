@@ -251,10 +251,9 @@ class AdminController extends Controller
 
     public function admintambahspk(Request $request)
     {
-        $nospk = strtoupper($request->nospk);
-        $stall = $request->stall;
-        $kode = $request->kode;
-        if ($stall == 0 || $nospk == null || $kode == null) {
+        $nospk = strtoupper($request->Nospk);
+        $stall = $request->Stall;
+        if ($stall == 0 || $nospk == null) {
             return response()->json([
                 "success" => true,
                 "status" => 400,
@@ -270,7 +269,6 @@ class AdminController extends Controller
                         "NOSPK" => $spk->NOSPK,
                         "stall" => $stall,
                         "checked" => false,
-                        "kode" => $kode,
                         "status" => "Pending",
                         "parameter" => $parameter,
                         "created_at" => Carbon::now()->format('Y-m-d H:i:s'),

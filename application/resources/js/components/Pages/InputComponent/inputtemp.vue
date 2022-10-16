@@ -23,11 +23,6 @@
                               outlined :placeholder="Placeholdertext">
                             </v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="6" md="3">
-                        <span>Departemen</span>
-                        <v-text-field dense type="text" v-model="kode" disabled outlined>
-                        </v-text-field>
-                    </v-col>
                 </v-row>
                 <v-row dense>
                     <v-col cols="12" sm="6" md="5">
@@ -36,7 +31,7 @@
                         <button class="btn" style="background-color: grey;"> INPUT SPK</button>
                         <button class="btn" style="background-color: cyan;"> HELP</button>
                         <button class="btn" style="background-color: greenyellow;"
-                            @click="pindahhistory()">History</button>
+                         @click="pindahhistory()">History</button>
                     </v-col>
                 </v-row>
             </v-container>
@@ -82,10 +77,8 @@ export default {
             states: [],
             state: '',
             modal: false,
-            kode: '',
-            max: 0,
-            min: 0,
-            stall: 0,
+            // kode: '',
+            stall: 1,
             dialogDelete: false,
             editedIndex: -1,
             headerstable: [
@@ -97,7 +90,7 @@ export default {
                     class: "title text-uppercase font-weight-black black--text light-blue lighten-5"
                 },
                 { text: 'Stall', value: 'stall', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
-                { text: 'Kode', value: 'kode', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                // { text: 'Kode', value: 'kode', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Status', value: 'status', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Last Update', value: 'updated_at', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Action', value: 'actions', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
@@ -122,7 +115,7 @@ export default {
                 this.stall=""
             }
             else{
-                this.stall=0
+                this.stall=1
             }
         },
     },
@@ -201,7 +194,7 @@ export default {
             this.filteredStates = this.states.filter(state => {
                 return state.toLowerCase().startsWith(this.state.toLowerCase());
             });
-            this.getkode(this.state)
+            // this.getkode(this.state)
             this.getmaxvalue(this.state)
         },
         setstate(state) {
@@ -209,7 +202,7 @@ export default {
             this.modal = false;
         },
         tambah() {
-            axios.post('/api/admintambahspk', { nospk: this.state, stall: this.stall, kode: this.kode }).then((response) => {
+            axios.post('/api/admintambahspk', { Nospk: this.SPKfield, Stall: this.stall }).then((response) => {
                 if (response.data.status == 400) {
                     this.$swal({
                         title: 'pengisian SPK tidak Valid',
@@ -250,15 +243,15 @@ export default {
                 });
             }
         },
-        getkode(state) {
-            axios.post('/api/getkode', { maudikode: state }).then((response) => {
-                if (response.data.status == 200) {
-                    this.kode = response.data.hasil
-                } else if (response.data.status == 400) {
-                    this.kode = ''
-                }
-            });
-        },
+        // getkode(state) {
+        //     axios.post('/api/getkode', { maudikode: state }).then((response) => {
+        //         if (response.data.status == 200) {
+        //             this.kode = response.data.hasil
+        //         } else if (response.data.status == 400) {
+        //             this.kode = ''
+        //         }
+        //     });
+        // },
         getmaxvalue(state) {
             axios.post('/api/ambilmax', { kode: state }).then((response) => {
                 if (response.data.status == 200) {
