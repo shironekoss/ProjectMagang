@@ -63,10 +63,10 @@
 </template>
 
 <script>
-import axios from 'axios';
-import { format, parseISO } from "date-fns";
-import { id } from 'date-fns/locale';
+import axios from 'axios'
+import ConvertTime from '../../../Helper/ConvertTime'
 export default {
+    mixins:[ConvertTime],
     data() {
         return {
             listspk: [],
@@ -124,13 +124,6 @@ export default {
         changevalue(value) {
             this.ChangeStallmode = value
         },
-        converttime(date) {
-            const str = format(
-                new Date(date),
-                'dd-MMMM-yyyy HH:mm:ss',{locale: id}
-            );
-            return str;
-        },
         getlistspk() {
             axios.get('/api/listspkshow').then((response) => {
                 this.listspk = []
@@ -186,7 +179,6 @@ export default {
                 this.datatable.forEach(element => {
                     element["updated_at"]=this.converttime(element["updated_at"])
                 });
-                var i = 0;
             })
         },
         pindahhistory() {

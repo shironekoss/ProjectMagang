@@ -50,6 +50,8 @@ Vue.use(VueSweetalert2);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+
+
 const app = new Vue({
     vuetify:Vuetify,
     el: '#app',
