@@ -19,9 +19,8 @@
                     </v-col>
                     <v-col cols="12" sm="6" md="3">
                         <span>STALL</span>
-                            <v-text-field dense :type="Changemode" v-model="stall"
-                              outlined :placeholder="Placeholdertext">
-                            </v-text-field>
+                        <v-text-field dense :type="Changemode" v-model="stall" outlined :placeholder="Placeholdertext">
+                        </v-text-field>
                     </v-col>
                 </v-row>
                 <v-row dense>
@@ -31,7 +30,7 @@
                         <button class="btn" style="background-color: grey;"> INPUT SPK</button>
                         <button class="btn" style="background-color: cyan;"> HELP</button>
                         <button class="btn" style="background-color: greenyellow;"
-                         @click="pindahhistory()">History</button>
+                            @click="pindahhistory()">History</button>
                     </v-col>
                 </v-row>
             </v-container>
@@ -65,6 +64,8 @@
 
 <script>
 import axios from 'axios';
+import { format, parseISO } from "date-fns";
+import { id } from 'date-fns/locale';
 export default {
     data() {
         return {
@@ -73,7 +74,7 @@ export default {
             filteredStates: [],
             SPKfield: "",
             Placeholdertext: "Masukkan Stall",
-            Changemode:"number",
+            Changemode: "number",
             states: [],
             state: '',
             modal: false,
@@ -108,20 +109,27 @@ export default {
         dialogDelete(val) {
             val || this.closeDelete()
         },
-        SPKfield:function() {
+        SPKfield: function () {
             if (this.SPKfield == "STOCK") {
-                this.Changemode="text"
-                this.Placeholdertext="Masukkan Nama Stall"
-                this.stall=""
+                this.Changemode = "text"
+                this.Placeholdertext = "Masukkan Nama Stall"
+                this.stall = ""
             }
-            else{
-                this.stall=1
+            else {
+                this.stall = 1
             }
         },
     },
     methods: {
-        changevalue(value){
-            this.ChangeStallmode=value
+        changevalue(value) {
+            this.ChangeStallmode = value
+        },
+        converttime(date) {
+            const str = format(
+                new Date(date),
+                'dd-MMMM-yyyy HH:mm:ss',{locale: id}
+            );
+            return str;
         },
         getlistspk() {
             axios.get('/api/listspkshow').then((response) => {
@@ -175,6 +183,9 @@ export default {
             await axios.get('/api/getdatatable').then((response) => {
                 this.datatable = []
                 this.datatable = response.data.reverse()
+                this.datatable.forEach(element => {
+                    element["updated_at"]=this.converttime(element["updated_at"])
+                });
                 var i = 0;
             })
         },
