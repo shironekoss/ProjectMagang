@@ -84,7 +84,7 @@ export default {
             editedIndex: -1,
             headerstable: [
                 {
-                    text: 'NO SPK',
+                    text: 'Nomor SPK',
                     align: 'start',
                     sortable: false,
                     value: 'NOSPK',
@@ -93,7 +93,7 @@ export default {
                 { text: 'Stall', value: 'stall', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 // { text: 'Kode', value: 'kode', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Status', value: 'status', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
-                { text: 'Last Update', value: 'updated_at', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Waktu Update Terakhir', value: 'updated_at', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Action', value: 'actions', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
             ],
         }
@@ -169,6 +169,7 @@ export default {
                         icon: 'error'
                     });
                 }
+                console.log(response.data)
             })
             this.closeDelete()
         },
@@ -237,10 +238,10 @@ export default {
                     if (response.data.status == 200) {
                         console.log(response.data)
                         this.getdatatable()
-                        this.$router.push({
-                            name: 'Cekresult',
-                            params: { data: response.data.result }
-                        })
+                        // this.$router.push({
+                        //     name: 'Cekresult',
+                        //     params: { data: response.data.result }
+                        // })
                     }
 
                 });
