@@ -31,6 +31,11 @@
                     Login
                 </v-btn>
             </router-link>
+            <router-link :to="{ name: 'Inputadmin' }">
+                <v-btn>
+                    Input
+                </v-btn>
+            </router-link>
             <router-link :to="{ name: 'MasterList' }">
                 <v-btn>
                     master
@@ -41,6 +46,7 @@
                     Settings
                 </v-btn>
             </router-link>
+
         </v-app-bar>
         <v-sheet id="scrolling-techniques-2" class="overflow-y-auto" max-height="600">
             <v-container style="height: 120px;"></v-container>

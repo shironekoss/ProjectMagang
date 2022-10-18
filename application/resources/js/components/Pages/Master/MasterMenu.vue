@@ -39,8 +39,10 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from 'axios'
+import ConvertTime from '../../../Helper/ConvertTime'
 export default {
+    mixins:[ConvertTime],
     data() {
         return {
             listMaster: [],
@@ -49,7 +51,7 @@ export default {
             headerstable: [
                 { text: 'Kode Kit', value: 'NamaKit', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Nama Kit', value: 'Kodekit', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
-                { text: 'updated_at', value: 'updated_at', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Waktu Update', value: 'updated_at', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Action', value: 'actions', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
             ],
             dialogDelete: false,
@@ -76,6 +78,9 @@ export default {
                 this.listMaster = []
                 this.listMaster = response.data
                 this.datatable = response.data.data
+                this.datatable.forEach(element => {
+                    element["updated_at"]=this.converttime(element["updated_at"])
+                });
                 // this.listspk.forEach(element => {
                 //     this.states.push(element.NOSPK)
                 // });

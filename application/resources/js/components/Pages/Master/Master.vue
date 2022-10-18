@@ -5,17 +5,6 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-6" style="float: left;">
-                        <!-- <div class="row">
-                            <div class="col">
-                                <h5>Merk</h5>
-                            </div>
-                            <div class="col-9">
-                                <div class="row">
-                                    <input type="text" v-model="parameter.kodemobil" class="form-control">
-                                </div>
-
-                            </div>
-                        </div> -->
                         <div class="row">
                             <div class="col">
                                 <h5>Tipe Mobil</h5>
@@ -107,9 +96,6 @@
                             </div>
                             <div class="col-9">
                                 <div class="row">
-                                    <!-- <div class="col-6">
-                                        <input type="text" v-model="Parameter.Departemen[0]" class="form-control">
-                                    </div> -->
                                     <div class="col-6">
                                         <div data-app>
                                             <v-select :items="ListDept" item-text="text" item-value="value"
@@ -134,6 +120,34 @@
                                                 v-model="Parameter.Departemen[index+1]" required class="form-control">
                                             </v-select>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <h5>Stall</h5>
+                            </div>
+                            <div class="col-9">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <input type="number" v-model="Parameter.Stall[0]" class="form-control">
+                                    </div>
+                                    <div class="col">
+                                        <button type="button" :disabled='isActiveStall'
+                                            @click="add('Stall')" class="btn btn-primary">TAMBAH</button>
+                                    </div>
+                                    <div class="col">
+                                        <button type="button" @click="remove('Stall')"
+                                            class="btn btn-danger">HAPUS
+                                        </button>
+                                    </div>
+                                </div>
+                                <div v-for="(component, index) in ComponentTambahanStall" :key="index" :id=index
+                                    tipe="StallMobil" class="row">
+                                    <div class="col-6">
+                                        <input type="text" v-model="Parameter.Stall[index + 1]" required
+                                            class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -253,7 +267,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                     <form @submit.prevent="handleSubmit">
                         <div class="row">
@@ -266,9 +279,7 @@
                 </div>
             </div>
         </div>
-
     </div>
-
 </template>
 
 <script>
@@ -293,10 +304,10 @@ export default {
     data() {
         return {
             isActivebangku: true,
-
             isActiveTipeMobil: true,
             isActiveModelMobil: true,
             isActiveTinggiMobil: true,
+            isActiveStall: true,
             isActiveDepartemen: true,
             isActiveStock: true,
             ComponentTambahanTipeMobil: [],
@@ -304,12 +315,14 @@ export default {
             ComponentTambahanTinggiMobil: [],
             ComponentTambahanDepartemen: [],
             ComponentTambahanStock: [],
+            ComponentTambahanStall: [],
             InputKodeKit: "",
             Parameter: {
                 TipeMobil: [],
                 ModelMobil: [],
                 TinggiMobil: [],
                 Departemen: [],
+                Stall:[],
                 Stock: [],
                 NewParameter: [],
             },
@@ -372,6 +385,23 @@ export default {
                 }
             }
         },
+        'Parameter.Stall': function () {
+            if (this.Parameter.Stall.length == 0) {
+                return this.isActiveStall = true
+            } else {
+                let sama = 0
+                this.Parameter.Stall.forEach(element => {
+                    if (element == "") {
+                        sama++
+                    }
+                });
+                if (sama == 0) {
+                    return this.isActiveStall = false
+                } else {
+                    return this.isActiveStall = true
+                }
+            }
+        },
         'Parameter.Departemen': function () {
             if (this.Parameter.Departemen.length == 0) {
                 return this.isActiveDepartemen = true
@@ -425,6 +455,9 @@ export default {
             } else if (param == 'Stock') {
                 this.ComponentTambahanStock.push('true')
                 this.Parameter.Stock.push("")
+            }else if (param == 'Stall') {
+                this.ComponentTambahanStall.push('true')
+                this.Parameter.Stall.push("")
             }
         },
         getlistdepartemen() {
@@ -515,6 +548,10 @@ export default {
             if (tipe == 'Stock') {
                 this.ComponentTambahanStock.splice(-1, 1)
                 this.Parameter.Stock.splice(-1, 1)
+            }
+            if (tipe == 'Stall') {
+                this.ComponentTambahanStall.splice(-1, 1)
+                this.Parameter.Stall.splice(-1, 1)
             }
         },
 

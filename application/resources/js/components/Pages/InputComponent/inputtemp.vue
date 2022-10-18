@@ -6,9 +6,9 @@
                 <v-row dense>
                     <v-col cols="12" sm="6" md="3">
                         <span>NO SPK</span>
-                        <v-text-field dense autocomplete="off" v-model="state" @focus="modal = true"
-                            placeholder="Pilih nomor SPK" outlined>
-                        </v-text-field>
+                        <v-select :items="listspk" item-text="text" item-value="value" required class="form-control"
+                            placeholder="Pilih Nomor SPK" v-model="SPKfield">
+                        </v-select>
                         <div v-if="filteredStates && modal">
                             <ul style="width: 48em;	background-color: rgb(31 41 55); color: white;">
                                 <li v-for="filteredstate in filteredStates" @click="setstate(filteredstate)"
@@ -19,13 +19,7 @@
                     </v-col>
                     <v-col cols="12" sm="6" md="3">
                         <span>STALL</span>
-                        <v-text-field dense type="number" v-model="stall" :max="max" :min="min"
-                            placeholder="Masukkan Nomor Stall" outlined>
-                        </v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="6" md="3">
-                        <span>KODE</span>
-                        <v-text-field dense type="text" v-model="kode" disabled outlined>
+                        <v-text-field dense :type="Changemode" v-model="stall" outlined :placeholder="Placeholdertext">
                         </v-text-field>
                     </v-col>
                 </v-row>
@@ -69,34 +63,37 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from 'axios'
+import ConvertTime from '../../../Helper/ConvertTime'
 export default {
+    mixins:[ConvertTime],
     data() {
         return {
             listspk: [],
             datatable: [],
             filteredStates: [],
+            SPKfield: "",
+            Placeholdertext: "Masukkan Stall",
+            Changemode: "number",
             states: [],
             state: '',
             modal: false,
-            kode: '',
-            max: 0,
-            min: 0,
-            stall: 0,
+            // kode: '',
+            stall: 1,
             dialogDelete: false,
             editedIndex: -1,
             headerstable: [
                 {
-                    text: 'NO SPK',
+                    text: 'Nomor SPK',
                     align: 'start',
                     sortable: false,
                     value: 'NOSPK',
                     class: "title text-uppercase font-weight-black black--text light-blue lighten-5"
                 },
                 { text: 'Stall', value: 'stall', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
-                { text: 'Kode', value: 'kode', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                // { text: 'Kode', value: 'kode', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Status', value: 'status', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
-                { text: 'Last Update', value: 'updated_at', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Waktu Update Terakhir', value: 'updated_at', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Action', value: 'actions', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
             ],
         }
@@ -112,15 +109,38 @@ export default {
         dialogDelete(val) {
             val || this.closeDelete()
         },
+        SPKfield: function () {
+            if (this.SPKfield == "STOCK") {
+                this.Changemode = "text"
+                this.Placeholdertext = "Masukkan Nama Stall"
+                this.stall = ""
+            }
+            else {
+                this.stall = 1
+            }
+        },
     },
     methods: {
+        changevalue(value) {
+            this.ChangeStallmode = value
+        },
         getlistspk() {
             axios.get('/api/listspkshow').then((response) => {
                 this.listspk = []
-                this.listspk = response.data
-                this.listspk.forEach(element => {
-                    this.states.push(element.NOSPK)
+                response.data.forEach(element => {
+                    this.listspk.push({
+                        'text': element.NOSPK,
+                        'value': element.NOSPK
+                    })
                 });
+                this.listspk.push({
+                    'text': "STOCK",
+                    'value': "STOCK"
+                })
+                // this.listspk = response.data
+                // this.listspk.forEach(element => {
+                //     this.states.push(element.NOSPK)
+                // });
                 this.filterstates();
             })
         },
@@ -143,12 +163,13 @@ export default {
                         icon: 'success'
                     });
                     this.getdatatable();
-                }else if(response.data.status == 400){
+                } else if (response.data.status == 400) {
                     this.$swal({
                         title: 'Gagal Hapus Data',
                         icon: 'error'
                     });
                 }
+                console.log(response.data)
             })
             this.closeDelete()
         },
@@ -156,7 +177,9 @@ export default {
             await axios.get('/api/getdatatable').then((response) => {
                 this.datatable = []
                 this.datatable = response.data.reverse()
-                var i = 0;
+                this.datatable.forEach(element => {
+                    element["updated_at"]=this.converttime(element["updated_at"])
+                });
             })
         },
         pindahhistory() {
@@ -175,7 +198,7 @@ export default {
             this.filteredStates = this.states.filter(state => {
                 return state.toLowerCase().startsWith(this.state.toLowerCase());
             });
-            this.getkode(this.state)
+            // this.getkode(this.state)
             this.getmaxvalue(this.state)
         },
         setstate(state) {
@@ -183,7 +206,7 @@ export default {
             this.modal = false;
         },
         tambah() {
-            axios.post('/api/admintambahspk', { nospk: this.state, stall: this.stall, kode: this.kode }).then((response) => {
+            axios.post('/api/admintambahspk', { Nospk: this.SPKfield, Stall: this.stall }).then((response) => {
                 if (response.data.status == 400) {
                     this.$swal({
                         title: 'pengisian SPK tidak Valid',
@@ -204,35 +227,35 @@ export default {
             });
         },
         cek() {
-            if(this.datatable.length<=0){
+            if (this.datatable.length <= 0) {
                 this.$swal({
                     title: 'tidak ada SPK yang mau dicek, mohon input dulu',
                     icon: 'error'
                 });
             }
-            else{
+            else {
                 axios.post('/api/konversikomponen').then((response) => {
-                if (response.data.status == 200) {
-                    console.log(response.data)
-                    this.getdatatable()
-                    this.$router.push({
-                    name: 'Cekresult',
-                    params:{data:response.data.result}
-                     })
-                }
+                    if (response.data.status == 200) {
+                        console.log(response.data)
+                        this.getdatatable()
+                        // this.$router.push({
+                        //     name: 'Cekresult',
+                        //     params: { data: response.data.result }
+                        // })
+                    }
 
-            });
+                });
             }
         },
-        getkode(state) {
-            axios.post('/api/getkode', { maudikode: state }).then((response) => {
-                if (response.data.status == 200) {
-                    this.kode = response.data.hasil
-                } else if (response.data.status == 400) {
-                    this.kode = ''
-                }
-            });
-        },
+        // getkode(state) {
+        //     axios.post('/api/getkode', { maudikode: state }).then((response) => {
+        //         if (response.data.status == 200) {
+        //             this.kode = response.data.hasil
+        //         } else if (response.data.status == 400) {
+        //             this.kode = ''
+        //         }
+        //     });
+        // },
         getmaxvalue(state) {
             axios.post('/api/ambilmax', { kode: state }).then((response) => {
                 if (response.data.status == 200) {
@@ -255,4 +278,5 @@ export default {
 }
 </script>
 <style>
+
 </style>
