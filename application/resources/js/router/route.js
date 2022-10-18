@@ -37,7 +37,7 @@ const route = [
         }
     },
     {
-        name:'Register',
+        name:'Register', // register user baru
         path:'/user/create',
         component: Register,
     },
@@ -48,7 +48,7 @@ const route = [
         props:true
     },
     {
-        name:'InputNoSPK',
+        name:'InputNoSPK', // tidak dipakai
         path:'/inputspk',
         component: InputNoSPK
     },
@@ -74,22 +74,22 @@ const route = [
         component: MasterList
     },
     {
-        name:'Inputadmin',
+        name:'Inputadmin', // generate komponen dari KodeSPK
         path:'/inputadmin',
         component: inputadmin
     },
     {
-        name:'History',
+        name:'History', // history input admin
         path:'/history',
         component: history
     },
     {
-        name:'Cekresult',
+        name:'Cekresult', // belum tahu
         path:'/Cekresult',
         component: Cekresult
     },
     {
-        name:'Settings',
+        name:'Settings', // manajemen user dan departemen
         path:'/Settings',
         component: Settings
     },
