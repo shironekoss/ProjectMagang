@@ -50,20 +50,41 @@ class AdminController extends Controller
         $results = [];
 
         foreach ($saved as $item1) {
-            $i=0;
+            $i = 0;
             if ($item1["NOSPK"] == "STOCK") {
                 foreach ($master as $item2) {
                     foreach ($item2["Parameter"]["Stock"] as $subitem2) {
-                        if(strtoupper($subitem2)==strtoupper($item1["stall"])){
+                        if (strtoupper($subitem2) == strtoupper($item1["stall"])) {
                             array_push($results, $item2["Kit"]);
                             $i++;
                             break;
                         }
                     }
                 }
+            } else {
+                foreach ($master as $item2) {
+                    $data = SPK::where('NOSPK', $item1["NOSPK"])->get();
+                    $ModelMobilterdaftar = false;
+                    $TinggiMobilterdaftar = false;
+                    $TipeMobilTerdaftar = false;
+
+                    foreach ($item2["Parameter"]["Stock"] as $subitem2) {
+
+                    }
+
+                    // return response()->json([
+                    //     "success" => true,
+                    //     "status" => 200,
+                    //     "saved" => $saved,
+                    //     "master" => $master,
+                    //     "message" => $messages,
+                    //     "result" => $results,
+                    //     "data" => $data,
+                    // ]);
+                }
             }
-            if($i>0){
-                $item1["status"]="berhasil";
+            if ($i > 0) {
+                $item1["status"] = "berhasil";
                 $item1->save();
             }
         }
@@ -71,7 +92,7 @@ class AdminController extends Controller
         return response()->json([
             "success" => true,
             "status" => 200,
-            "saved" => $item1,
+            "saved" => $saved,
             "master" => $master,
             "message" => $messages,
             "result" => $results,
@@ -90,10 +111,7 @@ class AdminController extends Controller
         //     $result = [];
         //     $messageforneparam = [];
         //     $paramkodemobil = false;
-        //     $kodemobilterdaftar = false;
-        //     $parammobilbagasi = false;
-        //     $parammobilbagasiterdaftar = false;
-        //     $parammodelpintu = false;
+        //
         //     $parammodelpintuterdaftar = false;
         //     $parammodelbangku = false;
         //     $parammodelbangkuterdaftar = false;
