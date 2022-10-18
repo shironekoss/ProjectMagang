@@ -63,24 +63,33 @@ class AdminController extends Controller
                 }
             } else {
                 foreach ($master as $item2) {
-                    $data = SPK::where('NOSPK', $item1["NOSPK"])->get();
+                    $data = SPK::where('NOSPK', $item1["NOSPK"])->first();
                     $ModelMobilterdaftar = false;
                     $TinggiMobilterdaftar = false;
                     $TipeMobilTerdaftar = false;
 
-                    foreach ($item2["Parameter"]["Stock"] as $subitem2) {
-
+                    foreach ($item2["Parameter"]["ModelMobil"] as $subitem2) {
+                        if(strtoupper($subitem2)== strtoupper($data["parameter"]["ModelMobil"])){
+                            $ModelMobilterdaftar=true;
+                            break;
+                        }
                     }
-
-                    // return response()->json([
-                    //     "success" => true,
-                    //     "status" => 200,
-                    //     "saved" => $saved,
-                    //     "master" => $master,
-                    //     "message" => $messages,
-                    //     "result" => $results,
-                    //     "data" => $data,
-                    // ]);
+                    foreach ($item2["Parameter"]["TinggiMobil"] as $subitem2) {
+                        if(strtoupper($subitem2)== strtoupper($data["parameter"]["TinggiMobil"])){
+                            $TinggiMobilterdaftar=true;
+                            break;
+                        }
+                    }
+                    foreach ($item2["Parameter"]["TipeMobil"] as $subitem2) {
+                        if(strtoupper($subitem2)== strtoupper($data["parameter"]["TipeMobil"])){
+                            $TipeMobilTerdaftar=true;
+                            break;
+                        }
+                    }
+                    if($ModelMobilterdaftar && $TinggiMobilterdaftar && $TipeMobilTerdaftar){
+                        array_push($results, $item2["Kit"]);
+                        $i++;
+                    }
                 }
             }
             if ($i > 0) {

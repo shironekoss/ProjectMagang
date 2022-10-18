@@ -145,7 +145,7 @@
                             <div class="col-9">
                                 <div class="row">
                                     <div class="col-6">
-                                        <input type="number" v-model="Parameter.Stall[0]" class="form-control">
+                                        <input type="number" v-model="Parameter.Stall[0]" class="form-control" min="0">
                                     </div>
                                     <div class="col">
                                         <button type="button" :disabled='isActiveStall'
