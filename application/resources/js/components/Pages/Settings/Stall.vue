@@ -27,14 +27,14 @@
                                 <v-card-title class="text-h5">Tambah Stall</v-card-title>
                                 <v-container>
                                     <v-col cols="12" sm="6" md="10">
-                                        <v-text-field label="Nama Stall" required v-model="namaDepartemen">
+                                        <v-text-field label="Nama Stall" required v-model="NamaStall">
                                             <template #label>
                                                 <span class="red--text"><strong>* </strong></span>Nama Stall
                                             </template>
                                         </v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="6" md="10">
-                                        <v-select :items="listdepartemen" item-text="text" item-value="value"
+                                        <v-select :items="listdepartemen.data" item-text="text" item-value="value"
                                             v-model="NamaDepartemen" required class="form-control">
                                             <template #label>
                                                 <span class="red--text"><strong>* </strong></span>Pilih Departemen
@@ -42,7 +42,7 @@
                                         </v-select>
                                     </v-col>
                                     <v-col cols="12" sm="6" md="10">
-                                        <v-text-field label="Jumlah Stall" required v-model="namaDepartemen"
+                                        <v-text-field required v-model="JumlahStall"
                                             type="number" hide-details single-line>
                                             <template #label>
                                                 <span class="red--text"><strong>* </strong></span>Jumlah Stall
@@ -53,7 +53,7 @@
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
                                     <v-btn color="blue darken-1" text @click="closeDialogTambah">Cancel</v-btn>
-                                    <v-btn color="blue darken-1" text @click="addDepartemen">Save</v-btn>
+                                    <v-btn color="blue darken-1" text @click="addStall">Save</v-btn>
                                     <v-spacer></v-spacer>
                                 </v-card-actions>
                             </v-card>
@@ -82,10 +82,9 @@ export default {
             ],
             dialogDelete: false,
             dialogTambah: false,
-            namaDepartemen: "",
+            JumlahStall: null,
             NamaStall: "",
-            JumlahStall: "",
-            NamaDepartemen: "",
+            NamaDepartemen:"",
             namaDepartemenHapus: "",
         }
     },
@@ -93,9 +92,6 @@ export default {
         this.getlistdepartemen();
     },
     watch: {
-        // state() {
-        //     this.filterstates();
-        // },
         dialogDelete(val) {
 
             val || this.closeDialogDelete()
@@ -106,7 +102,7 @@ export default {
     },
     methods: {
         getlistdepartemen() {
-            axios.get('/api/showdepartemen').then((response) => {
+            axios.get('/api/listdepartemen').then((response) => {
                 this.listdepartemen = []
                 this.listdepartemen = response.data
                 this.datatable = response.data.data
@@ -116,9 +112,8 @@ export default {
                 // this.filterstates();
             })
         },
-        addDepartemen() {
-            axios.post('/api/adddepartemen', { namadepartemen: this.namaDepartemen }).then((response) => {
-                this.closeDialogTambah()
+        addStall() {
+            axios.post('/api/addstall', { JumlahStall: this.JumlahStall, NamaStall:this.NamaStall, NamaDepartemen:this.NamaDepartemen }).then((response) => {
                 if (response.data.statusresponse == 400) {
                     this.$swal({
                         title: response.data.message,
@@ -126,6 +121,7 @@ export default {
                     });
                 }
                 else if (response.data.statusresponse == 200) {
+                    this.closeDialogTambah()
                     this.$swal({
                         title: response.data.message,
                         icon: 'success'
@@ -139,7 +135,9 @@ export default {
             this.$nextTick(() => {
                 this.editedIndex = -1
             })
-            this.namaDepartemen = ""
+            this.NamaDepartemen = "",
+            this.JumlahStall=null,
+            this.NamaStall=""
         },
         closeDialogDelete() {
             this.dialogDelete = false

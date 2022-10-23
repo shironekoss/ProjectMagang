@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Account;
 use App\Models\Departemen;
+use App\Models\Stall;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -75,6 +76,26 @@ class SettingsController extends Controller
                 "statusresponse" => 200,
                 "message" => "Berhasil menambahkan departemen " .  ucwords($request->namadepartemen)
             ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                "statusresponse" => 400,
+                "message" => "Fitur Menambahkan gagal"
+            ]);
+        }
+    }
+
+    public function addstall(Request $request)
+    {
+        try {
+            if ($request->NamaDepartemen == "" || $request->NamaStall == "" || $request->JumlahStall == "" ) {
+                return response()->json([
+                    "statusresponse" => 400,
+                    "data" => $request->namadepartemen,
+                    "message" => "Inputan ada yang kosong"
+                ]);
+            }
+            $stalls = Stall::all();
+
         } catch (\Throwable $th) {
             return response()->json([
                 "statusresponse" => 400,
