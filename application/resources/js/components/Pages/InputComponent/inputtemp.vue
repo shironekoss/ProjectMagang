@@ -111,8 +111,9 @@ export default {
                     value: 'NOSPK',
                     class: "title text-uppercase font-weight-black black--text light-blue lighten-5"
                 },
+                { text: 'Nama Stall', value: 'namastall', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Stall', value: 'stall', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
-                // { text: 'Kode', value: 'kode', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Departemen', value: 'Departemen', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Status', value: 'status', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Waktu Update Terakhir', value: 'updated_at', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Action', value: 'actions', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },

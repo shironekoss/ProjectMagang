@@ -326,17 +326,20 @@ class AdminController extends Controller
         $stall = $request->Stall;
         $namastall = $request->NamaStall;
         $Departemen = $request->Departemen;
-        if ($stall == 0 || $stall == "" || $nospk == null) {
+        if ($stall == 0 || $stall == "" || $nospk == null || $namastall=="" || $Departemen=="") {
             return response()->json([
                 "success" => true,
                 "status" => 400,
             ]);
-        } else {
+        }
+        else {
             try {
                 if ($nospk == "STOCK") {
                     // $saved = SavedConversionResult::where('NOSPK',"STOCK")->get();
                     $newdata = SavedConversionResult::create([
                         "NOSPK" => $nospk,
+                        "namastall"=>$namastall,
+                        "Departemen"=>$Departemen,
                         "stall" => $stall,
                         "checked" => false,
                         "status" => "Pending",
@@ -353,6 +356,8 @@ class AdminController extends Controller
                     $newdata = SavedConversionResult::create([
                         "NOSPK" => $spk->NOSPK,
                         "stall" => $stall,
+                        "namastall"=> $namastall,
+                        "Departemen"=> $Departemen,
                         "checked" => false,
                         "status" => "Pending",
                         "parameter" => $parameter,
@@ -363,6 +368,8 @@ class AdminController extends Controller
                         "success" => true,
                         "status" => 200,
                         "spk" => $spk,
+                        "namastall"=>$namastall,
+                        "Departemen"=>$Departemen,
                         "newdata" => $parameter
                     ]);
                 }
