@@ -7,12 +7,13 @@
                     <div class="col-6" style="float: left;">
                         <div class="row">
                             <div class="col">
-                                <h5>Tipe Mobil</h5>
+                                <h5> <span style="color: red;">* </span> Tipe Mobil</h5>
                             </div>
                             <div class="col-9">
                                 <div class="row">
                                     <div class="col-6">
                                         <input type="text" v-model="Parameter.TipeMobil[0]" class="form-control">
+
                                     </div>
                                     <div class="col">
                                         <button type="button" :disabled='isActiveTipeMobil' @click="add('TipeMobil')"
@@ -35,7 +36,7 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <h5>Model Mobil</h5>
+                                <h5> <span style="color: red;">* </span> Model Mobil</h5>
                             </div>
                             <div class="col-9">
                                 <div class="row">
@@ -64,7 +65,7 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <h5>Tinggi Mobil</h5>
+                                <h5> <span style="color: red;">* </span> Tinggi Mobil</h5>
                             </div>
                             <div class="col-9">
                                 <div class="row">
@@ -92,7 +93,7 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <h5>Departemen</h5>
+                                <h5> <span style="color: red;">* </span> Departemen</h5>
                             </div>
                             <div class="col-9">
                                 <div class="row">
@@ -126,7 +127,7 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <h5>Stall</h5>
+                                <h5> <span style="color: red;">* </span> Stall</h5>
                             </div>
                             <div class="col-9">
                                 <div class="row">
@@ -134,12 +135,11 @@
                                         <input type="text" v-model="Parameter.Stall[0]" class="form-control" min="0">
                                     </div>
                                     <div class="col">
-                                        <button type="button" :disabled='isActiveStall'
-                                            @click="add('Stall')" class="btn btn-primary">TAMBAH</button>
+                                        <button type="button" :disabled='isActiveStall' @click="add('Stall')"
+                                            class="btn btn-primary">TAMBAH</button>
                                     </div>
                                     <div class="col">
-                                        <button type="button" @click="remove('Stall')"
-                                            class="btn btn-danger">HAPUS
+                                        <button type="button" @click="remove('Stall')" class="btn btn-danger">HAPUS
                                         </button>
                                     </div>
                                 </div>
@@ -191,15 +191,15 @@
                                 <div v-for="(component, index) in Parameter.NewParameter" :key="index" :id=index>
                                     <div class="row">
                                         <div class="col-3">
-                                                <input type="text" v-model="Parameter.NewParameter[index].Newparam"
-                                                    class="newparam form-control">
+                                            <input type="text" v-model="Parameter.NewParameter[index].Newparam"
+                                                class="newparam form-control">
                                         </div>
                                         <div class="col-6">
                                             <div v-for="(component2, index2) in component.Component" :key="index2"
                                                 :id=index2>
-                                                    <input type="text"
-                                                        v-model="Parameter.NewParameter[index].Component[index2]"
-                                                        class="form-control">
+                                                <input type="text"
+                                                    v-model="Parameter.NewParameter[index].Component[index2]"
+                                                    class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-3">
@@ -241,8 +241,8 @@
                                         <div class="row">
                                             <div class="col-5">
                                                 Nama Komponen
-                                                <input type="text" v-model="component.IsiKit[index2].nama_komponen" disabled
-                                                    class="form-control">
+                                                <input type="text" v-model="component.IsiKit[index2].nama_komponen"
+                                                    disabled class="form-control">
                                             </div>
                                             <div class="col">
                                                 QTY :
@@ -251,8 +251,7 @@
                                             </div>
                                             <div class="col">
                                                 Site ID :
-                                                <input type="text" v-model="component.siteID"
-                                                    class="form-control">
+                                                <input type="text" v-model="component.siteID" class="form-control">
                                             </div>
                                             <div class="col">
                                                 dari Rak :
@@ -324,7 +323,7 @@ export default {
                 ModelMobil: [],
                 TinggiMobil: [],
                 Departemen: [],
-                Stall:[],
+                Stall: [],
                 Stock: [],
                 NewParameter: [],
             },
@@ -456,7 +455,7 @@ export default {
             } else if (param == 'Stock') {
                 this.ComponentTambahanStock.push('true')
                 this.Parameter.Stock.push("")
-            }else if (param == 'Stall') {
+            } else if (param == 'Stall') {
                 this.ComponentTambahanStall.push('true')
                 this.Parameter.Stall.push("")
             }
@@ -489,7 +488,7 @@ export default {
                                 icon: 'error'
                             });
                         } else {
-                            this.Result.push({ NamaKit: datanamakit, Kodekit: dataKodeKit, IsiKit: dataisikit, siteID:""})
+                            this.Result.push({ NamaKit: datanamakit, Kodekit: dataKodeKit, IsiKit: dataisikit, siteID: "" })
                             this.$swal({
                                 title: 'Sukses generate data ' + response.data.result.kode_kit.toUpperCase(),
                                 icon: 'success'
@@ -596,9 +595,9 @@ export default {
 
                 }
             })
-            .catch((error) => {
-                this.errors = error.response.data.errors
-            })
+                .catch((error) => {
+                    this.errors = error.response.data.errors
+                })
         },
 
     }
@@ -618,5 +617,4 @@ export default {
 .col {
     padding: -35px;
 }
-
 </style>

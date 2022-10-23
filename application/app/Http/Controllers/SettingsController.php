@@ -97,7 +97,7 @@ class SettingsController extends Controller
     public function addstall(Request $request)
     {
         try {
-            if ($request->NamaDepartemen == "" || $request->NamaStall == "" || $request->JumlahStall == "") {
+            if ($request->NamaStall == "" || $request->JumlahStall == "") {
                 return response()->json([
                     "statusresponse" => 400,
                     "data" => $request->namadepartemen,
@@ -106,17 +106,15 @@ class SettingsController extends Controller
             }
             $stalls = Stall::all();
             foreach ($stalls as $key) {
-                if (ucwords($key->NamaStall) == ucwords($request->NamaStall) && ucwords($key->NamaDepartemen) == ucwords($request->NamaDepartemen)) {
+                if (ucwords($key->NamaStall) == ucwords($request->NamaStall)) {
                     return response()->json([
                         "statusresponse" => 400,
-                        "data" => $request->namadepartemen,
-                        "message" => "Nama Stall & Departemennya Sudah Terdaftar"
+                        "message" => "Nama Stall Sudah Terdaftar"
                     ]);
                     break;
                 }
             }
             $newstall = Stall::create([
-                'NamaDepartemen' => ucwords($request->NamaDepartemen),
                 'NamaStall' => ucwords($request->NamaStall),
                 'JumlahStall' => ucwords($request->JumlahStall),
             ]);
@@ -136,26 +134,23 @@ class SettingsController extends Controller
     public function updatestall(Request $request)
     {
         try {
-            if ($request->NamaDepartemen == "" || $request->NamaStall == "" || $request->JumlahStall == "") {
+            if ($request->NamaStall == "" || $request->JumlahStall == "") {
                 return response()->json([
                     "statusresponse" => 400,
-                    "data" => $request->namadepartemen,
                     "message" => "Inputan ada yang kosong"
                 ]);
             }
             $stallygdiupdate = Stall::where('_id', $request->id)->first();
             $stalls = Stall::all()->except($request->id);
             foreach ($stalls as $stall) {
-                // if (ucwords($stall->NamaDepartemen) == ucwords($stallygdiupdate->NamaDepartemen) && ucwords($stall->NamaStall) == ucwords($stallygdiupdate->NamaStall)) {
-                if (ucwords($stall->NamaDepartemen) == ucwords($request->NamaDepartemen) && ucwords($stall->NamaStall) == ucwords($request->NamaStall)) {
+                if (ucwords($stall->NamaStall) == ucwords($request->NamaStall)) {
                     return response()->json([
                         "statusresponse" => 400,
-                        "message" => "Stall dan Nama Departemen Sudah Terdaftar",
+                        "message" => "Stall Sudah Terdaftar",
                     ]);
                 }
             }
             $stallygdiupdate->NamaStall = $request->NamaStall;
-            $stallygdiupdate->NamaDepartemen = $request->NamaDepartemen;
             $stallygdiupdate->JumlahStall = $request->JumlahStall;
             $stallygdiupdate->save();
             return response()->json([
