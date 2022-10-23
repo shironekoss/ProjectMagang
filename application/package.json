@@ -45,6 +45,7 @@
         "path-browserify": "^1.0.1",
         "pinia": "^2.0.22",
         "pinia-plugin-persistedstate": "^2.2.0",
+        "vue-json-excel": "^0.3.0",
         "vue-router": "^3.5.4",
         "vue-sweetalert2": "^5.0.5",
         "vuetify": "^2.6.9",
