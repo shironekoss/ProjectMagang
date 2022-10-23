@@ -48,6 +48,16 @@ class SettingsController extends Controller
         ]);
     }
 
+
+    public function getliststall()
+    {
+        $listdept = Stall::all();
+        return response()->json([
+            "statusresponse" => 200,
+            "data" => $listdept
+        ]);
+    }
+
     public function adddepartemen(Request $request)
     {
         try {
@@ -87,7 +97,7 @@ class SettingsController extends Controller
     public function addstall(Request $request)
     {
         try {
-            if ($request->NamaDepartemen == "" || $request->NamaStall == "" || $request->JumlahStall == "" ) {
+            if ($request->NamaDepartemen == "" || $request->NamaStall == "" || $request->JumlahStall == "") {
                 return response()->json([
                     "statusresponse" => 400,
                     "data" => $request->namadepartemen,
@@ -95,7 +105,26 @@ class SettingsController extends Controller
                 ]);
             }
             $stalls = Stall::all();
-
+            foreach ($stalls as $key) {
+                if (ucwords($key->NamaStall) == ucwords($request->NamaStall) && ucwords($key->NamaDepartemen) == ucwords($request->NamaDepartemen)) {
+                    return response()->json([
+                        "statusresponse" => 400,
+                        "data" => $request->namadepartemen,
+                        "message" => "Nama Stall Sudah Terdaftar"
+                    ]);
+                    break;
+                }
+            }
+            $newstall = Stall::create([
+                'NamaDepartemen' => ucwords($request->NamaDepartemen),
+                'NamaStall' => ucwords($request->NamaStall),
+                'JumlahStall' => ucwords($request->JumlahStall),
+            ]);
+            return response()->json([
+                "statusresponse" => 200,
+                "message" => "Berhasil menambahkan Stall " .  ucwords($request->NamaStall),
+                "test" => $stalls
+            ]);
         } catch (\Throwable $th) {
             return response()->json([
                 "statusresponse" => 400,
@@ -124,6 +153,23 @@ class SettingsController extends Controller
             return response()->json([
                 "statusresponse" => 200,
                 "message" => $hapusdepartemen
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                "statusresponse" => 400,
+                "message" => "Fitur Menambahkan gagal"
+            ]);
+        }
+    }
+
+    public function hapusstall(Request $request)
+    {
+        try {
+            $hapusstall = Stall::where('_id', $request->id)->first();
+            $hapusstall->delete();
+            return response()->json([
+                "statusresponse" => 200,
+                'message' => $hapusstall->NamaStall . " Berhasil dihapus",
             ]);
         } catch (\Throwable $th) {
             return response()->json([

@@ -60,6 +60,7 @@
                         </v-dialog>
                     </template>
                     <template v-slot:item.actions="{ item }">
+                        <v-btn depressed color="teal lighten-3" @click="edit(item)">Edit</v-btn>
                         <v-btn depressed color="error" @click="deleteItem(item)">Hapus</v-btn>
                     </template>
                 </v-data-table>
@@ -76,8 +77,9 @@ export default {
             listdepartemen: [],
             datatable: [],
             headerstable: [
-                { text: 'Nama Departemen', value: 'Nama_Departemen', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
-                { text: 'Jumlah Account', value: 'Jumlah_account', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Nama Stall', value: 'NamaStall', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Nama Departemen', value: 'NamaDepartemen', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Jumlah Stall', value: 'JumlahStall', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Action', value: 'actions', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
             ],
             dialogDelete: false,
@@ -85,15 +87,15 @@ export default {
             JumlahStall: null,
             NamaStall: "",
             NamaDepartemen:"",
-            namaDepartemenHapus: "",
+            namaStallHapus: "",
         }
     },
     mounted() {
-        this.getlistdepartemen();
+        this.getliststall(),
+        this.getlistdepartemen()
     },
     watch: {
         dialogDelete(val) {
-
             val || this.closeDialogDelete()
         },
         dialogTambah(val) {
@@ -101,15 +103,16 @@ export default {
         },
     },
     methods: {
-        getlistdepartemen() {
-            axios.get('/api/listdepartemen').then((response) => {
+        async getlistdepartemen() {
+            await axios.get('/api/listdepartemen').then((response) => {
                 this.listdepartemen = []
                 this.listdepartemen = response.data
+            })
+        },
+        getliststall() {
+            axios.get('/api/liststall').then((response) => {
+                this.datatable = []
                 this.datatable = response.data.data
-                // this.listspk.forEach(element => {
-                //     this.states.push(element.NOSPK)
-                // });
-                // this.filterstates();
             })
         },
         addStall() {
@@ -144,17 +147,17 @@ export default {
             this.$nextTick(() => {
                 this.editedIndex = -1
             })
-            this.namaDepartemenHapus = ""
+            this.namaStallHapus = ""
         },
         deleteItem(item) {
-            this.namaDepartemenHapus = item.Nama_Departemen
+            this.namaStallHapus = item.NamaStall
             this.editedIndex = this.datatable.indexOf(item)
             this.dialogDelete = true
         },
         deleteItemConfirm() {
             var datahapus = this.datatable[this.editedIndex]
             this.closeDialogDelete()
-            axios.delete('/api/hapusdepartemen' + datahapus["_id"]).then((response) => {
+            axios.delete('/api/hapusstall' + datahapus["_id"]).then((response) => {
                 if (response.data.statusresponse == 400) {
                     this.$swal({
                         title: response.data.message,

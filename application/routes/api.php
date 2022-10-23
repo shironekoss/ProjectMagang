@@ -43,7 +43,9 @@ Route::get('showdepartemen',[SettingsController::class,'showdepartemen']);
 Route::post('adddepartemen',[SettingsController::class,'adddepartemen']);
 Route::post('saveuser',[SettingsController::class,'saveuser']);
 Route::delete('hapusdepartemen{id}',[SettingsController::class,'hapusdepartemen']);
+Route::delete('hapusstall{id}',[SettingsController::class,'hapusstall']);
 Route::get('listdepartemen',[SettingsController::class,'getlistdepartemen']);
+Route::get('liststall',[SettingsController::class,'getliststall']);
 Route::post('addstall',[SettingsController::class,'addstall']);
 
 Route::post('tambahSPK',[SPKController::class,'tambahSPK']);
