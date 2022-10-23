@@ -96,9 +96,6 @@
                             </div>
                             <div class="col-9">
                                 <div class="row">
-                                    <!-- <div class="col-6">
-                                        <input type="text" v-model="Parameter.Departemen[0]" class="form-control">
-                                    </div> -->
                                     <div class="col-6">
                                         <div data-app>
                                             <v-select :items="ListDept" item-text="text" item-value="value"
@@ -134,7 +131,11 @@
                             <div class="col-9">
                                 <div class="row">
                                     <div class="col-6">
-                                        <input type="number" v-model="Parameter.Stall[0]" class="form-control" min="0">
+                                        <div data-app>
+                                            <v-select :items="Liststall" item-text="text" item-value="value"
+                                                v-model="Parameter.Stall[0]" required class="form-control">
+                                            </v-select>
+                                        </div>
                                     </div>
                                     <div class="col">
                                         <button type="button" :disabled='isActiveStall'
@@ -149,8 +150,11 @@
                                 <div v-for="(component, index) in ComponentTambahanStall" :key="index" :id=index
                                     tipe="StallMobil" class="row">
                                     <div class="col-6">
-                                        <input type="text" v-model="Parameter.Stall[index + 1]" required
-                                            class="form-control">
+                                        <div data-app>
+                                            <v-select :items="Liststall" item-text="text" item-value="value"
+                                                v-model="Parameter.Stall[index + 1]" required class="form-control">
+                                            </v-select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -321,11 +325,14 @@ export default {
             },
             Result: [],
             ListDept: [],
+            Liststall:[],
+            Liststalltemp:[]
         }
     },
     mounted() {
         this.getspk(),
-        this.getlistdepartemen()
+        this.getlistdepartemen(),
+        this.Parameter.Stall=this.Liststalltemp
     },
     watch: {
         'Parameter.TipeMobil': function () {
@@ -380,6 +387,7 @@ export default {
             }
         },
         'Parameter.Departemen': function () {
+            this.getliststall()
             if (this.Parameter.Departemen.length == 0) {
                 return this.isActiveDepartemen = true
             } else {
@@ -454,8 +462,8 @@ export default {
                 this.Parameter.Stall.push("")
             }
         },
-        getspk() {
-            axios.get('/api/master/' + this.id).then((response) => {
+        async getspk() {
+            await axios.get('/api/master/' + this.id).then((response) => {
                 this.Parameter=response.data.Parameter
                 this.Result=response.data.Kit
                 if(this.Parameter['TipeMobil'].length>1){
@@ -488,11 +496,17 @@ export default {
                         this.ComponentTambahanStock.push('true')
                     }
                 }
+                this.Liststalltemp=this.Parameter['Stall']
             })
         },
-        getlistdepartemen() {
-            axios.get('/api/listdepartemen').then((response) => {
+        async getlistdepartemen() {
+            await axios.get('/api/listdepartemen').then((response) => {
                 this.ListDept = response.data.data
+            })
+        },
+        async getliststall() {
+             await axios.post('/api/getlistallparameter',{Parameterdeps:this.Parameter.Departemen}).then((response) => {
+                this.Liststall = response.data.result
             })
         },
         generate() {

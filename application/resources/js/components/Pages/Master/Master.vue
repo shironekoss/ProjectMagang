@@ -343,7 +343,6 @@ export default {
                 }
             }
         },
-
         'Parameter.ModelMobil': function () {
             if (this.Parameter.ModelMobil.length == 0) {
                 return this.isActiveModelMobil = true
@@ -361,7 +360,6 @@ export default {
                 }
             }
         },
-
         'Parameter.TinggiMobil': function () {
             if (this.Parameter.TinggiMobil.length == 0) {
                 return this.isActiveTinggiMobil = true
@@ -463,8 +461,23 @@ export default {
             await axios.post('/api/getlistallparameter',{Parameterdeps:this.Parameter.Departemen}).then((response) => {
                 this.Liststall = response.data.result
                 this.Parameter.Stall=[]
+                // let i=0
+                // this.Parameter.Stall.forEach(element => {
+                //     console.log(element)
+                //     let beda= false
+                //     this.Liststall.forEach(element2 => {
+                //         if( element.toUpperCase == element2.toUpperCase){
+                //             beda=true
+                //         }
+                //     });
+                //     if(beda==false){
+                //         this.Parameter.Stall[i]=""
+                //     }
+                //     i++
+                // });
             })
         },
+
         generate() {
             let data = {
                 param: this.InputKodeKit
