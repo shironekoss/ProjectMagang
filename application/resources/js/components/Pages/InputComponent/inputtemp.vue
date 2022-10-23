@@ -6,9 +6,12 @@
                 <v-row dense>
                     <v-col cols="12" sm="6" md="3">
                         <span>NO SPK</span>
-                        <v-select :items="listspk" item-text="text" item-value="value" required class="form-control"
-                            placeholder="Pilih Nomor SPK" v-model="SPKfield">
-                        </v-select>
+                        <!-- <v-select :items="listspk" item-text="text" item-value="value" required class="form-control"
+                            placeholder="Pilih Nomor SPK" v-model="SPKfield"
+                            :search-input.sync="searchInput">
+                        </v-select> -->
+                        <v-autocomplete v-model="SPKfield" :items="listspk" class="form-control" required>
+                        </v-autocomplete>
                         <div v-if="filteredStates && modal">
                             <ul style="width: 48em;	background-color: rgb(31 41 55); color: white;">
                                 <li v-for="filteredstate in filteredStates" @click="setstate(filteredstate)"
@@ -31,7 +34,7 @@
                     </v-col>
                     <v-col cols="12" sm="6" md="3">
                         <span>STALL</span>
-                        <v-text-field dense :type="Changemode" :min="min" :max="max" v-model="stall" outlined
+                        <v-text-field class="form-control" :type="Changemode" :min="min" :max="max" v-model="stall"
                             :placeholder="Placeholdertext">
                         </v-text-field>
                     </v-col>
@@ -101,6 +104,7 @@ export default {
             stall: "",
             min: 0,
             max: 0,
+            searchInput: "",
             dialogDelete: false,
             editedIndex: -1,
             headerstable: [
@@ -296,11 +300,10 @@ export default {
                 axios.post('/api/konversikomponen').then((response) => {
                     if (response.data.status == 200) {
                         console.log(response.data)
-                        this.getdatatable()
-                        // this.$router.push({
-                        //     name: 'Cekresult',
-                        //     params: { data: response.data.result }
-                        // })
+                        this.$router.push({
+                            name: 'Cekresult',
+                            params: { data: response.data }
+                        })
                     }
 
                 });

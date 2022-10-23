@@ -45,13 +45,13 @@ class AdminController extends Controller
 
     public function getlistallparameterinput(Request $request)
     {
-        $param =$request->Parameterdeps;
-        $result=[];
-        $stalls = Stall::where('NamaDepartemen',$param)->get();
+        $param = $request->Parameterdeps;
+        $result = [];
+        $stalls = Stall::where('NamaDepartemen', $param)->get();
         foreach ($stalls as $stall) {
-            array_push($result,[
-                'Namastall'=>$stall->NamaStall,
-                'Jumlahstall'=>$stall->JumlahStall
+            array_push($result, [
+                'Namastall' => $stall->NamaStall,
+                'Jumlahstall' => $stall->JumlahStall
             ]);
         }
         return response()->json([
@@ -66,15 +66,13 @@ class AdminController extends Controller
         $master = Master::all();
         $messages = [];
         $results = [];
-
+        $result = [];
         foreach ($saved as $item1) {
-            $i = 0;
             if ($item1["NOSPK"] == "STOCK") {
                 foreach ($master as $item2) {
                     foreach ($item2["Parameter"]["Stock"] as $subitem2) {
                         if (strtoupper($subitem2) == strtoupper($item1["stall"])) {
-                            array_push($results, $item2["Kit"]);
-                            $i++;
+                            array_push($result, $item2["Kit"]);
                             break;
                         }
                     }
@@ -85,7 +83,6 @@ class AdminController extends Controller
                     $ModelMobilterdaftar = false;
                     $TinggiMobilterdaftar = false;
                     $TipeMobilTerdaftar = false;
-
                     foreach ($item2["Parameter"]["ModelMobil"] as $subitem2) {
                         if (strtoupper($subitem2) == strtoupper($data["parameter"]["ModelMobil"])) {
                             $ModelMobilterdaftar = true;
@@ -105,16 +102,15 @@ class AdminController extends Controller
                         }
                     }
                     if ($ModelMobilterdaftar && $TinggiMobilterdaftar && $TipeMobilTerdaftar) {
-                        array_push($results, $item2["Kit"]);
-                        $i++;
+                        array_push($result, $item2["Kit"]);
                     }
                 }
             }
-            $newresult = [
-                'kit' => $results,
-                'NoSPK' => $item1->NOSPK,
-            ];
-            if ($i > 0) {
+            if (count($result) > 0) {
+                array_push($results, [
+                    'kit' => $result,
+                    'NoSPK' => $item1->NOSPK,
+                ]);
                 $item1["status"] = "berhasil";
                 $item1->save();
             }
@@ -123,10 +119,10 @@ class AdminController extends Controller
         return response()->json([
             "success" => true,
             "status" => 200,
-            "saved" => $saved,
-            "master" => $master,
-            "message" => $messages,
-            "result" => $results,
+            // "saved" => $saved,
+            // "master" => $master,
+            // "message" => $messages,
+            "hasil" => $results,
         ]);
 
         // return response()->json([
@@ -326,20 +322,19 @@ class AdminController extends Controller
         $stall = $request->Stall;
         $namastall = $request->NamaStall;
         $Departemen = $request->Departemen;
-        if ($stall == 0 || $stall == "" || $nospk == null || $namastall=="" || $Departemen=="") {
+        if ($stall == 0 || $stall == "" || $nospk == null || $namastall == "" || $Departemen == "") {
             return response()->json([
                 "success" => true,
                 "status" => 400,
             ]);
-        }
-        else {
+        } else {
             try {
                 if ($nospk == "STOCK") {
                     // $saved = SavedConversionResult::where('NOSPK',"STOCK")->get();
                     $newdata = SavedConversionResult::create([
                         "NOSPK" => $nospk,
-                        "namastall"=>$namastall,
-                        "Departemen"=>$Departemen,
+                        "namastall" => $namastall,
+                        "Departemen" => $Departemen,
                         "stall" => $stall,
                         "checked" => false,
                         "status" => "Pending",
@@ -356,8 +351,8 @@ class AdminController extends Controller
                     $newdata = SavedConversionResult::create([
                         "NOSPK" => $spk->NOSPK,
                         "stall" => $stall,
-                        "namastall"=> $namastall,
-                        "Departemen"=> $Departemen,
+                        "namastall" => $namastall,
+                        "Departemen" => $Departemen,
                         "checked" => false,
                         "status" => "Pending",
                         "parameter" => $parameter,
@@ -368,8 +363,8 @@ class AdminController extends Controller
                         "success" => true,
                         "status" => 200,
                         "spk" => $spk,
-                        "namastall"=>$namastall,
-                        "Departemen"=>$Departemen,
+                        "namastall" => $namastall,
+                        "Departemen" => $Departemen,
                         "newdata" => $parameter
                     ]);
                 }
