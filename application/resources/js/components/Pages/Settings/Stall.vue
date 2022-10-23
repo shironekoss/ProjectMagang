@@ -13,7 +13,7 @@
                         <v-dialog v-model="dialogDelete" max-width="500px">
                             <v-card>
                                 <v-card-title class="text-h5">Yakin Mau Menghapus&nbsp; <span
-                                        v-html="namaDepartemenHapus"></span> ?</v-card-title>
+                                        v-html="namaStallHapus"></span> ?</v-card-title>
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
                                     <v-btn color="blue darken-1" text @click="closeDialogDelete">Cancel</v-btn>
@@ -129,7 +129,7 @@ export default {
                         title: response.data.message,
                         icon: 'success'
                     });
-                    this.getlistdepartemen();
+                    this.getliststall();
                 }
             })
         },
@@ -169,7 +169,7 @@ export default {
                         title: response.data.message,
                         icon: 'success'
                     });
-                    this.getlistdepartemen()
+                    this.getliststall()
                 }
             })
             this.closeDialogDelete()

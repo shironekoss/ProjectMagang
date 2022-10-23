@@ -110,7 +110,7 @@ class SettingsController extends Controller
                     return response()->json([
                         "statusresponse" => 400,
                         "data" => $request->namadepartemen,
-                        "message" => "Nama Stall Sudah Terdaftar"
+                        "message" => "Nama Stall & Departemennya Sudah Terdaftar"
                     ]);
                     break;
                 }
