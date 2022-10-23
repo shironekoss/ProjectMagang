@@ -47,6 +47,7 @@ Route::delete('hapusstall{id}',[SettingsController::class,'hapusstall']);
 Route::get('listdepartemen',[SettingsController::class,'getlistdepartemen']);
 Route::get('liststall',[SettingsController::class,'getliststall']);
 Route::post('addstall',[SettingsController::class,'addstall']);
+Route::post('updatestall',[SettingsController::class,'updatestall']);
 
 Route::post('tambahSPK',[SPKController::class,'tambahSPK']);
 Route::get('spklist',[SPKController::class,'spklist']);

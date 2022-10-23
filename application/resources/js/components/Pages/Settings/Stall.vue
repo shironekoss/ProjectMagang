@@ -24,7 +24,12 @@
                         </v-dialog>
                         <v-dialog v-model="dialogTambah" max-width="500px">
                             <v-card>
-                                <v-card-title class="text-h5">Tambah Stall</v-card-title>
+                                <div v-if="modeTambah">
+                                    <v-card-title class="text-h5">Tambah Stall</v-card-title>
+                                </div>
+                                <div v-else="modeTambah">
+                                    <v-card-title class="text-h5">Update Stall</v-card-title>
+                                </div>
                                 <v-container>
                                     <v-col cols="12" sm="6" md="10">
                                         <v-text-field label="Nama Stall" required v-model="NamaStall">
@@ -42,8 +47,8 @@
                                         </v-select>
                                     </v-col>
                                     <v-col cols="12" sm="6" md="10">
-                                        <v-text-field required v-model="JumlahStall"
-                                            type="number" hide-details single-line>
+                                        <v-text-field required v-model="JumlahStall" type="number" hide-details
+                                            single-line>
                                             <template #label>
                                                 <span class="red--text"><strong>* </strong></span>Jumlah Stall
                                             </template>
@@ -53,7 +58,12 @@
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
                                     <v-btn color="blue darken-1" text @click="closeDialogTambah">Cancel</v-btn>
-                                    <v-btn color="blue darken-1" text @click="addStall">Save</v-btn>
+                                    <div v-if="modeTambah">
+                                        <v-btn color="blue darken-1" text @click="addStall">Save</v-btn>
+                                    </div>
+                                    <div v-else="modeTambah">
+                                        <v-btn color="blue darken-1" text @click="updatestall">Update</v-btn>
+                                    </div>
                                     <v-spacer></v-spacer>
                                 </v-card-actions>
                             </v-card>
@@ -86,13 +96,15 @@ export default {
             dialogTambah: false,
             JumlahStall: null,
             NamaStall: "",
-            NamaDepartemen:"",
+            NamaDepartemen: "",
             namaStallHapus: "",
+            modeTambah: true,
+            updateid:"",
         }
     },
     mounted() {
         this.getliststall(),
-        this.getlistdepartemen()
+            this.getlistdepartemen()
     },
     watch: {
         dialogDelete(val) {
@@ -116,7 +128,25 @@ export default {
             })
         },
         addStall() {
-            axios.post('/api/addstall', { JumlahStall: this.JumlahStall, NamaStall:this.NamaStall, NamaDepartemen:this.NamaDepartemen }).then((response) => {
+            axios.post('/api/addstall', { JumlahStall: this.JumlahStall, NamaStall: this.NamaStall, NamaDepartemen: this.NamaDepartemen }).then((response) => {
+                if (response.data.statusresponse == 400) {
+                    this.$swal({
+                        title: response.data.message,
+                        icon: 'error'
+                    });
+                }
+                else if (response.data.statusresponse == 200) {
+                    this.closeDialogTambah()
+                    this.$swal({
+                        title: response.data.message,
+                        icon: 'success'
+                    });
+                    this.getliststall();
+                }
+            })
+        },
+        updatestall(){
+            axios.post('/api/updatestall', { JumlahStall: this.JumlahStall, NamaStall: this.NamaStall, NamaDepartemen: this.NamaDepartemen, id:this.updateid}).then((response) => {
                 if (response.data.statusresponse == 400) {
                     this.$swal({
                         title: response.data.message,
@@ -138,9 +168,11 @@ export default {
             this.$nextTick(() => {
                 this.editedIndex = -1
             })
-            this.NamaDepartemen = "",
-            this.JumlahStall=null,
-            this.NamaStall=""
+            this.NamaDepartemen = ""
+            this.JumlahStall = null
+            this.NamaStall = ""
+            this.modeTambah = true
+            this.updateid=""
         },
         closeDialogDelete() {
             this.dialogDelete = false
@@ -148,6 +180,15 @@ export default {
                 this.editedIndex = -1
             })
             this.namaStallHapus = ""
+        },
+        edit(item) {
+            console.log(item);
+            this.modeTambah = false
+            this.dialogTambah = true
+            this.NamaDepartemen = item["NamaDepartemen"]
+            this.JumlahStall = item["JumlahStall"]
+            this.NamaStall = item["NamaStall"]
+            this.updateid = item["_id"]
         },
         deleteItem(item) {
             this.namaStallHapus = item.NamaStall

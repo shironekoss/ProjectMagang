@@ -133,6 +133,30 @@ class SettingsController extends Controller
         }
     }
 
+    public function updatestall(Request $request)
+    {
+        try {
+            if ($request->NamaDepartemen == "" || $request->NamaStall == "" || $request->JumlahStall == "") {
+                return response()->json([
+                    "statusresponse" => 400,
+                    "data" => $request->namadepartemen,
+                    "message" => "Inputan ada yang kosong"
+                ]);
+            }
+            $stallygdiupdate = Stall::where('_id',$request->id)->get();
+            $stalls = Stall::all()->except($request->id);
+            return response()->json([
+                "statusresponse" => 200,
+                "stalls" => $stalls,
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                "statusresponse" => 400,
+                "message" => "Fitur Update gagal"
+            ]);
+        }
+    }
+
 
     public function hapusdepartemen(Request $request)
     {
