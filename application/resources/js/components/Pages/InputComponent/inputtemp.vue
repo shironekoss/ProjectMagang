@@ -20,18 +20,18 @@
                     <v-col cols="12" sm="6" md="3">
                         <span>Departemen</span>
                         <v-select :items="ListDept" item-text="text" item-value="value"
-                            v-model="Departemen" required class="form-control">
+                            v-model="Departemen" required class="form-control" :disabled="disabledepartemen">
                         </v-select>
                     </v-col>
                     <v-col cols="12" sm="6" md="3">
                         <span>Nama Stall</span>
-                        <v-select :items="Liststall" item-text="text" item-value="value"
-                            v-model="Stall" required class="form-control">
+                        <v-select :items="Liststall" item-text="Namastall" item-value="value"
+                            v-model="TempStall" required class="form-control" return-object :disabled="disablenamastall">
                         </v-select>
                     </v-col>
                     <v-col cols="12" sm="6" md="3">
                         <span>STALL</span>
-                        <v-text-field dense :type="Changemode" v-model="stall" outlined :placeholder="Placeholdertext">
+                        <v-text-field dense :type="Changemode" :min="min" :max="max" v-model="stall" outlined :placeholder="Placeholdertext">
                         </v-text-field>
                     </v-col>
                 </v-row>
@@ -87,14 +87,19 @@ export default {
             SPKfield: "",
             Placeholdertext: "Masukkan Stall",
             Changemode: "number",
+            disabledepartemen:false,
+            disablenamastall:false,
             states: [],
             state: '',
             modal: false,
             Departemen:'',
-            Stall:'',
+            NamaStall:'',
+            TempStall:'',
             Liststall:[],
             ListDept:[],
             stall: 1,
+            min:0,
+            max:0,
             dialogDelete: false,
             editedIndex: -1,
             headerstable: [
@@ -131,13 +136,22 @@ export default {
         SPKfield: function () {
             if (this.SPKfield == "STOCK") {
                 this.Changemode = "text"
+                this.disabledepartemen=true
+                this.disablenamastall=true
                 this.Placeholdertext = "Masukkan Nama Stall"
                 this.stall = ""
             }
             else {
-                this.stall = 1
+                this.stall = 0
+                this.disabledepartemen=false
+                this.disablenamastall=false
+                this.Changemode = "number"
             }
         },
+        TempStall:function(){
+            this.NamaStall=this.TempStall.Namastall
+            this.max=this.TempStall.Jumlahstall
+        }
     },
     methods: {
         changevalue(value) {
@@ -146,7 +160,8 @@ export default {
         async getliststall() {
             await axios.post('/api/getlistallparameterinput',{Parameterdeps:this.Departemen}).then((response) => {
                console.log(response.data.result)
-                // this.Parameter.Stall=[]
+                this.Liststall=[]
+                this.Liststall=response.data.result
             })
         },
         async getlistdepartemen() {
@@ -236,7 +251,11 @@ export default {
             this.modal = false;
         },
         tambah() {
-            axios.post('/api/admintambahspk', { Nospk: this.SPKfield, Stall: this.stall }).then((response) => {
+            if (this.SPKfield == "STOCK") {
+                this.NamaStall="STOCK"
+                this.Departemen="STOCK"
+            }
+            axios.post('/api/admintambahspk', { Nospk: this.SPKfield, Stall: this.stall, NamaStall:this.NamaStall, Departemen:this.Departemen }).then((response) => {
                 if (response.data.status == 400) {
                     this.$swal({
                         title: 'pengisian SPK tidak Valid',

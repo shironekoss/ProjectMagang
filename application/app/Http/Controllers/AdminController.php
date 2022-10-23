@@ -324,6 +324,8 @@ class AdminController extends Controller
     {
         $nospk = strtoupper($request->Nospk);
         $stall = $request->Stall;
+        $namastall = $request->NamaStall;
+        $Departemen = $request->Departemen;
         if ($stall == 0 || $stall == "" || $nospk == null) {
             return response()->json([
                 "success" => true,
