@@ -253,24 +253,26 @@
                                 <div class="row">
                                     <div class="col">
                                         <div class="row">
-                                            <div class="col-6">
+                                            <div class="col-5">
                                                 Nama Komponen
-                                                <input type="text" v-model="component.IsiKit[index2].nama_komponen"
+                                                <input type="text" v-model="component.IsiKit[index2].nama_komponen" disabled
                                                     class="form-control">
                                             </div>
-
                                             <div class="col">
                                                 QTY :
-                                                <input type="number" v-model="component.IsiKit[index2].qty"
+                                                <input type="number" v-model="component.IsiKit[index2].qty" disabled
                                                     class="form-control">
                                             </div>
-
+                                            <div class="col">
+                                                Site ID :
+                                                <input type="text" v-model="component.siteID"
+                                                    class="form-control">
+                                            </div>
                                             <div class="col">
                                                 dari Rak :
                                                 <input type="text" v-model="component.IsiKit[index2].darirak"
                                                     class="form-control" min="0">
                                             </div>
-
                                             <div class="col">
                                                 ke rak :
                                                 <input type="text" v-model="component.IsiKit[index2].kerak"
