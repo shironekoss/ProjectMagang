@@ -51,10 +51,28 @@ class SettingsController extends Controller
 
     public function getliststall()
     {
-        $listdept = Stall::all();
+        $liststall = Stall::all();
         return response()->json([
             "statusresponse" => 200,
-            "data" => $listdept
+            "data" => $liststall
+        ]);
+    }
+
+
+    public function getlistallparameter(Request $request)
+    {
+        $liststall = Stall::all();
+        $paramstall = $request->Parameterdeps;
+        $result=[];
+        foreach ($liststall as $stall ) {
+            foreach($paramstall as $param){
+                if(ucwords($stall->NamaDepartemen)==ucwords($param)){
+                    array_push($result,$stall->NamaStall);
+                }
+            }
+        }
+        return response()->json([
+            "result"=>$result,
         ]);
     }
 
@@ -97,7 +115,7 @@ class SettingsController extends Controller
     public function addstall(Request $request)
     {
         try {
-            if ($request->NamaStall == "" || $request->JumlahStall == "") {
+            if ($request->NamaDepartemen == "" || $request->NamaStall == "" || $request->JumlahStall == "") {
                 return response()->json([
                     "statusresponse" => 400,
                     "data" => $request->namadepartemen,
@@ -106,15 +124,17 @@ class SettingsController extends Controller
             }
             $stalls = Stall::all();
             foreach ($stalls as $key) {
-                if (ucwords($key->NamaStall) == ucwords($request->NamaStall)) {
+                if (ucwords($key->NamaStall) == ucwords($request->NamaStall) && ucwords($key->NamaDepartemen) == ucwords($request->NamaDepartemen)) {
                     return response()->json([
                         "statusresponse" => 400,
-                        "message" => "Nama Stall Sudah Terdaftar"
+                        "data" => $request->namadepartemen,
+                        "message" => "Nama Stall & Departemennya Sudah Terdaftar"
                     ]);
                     break;
                 }
             }
             $newstall = Stall::create([
+                'NamaDepartemen' => ucwords($request->NamaDepartemen),
                 'NamaStall' => ucwords($request->NamaStall),
                 'JumlahStall' => ucwords($request->JumlahStall),
             ]);
@@ -134,25 +154,29 @@ class SettingsController extends Controller
     public function updatestall(Request $request)
     {
         try {
-            if ($request->NamaStall == "" || $request->JumlahStall == "") {
+            if ($request->NamaDepartemen == "" || $request->NamaStall == "" || $request->JumlahStall == "") {
                 return response()->json([
                     "statusresponse" => 400,
+                    "data" => $request->namadepartemen,
                     "message" => "Inputan ada yang kosong"
                 ]);
             }
             $stallygdiupdate = Stall::where('_id', $request->id)->first();
             $stalls = Stall::all()->except($request->id);
             foreach ($stalls as $stall) {
-                if (ucwords($stall->NamaStall) == ucwords($request->NamaStall)) {
+                // if (ucwords($stall->NamaDepartemen) == ucwords($stallygdiupdate->NamaDepartemen) && ucwords($stall->NamaStall) == ucwords($stallygdiupdate->NamaStall)) {
+                if (ucwords($stall->NamaDepartemen) == ucwords($request->NamaDepartemen) && ucwords($stall->NamaStall) == ucwords($request->NamaStall)) {
                     return response()->json([
                         "statusresponse" => 400,
-                        "message" => "Stall Sudah Terdaftar",
+                        "message" => "Stall dan Nama Departemen Sudah Terdaftar",
                     ]);
                 }
             }
             $stallygdiupdate->NamaStall = $request->NamaStall;
+            $stallygdiupdate->NamaDepartemen = $request->NamaDepartemen;
             $stallygdiupdate->JumlahStall = $request->JumlahStall;
             $stallygdiupdate->save();
+
             return response()->json([
                 "statusresponse" => 200,
                 "message" => "Stall ". $request->NamaStall.   " Berhasil Diupdate",

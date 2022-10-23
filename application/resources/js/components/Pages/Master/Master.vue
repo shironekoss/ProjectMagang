@@ -1,5 +1,4 @@
 <template>
-
     <div>
         <div class="card" style="width: 95rem;">
             <div class="card-body">
@@ -132,7 +131,11 @@
                             <div class="col-9">
                                 <div class="row">
                                     <div class="col-6">
-                                        <input type="text" v-model="Parameter.Stall[0]" class="form-control" min="0">
+                                        <div data-app>
+                                            <v-select :items="Liststall" item-text="text" item-value="value"
+                                                v-model="Parameter.Stall[0]" required class="form-control">
+                                            </v-select>
+                                        </div>
                                     </div>
                                     <div class="col">
                                         <button type="button" :disabled='isActiveStall' @click="add('Stall')"
@@ -146,8 +149,11 @@
                                 <div v-for="(component, index) in ComponentTambahanStall" :key="index" :id=index
                                     tipe="StallMobil" class="row">
                                     <div class="col-6">
-                                        <input type="text" v-model="Parameter.Stall[index + 1]" required
-                                            class="form-control">
+                                        <div data-app>
+                                            <v-select :items="Liststall" item-text="text" item-value="value"
+                                                v-model="Parameter.Stall[index + 1]" required class="form-control">
+                                            </v-select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -285,22 +291,6 @@
 
 <script>
 import axios from 'axios'
-
-const Componentnewfield = {
-    props: {
-        id: Number,
-        tipe: String
-    },
-    data() {
-        return { value: "" }
-    },
-
-    template: `<div class="col-8">
-    <input type="text" class="form-control">
-    </div>`,
-    methods: {}
-}
-
 export default {
     data() {
         return {
@@ -329,6 +319,7 @@ export default {
             },
             Result: [],
             ListDept: [],
+            Liststall:[],
         }
     },
     async mounted() {
@@ -352,6 +343,7 @@ export default {
                 }
             }
         },
+
         'Parameter.ModelMobil': function () {
             if (this.Parameter.ModelMobil.length == 0) {
                 return this.isActiveModelMobil = true
@@ -369,6 +361,7 @@ export default {
                 }
             }
         },
+
         'Parameter.TinggiMobil': function () {
             if (this.Parameter.TinggiMobil.length == 0) {
                 return this.isActiveTinggiMobil = true
@@ -404,6 +397,7 @@ export default {
             }
         },
         'Parameter.Departemen': function () {
+            this.getliststall();
             if (this.Parameter.Departemen.length == 0) {
                 return this.isActiveDepartemen = true
             } else {
@@ -460,9 +454,15 @@ export default {
                 this.Parameter.Stall.push("")
             }
         },
-        getlistdepartemen() {
-            axios.get('/api/listdepartemen').then((response) => {
+        async getlistdepartemen() {
+            await axios.get('/api/listdepartemen').then((response) => {
                 this.ListDept = response.data.data
+            })
+        },
+        async getliststall() {
+            await axios.post('/api/getlistallparameter',{Parameterdeps:this.Parameter.Departemen}).then((response) => {
+                this.Liststall = response.data.result
+                this.Parameter.Stall=[]
             })
         },
         generate() {

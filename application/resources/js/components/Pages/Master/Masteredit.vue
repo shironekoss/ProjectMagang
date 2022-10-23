@@ -5,17 +5,6 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-6" style="float: left;">
-                        <!-- <div class="row">
-                            <div class="col">
-                                <h5>Merk</h5>
-                            </div>
-                            <div class="col-9">
-                                <div class="row">
-                                    <input type="text" v-model="parameter.kodemobil" class="form-control">
-                                </div>
-
-                            </div>
-                        </div> -->
                         <div class="row">
                             <div class="col">
                                 <h5>Tipe Mobil</h5>

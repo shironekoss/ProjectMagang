@@ -39,8 +39,16 @@
                                         </v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="6" md="10">
+                                        <v-select :items="listdepartemen.data" item-text="text" item-value="value"
+                                            v-model="NamaDepartemen" required class="form-control">
+                                            <template #label>
+                                                <span class="red--text"><strong>* </strong></span>Pilih Departemen
+                                            </template>
+                                        </v-select>
+                                    </v-col>
+                                    <v-col cols="12" sm="6" md="10">
                                         <v-text-field required v-model="JumlahStall" type="number" hide-details
-                                            single-line>
+                                            single-line :min="1">
                                             <template #label>
                                                 <span class="red--text"><strong>* </strong></span>Jumlah Stall
                                             </template>
@@ -76,9 +84,11 @@ import axios from 'axios';
 export default {
     data() {
         return {
+            listdepartemen: [],
             datatable: [],
             headerstable: [
                 { text: 'Nama Stall', value: 'NamaStall', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Nama Departemen', value: 'NamaDepartemen', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Jumlah Stall', value: 'JumlahStall', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Action', value: 'actions', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
             ],
@@ -86,13 +96,15 @@ export default {
             dialogTambah: false,
             JumlahStall: null,
             NamaStall: "",
+            NamaDepartemen: "",
             namaStallHapus: "",
             modeTambah: true,
             updateid:"",
         }
     },
     mounted() {
-        this.getliststall()
+        this.getliststall(),
+            this.getlistdepartemen()
     },
     watch: {
         dialogDelete(val) {
@@ -103,14 +115,20 @@ export default {
         },
     },
     methods: {
-        async getliststall() {
+        async getlistdepartemen() {
+            await axios.get('/api/listdepartemen').then((response) => {
+                this.listdepartemen = []
+                this.listdepartemen = response.data
+            })
+        },
+        getliststall() {
             axios.get('/api/liststall').then((response) => {
                 this.datatable = []
                 this.datatable = response.data.data
             })
         },
         addStall() {
-            axios.post('/api/addstall', { JumlahStall: this.JumlahStall, NamaStall: this.NamaStall}).then((response) => {
+            axios.post('/api/addstall', { JumlahStall: this.JumlahStall, NamaStall: this.NamaStall, NamaDepartemen: this.NamaDepartemen }).then((response) => {
                 if (response.data.statusresponse == 400) {
                     this.$swal({
                         title: response.data.message,
@@ -128,7 +146,7 @@ export default {
             })
         },
         updatestall(){
-            axios.post('/api/updatestall', { JumlahStall: this.JumlahStall, NamaStall: this.NamaStall, id:this.updateid}).then((response) => {
+            axios.post('/api/updatestall', { JumlahStall: this.JumlahStall, NamaStall: this.NamaStall, NamaDepartemen: this.NamaDepartemen, id:this.updateid}).then((response) => {
                 if (response.data.statusresponse == 400) {
                     this.$swal({
                         title: response.data.message,
@@ -150,6 +168,7 @@ export default {
             this.$nextTick(() => {
                 this.editedIndex = -1
             })
+            this.NamaDepartemen = ""
             this.JumlahStall = null
             this.NamaStall = ""
             this.modeTambah = true
@@ -166,6 +185,7 @@ export default {
             console.log(item);
             this.modeTambah = false
             this.dialogTambah = true
+            this.NamaDepartemen = item["NamaDepartemen"]
             this.JumlahStall = item["JumlahStall"]
             this.NamaStall = item["NamaStall"]
             this.updateid = item["_id"]
