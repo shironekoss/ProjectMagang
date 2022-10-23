@@ -45,7 +45,7 @@ export default{
                     kits["result"].forEach(komponen => {
                     let obj ={};
                     obj['NoSPK'] = SPK.NoSPK;
-                    obj['kode'] = kits.kodekit;
+                    obj['kode'] = kits.Kodekit;
                     obj['namakit'] = kits.namakit;
                     obj['namakomponen'] = komponen.nama_komponen;
                     obj['Qty'] = komponen.qty;

@@ -16,6 +16,7 @@ class Masterkit extends Model
     protected $fillable = [
         'kode_kit',
         'stall',
+        'siteID',
         'nama_kit',
         'komponen',
         'created_at',

@@ -69,29 +69,33 @@ class AdminController extends Controller
                     $TipeMobilTerdaftar = false;
 
                     foreach ($item2["Parameter"]["ModelMobil"] as $subitem2) {
-                        if(strtoupper($subitem2)== strtoupper($data["parameter"]["ModelMobil"])){
-                            $ModelMobilterdaftar=true;
+                        if (strtoupper($subitem2) == strtoupper($data["parameter"]["ModelMobil"])) {
+                            $ModelMobilterdaftar = true;
                             break;
                         }
                     }
                     foreach ($item2["Parameter"]["TinggiMobil"] as $subitem2) {
-                        if(strtoupper($subitem2)== strtoupper($data["parameter"]["TinggiMobil"])){
-                            $TinggiMobilterdaftar=true;
+                        if (strtoupper($subitem2) == strtoupper($data["parameter"]["TinggiMobil"])) {
+                            $TinggiMobilterdaftar = true;
                             break;
                         }
                     }
                     foreach ($item2["Parameter"]["TipeMobil"] as $subitem2) {
-                        if(strtoupper($subitem2)== strtoupper($data["parameter"]["TipeMobil"])){
-                            $TipeMobilTerdaftar=true;
+                        if (strtoupper($subitem2) == strtoupper($data["parameter"]["TipeMobil"])) {
+                            $TipeMobilTerdaftar = true;
                             break;
                         }
                     }
-                    if($ModelMobilterdaftar && $TinggiMobilterdaftar && $TipeMobilTerdaftar){
+                    if ($ModelMobilterdaftar && $TinggiMobilterdaftar && $TipeMobilTerdaftar) {
                         array_push($results, $item2["Kit"]);
                         $i++;
                     }
                 }
             }
+            $newresult = [
+                'kit' => $results,
+                'NoSPK' => $item1->NOSPK,
+            ];
             if ($i > 0) {
                 $item1["status"] = "berhasil";
                 $item1->save();
