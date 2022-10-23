@@ -18,6 +18,18 @@
                         </div>
                     </v-col>
                     <v-col cols="12" sm="6" md="3">
+                        <span>Departemen</span>
+                        <v-select :items="ListDept" item-text="text" item-value="value"
+                            v-model="Departemen" required class="form-control">
+                        </v-select>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="3">
+                        <span>Nama Stall</span>
+                        <v-select :items="Liststall" item-text="text" item-value="value"
+                            v-model="Stall" required class="form-control">
+                        </v-select>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="3">
                         <span>STALL</span>
                         <v-text-field dense :type="Changemode" v-model="stall" outlined :placeholder="Placeholdertext">
                         </v-text-field>
@@ -66,7 +78,7 @@
 import axios from 'axios'
 import ConvertTime from '../../../Helper/ConvertTime'
 export default {
-    mixins:[ConvertTime],
+    mixins: [ConvertTime],
     data() {
         return {
             listspk: [],
@@ -78,7 +90,10 @@ export default {
             states: [],
             state: '',
             modal: false,
-            // kode: '',
+            Departemen:'',
+            Stall:'',
+            Liststall:[],
+            ListDept:[],
             stall: 1,
             dialogDelete: false,
             editedIndex: -1,
@@ -99,12 +114,16 @@ export default {
         }
     },
     mounted() {
-        this.getlistspk();
-        this.getdatatable();
+        this.getlistdepartemen()
+        this.getlistspk()
+        this.getdatatable()
     },
     watch: {
         state() {
             this.filterstates();
+        },
+        Departemen:function(){
+            this.getliststall()
         },
         dialogDelete(val) {
             val || this.closeDelete()
@@ -123,6 +142,17 @@ export default {
     methods: {
         changevalue(value) {
             this.ChangeStallmode = value
+        },
+        async getliststall() {
+            await axios.post('/api/getlistallparameterinput',{Parameterdeps:this.Departemen}).then((response) => {
+               console.log(response.data.result)
+                // this.Parameter.Stall=[]
+            })
+        },
+        async getlistdepartemen() {
+            await axios.get('/api/listdepartemen').then((response) => {
+                this.ListDept = response.data.data
+            })
         },
         getlistspk() {
             axios.get('/api/listspkshow').then((response) => {
@@ -178,7 +208,7 @@ export default {
                 this.datatable = []
                 this.datatable = response.data.reverse()
                 this.datatable.forEach(element => {
-                    element["updated_at"]=this.converttime(element["updated_at"])
+                    element["updated_at"] = this.converttime(element["updated_at"])
                 });
             })
         },

@@ -6,6 +6,7 @@ use App\Models\Master;
 use App\Models\Masterkit;
 use App\Models\SavedConversionResult;
 use App\Models\SPK;
+use App\Models\Stall;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\View\Component;
@@ -40,6 +41,23 @@ class AdminController extends Controller
                 "status" => 400,
             ]);
         }
+    }
+
+    public function getlistallparameterinput(Request $request)
+    {
+        $param =$request->Parameterdeps;
+        $result=[];
+        $stalls = Stall::where('NamaDepartemen',$param)->get();
+        foreach ($stalls as $stall) {
+            array_push($result,[
+                'Namastall'=>$stall->NamaStall,
+                'Jumlahstall'=>$stall->JumlahStall
+            ]);
+        }
+        return response()->json([
+            "statusresponse" => 200,
+            "result" => $result
+        ]);
     }
 
     public function konversikomponen()
