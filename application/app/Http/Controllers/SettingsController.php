@@ -143,12 +143,26 @@ class SettingsController extends Controller
                     "message" => "Inputan ada yang kosong"
                 ]);
             }
-            $stallygdiupdate = Stall::where('_id',$request->id)->get();
+            $stallygdiupdate = Stall::where('_id', $request->id)->first();
             $stalls = Stall::all()->except($request->id);
+            foreach ($stalls as $stall) {
+                // if (ucwords($stall->NamaDepartemen) == ucwords($stallygdiupdate->NamaDepartemen) && ucwords($stall->NamaStall) == ucwords($stallygdiupdate->NamaStall)) {
+                if (ucwords($stall->NamaDepartemen) == ucwords($request->NamaDepartemen) && ucwords($stall->NamaStall) == ucwords($request->NamaStall)) {
+                    return response()->json([
+                        "statusresponse" => 400,
+                        "message" => "Stall dan Nama Departemen Sudah Terdaftar",
+                    ]);
+                }
+            }
+            $stallygdiupdate->NamaStall = $request->NamaStall;
+            $stallygdiupdate->NamaDepartemen = $request->NamaDepartemen;
+            $stallygdiupdate->JumlahStall = $request->JumlahStall;
+            $stallygdiupdate->save();
             return response()->json([
                 "statusresponse" => 200,
-                "stalls" => $stalls,
+                "message" => "Stall ". $request->NamaStall.   " Berhasil Diupdate",
             ]);
+
         } catch (\Throwable $th) {
             return response()->json([
                 "statusresponse" => 400,
