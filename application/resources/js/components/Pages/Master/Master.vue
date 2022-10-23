@@ -439,7 +439,6 @@ export default {
             }
         }
     },
-
     methods: {
         add(param) {
             if (param == 'TipeMobil') {

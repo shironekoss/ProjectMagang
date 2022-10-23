@@ -1,6 +1,7 @@
 <script>
 import User from './User.vue';
 import Departemen from './Departemen.vue';
+import Stall from './Stall.vue';
 
 export default {
     data() {
@@ -13,7 +14,7 @@ export default {
             this.toggleAccount = message;
         }
     },
-    components: { User, Departemen }
+    components: { User, Departemen, Stall }
 }
 </script>
 <template>
@@ -26,12 +27,18 @@ export default {
                 <v-btn @click="changetoggle('Departemen')" :class="[toggleAccount == 'Departemen' ? 'aa' : 'white']">
                     <v-icon>Departemen</v-icon>
                 </v-btn>
+                <v-btn @click="changetoggle('Stall')" :class="[toggleAccount == 'Departemen' ? 'aa' : 'white']">
+                    <v-icon>Stall</v-icon>
+                </v-btn>
             </v-btn-toggle>
             <div v-if="toggleAccount==='Account'">
                 <User/>
             </div>
             <div v-if="toggleAccount==='Departemen'">
                 <Departemen/>
+            </div>
+            <div v-if="toggleAccount==='Stall'">
+                <Stall/>
             </div>
         </v-row>
     </div>
