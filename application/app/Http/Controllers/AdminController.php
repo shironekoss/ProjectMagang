@@ -69,20 +69,44 @@ class AdminController extends Controller
         $result = [];
         foreach ($saved as $item1) {
             if ($item1["NOSPK"] == "STOCK") {
+                $i = 0;
                 foreach ($master as $item2) {
                     foreach ($item2["Parameter"]["Stock"] as $subitem2) {
                         if (strtoupper($subitem2) == strtoupper($item1["stall"])) {
                             array_push($result, $item2["Kit"]);
+                            $i++;
                             break;
                         }
                     }
                 }
+                if ($i > 0) {
+                    array_push($results, [
+                        'kit' => $result,
+                        'NoSPK' => $item1->NOSPK,
+                    ]);
+                    $item1["status"] = "berhasil";
+                    $item1->save();
+                } else {
+                    $item1["status"] = "Pending";
+                    $item1->save();
+                }
             } else {
+                $i=0;
                 foreach ($master as $item2) {
                     $data = SPK::where('NOSPK', $item1["NOSPK"])->first();
+                    return response()->json([
+                        "success" => true,
+                        "status" => 200,
+                        "data"=> $data,
+                        "master"=>$item2["Parameter"]["NewParameter"],
+                        "saved"=>$item1
+                    ]);
                     $ModelMobilterdaftar = false;
                     $TinggiMobilterdaftar = false;
                     $TipeMobilTerdaftar = false;
+                    $DepartemenTerdaftar = false;
+                    $StallTerdaftar = false;
+                    $newparameterTerdaftar = false;
                     foreach ($item2["Parameter"]["ModelMobil"] as $subitem2) {
                         if (strtoupper($subitem2) == strtoupper($data["parameter"]["ModelMobil"])) {
                             $ModelMobilterdaftar = true;
@@ -101,27 +125,60 @@ class AdminController extends Controller
                             break;
                         }
                     }
-                    if ($ModelMobilterdaftar && $TinggiMobilterdaftar && $TipeMobilTerdaftar) {
+                    foreach ($item2["Parameter"]["Departemen"] as $subitem2) {
+                        if (strtoupper($subitem2) == strtoupper($item1["Departemen"])) {
+                            $DepartemenTerdaftar = true;
+                            break;
+                        }
+                    }
+                    foreach ($item2["Parameter"]["Stall"] as $subitem2) {
+                        if (strtoupper($subitem2) == strtoupper($item1["namastall"])) {
+                            $StallTerdaftar = true;
+                            break;
+                        }
+                    }
+                    if(count($item2["Parameter"]["NewParameter"])==0){
+                        $newparameterTerdaftar = true;
+                    }
+                    else{
+
+                    }
+                    // if( count($item2["Parameter"]["Newparameter"])==0){
+                    // //     $newparameterTerdaftar = true
+                    // }
+                    // else{
+                    //     foreach ($item2["Parameter"]["Newparameter"] as $subitem2) {
+
+                    //     }
+                    // }
+
+                    if ($ModelMobilterdaftar && $TinggiMobilterdaftar && $TipeMobilTerdaftar && $DepartemenTerdaftar && $StallTerdaftar && $newparameterTerdaftar) {
                         array_push($result, $item2["Kit"]);
+                        $i++;
                     }
                 }
-            }
-            if (count($result) > 0) {
-                array_push($results, [
-                    'kit' => $result,
-                    'NoSPK' => $item1->NOSPK,
-                ]);
-                $item1["status"] = "berhasil";
-                $item1->save();
+                if ($i > 0) {
+                    array_push($results, [
+                        'kit' => $result,
+                        'NoSPK' => $item1->NOSPK,
+                    ]);
+                    $item1["status"] = "berhasil";
+                    $item1->save();
+                } else {
+                    $item1["status"] = "Pending";
+                    $item1->save();
+                }
             }
         }
+
+
 
         return response()->json([
             "success" => true,
             "status" => 200,
-            // "saved" => $saved,
-            // "master" => $master,
-            // "message" => $messages,
+            "saved" => $saved,
+            "master" => $master,
+            "message" => $messages,
             "hasil" => $results,
         ]);
 

@@ -20,7 +20,8 @@ class DatabaseSeeder extends Seeder
             KomponenSeeder::class,
             Masterkit::class,
             SPKSeeder::class,
-            DepartemenDB_Seeder::class
+            DepartemenDB_Seeder::class,
+            StallSeeder::class
         ]);
         // Product::factory(50)->create();
     }

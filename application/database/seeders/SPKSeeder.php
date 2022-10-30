@@ -59,7 +59,10 @@ class SPKSeeder extends Seeder
                     'ModelMobil' => "Yamaha",
                     'TinggiMobil' => "200",
                     'TipeMobil' => "KK",
-                    'newparameter' => [],
+                    'newparameter' => [
+                        'Newparam'=>"Bangku",
+                        'Component'=>"test"
+                    ],
                 ],
                 'SPKactive'=>true,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
