@@ -7,7 +7,7 @@
                     <div class="col-6" style="float: left;">
                         <div class="row">
                             <div class="col">
-                                <h5>Tipe Mobil</h5>
+                                <h5> <span style="color: red;">* </span> Tipe Mobil</h5>
                             </div>
                             <div class="col-9">
                                 <div class="row">
@@ -35,7 +35,7 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <h5>Model Mobil</h5>
+                                <h5> <span style="color: red;">* </span> Model Mobil</h5>
                             </div>
                             <div class="col-9">
                                 <div class="row">
@@ -64,7 +64,7 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <h5>Tinggi Mobil</h5>
+                                <h5> <span style="color: red;">* </span> Tinggi Mobil</h5>
                             </div>
                             <div class="col-9">
                                 <div class="row">
@@ -92,7 +92,7 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <h5>Departemen</h5>
+                                <h5> <span style="color: red;">* </span> Departemen</h5>
                             </div>
                             <div class="col-9">
                                 <div class="row">
@@ -126,7 +126,7 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <h5>Stall</h5>
+                                <h5> <span style="color: red;">* </span> Stall</h5>
                             </div>
                             <div class="col-9">
                                 <div class="row">
