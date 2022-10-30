@@ -91,16 +91,16 @@ class AdminController extends Controller
                     $item1->save();
                 }
             } else {
-                $i=0;
+                $i = 0;
                 foreach ($master as $item2) {
                     $data = SPK::where('NOSPK', $item1["NOSPK"])->first();
-                    return response()->json([
-                        "success" => true,
-                        "status" => 200,
-                        "data"=> $data,
-                        "master"=>$item2["Parameter"]["NewParameter"],
-                        "saved"=>$item1
-                    ]);
+                    // return response()->json([
+                    //     "success" => true,
+                    //     "status" => 200,
+                    //     "data" => $data,
+                    //     "master" => $item2["Parameter"]["NewParameter"],
+                    //     "saved" => $item1
+                    // ]);
                     $ModelMobilterdaftar = false;
                     $TinggiMobilterdaftar = false;
                     $TipeMobilTerdaftar = false;
@@ -137,11 +137,30 @@ class AdminController extends Controller
                             break;
                         }
                     }
-                    if(count($item2["Parameter"]["NewParameter"])==0){
+                    if (count($item2["Parameter"]["NewParameter"]) == 0) {
                         $newparameterTerdaftar = true;
-                    }
-                    else{
-
+                    } else {
+                        if ($data["parameter"]["newparameter"]["Newparam"] == "" || $data["parameter"]["newparameter"]["Newparam"] == null) {
+                            $newparameterTerdaftar = true;
+                        } else {
+                            $j = 0;
+                            foreach ($item2["Parameter"]["NewParameter"] as $new) {
+                                if (strtoupper($new["Newparam"]) == strtoupper($data["parameter"]["newparameter"]["Newparam"])) {
+                                    $k = 0;
+                                    foreach ($new["Component"] as $component) {
+                                        if (strtoupper($component) == strtoupper($data["parameter"]["newparameter"]["Component"])) {
+                                            $k++;
+                                        }
+                                    }
+                                    if ($k > 0) {
+                                        $j++;
+                                    }
+                                }
+                            }
+                            if($j>0){
+                                $newparameterTerdaftar = true;
+                            }
+                        }
                     }
                     // if( count($item2["Parameter"]["Newparameter"])==0){
                     // //     $newparameterTerdaftar = true

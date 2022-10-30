@@ -16,6 +16,23 @@ import Vuetify from '../plugins/vuetify';
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 import router from '../../resources/js/router/route';
 import axios from 'axios';
+import VueHtmlToPaper from 'vue-html-to-paper';
+
+const options = {
+    name: '_blank',
+    specs: [
+        'fullscreen=yes',
+        'titlebar=yes',
+        'scrollbars=yes'
+    ],
+    styles: [
+        'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css',
+        'https://unpkg.com/kidlat-css/css/kidlat.css'
+    ],
+    timeout: 1000, // default timeout before the print window appears
+    autoClose: false, // if false, the window will not close after printing
+    // windowTitle: window.document.title, // override the window title
+}
 // import { fakeBackend } from '../Stores/helpers/fake-backend';
 // fakeBackend();
 // If you don't need the styles, do not connect
@@ -28,7 +45,7 @@ import axios from 'axios';
  *
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
-axios.defaults.withCredentials=true;
+axios.defaults.withCredentials = true;
 axios.defaults.baseURL = 'http://localhost:8000/'
 
 Vue.component('header-component', require('./components/General/HeaderComponent.vue').default);
@@ -42,6 +59,7 @@ Vue.use(PiniaVuePlugin);
 const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate);
 Vue.use(VueSweetalert2);
+Vue.use(VueHtmlToPaper, options);
 // const NotFound =require('./components/HandlingError/NotFound.vue').default
 
 /**
@@ -53,7 +71,7 @@ Vue.use(VueSweetalert2);
 
 
 const app = new Vue({
-    vuetify:Vuetify,
+    vuetify: Vuetify,
     el: '#app',
     // data: {
     //     title: 'Rancangan Program SPK'

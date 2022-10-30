@@ -1,36 +1,38 @@
 <template>
     <div>
-        <v-data-table dense :headers="headerstable" :items="datatable" :items-per-page="30"
+        <JsonExcel class="btn btn-default" :data="datatable" :fields="json_fields" worksheet="My Worksheet"
+            name="filename.xls">
+            Download Excel
+        </JsonExcel>
+        <button style="font-size:24px" @click="print">Print
+            <font-awesome-icon icon="fa-solid fa-print" />
+        </button>
+        <v-data-table dense :headers="headerstable" :items="datatable" :items-per-page="30" id="printMe"
             class="elevation-1 font-weight-bold">
             <template v-slot:top>
                 <v-toolbar flat>
                     <v-toolbar-title>List daftar komponen</v-toolbar-title>
-                    <JsonExcel class="btn btn-default" :data="datatable" :fields="json_fields"
-                        worksheet="My Worksheet" name="filename.xls">
-                        Download Excel (you can customize this with html code!)
-                    </JsonExcel>
+                    <h5 style="margin-left: 70%;">{{ new Date().toLocaleString() }}</h5>
                 </v-toolbar>
             </template>
         </v-data-table>
     </div>
 </template>
 <script>
-import JsonExcel from "vue-json-excel";
+import JsonExcel from "vue-json-excel"
+
+const options = {
+    styles: [
+        'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css',
+        './path/to/custom.css' // <- inject here
+    ]
+}
 export default {
     components: { JsonExcel },
     data() {
         return {
-            // json_fields: {
-            //     "Complete name": "name",
-            //     City: "city",
-            //     Telephone: "phone.mobile",
-            //     "Telephone 2": {
-            //         field: "phone.landline",
-            //         callback: (value) => {
-            //             return `Landline Phone - ${value}`;
-            //         },
-            //     },
-            // },
+            output: null,
+            waktu: "",
             json_fields: {
                 "NO SPK": "kode",
                 "Kode Kit": "namakit",
@@ -93,6 +95,7 @@ export default {
     mounted() {
         this.datatable = this.$route.params.data.hasil
         this.datatable = this.konversi(this.datatable)
+        this.waktu = this.waktusekarang()
     },
     methods: {
         konversi(array) {
@@ -119,10 +122,26 @@ export default {
             });
             console.log(newdata)
             return newdata;
+        },
+        async print() {
+            // Pass the element id here
+            await this.$htmlToPaper('printMe', options);
+        },
+        async waktusekarang() {
+            let today = new Date()
+            let dd = String(today.getDate()).padStart(2, '0')
+            let mm = String(today.getMonth() + 1).padStart(2, '0')//January is 0!
+            let yyyy = today.getFullYear()
+            today = mm + '/' + dd + '/' + yyyy;
+            return today
         }
     }
 }
 </script>
-<style>
-
+<style scoped>
+@media print {
+    @page {
+        size: landscape,
+    }
+}
 </style>
