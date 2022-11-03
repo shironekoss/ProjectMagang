@@ -513,7 +513,7 @@ export default {
             let data = {
                 param: this.InputKodeKit
             }
-            axios.post('/api/generatemasterkit', data).then((response) => {
+            axios.post('/api/generatemasterkit', {param:this.InputKodeKit,mode:"update",id:this.id}).then((response) => {
                 console.log(response.data)
                 if (response.data.success) {
                     if (response.data.statuscode == 201) {

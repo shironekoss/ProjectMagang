@@ -24,7 +24,7 @@ import JsonExcel from "vue-json-excel"
 const options = {
     styles: [
         'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css',
-        './path/to/custom.css' // <- inject here
+        './print.css' // <- inject here
     ]
 }
 export default {

@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Account;
 use App\Models\Komponen;
 use App\Models\Masterkit;
+use App\Models\TempMasterkit;
 use App\Models\SPK;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Nette\Utils\Json;
 
 class SPKController extends Controller
@@ -32,15 +34,53 @@ class SPKController extends Controller
     {
         $spklist = SPK::all();
         return response()->json([
-            "status" =>true,
-            "data"=>$spklist
+            "status" => true,
+            "data" => $spklist
         ]);
     }
 
     public function latihan()
     {
-        dd(Masterkit::all());
-        return view('latihan');
+        $datas = DB::connection('sqlsrv')->table('ITEMKITMAINTENANCE')->get();
+        // dd($datas[0]->{'Item KIT Number'});
+        foreach ($datas as $data) {
+            $datatersimpan = TempMasterkit::where('kode_kit', $data->{'Item KIT Number'})->first();
+            // dd($datatersimpan);
+            if ($datatersimpan == null) {
+                $newdata = TempMasterkit::create([
+                    "kode_kit" =>  $data->{'Item KIT Number'},
+                    'nama_kit' => $data->{'Item KIT Description'},
+                    'komponen' => [
+                        [
+                            'kode_komponen' => $data->{'Component Item Number'},
+                            'nama_komponen' => $data->{'Component Item Description'},
+                            'qty' => $data->{'Component Item QTY'},
+                            'Satuan' => $data->{'Component Item UofM'},
+                        ],
+                    ],
+                ]);
+            } else {
+                $tidakterdaftar = false;
+                $array = $datatersimpan->komponen;
+                foreach ($array as $saved) {
+                    // dd($saved['kode_komponen']);
+                    // dd($data->{'Component Item Number'});
+                    if($saved['kode_komponen'] === $data->{'Component Item Number'}){
+                        $tidakterdaftar=true;
+                    }
+                }
+                if($tidakterdaftar){
+                    array_push( $array, [
+                        'kode_komponen' => $data->{'Component Item Number'},
+                        'nama_komponen' => $data->{'Component Item Description'},
+                        'qty' => $data->{'Component Item QTY'},
+                        'Satuan' => $data->{'Component Item UofM'},
+                    ]);
+                    $datatersimpan->komponen = $array;
+                    $datatersimpan->save();
+                }
+            }
+        }
     }
 
     public function tambahSPK(Request $request)
@@ -60,22 +100,21 @@ class SPKController extends Controller
         //     'Mobil.NoRangka' => 'required',
 
         // ]);
-        $newmobil =SPK::create([
-            "NoSPK"=>$request->NoSPK,
-            "Nama"=>$request->Nama,
-            "Alamat"=>$request->Alamat,
-            "TanggalPenerimaan"=>$request->TanggalPenerimaan,
-            "TanggalSPK"=>$request->TanggalSPK,
-            "Status"=>$request->Status,
-            'Mobil'=>$request->Mobil,
-            "status_SPK"=>false,
-            "Last_edit"=>"",
+        $newmobil = SPK::create([
+            "NoSPK" => $request->NoSPK,
+            "Nama" => $request->Nama,
+            "Alamat" => $request->Alamat,
+            "TanggalPenerimaan" => $request->TanggalPenerimaan,
+            "TanggalSPK" => $request->TanggalSPK,
+            "Status" => $request->Status,
+            'Mobil' => $request->Mobil,
+            "status_SPK" => false,
+            "Last_edit" => "",
         ]);
         return response()->json([
-            "status" =>true,
-            "message" =>'Data user berhasil disimpan',
-            "data"=>$newmobil
+            "status" => true,
+            "message" => 'Data user berhasil disimpan',
+            "data" => $newmobil
         ]);
-
     }
 }

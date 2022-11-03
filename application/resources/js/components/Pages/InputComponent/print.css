@@ -1,0 +1,12 @@
+.v-data-table__wrapper {}
+
+.v-data-table-header {}
+
+body {
+    background: rgb(204, 204, 204);
+}
+
+@page {
+    size: A4 landscape;
+    size: 287mm 210mm;
+}

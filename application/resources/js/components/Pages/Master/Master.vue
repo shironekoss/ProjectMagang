@@ -479,10 +479,7 @@ export default {
         },
 
         generate() {
-            let data = {
-                param: this.InputKodeKit
-            }
-            axios.post('/api/generatemasterkit', data).then((response) => {
+            axios.post('/api/generatemasterkit', {param:this.InputKodeKit,mode:"tambah"}).then((response) => {
                 console.log(response.data)
                 if (response.data.success) {
                     if (response.data.statuscode == 201) {

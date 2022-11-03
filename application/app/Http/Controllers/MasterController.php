@@ -6,6 +6,7 @@ use App\Models\Komponen;
 use App\Models\Master;
 use App\Models\Masterkit;
 use Illuminate\Http\Request;
+use PhpParser\Node\Expr\Cast\String_;
 use PhpParser\Node\Stmt\Foreach_;
 
 class MasterController extends Controller
@@ -273,7 +274,7 @@ class MasterController extends Controller
                     }
                 }
 
-                if ($cekTipeMobil && $cekModelMobil && $cekTinggiMobil && $cekDepartemen && $cekStock &&$cekstall && $cekAdditionaParameter) {
+                if ($cekTipeMobil && $cekModelMobil && $cekTinggiMobil && $cekDepartemen && $cekStock && $cekstall && $cekAdditionaParameter) {
                     return response()->json([
                         "success" => true,
                         "statuscode" => 406,
@@ -381,7 +382,7 @@ class MasterController extends Controller
                 $i++;
             }
 
-             function FungsiUpdatecekKosong(array $cek)
+            function FungsiUpdatecekKosong(array $cek)
             {
                 if (count($cek) == 0) {
                     return true;
@@ -435,7 +436,7 @@ class MasterController extends Controller
             if (!$paramsama) {
                 $paramsama = fungsiupdateceksama($param['Departemen']);
             }
-             if (!$paramsama) {
+            if (!$paramsama) {
                 $paramsama = fungsiupdateceksama($param['Stall']);
             }
             if (!$paramsama) {
@@ -509,14 +510,14 @@ class MasterController extends Controller
                     return true;
                 }
             }
-            $allmaster = Master::where('_id','!=',$request->id)->get();
+            $allmaster = Master::where('_id', '!=', $request->id)->get();
             foreach ($allmaster as $master) {
                 $saved = $master->Parameter;
                 $cekTipeMobil = false;
                 $cekModelMobil = false;
                 $cekTinggiMobil = false;
                 $cekDepartemen = false;
-                $cekstall=false;
+                $cekstall = false;
                 $cekStock = false;
                 $cekAdditionaParameter = false;
                 $cekTipeMobil = fungsicekparameterupdatetambahan($saved['TipeMobil'], $param['TipeMobil']);
@@ -600,8 +601,8 @@ class MasterController extends Controller
 
             // insert data
             $newupdate = Master::find($request->id);
-            $newupdate->Kit= $kit;
-            $newupdate->Parameter= $param;
+            $newupdate->Kit = $kit;
+            $newupdate->Parameter = $param;
             $newupdate->save();
 
             return response()->json([
@@ -609,7 +610,6 @@ class MasterController extends Controller
                 "statuscode" => 200,
                 "kit" => $allmaster
             ]);
-
         } catch (\Throwable $th) {
             return response()->json([
                 "success" => true,
@@ -624,17 +624,35 @@ class MasterController extends Controller
     {
         try {
             $listmasterkit = Masterkit::all();
-            $masterkit = new Masterkit();
-            foreach ($listmasterkit as $kit) {
-                if ($kit->kode_kit == strtoupper($request->param)) {
-                    $masterkit = $kit;
-                    return response()->json([
-                        "success" => true,
-                        "statuscode" => 201,
-                        "data" => $request->param,
-                        "message" => $masterkit,
-                        "result" => $masterkit,
-                    ]);
+            $masterterdaftar = Master::all();
+            if( $request->mode=="tambah"){
+                $kitsudahada = $this->checksudahterpakai($request->param);
+            }
+            else if($request->mode=="update"){
+                $kitsudahada = $this->checksudahterpakaiupdate($request->param,$request->id);
+            }
+            if ($kitsudahada) {
+                return response()->json([
+                    "success" => true,
+                    "statuscode" => 400,
+                    "data" => $request->param,
+                    "message" => "sudah terdaftar",
+                ]);
+            } else {
+                $masterkit = new Masterkit();
+                foreach ($listmasterkit as $kit) {
+                    if (strtoupper($kit->kode_kit) == strtoupper($request->param)) {
+                        $masterkit = $kit;
+                        return response()->json([
+                            "success" => true,
+                            "statuscode" => 201,
+                            "data" =>  strtoupper($request->param),
+                            "message" => $masterkit,
+                            "result" => $masterkit,
+                            "masterterdaftar" => strtoupper($masterterdaftar[0]["Kit"][0]["Kodekit"]),
+                            "hasil" => $kitsudahada
+                        ]);
+                    }
                 }
             }
             return response()->json([
@@ -651,5 +669,35 @@ class MasterController extends Controller
                 "message" => "tidak ditemukan",
             ]); //throw $th;
         }
+    }
+
+    public function checksudahterpakai(String $kode_kit)
+    {
+            $masterterdaftar = Master::all();
+            if (count($masterterdaftar) > 0) {
+                foreach ($masterterdaftar as $datamaster) {
+                    foreach ($datamaster["Kit"] as $kit) {
+                        if (strtoupper($kit["Kodekit"]) == strtoupper($kode_kit)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        return false;
+    }
+
+    public function checksudahterpakaiupdate(String $kode_kit, String $id)
+    {
+            $masterterdaftar =  Master::where('_id',"!=",$id)->get();
+            if (count($masterterdaftar) > 0) {
+                foreach ($masterterdaftar as $datamaster) {
+                    foreach ($datamaster["Kit"] as $kit) {
+                        if (strtoupper($kit["Kodekit"]) == strtoupper($kode_kit)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        return false;
     }
 }
