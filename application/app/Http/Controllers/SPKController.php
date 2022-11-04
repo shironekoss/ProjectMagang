@@ -42,44 +42,69 @@ class SPKController extends Controller
     public function latihan()
     {
         $datas = DB::connection('sqlsrv')->table('ITEMKITMAINTENANCE')->get();
+
         // dd($datas[0]->{'Item KIT Number'});
         foreach ($datas as $data) {
-            $datatersimpan = TempMasterkit::where('kode_kit', $data->{'Item KIT Number'})->first();
+            $datatersimpan = TempMasterkit::where('kode_kit', trim($data->{'Item KIT Number'}))->first();
             // dd($datatersimpan);
             if ($datatersimpan == null) {
                 $newdata = TempMasterkit::create([
-                    "kode_kit" =>  $data->{'Item KIT Number'},
-                    'nama_kit' => $data->{'Item KIT Description'},
+                    "kode_kit" =>  trim($data->{'Item KIT Number'}),
+                    'nama_kit' => trim($data->{'Item KIT Description'}),
                     'komponen' => [
                         [
-                            'kode_komponen' => $data->{'Component Item Number'},
-                            'nama_komponen' => $data->{'Component Item Description'},
-                            'qty' => $data->{'Component Item QTY'},
-                            'Satuan' => $data->{'Component Item UofM'},
+                            'kode_komponen' => trim($data->{'Component Item Number'}),
+                            // 'deskripsi_komponen' => trim($data->{'Component Item Number'},
+                            'nama_komponen' => trim($data->{'Component Item Description'}),
+                            'qty' =>   trim($data->{'Component Item QTY'}),
+                            'Satuan' => trim($data->{'Component Item UofM'}),
                         ],
                     ],
                 ]);
             } else {
-                $tidakterdaftar = false;
+                $terdaftar = false;
                 $array = $datatersimpan->komponen;
+
                 foreach ($array as $saved) {
-                    // dd($saved['kode_komponen']);
-                    // dd($data->{'Component Item Number'});
-                    if($saved['kode_komponen'] === $data->{'Component Item Number'}){
-                        $tidakterdaftar=true;
+                    // dd($array);
+
+                    // dd($data);
+                    if ($saved['kode_komponen'] === trim($data->{'Component Item Number'})) {
+                        $terdaftar = true;
                     }
                 }
-                if($tidakterdaftar){
-                    array_push( $array, [
-                        'kode_komponen' => $data->{'Component Item Number'},
-                        'nama_komponen' => $data->{'Component Item Description'},
-                        'qty' => $data->{'Component Item QTY'},
-                        'Satuan' => $data->{'Component Item UofM'},
+                if (!$terdaftar) {
+
+                    array_push($array, [
+                        'kode_komponen' => trim($data->{'Component Item Number'}),
+                        'nama_komponen' => trim($data->{'Component Item Description'}),
+                        'qty' =>   trim($data->{'Component Item QTY'}),
+                        'Satuan' => trim($data->{'Component Item UofM'}),
                     ]);
                     $datatersimpan->komponen = $array;
                     $datatersimpan->save();
+                } else {
+                    $index = 0;
+                    foreach ($array as $saved) {
+                        if ($saved['kode_komponen'] === trim($data->{'Component Item Number'})) {
+                            // dd($datatersimpan->komponen[$index]);
+                            if ($saved['nama_komponen'] != trim($data->{'Component Item Description'}) ||$saved['qty'] != trim($data->{'Component Item QTY'}) ||$saved['Satuan'] != trim($data->{'Component Item UofM'}) ) {
+                                $new = array(
+                                    'kode_komponen' => trim($data->{'Component Item Number'}),
+                                    'nama_komponen' => trim($data->{'Component Item Description'}),
+                                    'qty' =>   trim($data->{'Component Item QTY'}),
+                                    'Satuan' => trim($data->{'Component Item UofM'}),
+                                );
+                                $array[$index]= $new;
+                                $datatersimpan->komponen = $array;
+                                $datatersimpan->save();
+                            }
+                        }
+                        $index++;
+                    }
                 }
             }
+            // dd(trim($datas[0]->{"Item KIT Number"}));
         }
     }
 
