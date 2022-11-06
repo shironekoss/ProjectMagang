@@ -21,6 +21,7 @@ const history = require('../components/Pages/InputComponent/History.vue').defaul
 const Cekresult = require('../components/Pages/InputComponent/ShowResultComponent.vue').default
 const Settings = require('../components/Pages/Settings/Settings.vue').default
 const CheckFull = require('../components/Pages/Checkfull/CheckFull.vue').default
+const CheckFullDetail = require('../components/Pages/Checkfull/CheckFullDetail.vue').default
 // cara 2
 import NotFound from '../components/HandlingError/NotFound.vue'
 
@@ -94,6 +95,12 @@ const route = [
         name:'CheckFull', // manajemen user dan departemen
         path:'/CheckFull',
         component: CheckFull
+    },
+    {
+        name:'CheckFullDetail', // manajemen user dan departemen
+        path:'/CheckFull/:nospk',
+        component: CheckFullDetail,
+        props:true
     },
     {
         name:'Settings', // manajemen user dan departemen
