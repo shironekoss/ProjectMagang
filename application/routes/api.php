@@ -6,6 +6,7 @@ use App\Http\Controllers\MasterController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SPKController;
+use App\Http\Controllers\SQLController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -58,8 +59,11 @@ Route::post('tambahmaster',[MasterController::class,'tambahmaster']);
 Route::post('updatemaster',[MasterController::class,'updatemaster']);
 Route::post('generatemasterkit',[MasterController::class,'generatemasterkit']);
 Route::get('listmaster',[MasterController::class,'listmaster']);
+
 Route::delete('hapusmaster{id}',[MasterController::class,'hapusmaster']);
 Route::get('master/{id}',[MasterController::class,'carimaster']);
+
+
 
 
 Route::get('listspkshow',[AdminController::class,'getdataspk']);
@@ -74,6 +78,8 @@ Route::delete('hapusdatatable{id}',[AdminController::class,'hapusdatatable']);
 // Route::post('login',[LoginAuthController::class ,'loginfunction']);
 Route::post('/login', [LoginAuthController::class,'loginfunction']);
 Route::get('/logout', [LoginAuthController::class,'logout']);
+
+Route::get('getdatakit',[SQLController::class,'getdatakit']);
 
 // Route::resource('posts', PostController::class)->only([
 //     'destroy', 'show', 'store', 'update'

@@ -6,6 +6,7 @@ use App\Models\Komponen;
 use App\Models\Master;
 use App\Models\Masterkit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use PhpParser\Node\Expr\Cast\String_;
 use PhpParser\Node\Stmt\Foreach_;
 
@@ -36,6 +37,13 @@ class MasterController extends Controller
         $master = Master::find($id);
         return $master;
     }
+
+
+
+
+
+
+
 
     public function hapusmaster(Request $request)
     {
@@ -623,13 +631,12 @@ class MasterController extends Controller
     public function generatemasterkit(Request $request)
     {
         try {
+
             $listmasterkit = Masterkit::all();
-            $masterterdaftar = Master::all();
-            if( $request->mode=="tambah"){
+            if ($request->mode == "tambah") {
                 $kitsudahada = $this->checksudahterpakai($request->param);
-            }
-            else if($request->mode=="update"){
-                $kitsudahada = $this->checksudahterpakaiupdate($request->param,$request->id);
+            } else if ($request->mode == "update") {
+                $kitsudahada = $this->checksudahterpakaiupdate($request->param, $request->id);
             }
             if ($kitsudahada) {
                 return response()->json([
@@ -649,7 +656,6 @@ class MasterController extends Controller
                             "data" =>  strtoupper($request->param),
                             "message" => $masterkit,
                             "result" => $masterkit,
-                            "masterterdaftar" => strtoupper($masterterdaftar[0]["Kit"][0]["Kodekit"]),
                             "hasil" => $kitsudahada
                         ]);
                     }
@@ -673,31 +679,31 @@ class MasterController extends Controller
 
     public function checksudahterpakai(String $kode_kit)
     {
-            $masterterdaftar = Master::all();
-            if (count($masterterdaftar) > 0) {
-                foreach ($masterterdaftar as $datamaster) {
-                    foreach ($datamaster["Kit"] as $kit) {
-                        if (strtoupper($kit["Kodekit"]) == strtoupper($kode_kit)) {
-                            return true;
-                        }
+        $masterterdaftar = Master::all();
+        if (count($masterterdaftar) > 0) {
+            foreach ($masterterdaftar as $datamaster) {
+                foreach ($datamaster["Kit"] as $kit) {
+                    if (strtoupper($kit["Kodekit"]) == strtoupper($kode_kit)) {
+                        return true;
                     }
                 }
             }
+        }
         return false;
     }
 
     public function checksudahterpakaiupdate(String $kode_kit, String $id)
     {
-            $masterterdaftar =  Master::where('_id',"!=",$id)->get();
-            if (count($masterterdaftar) > 0) {
-                foreach ($masterterdaftar as $datamaster) {
-                    foreach ($datamaster["Kit"] as $kit) {
-                        if (strtoupper($kit["Kodekit"]) == strtoupper($kode_kit)) {
-                            return true;
-                        }
+        $masterterdaftar =  Master::where('_id', "!=", $id)->get();
+        if (count($masterterdaftar) > 0) {
+            foreach ($masterterdaftar as $datamaster) {
+                foreach ($datamaster["Kit"] as $kit) {
+                    if (strtoupper($kit["Kodekit"]) == strtoupper($kode_kit)) {
+                        return true;
                     }
                 }
             }
+        }
         return false;
     }
 }

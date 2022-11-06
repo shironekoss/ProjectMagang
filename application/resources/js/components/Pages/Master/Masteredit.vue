@@ -117,7 +117,7 @@
                                     <div class="col-6">
                                         <div data-app>
                                             <v-select :items="ListDept" item-text="text" item-value="value"
-                                                v-model="Parameter.Departemen[index+1]" required class="form-control">
+                                                v-model="Parameter.Departemen[index + 1]" required class="form-control">
                                             </v-select>
                                         </div>
                                     </div>
@@ -138,12 +138,11 @@
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <button type="button" :disabled='isActiveStall'
-                                            @click="add('Stall')" class="btn btn-primary">TAMBAH</button>
+                                        <button type="button" :disabled='isActiveStall' @click="add('Stall')"
+                                            class="btn btn-primary">TAMBAH</button>
                                     </div>
                                     <div class="col">
-                                        <button type="button" @click="remove('Stall')"
-                                            class="btn btn-danger">HAPUS
+                                        <button type="button" @click="remove('Stall')" class="btn btn-danger">HAPUS
                                         </button>
                                     </div>
                                 </div>
@@ -224,6 +223,12 @@
                     <div class="col-6" style=" float: right;">
                         <div class="row">
                             <div class="col">
+                                <button type="button" @click="tarikdatakit" class="btn btn-success">Tarik Data
+                                    Kit</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
                                 <h5>Kode Kit</h5>
                             </div>
                             <div class="col-9">
@@ -240,7 +245,7 @@
                         </div>
                         <div v-for="(component, index) in Result" :key="index" :id=index
                             style="border: 2px solid blue; border-radius: 25px; padding: 10px; margin: 5px;">
-                            <h4> Nama Kit : {{component.NamaKit}} <span><Button @click="HapusResult(index)"
+                            <h4> Nama Kit : {{ component.NamaKit }} <span><Button @click="HapusResult(index)"
                                         class="btn btn-danger">Hapus</Button></span></h4>
                             <div v-for="(subcomponent, index2) in component.IsiKit" :key="index2" :id=index2>
                                 <div class="row">
@@ -248,8 +253,8 @@
                                         <div class="row">
                                             <div class="col-5">
                                                 Nama Komponen
-                                                <input type="text" v-model="component.IsiKit[index2].nama_komponen" disabled
-                                                    class="form-control">
+                                                <input type="text" v-model="component.IsiKit[index2].nama_komponen"
+                                                    disabled class="form-control">
                                             </div>
                                             <div class="col">
                                                 QTY :
@@ -258,8 +263,7 @@
                                             </div>
                                             <div class="col">
                                                 Site ID :
-                                                <input type="text" v-model="component.siteID"
-                                                    class="form-control">
+                                                <input type="text" v-model="component.siteID" class="form-control">
                                             </div>
                                             <div class="col">
                                                 dari Rak :
@@ -288,9 +292,7 @@
                 </div>
             </div>
         </div>
-
     </div>
-
 </template>
 
 <script>
@@ -319,20 +321,20 @@ export default {
                 ModelMobil: [],
                 TinggiMobil: [],
                 Departemen: [],
-                Stall:[],
+                Stall: [],
                 Stock: [],
                 NewParameter: [],
             },
             Result: [],
             ListDept: [],
-            Liststall:[],
-            Liststalltemp:[]
+            Liststall: [],
+            Liststalltemp: []
         }
     },
     mounted() {
         this.getspk(),
-        this.getlistdepartemen(),
-        this.Parameter.Stall=this.Liststalltemp
+            this.getlistdepartemen(),
+            this.Parameter.Stall = this.Liststalltemp
     },
     watch: {
         'Parameter.TipeMobil': function () {
@@ -439,7 +441,6 @@ export default {
             }
         }
     },
-
     methods: {
         add(param) {
             if (param == 'TipeMobil') {
@@ -457,46 +458,56 @@ export default {
             } else if (param == 'Stock') {
                 this.ComponentTambahanStock.push('true')
                 this.Parameter.Stock.push("")
-            }else if (param == 'Stall') {
+            } else if (param == 'Stall') {
                 this.ComponentTambahanStall.push('true')
                 this.Parameter.Stall.push("")
             }
         },
+        async tarikdatakit() {
+            await axios.get('/api/getdatakit').then((response) => {
+                if (response.data.success = 200) {
+                    this.$swal({
+                        title: response.data.message,
+                        icon: 'success'
+                    });
+                }
+            })
+        },
         async getspk() {
             await axios.get('/api/master/' + this.id).then((response) => {
-                this.Parameter=response.data.Parameter
-                this.Result=response.data.Kit
-                if(this.Parameter['TipeMobil'].length>1){
+                this.Parameter = response.data.Parameter
+                this.Result = response.data.Kit
+                if (this.Parameter['TipeMobil'].length > 1) {
                     for (let i = 1; i < this.Parameter['TipeMobil'].length; i++) {
                         this.ComponentTambahanTipeMobil.push('true')
                     }
                 }
-                if(this.Parameter['ModelMobil'].length>1){
+                if (this.Parameter['ModelMobil'].length > 1) {
                     for (let i = 1; i < this.Parameter['ModelMobil'].length; i++) {
                         this.ComponentTambahanModelMobil.push('true')
                     }
                 }
-                if(this.Parameter['TinggiMobil'].length>1){
+                if (this.Parameter['TinggiMobil'].length > 1) {
                     for (let i = 1; i < this.Parameter['TinggiMobil'].length; i++) {
                         this.ComponentTambahanTinggiMobil.push('true')
                     }
                 }
-                if(this.Parameter['Departemen'].length>1){
+                if (this.Parameter['Departemen'].length > 1) {
                     for (let i = 1; i < this.Parameter['Departemen'].length; i++) {
                         this.ComponentTambahanDepartemen.push('true')
                     }
                 }
-                if(this.Parameter['Stall'].length>1){
+                if (this.Parameter['Stall'].length > 1) {
                     for (let i = 1; i < this.Parameter['Stall'].length; i++) {
                         this.ComponentTambahanStall.push('true')
                     }
                 }
-                if(this.Parameter['Stock'].length>1){
+                if (this.Parameter['Stock'].length > 1) {
                     for (let i = 1; i < this.Parameter['Stock'].length; i++) {
                         this.ComponentTambahanStock.push('true')
                     }
                 }
-                this.Liststalltemp=this.Parameter['Stall']
+                this.Liststalltemp = this.Parameter['Stall']
             })
         },
         async getlistdepartemen() {
@@ -505,7 +516,7 @@ export default {
             })
         },
         async getliststall() {
-             await axios.post('/api/getlistallparameter',{Parameterdeps:this.Parameter.Departemen}).then((response) => {
+            await axios.post('/api/getlistallparameter', { Parameterdeps: this.Parameter.Departemen }).then((response) => {
                 this.Liststall = response.data.result
             })
         },
@@ -513,7 +524,7 @@ export default {
             let data = {
                 param: this.InputKodeKit
             }
-            axios.post('/api/generatemasterkit', {param:this.InputKodeKit,mode:"update",id:this.id}).then((response) => {
+            axios.post('/api/generatemasterkit', { param: this.InputKodeKit, mode: "update", id: this.id }).then((response) => {
                 console.log(response.data)
                 if (response.data.success) {
                     if (response.data.statuscode == 201) {
@@ -603,7 +614,7 @@ export default {
             let data = {
                 datakit: this.Result,
                 dataparam: this.Parameter,
-                id:this.id
+                id: this.id
             }
             axios.post('/api/updatemaster', data).then((response) => {
                 if (response.data.success) {

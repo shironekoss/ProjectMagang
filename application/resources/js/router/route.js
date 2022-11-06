@@ -20,6 +20,7 @@ const inputadmin = require('../components/Pages/InputComponent/inputtemp.vue').d
 const history = require('../components/Pages/InputComponent/History.vue').default
 const Cekresult = require('../components/Pages/InputComponent/ShowResultComponent.vue').default
 const Settings = require('../components/Pages/Settings/Settings.vue').default
+const CheckFull = require('../components/Pages/Checkfull/CheckFull.vue').default
 // cara 2
 import NotFound from '../components/HandlingError/NotFound.vue'
 
@@ -88,6 +89,11 @@ const route = [
         name:'Cekresult', // belum tahu
         path:'/Cekresult',
         component: Cekresult
+    },
+    {
+        name:'CheckFull', // manajemen user dan departemen
+        path:'/CheckFull',
+        component: CheckFull
     },
     {
         name:'Settings', // manajemen user dan departemen

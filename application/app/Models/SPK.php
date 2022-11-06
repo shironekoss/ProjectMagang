@@ -11,7 +11,8 @@ class SPK extends Model
     use HasFactory;
     use SoftDeletes;
     protected $connection = 'mongodb';
-    protected $collection = 'SPK';
+    // protected $collection = 'SPK';
+    protected $collection = 'SPKtest';
     public $timestamps = true;
     protected $fillable = [
         'NOSPK',
@@ -20,4 +21,6 @@ class SPK extends Model
         'parameter',
         'SPKactive',
     ];
+
+
 }

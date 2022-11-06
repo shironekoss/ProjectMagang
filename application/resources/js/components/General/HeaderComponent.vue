@@ -1,22 +1,3 @@
-<!-- <template>
-    <header id="nav-wrapper">
-        <nav id="nav">
-            <div class="nav left">
-                <span class="gradient skew">
-                    <h1 class="logo un-skew">
-                        <a href="#home">
-                            <div id="title-nav">
-                                <img src="../../../images/240px-Logo_Adi_Putro.svg.png" alt="#">
-                                <label for=""> PT Adiputro Wirasejati</label>
-                            </div>
-                        </a>
-                    </h1>
-                </span>
-                <button id="menu" class="btn-nav"><span class="fas fa-bars"></span></button>
-            </div>
-        </nav>
-    </header>
-</template> -->
 <template>
     <v-card class="overflow-hidden">
         <v-app-bar absolute color="#6A76AB" dark shrink-on-scroll prominent src="https://picsum.photos/1920/1080?random"
@@ -41,11 +22,17 @@
                     master
                 </v-btn>
              </router-link>
+             <router-link :to="{ name: 'CheckFull' }">
+                <v-btn>
+                    Check Full
+                </v-btn>
+            </router-link>
             <router-link :to="{ name: 'Settings' }">
                 <v-btn>
                     Settings
                 </v-btn>
             </router-link>
+
 
         </v-app-bar>
         <v-sheet id="scrolling-techniques-2" class="overflow-y-auto" max-height="600">

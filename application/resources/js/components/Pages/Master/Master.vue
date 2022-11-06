@@ -117,7 +117,7 @@
                                     <div class="col-6">
                                         <div data-app>
                                             <v-select :items="ListDept" item-text="text" item-value="value"
-                                                v-model="Parameter.Departemen[index+1]" required class="form-control">
+                                                v-model="Parameter.Departemen[index + 1]" required class="form-control">
                                             </v-select>
                                         </div>
                                     </div>
@@ -223,6 +223,12 @@
                     <div class="col-6" style=" float: right;">
                         <div class="row">
                             <div class="col">
+                                <button type="button" @click="tarikdatakit" class="btn btn-success">Tarik Data
+                                    Kit</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
                                 <h5>Kode Kit</h5>
                             </div>
                             <div class="col-9">
@@ -239,7 +245,7 @@
                         </div>
                         <div v-for="(component, index) in Result" :key="index" :id=index
                             style="border: 2px solid blue; border-radius: 25px; padding: 10px; margin: 5px;">
-                            <h4> Nama Kit : {{component.NamaKit}} <span><Button @click="HapusResult(index)"
+                            <h4> Nama Kit : {{ component.NamaKit }} <span><Button @click="HapusResult(index)"
                                         class="btn btn-danger">Hapus</Button></span></h4>
                             <div v-for="(subcomponent, index2) in component.IsiKit" :key="index2" :id=index2>
                                 <div class="row">
@@ -319,7 +325,7 @@ export default {
             },
             Result: [],
             ListDept: [],
-            Liststall:[],
+            Liststall: [],
         }
     },
     async mounted() {
@@ -458,29 +464,14 @@ export default {
             })
         },
         async getliststall() {
-            await axios.post('/api/getlistallparameter',{Parameterdeps:this.Parameter.Departemen}).then((response) => {
+            await axios.post('/api/getlistallparameter', { Parameterdeps: this.Parameter.Departemen }).then((response) => {
                 this.Liststall = response.data.result
-                this.Parameter.Stall=[]
-                // let i=0
-                // this.Parameter.Stall.forEach(element => {
-                //     console.log(element)
-                //     let beda= false
-                //     this.Liststall.forEach(element2 => {
-                //         if( element.toUpperCase == element2.toUpperCase){
-                //             beda=true
-                //         }
-                //     });
-                //     if(beda==false){
-                //         this.Parameter.Stall[i]=""
-                //     }
-                //     i++
-                // });
+                this.Parameter.Stall = []
             })
         },
 
         generate() {
-            axios.post('/api/generatemasterkit', {param:this.InputKodeKit,mode:"tambah"}).then((response) => {
-                console.log(response.data)
+            axios.post('/api/generatemasterkit', { param: this.InputKodeKit, mode: "tambah" }).then((response) => {
                 if (response.data.success) {
                     if (response.data.statuscode == 201) {
                         let datanamakit = response.data.result.nama_kit
@@ -513,6 +504,16 @@ export default {
                 }
             }).catch((error) => {
                 this.errors = error.response.data.errors
+            })
+        },
+        async tarikdatakit() {
+            await axios.get('/api/getdatakit').then((response) => {
+                if (response.data.success = 200) {
+                    this.$swal({
+                        title: response.data.message,
+                        icon: 'success'
+                    });
+                }
             })
         },
         HapusResult(index) {
