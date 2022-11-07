@@ -12,7 +12,7 @@ class SPK extends Model
     use SoftDeletes;
     protected $connection = 'mongodb';
     // protected $collection = 'SPK';
-    protected $collection = 'SPK';
+    protected $collection = 'SPKtest';
     public $timestamps = true;
     protected $fillable = [
         'NOSPK',
