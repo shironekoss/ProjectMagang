@@ -40,112 +40,11 @@ class SPKController extends Controller
         ]);
     }
 
+
+
     public function latihan()
     {
-        // join
-        $datas = DB::connection('sqlsrv')->table('SURATPERINTAHKERJA')
-            ->join('SPECIFICATION', 'SPECIFICATION.SPK Number', '=', 'SURATPERINTAHKERJA.SPK Number')
-            ->get();
-        foreach ($datas as $data) {
-            $datatersimpan = SPK::where('NOSPK', trim($data->{'SPK Number'}))->first();
-            if ($datatersimpan == null) {
-                $newdata = SPK::create([
-                    "NOSPK" => trim($data->{'SPK Number'}),
-                    "parameter" =>  [
-                        "ModelMobil" => trim($data->{'Merk'}),
-                        "TipeMobil" => trim($data->{'Type'}),
-                        "TinggiMobil" => "",
-                        "newparameter" =>  [
-                            [
-                                "Newparam" => trim($data->{'User Defined'}),
-                                "Component" => [trim($data->{'User Defined Description'})],
-                            ],
-                        ]
-                    ]
-                ]);
-            } else {
-                $terdaftar = false;
-                // dd(ctype_space(" "));
-                if (trim($data->{'User Defined'}) == "TINGGI BODY") {
-                    $array = $datatersimpan->parameter;
-                    $array["TinggiMobil"] = trim($data->{'User Defined Description'});
-                    $datatersimpan->parameter = $array;
-                    $datatersimpan->save();
-                } else {
-                    $array = $datatersimpan->parameter;
-                    $paramterdaftar = false;
-                    $index = 0;
-                    foreach ($array["newparameter"]  as $subarray) {
-                        if (strtoupper($subarray["Newparam"]) == strtoupper(trim($data->{'User Defined'}))) {
-                            // dd($subarray["Newparam"] );
-                            $paramterdaftar = true;
-                            break;
-                        }
-                        $index++;
-                    }
-                    if ($paramterdaftar) {
-                        $componentterdaftar = false;
-                        foreach ($array["newparameter"][0]["Component"] as $isicomponent) {
-                            if (strtoupper($isicomponent) == strtoupper(trim($data->{'User Defined Description'}))) {
-                                $componentterdaftar = true;
-                                break;
-                            }
-                        }
-                        if (!$componentterdaftar) {
-                            if(ctype_space($data->{'User Defined Description'}) == false){
-                                array_push($array["newparameter"][0]["Component"], trim($data->{'User Defined Description'}));
-                                $datatersimpan->parameter = $array;
-                                $datatersimpan->save();
-                            }
 
-                        }
-                    } else {
-                        if (ctype_space($data->{'User Defined Description'}) == false) {
-                            array_push($array["newparameter"], [
-                                "Newparam" => trim($data->{'User Defined'}),
-                                "Component" => [trim($data->{'User Defined Description'})],
-                            ]);
-
-                            $datatersimpan->parameter = $array;
-                            $datatersimpan->save();
-                        }
-                    }
-                    // dd($array["newparameter"]);
-                    // $sama = false;
-                    // $run = $array["newparameter"][trim($data->{'User Defined'})] ?? null;
-                    // if ($run != null) {
-                    //     array_push($array["newparameter"][trim($data->{'User Defined'})], trim($data->{'User Defined Description'}));
-                    //     $datatersimpan->parameter = $array;
-                    //     $datatersimpan->save();
-                    // } else {
-                    //     array_push($array["newparameter"], [
-                    //         trim($data->{'User Defined'}) => [trim($data->{'User Defined Description'})]
-                    //     ]);
-                    // }
-                    // dd($run);
-                    // foreach ($array["newparameter"] as $subarray) {
-                    //     dd($subarray);
-                    //     $run = $subarray[trim($data->{'User Defined'})] ?? null;
-                    //     dd($run);
-                    //     if ($run != null) {
-                    //         if ($subarray[trim($data->{'User Defined'})] == trim($data->{'User Defined Description'})) {
-                    //             // dd(trim($data->{'User Defined'}));
-                    //             if (trim($data->{'User Defined'}) == "WARNA BODY") {
-                    //                 dd("hello");
-                    //             }
-                    //             $sama = true;
-                    //             break;
-                    //         }
-                    //     }
-                    // }
-                    // if (!$sama) {
-                    //     array_push($array["newparameter"], [
-                    //         trim($data->{'User Defined'}) => trim($data->{'User Defined Description'})
-                    //     ]);
-                    // }
-                }
-            }
-        }
     }
 
     public function tambahSPK(Request $request)

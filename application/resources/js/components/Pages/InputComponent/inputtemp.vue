@@ -3,6 +3,11 @@
         <v-app>
             <div style=" position: absolute; inset: 0; z-index: 0;" @click="modal = false"></div>
             <v-container style="z-index: 1;">
+                <v-row>
+                    <v-col cols="12" sm="6" md="3">
+                        <v-btn depressed color="primary" @click.prevent="tarikdataspk"> Tarik data SPK </v-btn>
+                    </v-col>
+                </v-row>
                 <v-row dense>
                     <v-col cols="12" sm="6" md="3">
                         <span>NO SPK</span>
@@ -163,12 +168,31 @@ export default {
         changevalue(value) {
             this.ChangeStallmode = value
         },
+        async tarikdataspk() {
+            await axios.get('/api/getdataspk').then((response) => {
+                console.log(response.data)
+                if (response.data.statusresponse == 200) {
+                    this.$swal({
+                        title: response.data.message ,
+                        icon: 'success'
+                    });
+                }
+                else if(response.data.statusresponse == 400){
+                    this.$swal({
+                        title: response.data.message,
+                        icon: 'error'
+                    });
+                }
+            })
+            this.getlistspk();
+        },
         async getliststall() {
             await axios.post('/api/getlistallparameterinput', { Parameterdeps: this.Departemen }).then((response) => {
                 console.log(response.data.result)
                 this.Liststall = []
                 this.Liststall = response.data.result
             })
+
         },
         async getlistdepartemen() {
             await axios.get('/api/listdepartemen').then((response) => {
@@ -188,10 +212,6 @@ export default {
                     'text': "STOCK",
                     'value': "STOCK"
                 })
-                // this.listspk = response.data
-                // this.listspk.forEach(element => {
-                //     this.states.push(element.NOSPK)
-                // });
                 this.filterstates();
             })
         },

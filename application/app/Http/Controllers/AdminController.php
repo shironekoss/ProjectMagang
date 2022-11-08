@@ -16,7 +16,7 @@ class AdminController extends Controller
 {
     public function getdataspk()
     {
-        $listspk = SPK::where('SPKactive', true)->get();
+        $listspk = SPK::all();
         return $listspk;
     }
     public function getdatatable()

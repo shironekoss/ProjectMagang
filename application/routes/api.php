@@ -80,6 +80,7 @@ Route::post('/login', [LoginAuthController::class,'loginfunction']);
 Route::get('/logout', [LoginAuthController::class,'logout']);
 
 Route::get('getdatakit',[SQLController::class,'getdatakit']);
+Route::get('getdataspk',[SQLController::class,'getdataspk']);
 
 // Route::resource('posts', PostController::class)->only([
 //     'destroy', 'show', 'store', 'update'
