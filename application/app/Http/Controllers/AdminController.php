@@ -94,13 +94,6 @@ class AdminController extends Controller
                 $i = 0;
                 foreach ($master as $item2) {
                     $data = SPK::where('NOSPK', $item1["NOSPK"])->first();
-                    // return response()->json([
-                    //     "success" => true,
-                    //     "status" => 200,
-                    //     "data" => $data,
-                    //     "master" => $item2["Parameter"]["NewParameter"],
-                    //     "saved" => $item1
-                    // ]);
                     $ModelMobilterdaftar = false;
                     $TinggiMobilterdaftar = false;
                     $TipeMobilTerdaftar = false;
@@ -109,6 +102,7 @@ class AdminController extends Controller
                     $newparameterTerdaftar = false;
                     foreach ($item2["Parameter"]["ModelMobil"] as $subitem2) {
                         if (strtoupper($subitem2) == strtoupper($data["parameter"]["ModelMobil"])) {
+
                             $ModelMobilterdaftar = true;
                             break;
                         }
@@ -137,69 +131,76 @@ class AdminController extends Controller
                             break;
                         }
                     }
-                    if (count($item2["Parameter"]["NewParameter"]) == 0) {
+
+                    if (count($data["parameter"]["newparameter"]) == 0) {
                         $newparameterTerdaftar = true;
                     } else {
-                        if ($data["parameter"]["newparameter"]["Newparam"] == "" || $data["parameter"]["newparameter"]["Newparam"] == null) {
-                            $newparameterTerdaftar = true;
-                        } else {
-                            $j = 0;
-                            foreach ($item2["Parameter"]["NewParameter"] as $new) {
-                                if (strtoupper($new["Newparam"]) == strtoupper($data["parameter"]["newparameter"]["Newparam"])) {
-                                    $k = 0;
-                                    foreach ($new["Component"] as $component) {
-                                        if (strtoupper($component) == strtoupper($data["parameter"]["newparameter"]["Component"])) {
-                                            $k++;
+                        if (count($item2["Parameter"]["NewParameter"]) > 0) {
+                            $jumlahSPKnewparam = 0;
+                            foreach ($data["parameter"]["newparameter"] as $subnewparam) {
+                                foreach ($item2["Parameter"]["NewParameter"] as $databaseparam) {
+                                    if (strtoupper($subnewparam["Newparam"] == strtoupper($databaseparam["Newparam"]))) {
+                                        $jumlahisicomponentspk = 0;
+                                        foreach ($subnewparam["Component"] as $componentspk) {
+                                            foreach ($databaseparam["Component"] as $componentdatabase) {
+                                                if (strtoupper($componentspk) == strtoupper($componentdatabase)) {
+                                                    $jumlahisicomponentspk++;
+                                                    break;
+                                                }
+                                            }
                                         }
-                                    }
-                                    if ($k > 0) {
-                                        $j++;
+                                        if ($jumlahisicomponentspk == count($subnewparam["Component"])) {
+                                            $jumlahSPKnewparam++;
+                                        }
                                     }
                                 }
                             }
-                            if($j>0){
+                            if ($jumlahSPKnewparam == count($data["parameter"]["newparameter"])) {
                                 $newparameterTerdaftar = true;
                             }
                         }
                     }
-                    // if( count($item2["Parameter"]["Newparameter"])==0){
-                    // //     $newparameterTerdaftar = true
-                    // }
-                    // else{
-                    //     foreach ($item2["Parameter"]["Newparameter"] as $subitem2) {
-
-                    //     }
-                    // }
 
                     if ($ModelMobilterdaftar && $TinggiMobilterdaftar && $TipeMobilTerdaftar && $DepartemenTerdaftar && $StallTerdaftar && $newparameterTerdaftar) {
                         array_push($result, $item2["Kit"]);
                         $i++;
                     }
-                }
-                if ($i > 0) {
-                    array_push($results, [
-                        'kit' => $result,
-                        'NoSPK' => $item1->NOSPK,
+
+                    if ($i > 0) {
+                        array_push($results, [
+                            'kit' => $result,
+                            'NoSPK' => $item1->NOSPK,
+                        ]);
+                        $item1["status"] = "berhasil";
+                        $item1["kit"] = $results;
+                        $item1->save();
+                    } else {
+                        $item1["status"] = "Pending";
+                        $item1->save();
+                    }
+                    return response()->json([
+                        "success" => true,
+                        "status" => 200,
+                        "spk" => $data,
+                        "savedconversion" => $item1,
+                        "master" => $item2,
+                        "message" => $messages,
+                        "hasil" => $results,
                     ]);
-                    $item1["status"] = "berhasil";
-                    $item1->save();
-                } else {
-                    $item1["status"] = "Pending";
-                    $item1->save();
                 }
             }
         }
 
 
 
-        return response()->json([
-            "success" => true,
-            "status" => 200,
-            "saved" => $saved,
-            "master" => $master,
-            "message" => $messages,
-            "hasil" => $results,
-        ]);
+        // return response()->json([
+        //     "success" => true,
+        //     "status" => 200,
+        //     "saved" => $saved,
+        //     "master" => $master,
+        //     "message" => $messages,
+        //     "hasil" => $results,
+        // ]);
 
         // return response()->json([
         //     "success" => true,

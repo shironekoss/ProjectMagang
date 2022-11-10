@@ -631,7 +631,6 @@ class MasterController extends Controller
     public function generatemasterkit(Request $request)
     {
         try {
-
             $listmasterkit = Masterkit::all();
             if ($request->mode == "tambah") {
                 $kitsudahada = $this->checksudahterpakai($request->param);
