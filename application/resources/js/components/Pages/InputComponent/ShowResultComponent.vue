@@ -1,26 +1,41 @@
 <template>
     <div>
-        <JsonExcel class="btn btn-default" :data="datatable" :fields="json_fields" worksheet="My Worksheet"
-            name="filename.xls">
-            Download Excel
-        </JsonExcel>
-        <button style="font-size:24px" @click="print">Print
-            <font-awesome-icon icon="fa-solid fa-print" />
-        </button>
-        <v-data-table dense :headers="headerstable" :items="datatable" :items-per-page="30" id="printMe"
-            class="elevation-1 font-weight-bold">
-            <template v-slot:top>
-                <v-toolbar flat>
-                    <v-toolbar-title>List daftar komponen</v-toolbar-title>
-                    <h5 style="margin-left: 70%;">{{ new Date().toLocaleString() }}</h5>
-                </v-toolbar>
-            </template>
-        </v-data-table>
+        <v-app>
+            <v-card>
+                <v-container class="grey lighten-5">
+                    <v-row no-gutters>
+                        <v-col sm="12" xs="12" md="12" lg="8" xl="6">
+                            <v-card-title >
+                                <v-text-field v-model="search" append-icon="mdi-magnify" label="Filter Site ID"
+                                    single-line hide-details style="margin-right: 20px;">
+                                </v-text-field>
+                                <JsonExcel class="btn btn-primary" :data="datatable" :fields="json_fields"
+                                    worksheet="My Worksheet" name="filename.xls" style="margin-right: 20px;">
+                                    Download Excel
+                                </JsonExcel>
+                                <button class="btn btn-primary" @click="print">Print
+                                    <font-awesome-icon icon="fa-solid fa-print" />
+                                </button>
+                            </v-card-title>
+
+                        </v-col>
+                    </v-row>
+                </v-container>
+                <v-data-table dense :headers="headerstable" :items="datatable" :items-per-page="30" :search="search"
+                    id="printMe" class="elevation-1 font-weight-bold">
+                    <template v-slot:top>
+                        <v-toolbar flat>
+                            <v-toolbar-title>List daftar komponen</v-toolbar-title>
+                            <h5 style="margin-left: 70%;">{{ new Date().toLocaleString() }}</h5>
+                        </v-toolbar>
+                    </template>
+                </v-data-table>
+            </v-card>
+        </v-app>
     </div>
 </template>
 <script>
 import JsonExcel from "vue-json-excel"
-
 const options = {
     styles: [
         'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css',
@@ -33,6 +48,7 @@ export default {
         return {
             output: null,
             waktu: "",
+            search: '',
             json_fields: {
                 "NO SPK": "kode",
                 "Kode Kit": "namakit",
@@ -80,15 +96,16 @@ export default {
                     align: 'start',
                     sortable: false,
                     value: 'NoSPK',
+                    filterable: false,
                     class: "title text-uppercase font-weight-black black--text light-blue lighten-5"
                 },
-                { text: 'Kode Kit', value: 'kode', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
-                { text: 'Nama Kit', value: 'namakit', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
-                { text: 'Nama Komponen', value: 'namakomponen', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
-                { text: 'Kebutuhan', value: 'Qty', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Kode Kit', filterable: false, value: 'kode', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Nama Kit', filterable: false, value: 'namakit', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Nama Komponen', filterable: false, value: 'namakomponen', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Kebutuhan', filterable: false, value: 'Qty', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Siteid', value: 'siteID', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
-                { text: 'Dari Rak', value: 'Dari', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
-                { text: 'Ke Rak', value: 'Kerak', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Dari Rak', filterable: false, value: 'Dari', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Ke Rak', filterable: false, value: 'Kerak', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
             ],
         }
     },
