@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Account;
 use App\Models\Komponen;
+use App\Models\Master;
 use App\Models\Masterkit;
 use App\Models\TempMasterkit;
 use App\Models\SPK;
@@ -44,6 +45,8 @@ class SPKController extends Controller
 
     public function latihan()
     {
+        // $datas = SPK::where('NOSPK', $item1["NOSPK"])->first();
+
 
     }
 

@@ -102,7 +102,6 @@ class AdminController extends Controller
                     $newparameterTerdaftar = false;
                     foreach ($item2["Parameter"]["ModelMobil"] as $subitem2) {
                         if (strtoupper($subitem2) == strtoupper($data["parameter"]["ModelMobil"])) {
-
                             $ModelMobilterdaftar = true;
                             break;
                         }
@@ -178,219 +177,94 @@ class AdminController extends Controller
                         $item1["status"] = "Pending";
                         $item1->save();
                     }
-                    return response()->json([
-                        "success" => true,
-                        "status" => 200,
-                        "spk" => $data,
-                        "savedconversion" => $item1,
-                        "master" => $item2,
-                        "message" => $messages,
-                        "hasil" => $results,
-                    ]);
                 }
             }
         }
+        return response()->json([
+            "success" => true,
+            "status" => 200,
+            "spk" => $data,
+            "savedconversion" => $item1,
+            "master" => $item2,
+            "message" => $messages,
+            "hasil" => $results,
+        ]);
+    }
 
-
-
-        // return response()->json([
-        //     "success" => true,
-        //     "status" => 200,
-        //     "saved" => $saved,
-        //     "master" => $master,
-        //     "message" => $messages,
-        //     "hasil" => $results,
-        // ]);
-
-        // return response()->json([
-        //     "success" => true,
-        //     "status" => 200,
-        //     "saved" => $saved,
-        //     "master" => $master,
-        //     "message" => $messages,
-        //     "result" => $results,
-        // ]);
-
-        //     $message = [];
-        //     $result = [];
-        //     $messageforneparam = [];
-        //     $paramkodemobil = false;
-        //
-        //     $parammodelpintuterdaftar = false;
-        //     $parammodelbangku = false;
-        //     $parammodelbangkuterdaftar = false;
-        //     $parammodelbody = false;
-        //     $parammodelbodyterdaftar = false;
-        //     $parammodeltangga = false;
-        //     $parammodeltanggaterdaftar = false;
-        //     $parammodellampubelakang = false;
-        //     $parammodellampubelakangterdaftar = false;
-        //     $parammodelstall = false;
-        //     $parammodelstallterdaftar = false;
-        //     $parammodelnewparameter = false;
-        //     foreach ($master as $item2) {
-        //         if (strtoupper($item1["parameter"]["kodemobil"]) == strtoupper($item2["parameter"]["kodemobil"]) || strtoupper($item2["parameter"]["kodemobil"]) == "ALL") {
-        //             $paramkodemobil = true;
-        //             if (strtoupper($item1["parameter"]["kodemobil"]) == strtoupper($item2["parameter"]["kodemobil"])) {
-        //                 $kodemobilterdaftar = true;
-        //             }
-        //         }
-        //         if (strtoupper($item1["parameter"]["stall"]) == strtoupper($item2["parameter"]["stall"]) || strtoupper($item2["parameter"]["stall"]) == "ALL") {
-        //             $parammodelstall = true;
-        //             if (strtoupper($item1["parameter"]["stall"]) == strtoupper($item2["parameter"]["stall"])) {
-        //                 $parammodelstallterdaftar = true;
-        //             }
-        //         }
-        //         foreach ($item2["parameter"]["modelbagasi"] as $item) {
-        //             if (strtoupper($item) == "ALL" || strtoupper($item1["parameter"]["modelbagasi"]) == strtoupper($item)) {
-        //                 $parammobilbagasi = true;
-        //                 if (strtoupper($item1["parameter"]["modelbagasi"]) == strtoupper($item)) {
-        //                     $parammobilbagasiterdaftar = true;
-        //                 }
-        //                 break;
-        //             }
-        //         }
-        //         foreach ($item2["parameter"]["modelpintu"] as $item) {
-        //             if (strtoupper($item) == "ALL" || strtoupper($item1["parameter"]["modelpintu"]) == strtoupper($item)) {
-        //                 $parammodelpintu = true;
-        //                 if (strtoupper($item1["parameter"]["modelpintu"]) == strtoupper($item)) {
-        //                     $parammodelpintuterdaftar = true;
-        //                 }
-        //                 break;
-        //             }
-        //         }
-        //         foreach ($item2["parameter"]["modelbangku"] as $item) {
-        //             if (strtoupper($item) == "ALL" || strtoupper($item1["parameter"]["modelbangku"]) == strtoupper($item)) {
-        //                 $parammodelbangku = true;
-        //                 if (strtoupper($item1["parameter"]["modelbangku"]) == strtoupper($item)) {
-        //                     $parammodelbangkuterdaftar = true;
-        //                 }
-        //                 break;
-        //             }
-        //         }
-        //         foreach ($item2["parameter"]["modelbody"] as $item) {
-        //             if (strtoupper($item) == "ALL" || strtoupper($item1["parameter"]["modelbody"]) == strtoupper($item)) {
-        //                 $parammodelbody = true;
-        //                 if (strtoupper($item1["parameter"]["modelbody"]) == strtoupper($item)) {
-        //                     $parammodelbodyterdaftar = true;
-        //                 }
-        //                 break;
-        //             }
-        //         }
-        //         foreach ($item2["parameter"]["modeltangga"] as $item) {
-        //             if (strtoupper($item) == "ALL" || strtoupper($item1["parameter"]["modeltangga"]) == strtoupper($item)) {
-        //                 $parammodeltangga = true;
-        //                 if (strtoupper($item1["parameter"]["modeltangga"]) == strtoupper($item)) {
-        //                     $parammodeltanggaterdaftar = true;
-        //                 }
-        //                 break;
-        //             }
-        //         }
-        //         foreach ($item2["parameter"]["modellampubelakang"] as $item) {
-        //             if (strtoupper($item) == "ALL" || strtoupper($item1["parameter"]["modellampubelakang"]) == strtoupper($item)) {
-        //                 $parammodellampubelakang = true;
-        //                 if (strtoupper($item1["parameter"]["modellampubelakang"]) == strtoupper($item)) {
-        //                     $parammodellampubelakangterdaftar = true;
-        //                 }
-        //                 break;
-        //             }
-        //         }
-        //     }
-        //     if (count($item1["parameter"]["newparameter"]) == 0) {
-        //         $parammodelnewparameter = true;
-        //     } else {
-        //         if (count($master) == 0) {
-        //             foreach ($item1["parameter"]["newparameter"] as $parameterbaru) {
-        //                 array_push($messageforneparam, "parameter tambahan " . $parameterbaru["newparam"] . " tidak ada");
-        //             }
-        //         } else {
-        //             $masterempty = 0;
-        //             foreach ($master as $item2) {
-        //                 if (count($item2["parameter"]["newparameter"]) != 0) {
-        //                     $masterempty += 1;
-        //                 }
-        //             }
-        //             if ($masterempty != 0) {
-        //                 array_push($messageforneparam, "parameter tambahan " . " tidak ada");
-        //             } else {
-        //                 foreach ($master as $item2) {
-        //                     $judulcomponent = 0;
-        //                     foreach ($item1["parameter"]["newparameter"] as $newparam1) {
-        //                         foreach ($item2["parameter"]["newparameter"] as $newparam2) {
-        //                             if (strtoupper($newparam1["newparam"]) == strtoupper($newparam2["newparam"])) {
-        //                                 $isicomponent = 0;
-        //                                 foreach ($newparam1["components"] as $components1) {
-        //                                     foreach ($newparam2["components"] as $components2) {
-        //                                         if ($components1 == $components2) {
-        //                                             $isicomponent++;
-        //                                         }
-        //                                     }
-        //                                 }
-        //                                 if ($isicomponent == count($newparam1["components"])) {
-        //                                     $judulcomponent++;
-        //                                 } else {
-        //                                     array_push($messageforneparam, "parameter tambahan " . $item1["parameter"]["newparameter"]["newparam"] . " tolong dicek kembali");
-        //                                 }
-        //                             }
-        //                         }
-        //                     }
-        //                     if ($judulcomponent == count($item1["parameter"]["newparameter"])) {
-        //                         $parammodelnewparameter = true;
-        //                     } else if (count($messageforneparam) == 0) {
-        //                         array_push($messageforneparam, "parameter tambahan " . $item1["parameter"]["newparameter"][0]["newparam"] . " tidak ada");
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //     }
-        //     if ($paramkodemobil && $parammobilbagasi && $parammodelpintu && $parammodelbangku && $parammodelbody && $parammodeltangga && $parammodellampubelakang && $parammodelnewparameter && $parammodelstall) {
-        //         array_push($result, $item2["kit"]);
-        //     }
-        //     $newresult = [
-        //         'kit' => $result,
-        //         'NoSPK' => $item1->NOSPK,
-        //     ];
-        //     array_push($results, $newresult);
-        //     if (!$kodemobilterdaftar) {
-        //         array_push($message,  "parameter kode mobil " . $item1["parameter"]["kodemobil"] . " merupakan parameter baru");
-        //     }
-        //     if (!$parammobilbagasiterdaftar) {
-        //         array_push($message,  "parameter model bagasi " . $item1["parameter"]["modelbagasi"] . " merupakan parameter baru");
-        //     }
-        //     if (!$parammodelpintuterdaftar) {
-        //         array_push($message,  "parameter model pintu " . $item1["parameter"]["modelpintu"] . " merupakan parameter baru");
-        //     }
-        //     if (!$parammodelbangkuterdaftar) {
-        //         array_push($message,  "parameter model bangku " . $item1["parameter"]["modelbangku"] . " merupakan parameter baru");
-        //     }
-        //     if (!$parammodelbodyterdaftar) {
-        //         array_push($message,  "parameter model body " . $item1["parameter"]["modelbody"] . " merupakan parameter baru");
-        //     }
-        //     if (!$parammodeltanggaterdaftar) {
-        //         array_push($message,  "parameter model tangga " . $item1["parameter"]["modeltangga"] . " merupakan parameter baru");
-        //     }
-        //     if (!$parammodellampubelakangterdaftar) {
-        //         array_push($message,  "parameter model lampu belakang " . $item1["parameter"]["modellampubelakang"] . " merupakan parameter baru");
-        //     }
-        //     if (!$parammodelstallterdaftar) {
-        //         array_push($message,  "parameter stall " . $item1["parameter"]["modellampubelakang"] . " merupakan parameter baru");
-        //     }
-
-        //     $newmessage = [
-        //         'NoSPK' => $item1->NOSPK,
-        //         'Message' => $message,
-        //         'newMessage' => $messageforneparam
-        //     ];
-        //     if ($kodemobilterdaftar && $parammobilbagasiterdaftar && $parammodelpintuterdaftar && $parammodelbangkuterdaftar && $parammodelbodyterdaftar && $parammodeltanggaterdaftar && $parammodellampubelakangterdaftar && $parammodelstallterdaftar && $parammodelnewparameter) {
-        //         $item1["status"] = "Done";
-        //         $item1->save();
-        //     } else {
-        //         $item1["status"] = "Master Not Updated";
-        //         $item1->save();
-        //     }
-        //     array_push($messages, $newmessage);
-        // }
-
+    public function konversisinglespk(Request $request)
+    {
+        $data = SPK::where('NOSPK', $request->NoSPK)->first();
+        $master = Master::all();
+        $i = 0;
+        $results = [];
+        $result = [];
+        foreach ($master as $item2) {
+            $ModelMobilterdaftar = false;
+            $TinggiMobilterdaftar = false;
+            $TipeMobilTerdaftar = false;
+            $newparameterTerdaftar = false;
+            foreach ($item2["Parameter"]["ModelMobil"] as $subitem2) {
+                if (strtoupper($subitem2) == strtoupper($data["parameter"]["ModelMobil"])) {
+                    $ModelMobilterdaftar = true;
+                    break;
+                }
+            }
+            foreach ($item2["Parameter"]["TinggiMobil"] as $subitem2) {
+                if (strtoupper($subitem2) == strtoupper($data["parameter"]["TinggiMobil"])) {
+                    $TinggiMobilterdaftar = true;
+                    break;
+                }
+            }
+            foreach ($item2["Parameter"]["TipeMobil"] as $subitem2) {
+                if (strtoupper($subitem2) == strtoupper($data["parameter"]["TipeMobil"])) {
+                    $TipeMobilTerdaftar = true;
+                    break;
+                }
+            }
+            if (count($data["parameter"]["newparameter"]) == 0) {
+                $newparameterTerdaftar = true;
+            } else {
+                if (count($item2["Parameter"]["NewParameter"]) > 0) {
+                    $jumlahSPKnewparam = 0;
+                    foreach ($data["parameter"]["newparameter"] as $subnewparam) {
+                        foreach ($item2["Parameter"]["NewParameter"] as $databaseparam) {
+                            if (strtoupper($subnewparam["Newparam"] == strtoupper($databaseparam["Newparam"]))) {
+                                $jumlahisicomponentspk = 0;
+                                foreach ($subnewparam["Component"] as $componentspk) {
+                                    foreach ($databaseparam["Component"] as $componentdatabase) {
+                                        if (strtoupper($componentspk) == strtoupper($componentdatabase)) {
+                                            $jumlahisicomponentspk++;
+                                            break;
+                                        }
+                                    }
+                                }
+                                if ($jumlahisicomponentspk == count($subnewparam["Component"])) {
+                                    $jumlahSPKnewparam++;
+                                }
+                            }
+                        }
+                    }
+                    if ($jumlahSPKnewparam == count($data["parameter"]["newparameter"])) {
+                        $newparameterTerdaftar = true;
+                    }
+                }
+            }
+            if ($ModelMobilterdaftar && $TinggiMobilterdaftar && $TipeMobilTerdaftar && $newparameterTerdaftar) {
+                array_push($result, $item2["Kit"]);
+                $i++;
+            }
+            if ($i > 0) {
+                array_push($results, [
+                    'kit' => $result,
+                    'NoSPK' => $data["NOSPK"],
+                ]);
+            }
+        }
+        return response()->json([
+            "success" => true,
+            "status" => 200,
+            "hasil" => $results,
+        ]);
     }
 
     public function admintambahspk(Request $request)

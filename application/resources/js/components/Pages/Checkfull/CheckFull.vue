@@ -70,11 +70,13 @@ export default {
             })
         },
         checkfull(item){
-            console.log(item.NOSPK)
-            this.$router.push({
-                name: 'CheckFullDetail',
-                params: { nospk: item.NOSPK }
-            })
+            axios.post('/api/konversisinglespk',{NoSPK:item.NOSPK}).then((response) => {
+                console.log(response.data);
+            });
+            // this.$router.push({
+            //     name: 'CheckFullDetail',
+            //     params: { nospk: item.NOSPK }
+            // })
         },
         filterstates() {
             if (this.state.length == 0) {
