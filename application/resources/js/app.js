@@ -18,6 +18,15 @@ import router from '../../resources/js/router/route';
 import axios from 'axios';
 import VueHtmlToPaper from 'vue-html-to-paper';
 
+/* import the fontawesome core */
+import { library } from '@fortawesome/fontawesome-svg-core'
+/* import font awesome icon component */
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+/* import specific icons */
+import { faUserSecret,faPrint,faDownload,faPlus } from '@fortawesome/free-solid-svg-icons'
+/* add icons to the library */
+library.add(faUserSecret,faPrint,faDownload,faPlus)
+
 const options = {
     name: '_blank',
     specs: [
@@ -47,12 +56,14 @@ const options = {
  */
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = 'http://localhost:8000/'
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+Vue.component('header-component', require('./components/General/HeaderComponent.vue').default)
+Vue.component('footer-component', require('./components/General/FooterComponent.vue').default)
+/* add font awesome icon component */
 
-Vue.component('header-component', require('./components/General/HeaderComponent.vue').default);
-Vue.component('footer-component', require('./components/General/FooterComponent.vue').default);
 
 // untuk latihan
-Vue.component('latihanbutton', require('./components/Pages/InputNoSPK/SpkInputtrigger.vue').default);
+Vue.component('latihanbutton', require('./components/Pages/InputNoSPK/SpkInputtrigger.vue').default)
 
 
 Vue.use(PiniaVuePlugin);

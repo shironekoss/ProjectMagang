@@ -11,7 +11,7 @@
                                 </v-text-field>
                                 <JsonExcel class="btn btn-primary" :data="datatable" :fields="json_fields"
                                     worksheet="My Worksheet" name="filename.xls" style="margin-right: 20px;">
-                                    Download Excel
+                                    Download Excel <font-awesome-icon icon="fa-solid fa-download" />
                                 </JsonExcel>
                                 <button class="btn btn-primary" @click="print">Print
                                     <font-awesome-icon icon="fa-solid fa-print" />

@@ -7,8 +7,10 @@
                     <template v-slot:top>
                         <v-toolbar flat>
                             <v-toolbar-title>Tambahkan Master
+
                             </v-toolbar-title>
-                            <button class="btn btn-primary" @click="TambahMaster"> Tambah Master </button>
+                            <button class="btn btn-primary" @click="TambahMaster" style="margin-left: 30px;">
+                              Tambah Master   <font-awesome-icon icon="fa-solid fa-plus" />  </button>
                         </v-toolbar>
                         <v-card-title>
                             <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line

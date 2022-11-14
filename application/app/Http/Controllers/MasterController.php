@@ -38,13 +38,6 @@ class MasterController extends Controller
         return $master;
     }
 
-
-
-
-
-
-
-
     public function hapusmaster(Request $request)
     {
         try {
