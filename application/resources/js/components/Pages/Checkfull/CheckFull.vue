@@ -27,8 +27,6 @@ export default {
     data() {
         return {
             datatable: [],
-
-
             listspk: [],
             filteredStates: [],
             editedIndex: -1,
@@ -69,14 +67,22 @@ export default {
                 });
             })
         },
-        checkfull(item){
-            axios.post('/api/konversisinglespk',{NoSPK:item.NOSPK}).then((response) => {
-                console.log(response.data);
+        checkfull(item) {
+            axios.post('/api/konversisinglespk', { NoSPK: item.NOSPK }).then((response) => {
+                console.log(response.data.hasil);
+                if (response.data.hasil == 0) {
+                    this.$swal({
+                        title: "Tidak ada komponen yang terdaftar dengan parameter SPK ini",
+                        icon: 'error'
+                    });
+                } else {
+                    this.$router.push({
+                        name: 'CheckFullDetail',
+                        params: { hasil: response.data.hasil}
+                    })
+                }
             });
-            // this.$router.push({
-            //     name: 'CheckFullDetail',
-            //     params: { nospk: item.NOSPK }
-            // })
+
         },
         filterstates() {
             if (this.state.length == 0) {

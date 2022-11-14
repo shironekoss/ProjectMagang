@@ -48,6 +48,46 @@ export default {
         return {
             output: null,
             waktu: "",
+            json_fields: {
+                "NO SPK": "kode",
+                "Kode Kit": "namakit",
+                "Nama Kit": "namakomponen",
+                "Nama Komponen": "Qty",
+                "Kebutuhan": "name",
+                "Siteid": "siteID",
+                "Dari Rak": "Dari",
+                "Ke Rak": "Kerak",
+            },
+            json_data: [
+                {
+                    name: "Tony Peña",
+                    city: "New York",
+                    country: "United States",
+                    birthdate: "1978-03-15",
+                    phone: {
+                        mobile: "1-541-754-3010",
+                        landline: "(541) 754-3010",
+                    },
+                },
+                {
+                    name: "Thessaloniki",
+                    city: "Athens",
+                    country: "Greece",
+                    birthdate: "1987-11-23",
+                    phone: {
+                        mobile: "+1 855 275 5071",
+                        landline: "(2741) 2621-244",
+                    },
+                },
+            ],
+            json_meta: [
+                [
+                    {
+                        key: "charset",
+                        value: "utf-8",
+                    },
+                ],
+            ],
             search: '',
             datatable: [],
             headerstable: [
