@@ -18,11 +18,11 @@
             <div class="d-flex flex-row">
                 <a class="btn btn-info btn-rounded btn-sm" style="margin-right: 5px;"
                     @click.prevent="lihatuser(account._id)">
-                    Edit User
+                    Edit User  <font-awesome-icon icon="fa-solid fa-pen-to-square" style="margin-left: 5px;" />
                 </a>
                 <a class="btn btn-danger btn-rounded btn-sm" style="margin-right: 5px;"
                     @click.prevent="accountdelete()">
-                    Delete
+                    Delete  <font-awesome-icon icon="fa-solid fa-trash" style="margin-left: 5px;" />
                 </a>
                 <div class="form-check form-switch">
                     <label class="form-check-label" for="flexSwitchCheckDefault">

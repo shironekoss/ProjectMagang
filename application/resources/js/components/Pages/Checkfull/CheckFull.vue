@@ -11,7 +11,7 @@
                         </v-toolbar>
                     </template>
                     <template v-slot:item.actions="{ item }">
-                        <v-btn depressed color="blue" @click.prevent="checkfull(item)">Show</v-btn>
+                        <v-btn depressed color="blue" @click.prevent="checkfull(item)">Show <font-awesome-icon icon="fa-solid fa-eye" style="margin-left: 5px;" /></v-btn>
                     </template>
                 </v-data-table>
             </div>

@@ -10,7 +10,7 @@
 
                             </v-toolbar-title>
                             <button class="btn btn-primary" @click="TambahMaster" style="margin-left: 30px;">
-                              Tambah Master   <font-awesome-icon icon="fa-solid fa-plus" />  </button>
+                              Tambah Master   <font-awesome-icon icon="fa-solid fa-plus" style="margin-left: 5px;" />  </button>
                         </v-toolbar>
                         <v-card-title>
                             <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line
@@ -31,8 +31,8 @@
                         </v-dialog>
                     </template>
                     <template v-slot:item.actions="{ item }">
-                        <v-btn depressed color="teal lighten-3" @click="editmaster(item)">Edit</v-btn>
-                        <v-btn depressed color="error" @click="deleteItem(item)">Hapus</v-btn>
+                        <v-btn depressed color="teal lighten-3" @click="editmaster(item)">Edit <font-awesome-icon icon="fa-solid fa-pen-to-square" style="margin-left: 5px;" /></v-btn>
+                        <v-btn depressed color="error" @click="deleteItem(item)">Hapus <font-awesome-icon icon="fa-solid fa-trash" style="margin-left: 5px;" /></v-btn>
                     </template>
                 </v-data-table>
             </div>

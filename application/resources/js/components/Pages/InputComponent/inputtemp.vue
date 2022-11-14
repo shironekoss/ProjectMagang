@@ -5,7 +5,7 @@
             <v-container style="z-index: 1;">
                 <v-row>
                     <v-col cols="12" sm="6" md="3">
-                        <v-btn depressed color="primary" @click.prevent="tarikdataspk"> Tarik data SPK </v-btn>
+                        <v-btn depressed color="primary" @click.prevent="tarikdataspk"> Tarik data SPK  <font-awesome-icon icon="fa-solid fa-database" style="margin-left: 15px;"/></v-btn>
                     </v-col>
                 </v-row>
                 <v-row dense>
@@ -42,12 +42,10 @@
                 </v-row>
                 <v-row dense>
                     <v-col cols="12" sm="6" md="5">
-                        <button class="btn btn-primary" @click="tambah()"> TAMBAH</button>
-                        <button class="btn" style="background-color: yellow;" @click="cek()">CEK</button>
-                        <button class="btn" style="background-color: grey;"> INPUT SPK</button>
-                        <button class="btn" style="background-color: cyan;"> HELP</button>
+                        <button class="btn btn-primary" @click="tambah()"> TAMBAH <font-awesome-icon icon="fa-solid fa-plus" style="margin-left: 5px;" /></button>
+                        <button class="btn" style="background-color: yellow;" @click="cek()">CEK <font-awesome-icon icon="fa-solid fa-gears" style="margin-left: 5px;" /></button>
                         <button class="btn" style="background-color: greenyellow;"
-                            @click="pindahhistory()">History</button>
+                            @click="pindahhistory()">History <font-awesome-icon icon="fa-solid fa-clock-rotate-left" style="margin-left: 5px;" /></button>
                     </v-col>
                 </v-row>
             </v-container>
@@ -71,7 +69,7 @@
                         </v-dialog>
                     </template>
                     <template v-slot:item.actions="{ item }">
-                        <v-btn depressed color="error" @click="deleteItem(item)">Hapus</v-btn>
+                        <v-btn depressed color="error" @click="deleteItem(item)">Hapus  <font-awesome-icon icon="fa-solid fa-trash" style="margin-left: 5px;" /> </v-btn>
                     </template>
                 </v-data-table>
             </div>

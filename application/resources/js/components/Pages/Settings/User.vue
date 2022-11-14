@@ -4,7 +4,7 @@
             <div class="card" style="max-width:1000px">
                 <div class="card-body">
                     <h5 class="card-title">Daftar User</h5>
-                    <router-link :to="{ name: 'Register' }" class="btn btn-primary">Register</router-link>
+                    <router-link :to="{ name: 'Register' }" class="btn btn-primary">Register <font-awesome-icon icon="fa-solid fa-user" style="margin-left: 5px;" /></router-link>
                     <hr>
                     <ul class="list-group list-group-light"></ul>
                     <div v-for="account in accounts">
