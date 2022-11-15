@@ -68,6 +68,14 @@ class AdminController extends Controller
         $results = [];
         $result = [];
         foreach ($saved as $item1) {
+            //errors check
+            $errors = [];
+            $errorModelMobil = true;
+            $errorTipeMobil = true;
+            $errorTinggiMobil = true;
+            $errorDepartemen = true;
+            $errorStall = true;
+            $errornewparam = true;
             if ($item1["NOSPK"] == "STOCK") {
                 $i = 0;
                 foreach ($master as $item2) {
@@ -85,9 +93,11 @@ class AdminController extends Controller
                         'NoSPK' => $item1->NOSPK,
                     ]);
                     $item1["status"] = "berhasil";
+                    $item1["errors"] = [];
                     $item1->save();
                 } else {
                     $item1["status"] = "Pending";
+                    $item1["errors"] = ["Stall Belum Terdaftar"];
                     $item1->save();
                 }
             } else {
@@ -103,30 +113,35 @@ class AdminController extends Controller
                     foreach ($item2["Parameter"]["ModelMobil"] as $subitem2) {
                         if (strtoupper($subitem2) == strtoupper($data["parameter"]["ModelMobil"])) {
                             $ModelMobilterdaftar = true;
+                            $errorModelMobil = false;
                             break;
                         }
                     }
                     foreach ($item2["Parameter"]["TinggiMobil"] as $subitem2) {
                         if (strtoupper($subitem2) == strtoupper($data["parameter"]["TinggiMobil"])) {
                             $TinggiMobilterdaftar = true;
+                            $errorTinggiMobil = false;
                             break;
                         }
                     }
                     foreach ($item2["Parameter"]["TipeMobil"] as $subitem2) {
                         if (strtoupper($subitem2) == strtoupper($data["parameter"]["TipeMobil"])) {
                             $TipeMobilTerdaftar = true;
+                            $errorTipeMobil = false;
                             break;
                         }
                     }
                     foreach ($item2["Parameter"]["Departemen"] as $subitem2) {
                         if (strtoupper($subitem2) == strtoupper($item1["Departemen"])) {
                             $DepartemenTerdaftar = true;
+                            $errorDepartemen = false;
                             break;
                         }
                     }
                     foreach ($item2["Parameter"]["Stall"] as $subitem2) {
                         if (strtoupper($subitem2) == strtoupper($item1["namastall"])) {
                             $StallTerdaftar = true;
+                            $errorStall = false;
                             break;
                         }
                     }
@@ -156,6 +171,7 @@ class AdminController extends Controller
                             }
                             if ($jumlahSPKnewparam == count($data["parameter"]["newparameter"])) {
                                 $newparameterTerdaftar = true;
+                                $errornewparam = false;
                             }
                         }
                     }
@@ -164,7 +180,6 @@ class AdminController extends Controller
                         array_push($result, $item2["Kit"]);
                         $i++;
                     }
-
                     if ($i > 0) {
                         array_push($results, [
                             'kit' => $result,
@@ -178,13 +193,38 @@ class AdminController extends Controller
                         $item1->save();
                     }
                 }
+                if (!$errorModelMobil && !$errorTinggiMobil && !$errorTipeMobil && !$errorDepartemen && !$errorStall && !$errornewparam) {
+                    $item1["errors"] = [];
+                    $item1->save();
+                } else {
+                    if ($errorModelMobil) {
+                        array_push($errors, "Parameter Model Mobil SPK ini Baru");
+                    }
+                    if ($errorTinggiMobil) {
+                        array_push($errors, "Parameter Tinggi Mobil SPK ini Baru");
+                    }
+                    if ($errorTipeMobil) {
+                        array_push($errors, "Parameter Tipe Mobil SPK ini Baru");
+                    }
+                    if ($errorDepartemen) {
+                        array_push($errors, "Departemen ini Baru");
+                    }
+                    if ($errorStall) {
+                        array_push($errors, "Stall ini Baru");
+                    }
+                    if ($errornewparam) {
+                        array_push($errors, "Ada parameter baru di SPK ini");
+                    }
+                    $item1["errors"] = $errors;
+                    $item1->save();
+                }
             }
         }
         return response()->json([
             "success" => true,
             "status" => 200,
             "spk" => $data,
-            "savedconversion" => $item1,
+            "savedconversion" => $saved,
             "master" => $item2,
             "message" => $messages,
             "hasil" => $results,

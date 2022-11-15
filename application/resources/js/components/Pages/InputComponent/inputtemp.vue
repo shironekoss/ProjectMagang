@@ -5,7 +5,9 @@
             <v-container style="z-index: 1;">
                 <v-row>
                     <v-col cols="12" sm="6" md="3">
-                        <v-btn depressed color="primary" @click.prevent="tarikdataspk"> Tarik data SPK  <font-awesome-icon icon="fa-solid fa-database" style="margin-left: 15px;"/></v-btn>
+                        <v-btn depressed color="primary" @click.prevent="tarikdataspk"> Tarik data SPK
+                            <font-awesome-icon icon="fa-solid fa-database" style="margin-left: 15px;" />
+                        </v-btn>
                     </v-col>
                 </v-row>
                 <v-row dense>
@@ -42,15 +44,20 @@
                 </v-row>
                 <v-row dense>
                     <v-col cols="12" sm="6" md="5">
-                        <button class="btn btn-primary" @click="tambah()"> TAMBAH <font-awesome-icon icon="fa-solid fa-plus" style="margin-left: 5px;" /></button>
-                        <button class="btn" style="background-color: yellow;" @click="cek()">CEK <font-awesome-icon icon="fa-solid fa-gears" style="margin-left: 5px;" /></button>
-                        <button class="btn" style="background-color: greenyellow;"
-                            @click="pindahhistory()">History <font-awesome-icon icon="fa-solid fa-clock-rotate-left" style="margin-left: 5px;" /></button>
+                        <button class="btn btn-primary" @click="tambah()"> TAMBAH
+                            <font-awesome-icon icon="fa-solid fa-plus" style="margin-left: 5px;" />
+                        </button>
+                        <button class="btn" style="background-color: yellow;" @click="cek()">CEK
+                            <font-awesome-icon icon="fa-solid fa-gears" style="margin-left: 5px;" />
+                        </button>
+                        <button class="btn" style="background-color: greenyellow;" @click="pindahhistory()">History
+                            <font-awesome-icon icon="fa-solid fa-clock-rotate-left" style="margin-left: 5px;" />
+                        </button>
                     </v-col>
                 </v-row>
             </v-container>
             <div v-if="datatable">
-                <v-data-table dense :headers="headerstable" :items="datatable" :items-per-page="10"
+                <v-data-table dense :headers="headerstable" :items="datatable" :items-per-page="30"
                     class="elevation-1 font-weight-bold">
                     <template v-slot:top>
                         <v-toolbar flat>
@@ -69,7 +76,20 @@
                         </v-dialog>
                     </template>
                     <template v-slot:item.actions="{ item }">
-                        <v-btn depressed color="error" @click="deleteItem(item)">Hapus  <font-awesome-icon icon="fa-solid fa-trash" style="margin-left: 5px;" /> </v-btn>
+                        <v-row dense>
+                            <v-col cols="12" sm="6" md="5" style="float: left;">
+                                <div style="display: flex;">
+                                    <div v-if="showerror(item)">
+                                        <v-btn depressed color="warning" @click="" style="margin-right: 10px;">problem? </v-btn>
+                                    </div>
+                                    <v-btn depressed color="error" @click="deleteItem(item)">Hapus
+                                        <font-awesome-icon icon="fa-solid fa-trash" style="margin-left: 5px;" />
+                                    </v-btn>
+                                </div>
+                            </v-col>
+
+                        </v-row>
+
                     </template>
                 </v-data-table>
             </div>
@@ -117,9 +137,9 @@ export default {
                 { text: 'Nama Stall', value: 'namastall', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Stall', value: 'stall', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Departemen', value: 'Departemen', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
-                { text: 'Status', value: 'status', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
-                { text: 'Waktu Update Terakhir', value: 'updated_at', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
-                { text: 'Action', value: 'actions', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Status', value: 'status', width: '150px', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Waktu Update Terakhir', width: '250px', value: 'updated_at', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Action', value: 'actions', width: '300px', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
             ],
         }
     },
@@ -166,16 +186,20 @@ export default {
         changevalue(value) {
             this.ChangeStallmode = value
         },
+        showerror(item) {
+            return item.errors.length == 0 ? false : true
+        }
+        ,
         async tarikdataspk() {
             await axios.get('/api/getdataspk').then((response) => {
                 console.log(response.data)
                 if (response.data.statusresponse == 200) {
                     this.$swal({
-                        title: response.data.message ,
+                        title: response.data.message,
                         icon: 'success'
                     });
                 }
-                else if(response.data.statusresponse == 400){
+                else if (response.data.statusresponse == 400) {
                     this.$swal({
                         title: response.data.message,
                         icon: 'error'

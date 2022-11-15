@@ -9,7 +9,7 @@
                 <div class="row">
                     <div class="col-lg-4 col-md-6 col-sm-8 mx-auto">
                         <!-- <div v-if="!registerActive" class="card login" v-bind:class="{ error: emptyFields }"> -->
-                        <h1>Sign In</h1>
+                        <h1>Sign In <font-awesome-icon icon="fa-solid fa-right-to-line" /></h1>
                         <form class="form-group" @submit.prevent="Login">
                             <input v-model="user.username" type="text" class="form-control" placeholder="Username"
                                 required>

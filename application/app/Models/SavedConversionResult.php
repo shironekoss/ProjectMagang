@@ -22,6 +22,7 @@ class SavedConversionResult extends Model
         'checked',
         'parameter',
         'status',
+        'errors',
         'created_at',
         'updated_at'
     ];

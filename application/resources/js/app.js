@@ -23,9 +23,9 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 /* import font awesome icon component */
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 /* import specific icons */
-import { faUserSecret,faPrint,faDownload,faPlus,faPenToSquare,faTrash,faDatabase,faGears,faClockRotateLeft,faEye,faUser } from '@fortawesome/free-solid-svg-icons'
+import { faUserSecret,faPrint,faDownload,faPlus,faPenToSquare,faTrash,faDatabase,faGears,faClockRotateLeft,faEye,faUser,faArrowTurnRight } from '@fortawesome/free-solid-svg-icons'
 /* add icons to the library */
-library.add(faUserSecret,faPrint,faDownload,faPlus,faPenToSquare,faTrash,faDatabase,faGears,faClockRotateLeft,faEye,faUser)
+library.add(faUserSecret,faPrint,faDownload,faPlus,faPenToSquare,faTrash,faDatabase,faGears,faClockRotateLeft,faEye,faUser,faArrowTurnRight)
 
 const options = {
     name: '_blank',
