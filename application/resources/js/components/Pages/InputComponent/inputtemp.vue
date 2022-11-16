@@ -3,6 +3,7 @@
         <v-app>
             <div style=" position: absolute; inset: 0; z-index: 0;" @click="modal = false"></div>
             <v-container style="z-index: 1;">
+                <!-- <v-progress-circular indeterminate color="primary"></v-progress-circular> -->
                 <v-row>
                     <v-col cols="12" sm="6" md="3">
                         <v-btn depressed color="primary" @click.prevent="tarikdataspk"> Tarik data SPK
@@ -74,22 +75,51 @@
                                 </v-card-actions>
                             </v-card>
                         </v-dialog>
+                        <v-dialog v-model="dialogErrors" max-width="500px">
+                            <v-card>
+                                <v-toolbar color="primary" dark class="text-lg-h5">Alasan Pending</v-toolbar>
+                                <ol>
+                                    <v-card-text>
+                                        <li v-for="(message, index) in errormessage" :key="index"
+                                            class="font-weight-black text-lg-h6">{{ message }}</li>
+
+                                    </v-card-text>
+                                </ol>
+                                <hr>
+                                <v-card-actions>
+                                    <v-btn outlined color="black" style="background-color:rgba(125, 241, 230, 0.8) ;"
+                                        text @click="closeErrors">Cancel</v-btn>
+                                    <v-spacer></v-spacer>
+                                </v-card-actions>
+                            </v-card>
+                        </v-dialog>
+                        <v-dialog v-model="dialogLoading" max-width="500px">
+                            <v-card>
+                                <v-toolbar color="primary" dark class="text-lg-h5">Loading... harap menunggu</v-toolbar>
+                               <v-card-text></v-card-text>
+                                <div class="text-center">
+                                    <v-progress-circular :size="100" :width="7" color="purple" indeterminate>
+                                    </v-progress-circular>
+                                </div>
+                                <v-card-text></v-card-text>
+                            </v-card>
+
+                        </v-dialog>
                     </template>
                     <template v-slot:item.actions="{ item }">
                         <v-row dense>
                             <v-col cols="12" sm="6" md="5" style="float: left;">
                                 <div style="display: flex;">
                                     <div v-if="showerror(item)">
-                                        <v-btn depressed color="warning" @click="" style="margin-right: 10px;">problem? </v-btn>
+                                        <v-btn depressed color="warning" @click="errors(item)"
+                                            style="margin-right: 10px;">problem? </v-btn>
                                     </div>
                                     <v-btn depressed color="error" @click="deleteItem(item)">Hapus
                                         <font-awesome-icon icon="fa-solid fa-trash" style="margin-left: 5px;" />
                                     </v-btn>
                                 </div>
                             </v-col>
-
                         </v-row>
-
                     </template>
                 </v-data-table>
             </div>
@@ -125,7 +155,10 @@ export default {
             max: 0,
             searchInput: "",
             dialogDelete: false,
+            dialogErrors: false,
+            dialogLoading: false,
             editedIndex: -1,
+            errormessage: [],
             headerstable: [
                 {
                     text: 'Nomor SPK',
@@ -158,6 +191,12 @@ export default {
         dialogDelete(val) {
             val || this.closeDelete()
         },
+        dialogError(val) {
+            val || this.closeErrors()
+        },
+        dialogLoading(val) {
+            val || this.closeLoading()
+        },
         SPKfield: function () {
             if (this.SPKfield == "STOCK") {
                 this.Changemode = "text"
@@ -187,19 +226,26 @@ export default {
             this.ChangeStallmode = value
         },
         showerror(item) {
-            return item.errors.length == 0 ? false : true
-        }
-        ,
+            if (!item.errors) {
+                return false
+            } else {
+                return item.errors.length == 0 ? false : true
+            }
+
+        },
         async tarikdataspk() {
+            this.openDialogLoading()
             await axios.get('/api/getdataspk').then((response) => {
                 console.log(response.data)
                 if (response.data.statusresponse == 200) {
+                    this.closeLoading()
                     this.$swal({
                         title: response.data.message,
                         icon: 'success'
                     });
                 }
                 else if (response.data.statusresponse == 400) {
+                    this.closeLoading()
                     this.$swal({
                         title: response.data.message,
                         icon: 'error'
@@ -243,9 +289,25 @@ export default {
                 this.editedIndex = -1
             })
         },
+        closeErrors() {
+            this.dialogErrors = false
+            this.$nextTick(() => {
+                this.errormessage = []
+            })
+        },
+        closeLoading() {
+            this.dialogLoading = false;
+        },
         deleteItem(item) {
             this.editedIndex = this.datatable.indexOf(item)
             this.dialogDelete = true
+        },
+        openDialogLoading() {
+            this.dialogLoading = true
+        },
+        errors(item) {
+            this.errormessage = item.errors
+            this.dialogErrors = true
         },
         deleteItemConfirm() {
             var datahapus = this.datatable[this.editedIndex]
@@ -346,15 +408,6 @@ export default {
                 });
             }
         },
-        // getkode(state) {
-        //     axios.post('/api/getkode', { maudikode: state }).then((response) => {
-        //         if (response.data.status == 200) {
-        //             this.kode = response.data.hasil
-        //         } else if (response.data.status == 400) {
-        //             this.kode = ''
-        //         }
-        //     });
-        // },
         getmaxvalue(state) {
             axios.post('/api/ambilmax', { kode: state }).then((response) => {
                 if (response.data.status == 200) {
