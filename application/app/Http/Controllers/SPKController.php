@@ -6,6 +6,7 @@ use App\Models\Account;
 use App\Models\Komponen;
 use App\Models\Master;
 use App\Models\Masterkit;
+use App\Models\SavedConversionResult;
 use App\Models\TempMasterkit;
 use App\Models\SPK;
 use Illuminate\Http\Request;
@@ -45,7 +46,8 @@ class SPKController extends Controller
 
     public function latihan()
     {
-        // $datas = SPK::where('NOSPK', $item1["NOSPK"])->first();
+        $allsaved = SavedConversionResult::where('NOSPK','!=',"STOCK")->get(['NOSPK','Departemen','namastall','stall']);
+        dd($allsaved);
 
 
     }

@@ -93,6 +93,7 @@ class AdminController extends Controller
                         'NoSPK' => $item1->NOSPK,
                     ]);
                     $item1["status"] = "berhasil";
+                    $item1["kit"] = $results;
                     $item1["errors"] = [];
                     $item1->save();
                 } else {
@@ -338,26 +339,42 @@ class AdminController extends Controller
                     ]);
                 } else {
                     $spk = SPK::where('NOSPK', $nospk)->first();
-                    $parameter = $spk->parameter;
-                    $newdata = SavedConversionResult::create([
-                        "NOSPK" => $spk->NOSPK,
-                        "stall" => $stall,
-                        "namastall" => $namastall,
-                        "Departemen" => $Departemen,
-                        "checked" => false,
-                        "status" => "Pending",
-                        "parameter" => $parameter,
-                        "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
-                        "updated_at" => Carbon::now()->format('Y-m-d H:i:s'),
-                    ]);
-                    return response()->json([
-                        "success" => true,
-                        "status" => 200,
-                        "spk" => $spk,
-                        "namastall" => $namastall,
-                        "Departemen" => $Departemen,
-                        "newdata" => $parameter
-                    ]);
+                    $allsaved = SavedConversionResult::where('NOSPK', '!=', "STOCK")->get(['NOSPK', 'Departemen', 'namastall', 'stall']);
+                    $kembar = false;
+                    foreach ($allsaved as $saved) {
+                        if (strtoupper($nospk) == strtoupper($saved["NOSPK"])  && strtoupper($Departemen) == strtoupper($saved["Departemen"]) &&  strtoupper($stall) == strtoupper($saved["stall"]) && strtoupper($namastall) == strtoupper($saved["namastall"])) {
+                            $kembar = true;
+                            break;
+                        }
+                    }
+                    if ($kembar) {
+                        return response()->json([
+                            "success" => true,
+                            "status" => 401,
+                        ]);
+                    } else {
+                        $parameter = $spk->parameter;
+                        $newdata = SavedConversionResult::create([
+                            "NOSPK" => $spk->NOSPK,
+                            "stall" => $stall,
+                            "namastall" => $namastall,
+                            "Departemen" => $Departemen,
+                            "checked" => false,
+                            "status" => "Pending",
+                            "parameter" => $parameter,
+                            "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
+                            "updated_at" => Carbon::now()->format('Y-m-d H:i:s'),
+                        ]);
+                        return response()->json([
+                            "success" => true,
+                            "status" => 200,
+                            "spk" => $spk,
+                            "namastall" => $namastall,
+                            "Departemen" => $Departemen,
+                            "newdata" => $parameter,
+                            "allsaved" => $allsaved
+                        ]);
+                    }
                 }
             } catch (\Throwable $th) {
                 return response()->json([
