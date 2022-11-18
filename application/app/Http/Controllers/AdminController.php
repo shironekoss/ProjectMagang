@@ -239,6 +239,11 @@ class AdminController extends Controller
         $i = 0;
         $results = [];
         $result = [];
+        $errors = [];
+        $parameteroModelMobilTerdaftar = false;
+        $parameterTinggiTerdaftar = false;
+        $parameterTipeMobilTerdaftar = false;
+        $parameterNewparamTerdaftar = false;
         foreach ($master as $item2) {
             $ModelMobilterdaftar = false;
             $TinggiMobilterdaftar = false;
@@ -247,18 +252,21 @@ class AdminController extends Controller
             foreach ($item2["Parameter"]["ModelMobil"] as $subitem2) {
                 if (strtoupper($subitem2) == strtoupper($data["parameter"]["ModelMobil"])) {
                     $ModelMobilterdaftar = true;
+                    $parameteroModelMobilTerdaftar = true;
                     break;
                 }
             }
             foreach ($item2["Parameter"]["TinggiMobil"] as $subitem2) {
                 if (strtoupper($subitem2) == strtoupper($data["parameter"]["TinggiMobil"])) {
                     $TinggiMobilterdaftar = true;
+                    $parameterTinggiTerdaftar = true;
                     break;
                 }
             }
             foreach ($item2["Parameter"]["TipeMobil"] as $subitem2) {
                 if (strtoupper($subitem2) == strtoupper($data["parameter"]["TipeMobil"])) {
                     $TipeMobilTerdaftar = true;
+                    $parameterTipeMobilTerdaftar = true;
                     break;
                 }
             }
@@ -287,6 +295,7 @@ class AdminController extends Controller
                     }
                     if ($jumlahSPKnewparam == count($data["parameter"]["newparameter"])) {
                         $newparameterTerdaftar = true;
+                        $parameterNewparamTerdaftar=true;
                     }
                 }
             }
@@ -301,10 +310,23 @@ class AdminController extends Controller
                 ]);
             }
         }
+        if (!$parameteroModelMobilTerdaftar) {
+            array_push($errors, " Model Mobil Tidak Terdaftar");
+        }
+        if (!$parameterTinggiTerdaftar) {
+            array_push($errors, " Tinggi Mobil Tidak Terdaftar");
+        }
+        if (!$parameterTipeMobilTerdaftar) {
+            array_push($errors, " Tipe Mobil Tidak Terdaftar");
+        }
+        if (!$parameterNewparamTerdaftar) {
+            array_push($errors, " Ada parameter baru yang belum terdaftar");
+        }
         return response()->json([
             "success" => true,
             "status" => 200,
             "hasil" => $results,
+            "errors" => $errors
         ]);
     }
 

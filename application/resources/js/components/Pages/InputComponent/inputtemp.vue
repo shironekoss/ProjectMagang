@@ -94,16 +94,7 @@
                             </v-card>
                         </v-dialog>
                         <v-dialog v-model="dialogLoading" max-width="500px">
-                            <v-card>
-                                <v-toolbar color="primary" dark class="text-lg-h5">Loading... harap menunggu</v-toolbar>
-                               <v-card-text></v-card-text>
-                                <div class="text-center">
-                                    <v-progress-circular :size="100" :width="7" color="purple" indeterminate>
-                                    </v-progress-circular>
-                                </div>
-                                <v-card-text></v-card-text>
-                            </v-card>
-
+                            <Loading/>
                         </v-dialog>
                     </template>
                     <template v-slot:item.actions="{ item }">
@@ -130,8 +121,10 @@
 <script>
 import axios from 'axios'
 import ConvertTime from '../../../Helper/ConvertTime'
+import Loading from '../../Global/Loading.vue'
 export default {
     mixins: [ConvertTime],
+    components: { Loading },
     data() {
         return {
             listspk: [],
@@ -191,7 +184,7 @@ export default {
         dialogDelete(val) {
             val || this.closeDelete()
         },
-        dialogError(val) {
+        dialogErrors(val) {
             val || this.closeErrors()
         },
         dialogLoading(val) {

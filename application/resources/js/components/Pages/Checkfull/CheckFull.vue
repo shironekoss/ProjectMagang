@@ -11,13 +11,17 @@
                         </v-toolbar>
                     </template>
                     <template v-slot:item.actions="{ item }">
-                        <v-btn depressed color="blue" @click.prevent="checkfull(item)">Show <font-awesome-icon icon="fa-solid fa-eye" style="margin-left: 5px;" /></v-btn>
+                        <v-btn depressed color="blue" @click.prevent="checkfull(item)">Show
+                            <font-awesome-icon icon="fa-solid fa-eye" style="margin-left: 5px;" />
+                        </v-btn>
                     </template>
                 </v-data-table>
             </div>
         </v-app>
     </div>
+
 </template>
+
 
 <script>
 import axios from 'axios'
@@ -44,6 +48,7 @@ export default {
                 { text: 'Waktu Update Terakhir', value: 'updated_at', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Action', value: 'actions', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
             ],
+            errors:[],
         }
     },
     mounted() {
@@ -52,7 +57,7 @@ export default {
     watch: {
         state() {
             this.filterstates();
-        }
+        },
     },
     methods: {
         changevalue(value) {
@@ -69,16 +74,39 @@ export default {
         },
         checkfull(item) {
             axios.post('/api/konversisinglespk', { NoSPK: item.NOSPK }).then((response) => {
-                console.log(response.data.hasil);
+                this.errors = response.data.errors
                 if (response.data.hasil == 0) {
                     this.$swal({
-                        title: "Tidak ada komponen yang terdaftar dengan parameter SPK ini",
-                        icon: 'error'
-                    });
+                        icon: 'error',
+                        title: "error",
+                        text: 'Master ada yang salah',
+                        confirmButtonColor: '#FFFFFF',
+                        confirmButtonText: ' <p style="color: #0a58ca;"> Why i have This Error ?</p> ',
+                        showCloseButton: true,
+                        focusConfirm: false,
+                    })
+                        .then((result) => {
+                            if (result.isConfirmed) {
+                                var StringHTML = '<ul style="color: black;">'
+                                this.errors.forEach(element=>{
+                                    console.log(element)
+                                    StringHTML += '<li>'+element +'</li>'
+                                });
+                                StringHTML += '</ul>';
+                                this.$swal.fire({
+                                    title: '<strong><u>Alasan</u></strong>',
+                                    icon: 'info',
+                                    html:StringHTML,
+                                    showCloseButton: true,
+                                    showCancelButton: true,
+                                    focusConfirm: false,
+                                })
+                            }
+                        });
                 } else {
                     this.$router.push({
                         name: 'CheckFullDetail',
-                        params: { hasil: response.data.hasil}
+                        params: { hasil: response.data.hasil }
                     })
                 }
             });
@@ -94,7 +122,6 @@ export default {
             // this.getkode(this.state)
             this.getmaxvalue(this.state)
         },
-
     }
 }
 </script>
