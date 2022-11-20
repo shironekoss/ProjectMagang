@@ -147,7 +147,7 @@ class AdminController extends Controller
                         }
                     }
 
-                    if (count($data["parameter"]["newparameter"]) == 0) {
+                    if (count($item2["Parameter"]["NewParameter"]) == 0) {
                         $newparameterTerdaftar = true;
                     } else {
                         if (count($item2["Parameter"]["NewParameter"]) > 0) {
@@ -155,28 +155,28 @@ class AdminController extends Controller
                             foreach ($data["parameter"]["newparameter"] as $subnewparam) {
                                 foreach ($item2["Parameter"]["NewParameter"] as $databaseparam) {
                                     if (strtoupper($subnewparam["Newparam"] == strtoupper($databaseparam["Newparam"]))) {
-                                        $jumlahisicomponentspk = 0;
+                                        $isisama = false;
                                         foreach ($subnewparam["Component"] as $componentspk) {
                                             foreach ($databaseparam["Component"] as $componentdatabase) {
                                                 if (strtoupper($componentspk) == strtoupper($componentdatabase)) {
-                                                    $jumlahisicomponentspk++;
+                                                    $isisama = true;
                                                     break;
                                                 }
                                             }
-                                        }
-                                        if ($jumlahisicomponentspk == count($subnewparam["Component"])) {
-                                            $jumlahSPKnewparam++;
+                                            if ($isisama) {
+                                                $jumlahSPKnewparam++;
+                                                break;
+                                            }
                                         }
                                     }
                                 }
                             }
-                            if ($jumlahSPKnewparam == count($data["parameter"]["newparameter"])) {
+                            if ($jumlahSPKnewparam == count($item2["Parameter"]["NewParameter"])) {
                                 $newparameterTerdaftar = true;
                                 $errornewparam = false;
                             }
                         }
                     }
-
                     if ($ModelMobilterdaftar && $TinggiMobilterdaftar && $TipeMobilTerdaftar && $DepartemenTerdaftar && $StallTerdaftar && $newparameterTerdaftar) {
                         array_push($result, $item2["Kit"]);
                         $i++;
@@ -270,7 +270,7 @@ class AdminController extends Controller
                     break;
                 }
             }
-            if (count($data["parameter"]["newparameter"]) == 0) {
+            if (count($item2["Parameter"]["NewParameter"]) == 0) {
                 $newparameterTerdaftar = true;
             } else {
                 if (count($item2["Parameter"]["NewParameter"]) > 0) {
@@ -278,24 +278,25 @@ class AdminController extends Controller
                     foreach ($data["parameter"]["newparameter"] as $subnewparam) {
                         foreach ($item2["Parameter"]["NewParameter"] as $databaseparam) {
                             if (strtoupper($subnewparam["Newparam"] == strtoupper($databaseparam["Newparam"]))) {
-                                $jumlahisicomponentspk = 0;
+                                $isisama = false;
                                 foreach ($subnewparam["Component"] as $componentspk) {
                                     foreach ($databaseparam["Component"] as $componentdatabase) {
                                         if (strtoupper($componentspk) == strtoupper($componentdatabase)) {
-                                            $jumlahisicomponentspk++;
+                                            $isisama=true;
                                             break;
                                         }
                                     }
-                                }
-                                if ($jumlahisicomponentspk == count($subnewparam["Component"])) {
-                                    $jumlahSPKnewparam++;
+                                    if($isisama){
+                                        $jumlahSPKnewparam++;
+                                        break;
+                                    }
                                 }
                             }
                         }
                     }
-                    if ($jumlahSPKnewparam == count($data["parameter"]["newparameter"])) {
+                    if ($jumlahSPKnewparam == count($item2["Parameter"]["NewParameter"])) {
                         $newparameterTerdaftar = true;
-                        $parameterNewparamTerdaftar=true;
+                        $parameterNewparamTerdaftar = true;
                     }
                 }
             }
