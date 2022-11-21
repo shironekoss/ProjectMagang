@@ -1,15 +1,15 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import pinia from '../../Stores/Pinia'
-import {useAuth} from '../../Stores/Auth'
+import { useAuth } from '../../Stores/Auth'
 
 Vue.use(VueRouter)
 
 // cara1
 const Home = require('../components/Pages/Home/Home.vue').default
-const Login =require('../components/Credential/Login.vue').default
-const Profile =require('../components/Pages/Settings/Profile.vue').default
-const Register =require('../components/Pages/Register/Register.vue').default
+const Login = require('../components/Credential/Login.vue').default
+const Profile = require('../components/Pages/Settings/Profile.vue').default
+const Register = require('../components/Pages/Register/Register.vue').default
 const InputNoSPK = require('../components/Pages/InputNoSPK/InputSPKComponent.vue').default
 const DaftarSPK = require('../components/Pages/InputNoSPK/DaftarSPK.vue').default
 const Master = require('../components/Pages/Master/Master.vue').default
@@ -25,91 +25,97 @@ const CheckFullDetail = require('../components/Pages/Checkfull/CheckFullDetail.v
 // cara 2
 import NotFound from '../components/HandlingError/NotFound.vue'
 
-const route = [
+const routes = [
     {
-        name:'Home',
-        path:'/home',
+        name: 'Home',
+        path: '/home',
         component: Home
     },
     {
-        name:'Login',
-        path:'/login',
+        name: 'Login',
+        path: '/login',
         component: Login,
-        meta:{
-            authPage:true
+        meta: {
+            authPage: true
         }
     },
     {
-        name:'Register', // register user baru
-        path:'/user/create',
+        name: 'Register', // register user baru
+        path: '/user/create',
         component: Register,
     },
     {
-        name:'Profile',
-        path:'/user/:id',
+        name: 'Profile',
+        path: '/user/:id',
         component: Profile,
-        props:true
+        props: true
     },
     {
-        name:'InputNoSPK', // tidak dipakai
-        path:'/inputspk',
+        name: 'InputNoSPK', // tidak dipakai
+        path: '/inputspk',
         component: InputNoSPK
     },
     {
-        name:'DaftarSPK',
-        path:'/DaftarSPK',
+        name: 'DaftarSPK',
+        path: '/DaftarSPK',
         component: DaftarSPK
     },
     {
-        name:'Master',
-        path:'/Master',
+        name: 'Master',
+        path: '/Master',
         component: Master
     },
     {
-        name:'MasterEdit',
-        path:'/Master/:id',
+        name: 'MasterEdit',
+        path: '/Master/:id',
         component: EditMaster,
-        props:true
+        props: true
     },
     {
-        name:'MasterList',
-        path:'/Masterlist',
+        name: 'MasterList',
+        path: '/Masterlist',
         component: MasterList
     },
     {
-        name:'Inputadmin', // generate komponen dari KodeSPK
-        path:'/inputadmin',
+        name: 'Inputadmin', // generate komponen dari KodeSPK
+        path: '/inputadmin',
         component: inputadmin
     },
     {
-        name:'History', // history input admin
-        path:'/history',
+        name: 'History', // history input admin
+        path: '/history',
         component: history
     },
     {
-        name:'Cekresult', // belum tahu
-        path:'/Cekresult',
+        name: 'Cekresult', // belum tahu
+        path: '/Cekresult',
         component: Cekresult
     },
     {
-        name:'CheckFull', // manajemen user dan departemen
-        path:'/CheckFull',
+        name: 'CheckresultSingleHistory',
+        path: '/Cekresult/:name',
+        component: Cekresult,
+        props: true
+    },
+    {
+        name: 'CheckFull', // manajemen user dan departemen
+        path: '/CheckFull',
         component: CheckFull
     },
     {
-        name:'CheckFullDetail', // manajemen user dan departemen
-        path:'/CheckFull/:nospk',
+        name: 'CheckFullDetail', // manajemen user dan departemen
+        path: '/CheckFull/:nospk',
         component: CheckFullDetail,
-        props:true
+        props: true
     },
     {
-        name:'Settings', // manajemen user dan departemen
-        path:'/Settings',
+        name: 'Settings', // manajemen user dan departemen
+        path: '/Settings',
         component: Settings
     },
     {
-        path:'*',
-        component:NotFound
+        path: '*',
+        component: NotFound
     }
 ]
 
@@ -117,8 +123,8 @@ const route = [
 
 const router = new VueRouter({
     linkActiveClass: 'active',
-    mode:'history',
-    routes:route
+    mode: 'history',
+    routes: routes
 })
 
 

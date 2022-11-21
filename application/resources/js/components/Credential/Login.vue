@@ -4,12 +4,13 @@
             <!-- <transition name="fade">
                 <div v-if="!registerActive" class="wallpaper-login"></div>
             </transition> -->
-            <div class="wallpaper-register"></div>
+            <!-- <div class="wallpaper-register"></div> -->
             <div class="container">
                 <div class="row">
                     <div class="col-lg-4 col-md-6 col-sm-8 mx-auto">
                         <!-- <div v-if="!registerActive" class="card login" v-bind:class="{ error: emptyFields }"> -->
-                        <h1>Sign In <font-awesome-icon icon="fa-solid fa-right-to-line" /></h1>
+                        <!-- <h1>Sign In <font-awesome-icon icon="fa-solid fa-right-to-line" /></h1> -->
+                        <h1>Sign In</h1>
                         <form class="form-group" @submit.prevent="Login">
                             <input v-model="user.username" type="text" class="form-control" placeholder="Username"
                                 required>
@@ -45,9 +46,9 @@
 </template>
 <script setup>
 import { reactive } from 'vue';
-import { useAuth } from '../../../Stores/Auth';
-import router from '../../router/route';
+import { useAuth } from '../../../Stores/Auth'
 import Swal from 'sweetalert2'
+let self = this
 
 const Auth = useAuth();
 const user = reactive({
@@ -57,7 +58,6 @@ const user = reactive({
 
 const Login = async () => {
     await Auth.Login(user);
-    console.log(Auth.user);
     if (Auth.user == null) {
         Swal.fire({
             icon: 'error',
@@ -66,7 +66,7 @@ const Login = async () => {
         })
     }
     else {
-        router.push({ name: 'Setting' });
+        self.$router.push({name: "Home"})
     }
 }
 //

@@ -1,160 +1,112 @@
 <template>
-    <v-app>
-         <v-data-table
-        :headers="headers"
-        :items="desserts"
-        item-key="name"
-        class="elevation-1"
-        :search="search"
-        :custom-filter="filterOnlyCapsText"
-      >
-        <template v-slot:top>
-          <v-text-field
-            v-model="search"
-            label="Search (UPPER CASE ONLY)"
-            class="mx-4"
-          ></v-text-field>
-        </template>
-        <template v-slot:body.append>
-          <tr>
-            <td></td>
-            <td>
-              <v-text-field
-                v-model="calories"
-                type="number"
-                label="Less than"
-              ></v-text-field>
-            </td>
-            <td colspan="4"></td>
-          </tr>
-        </template>
-      </v-data-table>
-    </v-app>
-
-  </template>
+    <div>
+        <v-app>
+            <div style=" position: absolute; inset: 0; z-index: 0;" @click="modal = false"></div>
+            <div v-if="datatable">
+                <v-data-table dense :headers="headerstable" :items="datatable" :items-per-page="30"
+                    class="elevation-1 font-weight-bold">
+                    <template v-slot:top>
+                        <v-toolbar flat>
+                            <v-toolbar-title>History</v-toolbar-title>
+                        </v-toolbar>
+                    </template>
+                    <template v-slot:item.actions="{ item }">
+                        <v-row dense>
+                            <v-col cols="12" sm="6" md="5" style="float: left;">
+                                <div style="display: flex;">
+                                    <v-btn depressed color="orange" @click="pindahhistory(item)">Cek
+                                        <font-awesome-icon icon="fa-solid fa-gears" style="margin-left: 5px;" />
+                                    </v-btn>
+                                </div>
+                            </v-col>
+                        </v-row>
+                    </template>
+                </v-data-table>
+            </div>
+        </v-app>
+    </div>
+</template>
 
 <script>
-    export default {
-      data () {
+import axios from 'axios'
+import ConvertTime from '../../../Helper/ConvertTime'
+import Loading from '../../Global/Loading.vue'
+export default {
+    mixins: [ConvertTime],
+    components: { Loading },
+    data() {
         return {
-          search: '',
-          calories: '',
-          desserts: [
-            {
-              name: 'Frozen Yogurt',
-              calories: 159,
-              fat: 6.0,
-              carbs: 24,
-              protein: 4.0,
-              iron: '1%',
-            },
-            {
-              name: 'Ice cream sandwich',
-              calories: 237,
-              fat: 9.0,
-              carbs: 37,
-              protein: 4.3,
-              iron: '1%',
-            },
-            {
-              name: 'Eclair',
-              calories: 262,
-              fat: 16.0,
-              carbs: 23,
-              protein: 6.0,
-              iron: '7%',
-            },
-            {
-              name: 'Cupcake',
-              calories: 305,
-              fat: 3.7,
-              carbs: 67,
-              protein: 4.3,
-              iron: '8%',
-            },
-            {
-              name: 'Gingerbread',
-              calories: 356,
-              fat: 16.0,
-              carbs: 49,
-              protein: 3.9,
-              iron: '16%',
-            },
-            {
-              name: 'Jelly bean',
-              calories: 375,
-              fat: 0.0,
-              carbs: 94,
-              protein: 0.0,
-              iron: '0%',
-            },
-            {
-              name: 'Lollipop',
-              calories: 392,
-              fat: 0.2,
-              carbs: 98,
-              protein: 0,
-              iron: '2%',
-            },
-            {
-              name: 'Honeycomb',
-              calories: 408,
-              fat: 3.2,
-              carbs: 87,
-              protein: 6.5,
-              iron: '45%',
-            },
-            {
-              name: 'Donut',
-              calories: 452,
-              fat: 25.0,
-              carbs: 51,
-              protein: 4.9,
-              iron: '22%',
-            },
-            {
-              name: 'KitKat',
-              calories: 518,
-              fat: 26.0,
-              carbs: 65,
-              protein: 7,
-              iron: '6%',
-            },
-          ],
+            listspk: [],
+            datatable: [],
+            headerstable: [
+                {
+                    text: 'Nomor SPK',
+                    align: 'start',
+                    sortable: false,
+                    value: 'NOSPK',
+                    class: "title text-uppercase font-weight-black black--text light-blue lighten-5"
+                },
+                { text: 'Nama Stall', value: 'namastall', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Stall', value: 'stall', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Departemen', value: 'Departemen', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Status', value: 'status', width: '150px', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Waktu Update Terakhir', width: '250px', value: 'updated_at', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Action', value: 'actions', width: '300px', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+            ],
         }
-      },
-      computed: {
-        headers () {
-          return [
-            {
-              text: 'Dessert (100g serving)',
-              align: 'start',
-              sortable: false,
-              value: 'name',
-            },
-            {
-              text: 'Calories',
-              value: 'calories',
-              filter: value => {
-                if (!this.calories) return true
-
-                return value < parseInt(this.calories)
-              },
-            },
-            { text: 'Fat (g)', value: 'fat' },
-            { text: 'Carbs (g)', value: 'carbs' },
-            { text: 'Protein (g)', value: 'protein' },
-            { text: 'Iron (%)', value: 'iron' },
-          ]
+    },
+    mounted() {
+        this.getdatatable()
+    },
+    watch: {
+        state() {
+            this.filterstates();
         },
-      },
-      methods: {
-        filterOnlyCapsText (value, search, item) {
-          return value != null &&
-            search != null &&
-            typeof value === 'string' &&
-            value.toString().toLocaleUpperCase().indexOf(search) !== -1
+        SPKfield: function () {
+            if (this.SPKfield == "STOCK") {
+                this.Changemode = "text"
+                this.disabledepartemen = true
+                this.disablenamastall = true
+                this.Placeholdertext = "Masukkan Nama Stall"
+                this.stall = ""
+                this.NamaStall = "STOCK"
+                this.Departemen = "STOCK"
+            }
+            else {
+                this.stall = ""
+                this.disabledepartemen = false
+                this.disablenamastall = false
+                this.Changemode = "number"
+                this.Departemen = ""
+                this.NamaStall = ""
+            }
         },
-      },
+        TempStall: function () {
+            this.NamaStall = this.TempStall.Namastall
+            this.max = this.TempStall.Jumlahstall
+        }
+    },
+    methods: {
+        async getdatatable() {
+            await axios.get('/api/getdatatablehistory').then((response) => {
+                this.datatable = []
+                this.datatable = response.data.reverse()
+                this.datatable.forEach(element => {
+                    element["updated_at"] = this.converttime(element["updated_at"])
+                });
+            })
+        },
+        pindahhistory(item) {
+            console.log(item)
+            this.$router.push({
+                name: 'CheckresultSingleHistory',
+                params: { name: item.NOSPK,
+                        data }
+            })
+        },
     }
-  </script>
+}
+</script>
+<style>
+
+</style>

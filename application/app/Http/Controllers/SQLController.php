@@ -107,7 +107,7 @@ class SQLController extends Controller
     {
         try {
             $this->resetdata();
-            $datas = DB::connection('sqlsrv')->table('SURATPERINTAHKERJA')
+            $datas = DB::connection('sqlsrv')->table('SURATPERINTAHKERJAMINIbus')
                 ->join('SPECIFICATION', 'SPECIFICATION.SPK Number', '=', 'SURATPERINTAHKERJA.SPK Number')
                 ->get();
             foreach ($datas as $data) {
@@ -121,7 +121,7 @@ class SQLController extends Controller
                                 "TipeMobil" => trim($data->{'Type'}),
                                 "TinggiMobil" => trim($data->{'User Defined Description'}),
                                 "newparameter" =>  [],
-                            ]
+                            ],
                         ]);
                     } else {
                         $newdata = SPK::create([

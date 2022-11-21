@@ -63,11 +63,9 @@ Route::get('listmaster',[MasterController::class,'listmaster']);
 Route::delete('hapusmaster{id}',[MasterController::class,'hapusmaster']);
 Route::get('master/{id}',[MasterController::class,'carimaster']);
 
-
-
-
 Route::get('listspkshow',[AdminController::class,'getdataspk']);
 Route::get('getdatatable',[AdminController::class,'getdatatable']);
+Route::get('getdatatablehistory',[AdminController::class,'getdatatablehistory']);
 Route::post('getkode',[AdminController::class,'getkode']);
 Route::post('ambilmax',[AdminController::class,'ambilmax']);
 Route::post('admintambahspk',[AdminController::class,'admintambahspk']);

@@ -76,6 +76,7 @@ class SettingsController extends Controller
         ]);
     }
 
+
     public function adddepartemen(Request $request)
     {
         try {

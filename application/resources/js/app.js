@@ -84,11 +84,8 @@ Vue.use(VueHtmlToPaper, options);
 const app = new Vue({
     vuetify: Vuetify,
     el: '#app',
-    // data: {
-    //     title: 'Rancangan Program SPK'
-    // },
     pinia,
     router,
-});
+}).$mount('#app');
 
 
