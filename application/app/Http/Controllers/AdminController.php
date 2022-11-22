@@ -21,7 +21,7 @@ class AdminController extends Controller
     }
     public function getdatatable()
     {
-        $listdata = SavedConversionResult::where('status','!=','berhasil')->get();
+        $listdata = SavedConversionResult::all();
         return $listdata;
     }
     public function getdatatablehistory()

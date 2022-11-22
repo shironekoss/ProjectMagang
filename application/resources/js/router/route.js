@@ -19,7 +19,6 @@ const EditMaster = require('../components/Pages/Master/Masteredit.vue').default
 const inputadmin = require('../components/Pages/InputComponent/inputtemp.vue').default
 const history = require('../components/Pages/InputComponent/History.vue').default
 const Cekresult = require('../components/Pages/InputComponent/ShowResultComponent.vue').default
-const CekresultSingle = require('../components/Pages/InputComponent/ShowResultSingle.vue').default
 const Settings = require('../components/Pages/Settings/Settings.vue').default
 const CheckFull = require('../components/Pages/Checkfull/CheckFull.vue').default
 const CheckFullDetail = require('../components/Pages/Checkfull/CheckFullDetail.vue').default
@@ -95,7 +94,7 @@ const routes = [
     {
         name: 'CheckresultSingleHistory',
         path: '/Cekresult/:name',
-        component: CekresultSingle,
+        component: Cekresult,
         props: true
     },
     {

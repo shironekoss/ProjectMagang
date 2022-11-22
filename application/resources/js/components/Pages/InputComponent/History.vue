@@ -101,7 +101,7 @@ export default {
             this.$router.push({
                 name: 'CheckresultSingleHistory',
                 params: { name: item.NOSPK,
-                        data :item.kit}
+                        data }
             })
         },
     }
