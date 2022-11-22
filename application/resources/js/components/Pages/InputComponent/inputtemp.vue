@@ -394,7 +394,7 @@ export default {
                     if (response.data.status == 200) {
                         this.$router.push({
                             name: 'Cekresult',
-                            params: { data: response.data }
+                                
                         })
                     }
 
