@@ -10,7 +10,6 @@ Vue.use(VueRouter)
 // cara1
 const Login = require('../components/Credential/Logintemp.vue').default
 const Profile = require('../components/Pages/Settings/Profile.vue').default
-const Register = require('../components/Pages/Register/Register.vue').default
 const InputNoSPK = require('../components/Pages/InputNoSPK/InputSPKComponent.vue').default
 const DaftarSPK = require('../components/Pages/InputNoSPK/DaftarSPK.vue').default
 const Master = require('../components/Pages/Master/Master.vue').default
@@ -39,78 +38,117 @@ const routes = [
     {
         name: 'Register', // register user baru
         path: '/user/create',
-        component: Register,
+        component: () => import("../components/Pages/Register/Register.vue"),
+        meta: {
+            guestPageAccess: false
+        }
     },
     {
         name: 'Profile',
         path: '/user/:id',
         component: Profile,
-        props: true
+        props: true,
+        meta: {
+            guestPageAccess: false
+        }
     },
     {
         name: 'InputNoSPK', // tidak dipakai
         path: '/inputspk',
-        component: InputNoSPK
+        component: InputNoSPK,
+        meta: {
+            guestPageAccess: false
+        }
     },
     {
         name: 'DaftarSPK',
         path: '/DaftarSPK',
-        component: DaftarSPK
+        component: DaftarSPK,
+        meta: {
+            guestPageAccess: false
+        }
     },
     {
         name: 'Master',
         path: '/Master',
-        component: Master
+        component: Master,
+        meta: {
+            guestPageAccess: false
+        }
     },
     {
         name: 'MasterEdit',
         path: '/Master/:id',
         component: EditMaster,
-        props: true
+        props: true,
+        meta: {
+            guestPageAccess: false
+        }
     },
     {
         name: 'MasterList',
         path: '/Masterlist',
-        component: MasterList
+        component: MasterList,
+        meta: {
+            guestPageAccess: false
+        }
     },
     {
         name: 'Inputadmin', // generate komponen dari KodeSPK
         path: '/inputadmin',
-        component: inputadmin
+        component: inputadmin,
+        meta: {
+            guestPageAccess: false
+        }
     },
     {
         name: 'History', // history input admin
         path: '/history',
-        component: history
+        component: history,
+        meta: {
+            guestPageAccess: false
+        }
     },
     {
         name: 'Cekresult', // belum tahu
         path: '/Cekresult',
-        component: Cekresult
+        component: Cekresult,
+        meta: {
+            guestPageAccess: false
+        }
     },
     {
         name: 'CheckresultSingleHistory',
         path: '/Cekresult/:name',
         component: CekresultSingle,
-        props: true
+        props: true,
+        meta: {
+            guestPageAccess: false
+        }
     },
     {
         name: 'CheckFull', // manajemen user dan departemen
         path: '/CheckFull',
-        component: CheckFull
+        component: CheckFull,
+        meta: {
+            guestPageAccess: false
+        }
     },
     {
         name: 'CheckFullDetail', // manajemen user dan departemen
         path: '/CheckFull/:nospk',
         component: CheckFullDetail,
-        props: true
+        props: true,
+        meta: {
+            guestPageAccess: false
+        }
     },
     {
         name: 'Settings', // manajemen user dan departemen
         path: '/Settings',
         component: Settings,
         meta:{
-            requireAuth:true
+            guestPageAccess: false
         }
     },
     {
@@ -140,13 +178,11 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
     // ...
     // explicitly return false to cancel the navigation
-    console.log("hai")
-    const store = useAuth(pinia);
-
-    if (to.meta.requireAuth) {
-         store.getUser();
-        console.log(store.user)
-        if (authStore.user) {
+    const store = useAuth();
+    // console.log(store.user.account_privileges)
+    if (!to.meta.guestPageAccess) {
+        store.getUser();
+        if (store.user) {
             next()
         } else {
             next({

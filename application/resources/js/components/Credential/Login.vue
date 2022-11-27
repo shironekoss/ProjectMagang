@@ -58,61 +58,6 @@ export default {
         },
     }
 }
-// let self = this
-
-// const Auth = useAuth();
-// const user = reactive({
-//     username: '',
-//     password: '',
-// });
-
-// const Login = async () => {
-//     await Auth.Login(user);
-//     if (Auth.user == null) {
-//         Swal.fire({
-//             icon: 'error',
-//             title: 'Oops...',
-//             text: 'Periksa kembali username dan password anda',
-//         })
-//     }
-//     else {
-//         this.$router.push({ name: 'Home' })
-//     }
-// }
-//
-// export default {
-//     data() {
-//         return {
-//             registerActive: false,
-//             emailReg: "",
-//             passwordReg: "",
-//             confirmReg: "",
-//             emptyFields: false
-//         }
-//     },
-//     methods: {
-//         async doLogin() {
-//             // if (this.usernameLogin === "" || this.passwordLogin === "") {
-//             //     this.emptyFields = true;
-//             // } else {
-
-//             //     const{data}=await axios.post('/api/login', {username:this.usernameLogin,password:this.passwordLogin},{withCredentials:true}).then((response) => {
-
-//             //     });
-//             //     axios.defaults.headers.common['Authorization'] = `Bearer $`
-//             //     alert("You are now logged in");
-//             // }
-//         },
-
-//         // doRegister() {
-//         //     if (this.emailReg === "" || this.passwordReg === "" || this.confirmReg === "") {
-//         //         this.emptyFields = true;
-//         //     } else {
-//         //         alert("You are now registered");
-//         //     }
-//         // }
-//     }
-// }
 </script>
 
 <style lang="scss">

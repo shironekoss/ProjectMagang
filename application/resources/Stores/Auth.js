@@ -19,7 +19,6 @@ export const useAuth = defineStore("auth", {
             this.authErrors = [];
             try {
                 await axios.post('/api/login', data).then((response) => {
-                    console.log(response.data[0])
                     if (response.data[0] == null) {
                         this.authuser = null
                     }
