@@ -21,7 +21,7 @@
         <header-component></header-component>
         {{-- <h3 v-text=" title "></h3> --}}
         <router-view></router-view>
-        <footer-component></footer-component>
+        {{-- <footer-component></footer-component> --}}
     </div>
 <script src="{{ asset('js/app.js') }}"></script>
     <script src="https://unpkg.com/vue"></script>

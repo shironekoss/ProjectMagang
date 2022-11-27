@@ -67,7 +67,7 @@ class AdminController extends Controller
 
     public function konversikomponen()
     {
-        $saved = SavedConversionResult::all();
+        $saved = SavedConversionResult::where('status','!=','berhasil')->get();
         $master = Master::all();
         $messages = [];
         $results = [];

@@ -497,7 +497,7 @@ export default {
                         }
                     } else if (response.data.statuscode == 400) {
                         this.$swal({
-                            title: 'Kode Kit ' + this.InputKodeKit + ' ' + response.data.message,
+                            title: 'Kode Kit ' + this.InputKodeKit + ' ' + response.data.message +' silahkan tekan tombol tarik data spk ',
                             icon: 'error'
                         });
                     }

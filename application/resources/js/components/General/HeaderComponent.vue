@@ -5,13 +5,8 @@
             <template v-slot:img="{ props }">
                 <v-img v-bind="props" gradient="to top right, rgba(19,84,122,.5), rgba(128,208,199,.8)"></v-img>
             </template>
-                <v-toolbar-title>Program SPK</v-toolbar-title>
+            <v-toolbar-title>Program SPK</v-toolbar-title>
             <v-spacer></v-spacer>
-            <router-link :to="{ name: 'Login' }">
-                <v-btn>
-                    Login
-                </v-btn>
-            </router-link>
             <router-link :to="{ name: 'Inputadmin' }">
                 <v-btn>
                     Input
@@ -21,8 +16,8 @@
                 <v-btn>
                     master
                 </v-btn>
-             </router-link>
-             <router-link :to="{ name: 'CheckFull' }">
+            </router-link>
+            <router-link :to="{ name: 'CheckFull' }">
                 <v-btn>
                     Check Full
                 </v-btn>
@@ -32,6 +27,18 @@
                     Settings
                 </v-btn>
             </router-link>
+            <div>
+                <router-link :to="{ name: 'Login' }">
+                    <v-btn>
+                        Login
+                    </v-btn>
+                </router-link>
+            </div>
+
+            <v-btn>
+                Logout
+            </v-btn>
+
 
 
         </v-app-bar>
@@ -56,3 +63,5 @@
 
 @import'../../../sass/Component/Header.scss';
 </style>
+
+

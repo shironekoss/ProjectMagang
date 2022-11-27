@@ -1,13 +1,14 @@
-import Vue from 'vue'
+
+import Vue from 'vue';
+import pinia from '../../Stores/Pinia';
+
 import VueRouter from 'vue-router'
-import pinia from '../../Stores/Pinia'
 import { useAuth } from '../../Stores/Auth'
 
 Vue.use(VueRouter)
 
 // cara1
-const Home = require('../components/Pages/Home/Home.vue').default
-const Login = require('../components/Credential/Login.vue').default
+const Login = require('../components/Credential/Logintemp.vue').default
 const Profile = require('../components/Pages/Settings/Profile.vue').default
 const Register = require('../components/Pages/Register/Register.vue').default
 const InputNoSPK = require('../components/Pages/InputNoSPK/InputSPKComponent.vue').default
@@ -29,15 +30,10 @@ import NotFound from '../components/HandlingError/NotFound.vue'
 const routes = [
     {
         name: 'Home',
-        path: '/home',
-        component: Home
-    },
-    {
-        name: 'Login',
-        path: '/login',
-        component: Login,
+        path: '/',
+        component: () => import("../components/Pages/Home/Home.vue"),
         meta: {
-            authPage: true
+            guestPageAccess: true
         }
     },
     {
@@ -112,7 +108,18 @@ const routes = [
     {
         name: 'Settings', // manajemen user dan departemen
         path: '/Settings',
-        component: Settings
+        component: Settings,
+        meta:{
+            requireAuth:true
+        }
+    },
+    {
+        name: 'Login',
+        path: '/login',
+        component: Login,
+        meta: {
+            guestPageAccess: true
+        }
     },
     {
         path: '*',
@@ -120,39 +127,48 @@ const routes = [
     }
 ]
 
-
-
 const router = new VueRouter({
     linkActiveClass: 'active',
     mode: 'history',
     routes: routes
 })
 
-
-// router.beforeEach((to)=>{
-//     const user = useAuth();
-//     console.log(user)
+// router.beforeEach( (to, from, next) => {
+//     const userStore = useAuth()
 // })
 
+router.beforeEach((to, from, next) => {
+    // ...
+    // explicitly return false to cancel the navigation
+    console.log("hai")
+    const store = useAuth(pinia);
 
-// router.beforeEach(async(to, from, next)=>{
-//     // if(to.meta.requireAuth){
-//     //     const auth = useAuth(pinia);
-//     //     // const user = await auth.getuser();
-//     //     console.log(auth);
-//     //     next();
-//     //     // if(auth.user){
-//     //     //     next()
-//     //     // }else{
-//     //     //     next({
-//     //     //         name:'Login'
-//     //     //     })
-//     //     // }
-//     // }
-//     // // if(to.meta.authPage){
-//     // //     const auth = useAuth();
-//     // //     await auth.getuser()
-//     // // }
+    if (to.meta.requireAuth) {
+         store.getUser();
+        console.log(store.user)
+        if (authStore.user) {
+            next()
+        } else {
+            next({
+                name: 'Login'
+            })
+        }
+    }
+    next()
+})
+
+// router.beforeEach((to, from, next) => {
+//     // we wanted to use the store here
+//     if (store.isLoggedIn) next()
+//     else next('/login')
+// })
+
+// router.beforeEach((to) => {
+//     // ✅ This will work because the router starts its navigation after
+//     // the router is installed and pinia will be installed too
+//     const store = useAuth();
+
+//     // if (to.meta.requiresAuth && !store.isLoggedIn) return '/login'
 // })
 
 export default router

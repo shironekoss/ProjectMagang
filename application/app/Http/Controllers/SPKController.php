@@ -54,21 +54,6 @@ class SPKController extends Controller
 
     public function tambahSPK(Request $request)
     {
-
-        // $validated = $request->validate([
-        //     'NoSPK' => 'required|min:5|max:20|unique:App\Models\Account,account_username',
-        //     'Nama' => 'required',
-        //     'Alamat' => 'required',
-        //     'TanggalPenerimaan' => 'required',
-        //     'TanggalSPK' => 'required',
-        //     'Status' => 'required',
-        //     'Mobil.Merk' => 'required',
-        //     'Mobil.Type_model' => 'required',
-        //     'Mobil.Year' => 'required',
-        //     'Mobil.NoSeries' => 'required',
-        //     'Mobil.NoRangka' => 'required',
-
-        // ]);
         $newmobil = SPK::create([
             "NoSPK" => $request->NoSPK,
             "Nama" => $request->Nama,
