@@ -8,23 +8,8 @@ import { useAuth } from '../../Stores/Auth'
 Vue.use(VueRouter)
 
 // cara1
-const Login = require('../components/Credential/Logintemp.vue').default
-const Profile = require('../components/Pages/Settings/Profile.vue').default
-const InputNoSPK = require('../components/Pages/InputNoSPK/InputSPKComponent.vue').default
-const DaftarSPK = require('../components/Pages/InputNoSPK/DaftarSPK.vue').default
-const Master = require('../components/Pages/Master/Master.vue').default
-const MasterList = require('../components/Pages/Master/MasterMenu.vue').default
-const EditMaster = require('../components/Pages/Master/Masteredit.vue').default
+// const DaftarSPK = require('../components/Pages/InputNoSPK/DaftarSPK.vue').default
 // const inputadmin = require('../components/Pages/InputComponent/input.vue').default
-const inputadmin = require('../components/Pages/InputComponent/inputtemp.vue').default
-const history = require('../components/Pages/InputComponent/History.vue').default
-const Cekresult = require('../components/Pages/InputComponent/ShowResultComponent.vue').default
-const CekresultSingle = require('../components/Pages/InputComponent/ShowResultSingle.vue').default
-const Settings = require('../components/Pages/Settings/Settings.vue').default
-const CheckFull = require('../components/Pages/Checkfull/CheckFull.vue').default
-const CheckFullDetail = require('../components/Pages/Checkfull/CheckFullDetail.vue').default
-// cara 2
-import NotFound from '../components/HandlingError/NotFound.vue'
 
 const routes = [
     {
@@ -32,7 +17,7 @@ const routes = [
         path: '/',
         component: () => import("../components/Pages/Home/Home.vue"),
         meta: {
-            guestPageAccess: true
+            guestPageAccess: true,
         }
     },
     {
@@ -40,128 +25,126 @@ const routes = [
         path: '/user/create',
         component: () => import("../components/Pages/Register/Register.vue"),
         meta: {
-            guestPageAccess: false
+            guestPageAccess: false,
+            levelAccess: 'Super Admin Role'
         }
     },
     {
         name: 'Profile',
         path: '/user/:id',
-        component: Profile,
+         component: () => import("../components/Pages/Settings/Profile.vue"),
         props: true,
         meta: {
-            guestPageAccess: false
-        }
-    },
-    {
-        name: 'InputNoSPK', // tidak dipakai
-        path: '/inputspk',
-        component: InputNoSPK,
-        meta: {
-            guestPageAccess: false
-        }
-    },
-    {
-        name: 'DaftarSPK',
-        path: '/DaftarSPK',
-        component: DaftarSPK,
-        meta: {
-            guestPageAccess: false
+            guestPageAccess: false,
+            levelAccess: 'Admin Role'
         }
     },
     {
         name: 'Master',
         path: '/Master',
-        component: Master,
+        component: () => import("../components/Pages/Master/Master.vue"),
         meta: {
-            guestPageAccess: false
+            guestPageAccess: false,
+            levelAccess: 'Super Admin Role'
         }
     },
     {
         name: 'MasterEdit',
         path: '/Master/:id',
-        component: EditMaster,
+        component: () => import("../components/Pages/Master/Masteredit.vue"),
         props: true,
         meta: {
-            guestPageAccess: false
+            guestPageAccess: false,
+            levelAccess: 'Super Admin Role'
         }
     },
     {
         name: 'MasterList',
         path: '/Masterlist',
-        component: MasterList,
+        component: () => import("../components/Pages/Master/MasterMenu.vue"),
         meta: {
-            guestPageAccess: false
+            guestPageAccess: false,
+            levelAccess: 'Super Admin Role'
         }
     },
     {
         name: 'Inputadmin', // generate komponen dari KodeSPK
         path: '/inputadmin',
-        component: inputadmin,
+        component: () => import("../components/Pages/InputComponent/inputAdmin.vue"),
         meta: {
-            guestPageAccess: false
+            guestPageAccess: false,
+            levelAccess: 'Admin Role'
         }
     },
     {
         name: 'History', // history input admin
         path: '/history',
-        component: history,
+        component: () => import("../components/Pages/InputComponent/History.vue"),
         meta: {
-            guestPageAccess: false
+            guestPageAccess: false,
+            levelAccess: 'Admin Role'
         }
     },
     {
         name: 'Cekresult', // belum tahu
         path: '/Cekresult',
-        component: Cekresult,
+        component: () => import("../components/Pages/InputComponent/ShowResultComponent.vue"),
         meta: {
-            guestPageAccess: false
+            guestPageAccess: false,
+            levelAccess: 'Super Admin Role'
         }
     },
     {
         name: 'CheckresultSingleHistory',
         path: '/Cekresult/:name',
-        component: CekresultSingle,
+        component: () => import("../components/Pages/InputComponent/ShowResultSingle.vue"),
         props: true,
         meta: {
-            guestPageAccess: false
+            guestPageAccess: false,
+            levelAccess: 'Super Admin Role'
         }
     },
     {
         name: 'CheckFull', // manajemen user dan departemen
         path: '/CheckFull',
-        component: CheckFull,
+        component: () => import("../components/Pages/Checkfull/CheckFull.vue"),
         meta: {
-            guestPageAccess: false
+            guestPageAccess: false,
+            levelAccess: 'Super Admin Role'
         }
     },
     {
         name: 'CheckFullDetail', // manajemen user dan departemen
         path: '/CheckFull/:nospk',
-        component: CheckFullDetail,
+        component: () => import("../components/Pages/Checkfull/CheckFullDetail.vue"),
         props: true,
         meta: {
-            guestPageAccess: false
+            guestPageAccess: false,
+            levelAccess: 'Super Admin Role'
         }
     },
     {
         name: 'Settings', // manajemen user dan departemen
         path: '/Settings',
-        component: Settings,
+        component: () => import("../components/Pages/Settings/Settings.vue"),
         meta:{
-            guestPageAccess: false
+            guestPageAccess: false,
+            levelAccess: 'Super Admin Role'
         }
     },
     {
         name: 'Login',
         path: '/login',
-        component: Login,
+        component: () => import("../components/Credential/Logintemp.vue"),
         meta: {
             guestPageAccess: true
         }
     },
     {
+        name: 'NotFound',
         path: '*',
-        component: NotFound
+        component: () => import("../components/HandlingError/NotFound.vue"),
+
     }
 ]
 
@@ -182,8 +165,18 @@ router.beforeEach((to, from, next) => {
     // console.log(store.user.account_privileges)
     if (!to.meta.guestPageAccess) {
         store.getUser();
+        console.log(store.user.account_privileges.title)
         if (store.user) {
-            next()
+            if(store.user.account_privileges.title="Super Admin Role"){
+                next()
+            }
+            else if (store.user.account_privileges.title="Admin Role" && to.meta.levelAccess=="Admin Role"){
+                next()
+            }else{
+                next({
+                    name: 'NotFound'
+                })
+            }
         } else {
             next({
                 name: 'Login'

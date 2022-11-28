@@ -48,8 +48,6 @@
                         Logout
                     </v-btn>
                 </div>
-
-
             </div>
             <div v-else>
                 <router-link :to="{ name: 'Login' }">
