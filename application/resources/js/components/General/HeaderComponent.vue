@@ -44,6 +44,21 @@
                             Input
                         </v-btn>
                     </router-link>
+                    <router-link :to="{ name: 'MasterList' }">
+                        <v-btn>
+                            master
+                        </v-btn>
+                    </router-link>
+                    <v-btn @click.prevent="Logout">
+                        Logout
+                    </v-btn>
+                </div>
+                <div v-else-if="authStore.user.account_privileges.title == 'Staff Role'">
+                    <router-link :to="{ name: 'Inputadmin' }">
+                        <v-btn>
+                            Input
+                        </v-btn>
+                    </router-link>
                     <v-btn @click.prevent="Logout">
                         Logout
                     </v-btn>

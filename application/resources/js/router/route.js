@@ -32,7 +32,7 @@ const routes = [
     {
         name: 'Profile',
         path: '/user/:id',
-         component: () => import("../components/Pages/Settings/Profile.vue"),
+        component: () => import("../components/Pages/Settings/Profile.vue"),
         props: true,
         meta: {
             guestPageAccess: false,
@@ -45,7 +45,7 @@ const routes = [
         component: () => import("../components/Pages/Master/Master.vue"),
         meta: {
             guestPageAccess: false,
-            levelAccess: 'Super Admin Role'
+            levelAccess: 'Admin Role'
         }
     },
     {
@@ -55,7 +55,7 @@ const routes = [
         props: true,
         meta: {
             guestPageAccess: false,
-            levelAccess: 'Super Admin Role'
+            levelAccess: 'Admin Role'
         }
     },
     {
@@ -73,7 +73,7 @@ const routes = [
         component: () => import("../components/Pages/InputComponent/inputAdmin.vue"),
         meta: {
             guestPageAccess: false,
-            levelAccess: 'Admin Role'
+            levelAccess: 'Staff Role'
         }
     },
     {
@@ -82,7 +82,7 @@ const routes = [
         component: () => import("../components/Pages/InputComponent/History.vue"),
         meta: {
             guestPageAccess: false,
-            levelAccess: 'Admin Role'
+            levelAccess: 'Staff Role'
         }
     },
     {
@@ -91,7 +91,7 @@ const routes = [
         component: () => import("../components/Pages/InputComponent/ShowResultComponent.vue"),
         meta: {
             guestPageAccess: false,
-            levelAccess: 'Super Admin Role'
+            levelAccess: 'Staff Role'
         }
     },
     {
@@ -127,7 +127,7 @@ const routes = [
         name: 'Settings', // manajemen user dan departemen
         path: '/Settings',
         component: () => import("../components/Pages/Settings/Settings.vue"),
-        meta:{
+        meta: {
             guestPageAccess: false,
             levelAccess: 'Super Admin Role'
         }
@@ -165,14 +165,25 @@ router.beforeEach((to, from, next) => {
     // console.log(store.user.account_privileges)
     if (!to.meta.guestPageAccess) {
         store.getUser();
-        console.log(store.user.account_privileges.title)
+        console.log(store.user.title)
         if (store.user) {
-            if(store.user.account_privileges.title="Super Admin Role"){
+            if (store.user.title == "Super Admin Role") {
                 next()
             }
-            else if (store.user.account_privileges.title="Admin Role" && to.meta.levelAccess=="Admin Role"){
-                next()
-            }else{
+            else if (store.user.account_privileges.title == "Admin Role") {
+                if (to.meta.levelAccess == "Admin Role") {
+                    next()
+                }
+                if (to.meta.levelAccess == "Staff Role") {
+                    next()
+                }
+            }
+            else if (store.user.account_privileges.title == "Staff Role") {
+                if (to.meta.levelAccess == "Staff Role") {
+                    next()
+                }
+            }
+            else{
                 next({
                     name: 'NotFound'
                 })
