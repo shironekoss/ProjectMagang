@@ -30,6 +30,9 @@ export default {
                 <v-btn @click="changetoggle('Stall')" :class="[toggleAccount == 'Departemen' ? 'aa' : 'white']">
                     <v-icon>Stall</v-icon>
                 </v-btn>
+                <v-btn @click="changetoggle('Database')" :class="[toggleAccount == 'Database' ? 'aa' : 'white']">
+                    <v-icon>Database</v-icon>
+                </v-btn>
             </v-btn-toggle>
             <div v-if="toggleAccount==='Account'">
                 <User/>
@@ -38,6 +41,9 @@ export default {
                 <Departemen/>
             </div>
             <div v-if="toggleAccount==='Stall'">
+                <Stall/>
+            </div>
+            <div v-if="toggleAccount==='Database'">
                 <Stall/>
             </div>
         </v-row>

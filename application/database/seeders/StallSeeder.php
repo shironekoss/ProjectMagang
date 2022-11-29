@@ -22,20 +22,25 @@ class StallSeeder extends Seeder
                 'JumlahStall' => '3',
                 'NamaDepartemen' => 'Departemen Body Welding',
             ],
+             [
+                'NamaStall' => 'Departemen Putty',
+                'JumlahStall' => '3',
+                'NamaDepartemen' => 'Departemen Putty',
+            ],
+             [
+                'NamaStall' => 'Departemen Painting',
+                'JumlahStall' => '3',
+                'NamaDepartemen' => 'Departemen Painting',
+            ],
             [
                 'NamaStall' => 'Departemen Other',
                 'JumlahStall' => '2',
                 'NamaDepartemen' => 'Departemen Other',
             ],
             [
-                'NamaStall' => 'Departemen Subassy Minibus',
-                'JumlahStall' => '2',
-                'NamaDepartemen' => 'Departemen Subassy Minibus',
-            ],
-            [
-                'NamaStall' => 'Departemen Subassy Bus',
+                'NamaStall' => 'Departemen Subassy',
                 'JumlahStall' => '1',
-                'NamaDepartemen' => 'Departemen Subassy Bus',
+                'NamaDepartemen' => 'Departemen Subassy',
             ],
             [
                 'NamaStall' => 'Departemen Paneling',
@@ -48,14 +53,14 @@ class StallSeeder extends Seeder
                 'NamaDepartemen' => 'Departemen Rangka Bus',
             ],
             [
-                'NamaStall' => 'Departemen Trimming Minibus',
-                'JumlahStall' => '4',
-                'NamaDepartemen' => 'Departemen Trimming Minibus',
+                'NamaStall' => 'Departemen Trimming',
+                'JumlahStall' => '5',
+                'NamaDepartemen' => 'Departemen Trimming',
             ],
             [
-                'NamaStall' => 'Departemen Trimming Bus',
+                'NamaStall' => 'Departemen Finishing',
                 'JumlahStall' => '5',
-                'NamaDepartemen' => 'Departemen Trimming Bus',
+                'NamaDepartemen' => 'Departemen Finishing',
             ]
         ]);
     }
