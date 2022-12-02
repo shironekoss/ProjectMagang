@@ -16,7 +16,7 @@ class Account extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     protected $connection = 'mongodb';
-    protected $collection = 'accounts';
+    protected $collection = 'Accounts_DB';
     // protected $table        = "accounts";
     // protected $primaryKey   = "account_id";
     // public $incrementing    = true;

@@ -18,7 +18,7 @@ class AccountSeeder extends Seeder
 
     public function run()
     {
-        DB::table('accounts')->insert([
+        DB::table('Accounts_DB')->insert([
             [
                 'account_username' => 'elfan',
                 'account_name' => "elfan",

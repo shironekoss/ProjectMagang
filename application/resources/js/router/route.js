@@ -165,16 +165,13 @@ router.beforeEach((to, from, next) => {
     // console.log(store.user.account_privileges)
     if (!to.meta.guestPageAccess) {
         store.getUser();
-        console.log(store.user.title)
+        // console.log(store.user.account_privileges.title)
         if (store.user) {
-            if (store.user.title == "Super Admin Role") {
+            if (store.user.account_privileges.title == "Super Admin Role") {
                 next()
             }
             else if (store.user.account_privileges.title == "Admin Role") {
-                if (to.meta.levelAccess == "Admin Role") {
-                    next()
-                }
-                if (to.meta.levelAccess == "Staff Role") {
+                if (to.meta.levelAccess == "Admin Role" || to.meta.levelAccess == "Staff Role") {
                     next()
                 }
             }
@@ -183,7 +180,7 @@ router.beforeEach((to, from, next) => {
                     next()
                 }
             }
-            else{
+            else {
                 next({
                     name: 'NotFound'
                 })
@@ -194,7 +191,9 @@ router.beforeEach((to, from, next) => {
             })
         }
     }
-    next()
+    else {
+       next()
+    }
 })
 
 // router.beforeEach((to, from, next) => {
