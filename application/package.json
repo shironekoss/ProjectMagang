@@ -10,6 +10,7 @@
         "production": "mix --production"
     },
     "devDependencies": {
+        "@fullhuman/postcss-purgecss": "^5.0.0",
         "@popperjs/core": "^2.11.6",
         "axios": "^0.25.0",
         "bootstrap": "^5.2.0",
@@ -45,6 +46,8 @@
         "path-browserify": "^1.0.1",
         "pinia": "^2.0.24",
         "pinia-plugin-persistedstate": "^2.2.0",
+        "postcss-import": "^15.0.1",
+        "tailwindcss": "^3.2.4",
         "vue-cli-plugin-pinia": "^0.2.1",
         "vue-html-to-paper": "^1.4.4",
         "vue-json-excel": "^0.3.0",

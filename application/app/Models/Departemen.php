@@ -11,7 +11,7 @@ class Departemen extends Model
     use HasFactory;
     use SoftDeletes;
     protected $connection = 'mongodb';
-    protected $collection = 'DB_Departemen';
+    protected $collection = 'Departemen_DB';
     public $timestamps = true;
     protected $fillable = [
         'Nama_Departemen',

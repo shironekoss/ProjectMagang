@@ -1,18 +1,21 @@
 <template>
+
     <v-card class="overflow-hidden">
-        <v-app-bar absolute color="#6A76AB" dark shrink-on-scroll prominent src="https://picsum.photos/1920/1080?random"
-            fade-img-on-scroll scroll-target="#scrolling-techniques-3">
+        <v-app-bar absolute color="indigo darken-2" dark shrink-on-scroll prominent fade-img-on-scroll
+            scroll-target="#scrolling-techniques-3">
             <template v-slot:img="{ props }">
                 <v-img v-bind="props" gradient="to top right, rgba(19,84,122,.5), rgba(128,208,199,.8)"></v-img>
             </template>
             <v-toolbar-title>Program SPK</v-toolbar-title>
             <v-spacer></v-spacer>
-
-
             <div v-if="authStore.user != null">
-                <!-- user role admin -->
                 <div v-if="authStore.user.account_privileges.title == 'Super Admin Role'">
                     <div>
+                        <router-link :to="{ name: 'Home' }">
+                            <v-btn>
+                                Home
+                            </v-btn>
+                        </router-link>
                         <router-link :to="{ name: 'Inputadmin' }">
                             <v-btn>
                                 Input
@@ -33,6 +36,9 @@
                                 Settings
                             </v-btn>
                         </router-link>
+
+                        <span class="white--text text-h5"> Welcome,{{ authStore.user.account_name }}</span>
+
                         <v-btn @click.prevent="Logout">
                             Logout
                         </v-btn>
@@ -80,6 +86,7 @@
 </template>
 
 
+
 <script>
 import { useAuth } from '../../../Stores/Auth';
 import Swal from 'sweetalert2'
@@ -112,8 +119,6 @@ export default {
 #title-nav {
     color: black;
 }
-
-@import'../../../sass/Component/Header.scss';
 </style>
 
 

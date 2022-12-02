@@ -1,0 +1,8 @@
+/* purgecss start ignore */
+@import 'vuetify/dist/vuetify.min.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* purgecss end ignore */
+@import "tailwindcss/utilities";
