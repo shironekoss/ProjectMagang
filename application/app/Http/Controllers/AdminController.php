@@ -114,6 +114,7 @@ class AdminController extends Controller
                     $item1->save();
                 }
             } else {
+
                 $i = 0;
                 foreach ($master as $item2) {
                     $data = SPK::where('NOSPK', $item1["NOSPK"])->first();
@@ -236,7 +237,6 @@ class AdminController extends Controller
         return response()->json([
             "success" => true,
             "status" => 200,
-            "spk" => $data,
             "savedconversion" => $saved,
             "master" => $item2,
             "message" => $messages,
