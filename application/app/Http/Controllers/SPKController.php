@@ -35,6 +35,7 @@ class SPKController extends Controller
 
     public function spklist()
     {
+
         $spklist = SPK::all();
         return response()->json([
             "status" => true,
@@ -46,10 +47,8 @@ class SPKController extends Controller
 
     public function latihan()
     {
-        $allsaved = SavedConversionResult::where('NOSPK','!=',"STOCK")->get(['NOSPK','Departemen','namastall','stall']);
-        dd($allsaved);
-
-
+        $spklist = SPK::all()->pluck('NOSPK');
+        dd($spklist);
     }
 
     public function tambahSPK(Request $request)

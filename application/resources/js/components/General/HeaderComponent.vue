@@ -54,6 +54,7 @@
                         <v-btn>
                             master
                         </v-btn>
+                    <span class="white--text text-h5"> Welcome,{{ authStore.user.account_name }}</span>
                     </router-link>
                     <v-btn @click.prevent="Logout">
                         Logout
@@ -65,6 +66,7 @@
                             Input
                         </v-btn>
                     </router-link>
+                    <span class="white--text text-h5"> Welcome,{{ authStore.user.account_name }}</span>
                     <v-btn @click.prevent="Logout">
                         Logout
                     </v-btn>

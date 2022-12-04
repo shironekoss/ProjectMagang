@@ -39,7 +39,7 @@
                     <v-col cols="12" sm="6" md="3">
                         <span>STALL</span>
                         <v-text-field class="form-control" :type="Changemode" :min="min" :max="max" v-model="stall"
-                            :placeholder="Placeholdertext">
+                            :placeholder="Placeholdertext" @keypress="preventNumericInput">
                         </v-text-field>
                     </v-col>
                 </v-row>
@@ -94,7 +94,7 @@
                             </v-card>
                         </v-dialog>
                         <v-dialog v-model="dialogLoading" max-width="500px">
-                            <Loading/>
+                            <Loading />
                         </v-dialog>
                     </template>
                     <template v-slot:item.actions="{ item }">
@@ -120,11 +120,16 @@
 
 <script>
 import axios from 'axios'
+import { useAuth } from '../../../../Stores/Auth';
 import ConvertTime from '../../../Helper/ConvertTime'
 import Loading from '../../Global/Loading.vue'
 export default {
     mixins: [ConvertTime],
     components: { Loading },
+    setup() {
+        const authStore = useAuth();
+        return { authStore }
+    },
     data() {
         return {
             listspk: [],
@@ -218,6 +223,14 @@ export default {
         changevalue(value) {
             this.ChangeStallmode = value
         },
+        preventNumericInput($event) {
+            console.log($event.keyCode); //will display the keyCode value
+
+            var keyCode = ($event.keyCode ? $event.keyCode : $event.which);
+            if (keyCode > 47 && keyCode < 58) {
+                $event.preventDefault();
+            }
+        },
         showerror(item) {
             if (!item.errors) {
                 return false
@@ -228,7 +241,7 @@ export default {
         },
         async tarikdataspk() {
             this.openDialogLoading()
-            await axios.get('/api/getdataspk').then((response) => {
+            await axios.post('/api/getdataspk').then((response) => {
                 console.log(response.data)
                 if (response.data.statusresponse == 200) {
                     this.closeLoading()
@@ -256,17 +269,17 @@ export default {
 
         },
         async getlistdepartemen() {
-            await axios.get('/api/listdepartemen').then((response) => {
+            await axios.post('/api/listdepartemen', { Role: this.authStore.user.account_privileges.title, Departemen: this.authStore.user.account_privileges.account_dept }).then((response) => {
                 this.ListDept = response.data.data
             })
         },
         getlistspk() {
-            axios.get('/api/listspkshow').then((response) => {
+            axios.post('/api/listspkshow', { Role: this.authStore.user.account_privileges.title, Departemen: this.authStore.user.account_privileges.account_dept }).then((response) => {
                 this.listspk = []
                 response.data.forEach(element => {
                     this.listspk.push({
-                        'text': element.NOSPK,
-                        'value': element.NOSPK
+                        'text': element,
+                        'value': element
                     })
                 });
                 this.listspk.push({
@@ -354,7 +367,7 @@ export default {
             this.modal = false;
         },
         tambah() {
-            if (this.SPKfield == "" || this.stall == "" || this.NamaStall == "" || this.Departemen == "") {
+            if (this.SPKfield == "" || this.stall == "" || this.stall == 0 || this.NamaStall == ""  || this.Departemen == "") {
                 this.$swal({
                     title: 'pengisian SPK tidak Valid',
                     icon: 'error'

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Departemen;
 use App\Models\Master;
 use App\Models\Masterkit;
 use App\Models\SavedConversionResult;
@@ -14,19 +15,25 @@ use Nette\Utils\Strings;
 
 class AdminController extends Controller
 {
-    public function getdataspk()
+    public function getdataspk(Request $request)
     {
-        $listspk = SPK::all();
-        return $listspk;
+        if ($request->Role == "Super Admin Role") {
+            $spklist = SPK::all()->pluck('NOSPK');
+            return $spklist;
+        } else {
+            $Departemen = Departemen::where('Nama_Departemen', $request->Departemen)->first();
+            $spklist = SPK::whereIn('Tipe', $Departemen->AksesTipeDatabase)->pluck('NOSPK');
+            return $spklist;
+        }
     }
     public function getdatatable()
     {
-        $listdata = SavedConversionResult::where('status','!=','berhasil')->get();
+        $listdata = SavedConversionResult::where('status', '!=', 'berhasil')->get();
         return $listdata;
     }
     public function getdatatablehistory()
     {
-        $listdata = SavedConversionResult::where('status','berhasil')->get();
+        $listdata = SavedConversionResult::where('status', 'berhasil')->get();
         return $listdata;
     }
 
@@ -67,7 +74,7 @@ class AdminController extends Controller
 
     public function konversikomponen()
     {
-        $saved = SavedConversionResult::where('status','!=','berhasil')->get();
+        $saved = SavedConversionResult::where('status', '!=', 'berhasil')->get();
         $master = Master::all();
         $messages = [];
         $results = [];
@@ -287,11 +294,11 @@ class AdminController extends Controller
                                 foreach ($subnewparam["Component"] as $componentspk) {
                                     foreach ($databaseparam["Component"] as $componentdatabase) {
                                         if (strtoupper($componentspk) == strtoupper($componentdatabase)) {
-                                            $isisama=true;
+                                            $isisama = true;
                                             break;
                                         }
                                     }
-                                    if($isisama){
+                                    if ($isisama) {
                                         $jumlahSPKnewparam++;
                                         break;
                                     }

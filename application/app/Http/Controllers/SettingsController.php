@@ -31,21 +31,37 @@ class SettingsController extends Controller
         ]);
     }
 
-    public function getlistdepartemen()
+    public function getlistdepartemen(Request $request)
     {
-        $listdept = Departemen::pluck('Nama_Departemen')->all();
-        $result = [];
-        foreach ($listdept as $dept) {
-            $isiresult = (object) array(
-                'text' => $dept,
-                'value' => $dept
-            );
-            array_push($result, $isiresult);
+        if ($request->Role == "Super Admin Role") {
+            $listdept = Departemen::pluck('Nama_Departemen')->all();
+            $result = [];
+            foreach ($listdept as $dept) {
+                $isiresult = (object) array(
+                    'text' => $dept,
+                    'value' => $dept
+                );
+                array_push($result, $isiresult);
+            }
+            return response()->json([
+                "statusresponse" => 200,
+                "data" => $result
+            ]);
+        }else{
+            $listdept = Departemen::where('Nama_Departemen',$request->Departemen)->pluck('Nama_Departemen')->all();
+            $result = [];
+            foreach ($listdept as $dept) {
+                $isiresult = (object) array(
+                    'text' => $dept,
+                    'value' => $dept
+                );
+                array_push($result, $isiresult);
+            }
+            return response()->json([
+                "statusresponse" => 200,
+                "data" => $result
+            ]);
         }
-        return response()->json([
-            "statusresponse" => 200,
-            "data" => $result
-        ]);
     }
 
 
@@ -63,16 +79,16 @@ class SettingsController extends Controller
     {
         $liststall = Stall::all();
         $paramstall = $request->Parameterdeps;
-        $result=[];
-        foreach ($liststall as $stall ) {
-            foreach($paramstall as $param){
-                if(ucwords($stall->NamaDepartemen)==ucwords($param)){
-                    array_push($result,$stall->NamaStall);
+        $result = [];
+        foreach ($liststall as $stall) {
+            foreach ($paramstall as $param) {
+                if (ucwords($stall->NamaDepartemen) == ucwords($param)) {
+                    array_push($result, $stall->NamaStall);
                 }
             }
         }
         return response()->json([
-            "result"=>$result,
+            "result" => $result,
         ]);
     }
 
@@ -180,9 +196,8 @@ class SettingsController extends Controller
 
             return response()->json([
                 "statusresponse" => 200,
-                "message" => "Stall ". $request->NamaStall.   " Berhasil Diupdate",
+                "message" => "Stall " . $request->NamaStall .   " Berhasil Diupdate",
             ]);
-
         } catch (\Throwable $th) {
             return response()->json([
                 "statusresponse" => 400,

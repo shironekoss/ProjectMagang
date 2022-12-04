@@ -45,7 +45,7 @@ Route::post('adddepartemen',[SettingsController::class,'adddepartemen']);
 Route::post('saveuser',[SettingsController::class,'saveuser']);
 Route::delete('hapusdepartemen{id}',[SettingsController::class,'hapusdepartemen']);
 Route::delete('hapusstall{id}',[SettingsController::class,'hapusstall']);
-Route::get('listdepartemen',[SettingsController::class,'getlistdepartemen']);
+Route::post('listdepartemen',[SettingsController::class,'getlistdepartemen']);
 Route::get('liststall',[SettingsController::class,'getliststall']);
 Route::post('getlistallparameter',[SettingsController::class,'getlistallparameter']);
 Route::post('addstall',[SettingsController::class,'addstall']);
@@ -63,7 +63,7 @@ Route::get('listmaster',[MasterController::class,'listmaster']);
 Route::delete('hapusmaster{id}',[MasterController::class,'hapusmaster']);
 Route::get('master/{id}',[MasterController::class,'carimaster']);
 
-Route::get('listspkshow',[AdminController::class,'getdataspk']);
+Route::post('listspkshow',[AdminController::class,'getdataspk']);
 Route::get('getdatatable',[AdminController::class,'getdatatable']);
 Route::get('getdatatablehistory',[AdminController::class,'getdatatablehistory']);
 Route::post('getkode',[AdminController::class,'getkode']);

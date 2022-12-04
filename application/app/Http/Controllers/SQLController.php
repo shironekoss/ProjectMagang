@@ -83,6 +83,8 @@ class SQLController extends Controller
         $datas = DB::connection('sqlsrv')->table('SURATPERINTAHKERJA')
             ->join('SPECIFICATION', 'SPECIFICATION.SPK Number', '=', 'SURATPERINTAHKERJA.SPK Number')
             ->get();
+
+
         $database = SPK::all();
         $result = [];
         foreach ($database as $datab) {
@@ -107,25 +109,36 @@ class SQLController extends Controller
     {
         try {
             $this->resetdata();
-            $datas = DB::connection('sqlsrv')->table('SURATPERINTAHKERJAMINIbus')
+            $datas = DB::connection('sqlsrv')->table('SURATPERINTAHKERJA')
                 ->join('SPECIFICATION', 'SPECIFICATION.SPK Number', '=', 'SURATPERINTAHKERJA.SPK Number')
                 ->get();
+
             foreach ($datas as $data) {
                 $datatersimpan = SPK::where('NOSPK', trim($data->{'SPK Number'}))->first();
                 if ($datatersimpan == null) {
                     if (strtoupper(trim($data->{'User Defined'})) == "TINGGI BODY") {
                         $newdata = SPK::create([
                             "NOSPK" => trim($data->{'SPK Number'}),
-                            "parameter" =>  [
+                            "Tipe"=>trim($data->{'SPK Type'}),
+                            "AirSuspensi"=>trim($data->{'Air Suspensi'}),
+                            "Semi_Monocoque"=>trim($data->{'Semi Monocoque'}),
+                            "No_Rangka"=>trim($data->{'No Rangka'}),
+                            "No_Mesin"=>trim($data->{'No Mesin'}),
+                            "Parameter" =>  [
                                 "ModelMobil" => trim($data->{'Merk'}),
                                 "TipeMobil" => trim($data->{'Type'}),
-                                "TinggiMobil" => trim($data->{'User Defined Description'}),
-                                "newparameter" =>  [],
+                                "TinggiMobil" => trim($data->{'User Defined Desc'}),
+                                "Newparameter" =>  [],
                             ],
                         ]);
                     } else {
                         $newdata = SPK::create([
                             "NOSPK" => trim($data->{'SPK Number'}),
+                            "Tipe"=>trim($data->{'SPK Type'}),
+                            "AirSuspensi"=>trim($data->{'Air Suspensi'}),
+                            "Semi_Monocoque"=>trim($data->{'Semi Monocoque'}),
+                            "No_Rangka"=>trim($data->{'No Rangka'}),
+                            "No_Mesin"=>trim($data->{'No Mesin'}),
                             "parameter" =>  [
                                 "ModelMobil" => trim($data->{'Merk'}),
                                 "TipeMobil" => trim($data->{'Type'}),
@@ -133,7 +146,7 @@ class SQLController extends Controller
                                 "newparameter" =>  [
                                     [
                                         "Newparam" => trim($data->{'User Defined'}),
-                                        "Component" => [trim($data->{'User Defined Description'})],
+                                        "Component" => [trim($data->{'User Defined Desc'})],
                                     ],
                                 ]
                             ]
@@ -146,7 +159,7 @@ class SQLController extends Controller
                     $terdaftar = false;
                     // dd(ctype_space(" "));
                     if (trim($data->{'User Defined'}) == "TINGGI BODY") {
-                        $array["TinggiMobil"] = trim($data->{'User Defined Description'});
+                        $array["TinggiMobil"] = trim($data->{'User Defined Desc'});
                         $datatersimpan->parameter = $array;
                         $datatersimpan->save();
                     } else {
@@ -163,23 +176,23 @@ class SQLController extends Controller
                         if ($paramterdaftar) {
                             $componentterdaftar = false;
                             foreach ($array["newparameter"][0]["Component"] as $isicomponent) {
-                                if (strtoupper($isicomponent) == strtoupper(trim($data->{'User Defined Description'}))) {
+                                if (strtoupper($isicomponent) == strtoupper(trim($data->{'User Defined Desc'}))) {
                                     $componentterdaftar = true;
                                     break;
                                 }
                             }
                             if (!$componentterdaftar) {
-                                if (ctype_space($data->{'User Defined Description'}) == false) {
-                                    array_push($array["newparameter"][0]["Component"], trim($data->{'User Defined Description'}));
+                                if (ctype_space($data->{'User Defined Desc'}) == false) {
+                                    array_push($array["newparameter"][0]["Component"], trim($data->{'User Defined Desc'}));
                                     $datatersimpan->parameter = $array;
                                     $datatersimpan->save();
                                 }
                             }
                         } else {
-                            if (ctype_space($data->{'User Defined Description'}) == false) {
+                            if (ctype_space($data->{'User Defined Desc'}) == false) {
                                 array_push($array["newparameter"], [
                                     "Newparam" => trim($data->{'User Defined'}),
-                                    "Component" => [trim($data->{'User Defined Description'})],
+                                    "Component" => [trim($data->{'User Defined Desc'})],
                                 ]);
 
                                 $datatersimpan->parameter = $array;
