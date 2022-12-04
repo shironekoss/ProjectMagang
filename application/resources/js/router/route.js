@@ -101,7 +101,7 @@ const routes = [
         props: true,
         meta: {
             guestPageAccess: false,
-            levelAccess: 'Super Admin Role'
+            levelAccess: 'Staff Role'
         }
     },
     {

@@ -45,10 +45,18 @@ class AdminController extends Controller
         }
     }
 
-    public function getdatatablehistory()
+    public function getdatatablehistory(Request $request)
     {
-        $listdata = SavedConversionResult::where('status', 'berhasil')->get();
-        return $listdata;
+        if ($request->Role == "Super Admin Role") {
+            $listdata = SavedConversionResult::where('status', 'berhasil')->get();
+            return $listdata;
+        }else{
+            $Departemen = Departemen::where('Nama_Departemen', $request->Departemen)->first();
+            $listdata = SavedConversionResult::where('status', 'berhasil')
+                        ->where('Departemen',$Departemen->Nama_Departemen)
+                        ->get();
+            return $listdata;
+        }
     }
 
     public function hapusdatatable(Request $request)

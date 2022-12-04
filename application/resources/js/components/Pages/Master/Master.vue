@@ -297,7 +297,12 @@
 
 <script>
 import axios from 'axios'
+import { useAuth } from '../../../../Stores/Auth';
 export default {
+    setup() {
+        const authStore = useAuth();
+        return { authStore }
+    },
     data() {
         return {
             isActivebangku: true,
@@ -459,7 +464,7 @@ export default {
             }
         },
         async getlistdepartemen() {
-            await axios.get('/api/listdepartemen').then((response) => {
+            await axios.post('/api/listdepartemen',{ Role: this.authStore.user.account_privileges.title, Departemen: this.authStore.user.account_privileges.account_dept }).then((response) => {
                 this.ListDept = response.data.data
             })
         },
@@ -497,7 +502,7 @@ export default {
                         }
                     } else if (response.data.statuscode == 400) {
                         this.$swal({
-                            title: 'Kode Kit ' + this.InputKodeKit + ' ' + response.data.message +' silahkan tekan tombol tarik data spk ',
+                            title: 'Kode Kit ' + this.InputKodeKit + ' ' + response.data.message + ' silahkan tekan tombol tarik data spk ',
                             icon: 'error'
                         });
                     }

@@ -31,9 +31,14 @@
 import axios from 'axios'
 import ConvertTime from '../../../Helper/ConvertTime'
 import Loading from '../../Global/Loading.vue'
+import { useAuth } from '../../../../Stores/Auth';
 export default {
     mixins: [ConvertTime],
     components: { Loading },
+    setup() {
+        const authStore = useAuth();
+        return { authStore }
+    },
     data() {
         return {
             listspk: [],
@@ -88,7 +93,7 @@ export default {
     },
     methods: {
         async getdatatable() {
-            await axios.get('/api/getdatatablehistory').then((response) => {
+            await axios.post('/api/getdatatablehistory', {Role: this.authStore.user.account_privileges.title, Departemen: this.authStore.user.account_privileges.account_dept}).then((response) => {
                 this.datatable = []
                 this.datatable = response.data.reverse()
                 this.datatable.forEach(element => {
