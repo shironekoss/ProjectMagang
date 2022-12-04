@@ -198,16 +198,13 @@ export default {
         SPKfield: function () {
             if (this.SPKfield == "STOCK") {
                 this.Changemode = "text"
-                this.disabledepartemen = true
                 this.disablenamastall = true
                 this.Placeholdertext = "Masukkan Nama Stall"
                 this.stall = ""
                 this.NamaStall = "STOCK"
-                this.Departemen = "STOCK"
             }
             else {
                 this.stall = ""
-                this.disabledepartemen = false
                 this.disablenamastall = false
                 this.Changemode = "number"
                 this.Departemen = ""
@@ -335,7 +332,7 @@ export default {
             this.closeDelete()
         },
         async getdatatable() {
-            await axios.get('/api/getdatatable').then((response) => {
+            await axios.post('/api/getdatatable',{Role: this.authStore.user.account_privileges.title, Departemen: this.authStore.user.account_privileges.account_dept}).then((response) => {
                 this.datatable = []
                 this.datatable = response.data.reverse()
                 this.datatable.forEach(element => {

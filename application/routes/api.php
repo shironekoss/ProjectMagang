@@ -65,6 +65,7 @@ Route::get('master/{id}',[MasterController::class,'carimaster']);
 
 Route::post('listspkshow',[AdminController::class,'getdataspk']);
 Route::get('getdatatable',[AdminController::class,'getdatatable']);
+Route::post('getdatatable',[AdminController::class,'getdatatables']);
 Route::get('getdatatablehistory',[AdminController::class,'getdatatablehistory']);
 Route::post('getkode',[AdminController::class,'getkode']);
 Route::post('ambilmax',[AdminController::class,'ambilmax']);
