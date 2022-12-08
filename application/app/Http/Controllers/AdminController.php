@@ -94,9 +94,16 @@ class AdminController extends Controller
         ]);
     }
 
-    public function konversikomponen()
+    public function konversikomponen(Request $request)
     {
-        $saved = SavedConversionResult::where('status', '!=', 'berhasil')->get();
+        if ($request->Role == "Super Admin Role") {
+            $saved = SavedConversionResult::where('status', '!=', 'berhasil')->get();
+        }else{
+            $Departemen = Departemen::where('Nama_Departemen', $request->Departemen)->first();
+            $saved = SavedConversionResult::where('status', '!=', 'berhasil')
+                        ->where('Departemen',$Departemen->Nama_Departemen)
+                        ->get();
+        }
         $master = Master::all();
         $messages = [];
         $results = [];

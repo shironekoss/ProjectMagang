@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use App\Models\Departemen;
 use App\Models\Komponen;
 use App\Models\Master;
 use App\Models\Masterkit;
@@ -47,8 +48,11 @@ class SPKController extends Controller
 
     public function latihan()
     {
-        $spklist = SPK::all()->pluck('NOSPK');
-        dd($spklist);
+        $Departemen = Departemen::where('Nama_Departemen', 'Departemen Other')->first();
+        $saved = SavedConversionResult::where('status', '!=', 'berhasil')
+            ->where('Departemen', $Departemen->Nama_Departemen)
+            ->get();
+        dd($saved);
     }
 
     public function tambahSPK(Request $request)

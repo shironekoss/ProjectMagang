@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/testspk',[SPKController::class,'filternospk']);
 Route::get('/latihan',[SPKController::class,'latihan']);
+Route::get('/cobakoneksi', [SPKController::class,'coba']);
 
 Route::get('/{any}', function () {
     return view('home');

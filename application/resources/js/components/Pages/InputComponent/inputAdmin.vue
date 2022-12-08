@@ -270,8 +270,8 @@ export default {
                 this.ListDept = response.data.data
             })
         },
-        getlistspk() {
-            axios.post('/api/listspkshow', { Role: this.authStore.user.account_privileges.title, Departemen: this.authStore.user.account_privileges.account_dept }).then((response) => {
+        async getlistspk() {
+            await axios.post('/api/listspkshow', { Role: this.authStore.user.account_privileges.title, Departemen: this.authStore.user.account_privileges.account_dept }).then((response) => {
                 this.listspk = []
                 response.data.forEach(element => {
                     this.listspk.push({
@@ -400,7 +400,7 @@ export default {
                 });
             }
             else {
-                axios.post('/api/konversikomponen').then((response) => {
+                axios.post('/api/konversikomponen',{Role: this.authStore.user.account_privileges.title, Departemen: this.authStore.user.account_privileges.account_dept}).then((response) => {
                     if (response.data.status == 200) {
                         this.$router.push({
                             name: 'Cekresult',
