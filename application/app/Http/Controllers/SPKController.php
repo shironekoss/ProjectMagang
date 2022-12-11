@@ -74,4 +74,13 @@ class SPKController extends Controller
             "data" => $newmobil
         ]);
     }
+
+    public function coba(){
+
+        $datas = DB::connection('sqlsrv')->table('SURATPERINTAHKERJA')
+                ->join('SPECIFICATION', 'SPECIFICATION.SPK Number', '=', 'SURATPERINTAHKERJA.SPK Number')
+                ->get();
+        dd($datas);
+
+    }
 }

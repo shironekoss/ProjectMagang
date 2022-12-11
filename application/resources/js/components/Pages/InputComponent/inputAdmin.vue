@@ -238,7 +238,7 @@ export default {
         },
         async tarikdataspk() {
             this.openDialogLoading()
-            await axios.post('/api/getdataspk').then((response) => {
+            await axios.get('/api/getdataspk').then((response) => {
                 console.log(response.data)
                 if (response.data.statusresponse == 200) {
                     this.closeLoading()
