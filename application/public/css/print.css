@@ -1,0 +1,70 @@
+
+.v-data-table__wrapper {}
+
+.v-data-table-header {}
+
+
+
+body {
+    margin: 30px;
+}
+
+@page {
+    size: A4 landscape;
+    size: 287mm 210mm;
+}
+
+.v-toolbar__title {
+    font-size: 1.25rem;
+    line-height: 1.5;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+header{
+    font-weight: 700!important;
+}
+
+.light-blue{
+    background-color: #03a9f4 !important;
+    border-color: #03a9f4 !important;
+}
+
+.v-toolbar__content, .v-toolbar__extension {
+    align-items: center;
+    display: flex;
+    position: relative;
+    z-index: 0;
+    padding: 4px 16px;
+}
+
+.v-data-table__wrapper {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.title{
+    font-size: 1.25rem !important;
+    font-weight: 500;
+    line-height: 2rem;
+    letter-spacing: 0.0125em !important;
+    font-family: "Roboto", sans-serif !important;
+}
+.black--text{
+    color: #000000 !important;
+    caret-color: #000000 !important;
+}
+.font-weight-black {
+    font-weight: 900 !important;
+}
+
+.v-data-table>.v-data-table__wrapper>table {
+    width: 100%;
+    border-spacing: 0;
+}
+
+
+table{border-collapse:collapse}
+td{border:1px solid black}
+tr{border:1px solid blue}
