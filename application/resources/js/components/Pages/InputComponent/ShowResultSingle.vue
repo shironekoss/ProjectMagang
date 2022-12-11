@@ -5,7 +5,7 @@
                 <v-container class="grey lighten-5">
                     <v-row no-gutters>
                         <v-col sm="12" xs="12" md="12" lg="8" xl="6">
-                            <v-card-title >
+                            <v-card-title>
                                 <v-text-field v-model="search" append-icon="mdi-magnify" label="Filter Site ID"
                                     single-line hide-details style="margin-right: 20px;">
                                 </v-text-field>
@@ -21,15 +21,17 @@
                         </v-col>
                     </v-row>
                 </v-container>
-                <v-data-table dense :headers="headerstable" :items="datatable" :items-per-page="30" :search="search"
-                    id="printMe" class="elevation-1 font-weight-bold">
-                    <template v-slot:top>
-                        <v-toolbar flat>
-                            <v-toolbar-title>List daftar komponen</v-toolbar-title>
-                            <h5 style="margin-left: 70%;">{{ new Date().toLocaleString() }}</h5>
-                        </v-toolbar>
-                    </template>
-                </v-data-table>
+                <div id="printMe">
+                    <v-data-table dense :headers="headerstable" :items="datatable" :items-per-page="30" :search="search"
+                        class="elevation-1 font-weight-bold">
+                        <template v-slot:top>
+                            <v-toolbar flat>
+                                <v-toolbar-title>List daftar komponen</v-toolbar-title>
+                                <h5 style="margin-left: 70%;">{{ new Date().toLocaleString() }}</h5>
+                            </v-toolbar>
+                        </template>
+                    </v-data-table>
+                </div>
             </v-card>
         </v-app>
     </div>
@@ -38,8 +40,8 @@
 import JsonExcel from "vue-json-excel"
 const options = {
     styles: [
-        'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css',
-        './print.css' // <- inject here
+        // 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css',
+        '/css/print.css' // <- inject here
     ]
 }
 export default {
