@@ -15,7 +15,7 @@ use Nette\Utils\Strings;
 
 class AdminController extends Controller
 {
-    public function getdataspk(Request $request)
+    public function listspkshow(Request $request)
     {
         if ($request->Role == "Super Admin Role") {
             $spklist = SPK::all()->pluck('NOSPK');

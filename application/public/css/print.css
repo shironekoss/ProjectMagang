@@ -1,7 +1,6 @@
+/* .v-data-table__wrapper {}
 
-.v-data-table__wrapper {}
-
-.v-data-table-header {}
+.v-data-table-header {} */
 
 
 
@@ -15,23 +14,28 @@ body {
 }
 
 .v-toolbar__title {
-    font-size: 1.25rem;
+    font-size: 1.4rem;
     line-height: 1.5;
-    overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    margin-left: 37%;
 }
 
-header{
-    font-weight: 700!important;
+header {
+    font-weight: 700 !important;
 }
 
-.light-blue{
+.light-blue {
     background-color: #03a9f4 !important;
-    border-color: #03a9f4 !important;
+    border-color: black !important;
 }
 
-.v-toolbar__content, .v-toolbar__extension {
+.text-start{
+    font-size: 12px;
+}
+
+.v-toolbar__content,
+.v-toolbar__extension {
     align-items: center;
     display: flex;
     position: relative;
@@ -44,17 +48,20 @@ header{
     overflow-y: hidden;
 }
 
-.title{
+.title {
     font-size: 1.25rem !important;
     font-weight: 500;
     line-height: 2rem;
     letter-spacing: 0.0125em !important;
     font-family: "Roboto", sans-serif !important;
+    border: 1px solid black;
 }
-.black--text{
+
+.black--text {
     color: #000000 !important;
     caret-color: #000000 !important;
 }
+
 .font-weight-black {
     font-weight: 900 !important;
 }
@@ -65,6 +72,50 @@ header{
 }
 
 
-table{border-collapse:collapse}
-td{border:1px solid black}
-tr{border:1px solid blue}
+table {
+    border-collapse: collapse
+}
+
+td {
+    border: 1px solid black
+}
+
+tr {
+    border: 2px solid black
+}
+
+#image img {
+   margin-left: 40%;
+}
+
+#image img {
+    object-fit: contain;
+    width: 150px;
+    height: 150px;
+}
+
+.v-data-footer__select {
+    margin-left: auto;
+    margin-right: 14px;
+    display: flex;
+    align-items: center;
+    flex: 0 0 0;
+    justify-content: flex-end;
+    white-space: nowrap;
+}
+
+.v-data-footer__pagination{
+    margin: 0 32px 0 24px;
+}
+.v-data-footer{
+    border-top: thin solid rgba(0, 0, 0, 0.12);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    font-size: 0.75rem;
+    padding: 0 8px;
+}
+
+.tanggal{
+    margin-left: 20%;
+}

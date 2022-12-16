@@ -22,12 +22,13 @@
                     </v-row>
                 </v-container>
                 <div id="printMe">
+                    <div id="image"></div>
                     <v-data-table dense :headers="headerstable" :items="datatable" :items-per-page="30" :search="search"
                         class="elevation-1 font-weight-bold">
                         <template v-slot:top>
                             <v-toolbar flat>
                                 <v-toolbar-title>List daftar komponen</v-toolbar-title>
-                                <h5 style="margin-left: 70%;">{{ new Date().toLocaleString() }}</h5>
+                                <h5 class="tanggal">tanggal {{ new Date().toLocaleString() }}</h5>
                             </v-toolbar>
                         </template>
                     </v-data-table>
@@ -37,6 +38,8 @@
     </div>
 </template>
 <script>
+import $ from 'jquery'
+
 import JsonExcel from "vue-json-excel"
 const options = {
     styles: [
@@ -144,7 +147,10 @@ export default {
         },
         async print() {
             // Pass the element id here
+            $("#image").append(`<img src='/images/Logo_Adi_Putro.svg' alt='' srcset=''>`)
             await this.$htmlToPaper('printMe', options);
+            $("#image").html(``);
+
         },
         async waktusekarang() {
             let today = new Date()
@@ -162,5 +168,8 @@ export default {
     @page {
         size: landscape,
     }
+}
+.tanggal{
+    margin-left: 70%;
 }
 </style>
