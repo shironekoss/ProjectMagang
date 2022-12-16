@@ -1,11 +1,11 @@
-D<template>
+<template>
     <div>
         <v-app>
             <v-card>
                 <v-container class="grey lighten-5">
                     <v-row no-gutters>
                         <v-col sm="12" xs="12" md="12" lg="8" xl="6">
-                            <v-card-title >
+                            <v-card-title>
                                 <v-text-field v-model="search" append-icon="mdi-magnify" label="Filter Site ID"
                                     single-line hide-details style="margin-right: 20px;">
                                 </v-text-field>
@@ -21,25 +21,29 @@ D<template>
                         </v-col>
                     </v-row>
                 </v-container>
-                <v-data-table dense :headers="headerstable" :items="datatable" :items-per-page="30" :search="search"
-                    id="printMe" class="elevation-1 font-weight-bold">
-                    <template v-slot:top>
-                        <v-toolbar flat>
-                            <v-toolbar-title>List daftar komponen</v-toolbar-title>
-                            <h5 style="margin-left: 70%;">{{ new Date().toLocaleString() }}</h5>
-                        </v-toolbar>
-                    </template>
-                </v-data-table>
+                <div id="printMe">
+                    <div id="image"></div>
+                    <v-data-table dense :headers="headerstable" :items="datatable" :items-per-page="30" :search="search"
+                        class="elevation-1 font-weight-bold">
+                        <template v-slot:top>
+                            <v-toolbar flat>
+                                <v-toolbar-title>List daftar komponen</v-toolbar-title>
+                                <h5 class="tanggal">tanggal {{ new Date().toLocaleString() }}</h5>
+                            </v-toolbar>
+                        </template>
+                    </v-data-table>
+                </div>
             </v-card>
         </v-app>
     </div>
 </template>
 <script>
 import JsonExcel from "vue-json-excel"
+import $ from 'jquery'
 const options = {
     styles: [
         'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css',
-        './print.css' // <- inject here
+        '/css/print.css' // <- inject here
     ]
 }
 export default {
@@ -142,7 +146,9 @@ export default {
         },
         async print() {
             // Pass the element id here
+            $("#image").append(`<img src='/images/Logo_Adi_Putro.svg' alt='' srcset=''>`)
             await this.$htmlToPaper('printMe', options);
+            $("#image").html(``);
         },
         async waktusekarang() {
             let today = new Date()
