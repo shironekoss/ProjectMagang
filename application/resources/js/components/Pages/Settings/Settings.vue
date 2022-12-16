@@ -19,36 +19,40 @@ export default {
 </script>
 <template>
     <div>
-        <v-container fill-height fluid>
-            <v-row justify="center">
-                <v-btn-toggle >
-                    <v-btn @click="changetoggle('Account')" :class="[toggleAccount == 'Account' ? 'aa' : 'white']">
-                        <v-icon>Account</v-icon>
-                    </v-btn>
-                    <v-btn @click="changetoggle('Departemen')"
-                        :class="[toggleAccount == 'Departemen' ? 'aa' : 'white']">
-                        <v-icon>Departemen</v-icon>
-                    </v-btn>
-                    <v-btn @click="changetoggle('Stall')" :class="[toggleAccount == 'Departemen' ? 'aa' : 'white']">
-                        <v-icon>Stall</v-icon>
-                    </v-btn>
-                </v-btn-toggle>
-                <div v-if="toggleAccount === 'Account'">
-                    <User />
-                </div>
-                <div v-if="toggleAccount === 'Departemen'">
-                    <Departemen />
-                </div>
-                <div v-if="toggleAccount === 'Stall'">
-                    <Stall />
-                </div>
-            </v-row>
-        </v-container>
+        <div class="container-settings">
+            <v-container fill-height fluid>
+                <v-row justify="center">
+
+                    <v-btn-toggle >
+                        <v-btn @click="changetoggle('Account')" :class="[toggleAccount == 'Account' ? 'aa' : 'white']">
+                            <v-icon>Account</v-icon>
+                        </v-btn>
+                        <v-btn @click="changetoggle('Departemen')"
+                            :class="[toggleAccount == 'Departemen' ? 'aa' : 'white']">
+                            <v-icon>Departemen</v-icon>
+                        </v-btn>
+                        <v-btn @click="changetoggle('Stall')" :class="[toggleAccount == 'Departemen' ? 'aa' : 'white']">
+                            <v-icon>Stall</v-icon>
+                        </v-btn>
+                    </v-btn-toggle>
+                    <div v-if="toggleAccount === 'Account'">
+                        <User />
+                    </div>
+                    <div v-if="toggleAccount === 'Departemen'">
+                        <Departemen />
+                    </div>
+                    <div v-if="toggleAccount === 'Stall'">
+                        <Stall />
+                    </div>
+                </v-row>
+            </v-container>
+        </div>
+
     </div>
 </template>
 <style>
 .aa {
-    background: rgba(17, 156, 199, 0.8) !important;
+    background: rgba(124, 93, 218, 0.8) !important;
 }
 
 .white {

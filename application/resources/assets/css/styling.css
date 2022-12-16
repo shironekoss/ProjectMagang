@@ -1,0 +1,19 @@
+.header-button{
+    margin-bottom: -150px;
+
+}
+.welcome-text{
+    padding-top: 50px;
+    padding-right: 400px;
+}
+.logo-header{
+    background: radial-gradient(#fdf9f9, #444fbf);
+    padding: 10px;
+    border-radius: 20px;
+}
+.v-toolbar__extension {
+    background-color: green;
+}
+.v-item-group{
+    margin:auto;
+}

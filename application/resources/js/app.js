@@ -7,6 +7,7 @@
 
 require('./bootstrap');
 
+import "../assets/css/styling.css";
 import "bootstrap/dist/css/bootstrap.css"
 import 'vuetify/dist/vuetify.min.css'
 import Vue from 'vue'
