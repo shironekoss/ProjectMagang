@@ -172,6 +172,7 @@ router.beforeEach((to, from, next) => {
             }
             else if (store.user.account_privileges.title == "Admin Role") {
                 if (to.meta.levelAccess == "Admin Role" || to.meta.levelAccess == "Staff Role") {
+
                     next()
                 }
             }
@@ -181,6 +182,7 @@ router.beforeEach((to, from, next) => {
                 }
             }
             else {
+
                 next({
                     name: 'NotFound'
                 })
