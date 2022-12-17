@@ -64,6 +64,7 @@ Route::delete('hapusmaster{id}',[MasterController::class,'hapusmaster']);
 Route::get('master/{id}',[MasterController::class,'carimaster']);
 
 Route::post('listspkshow',[AdminController::class,'listspkshow']);
+Route::post('checkfull',[AdminController::class,'checkfull']);
 Route::get('getdatatable',[AdminController::class,'getdatatable']);
 Route::post('getdatatable',[AdminController::class,'getdatatables']);
 Route::post('getdatatablehistory',[AdminController::class,'getdatatablehistory']);
@@ -72,6 +73,7 @@ Route::post('ambilmax',[AdminController::class,'ambilmax']);
 Route::post('admintambahspk',[AdminController::class,'admintambahspk']);
 Route::post('konversikomponen',[AdminController::class,'konversikomponen']);
 Route::post('konversisinglespk',[AdminController::class,'konversisinglespk']);
+Route::post('konversicheckfull',[AdminController::class,'konversicheckfull']);
 Route::post('getlistallparameterinput',[AdminController::class,'getlistallparameterinput']);
 Route::delete('hapusdatatable{id}',[AdminController::class,'hapusdatatable']);
 

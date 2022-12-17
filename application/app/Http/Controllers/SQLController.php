@@ -84,11 +84,9 @@ class SQLController extends Controller
             ->join('SPECIFICATION', 'SPECIFICATION.SPK Number', '=', 'SURATPERINTAHKERJA.SPK Number')
             ->get();
 
-
         $database = SPK::all();
         $result = [];
         foreach ($database as $datab) {
-            // dd($datab);
             foreach ($datas as $data) {
                 if (strtoupper($datab["NOSPK"]) == strtoupper(trim($data->{'SPK Number'}))) {
                     $resetdata = [

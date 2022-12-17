@@ -103,6 +103,7 @@ export default {
                 { text: 'Nama Kit', filterable: false, value: 'namakit', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Nama Komponen', filterable: false, value: 'namakomponen', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Kebutuhan', filterable: false, value: 'Qty', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                // { text: 'Available', filterable: false, value: 'Qty', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Siteid', value: 'siteID', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Dari Rak', filterable: false, value: 'Dari', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Ke Rak', filterable: false, value: 'Kerak', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },

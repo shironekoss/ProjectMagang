@@ -4,11 +4,16 @@
             <div style=" position: absolute; inset: 0; z-index: 0;" @click="modal = false"></div>
             <div v-if="datatable">
                 <v-data-table dense :headers="headerstable" :items="datatable" :items-per-page="10"
-                    class="elevation-1 font-weight-bold">
+                class="elevation-1 font-weight-bold" :search="search">
                     <template v-slot:top>
                         <v-toolbar flat>
                             <v-toolbar-title>List Terdaftar</v-toolbar-title>
                         </v-toolbar>
+                        <v-card-title>
+                            <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line
+                                hide-details>
+                            </v-text-field>
+                        </v-card-title>
                     </template>
                     <template v-slot:item.actions="{ item }">
                         <v-btn depressed color="blue" @click.prevent="checkfull(item)">Show
@@ -19,18 +24,23 @@
             </div>
         </v-app>
     </div>
-
 </template>
 
 
 <script>
 import axios from 'axios'
+import { useAuth } from '../../../../Stores/Auth';
 import ConvertTime from '../../../Helper/ConvertTime'
 export default {
     mixins: [ConvertTime],
+    setup() {
+        const authStore = useAuth();
+        return { authStore }
+    },
     data() {
         return {
             datatable: [],
+            search: '',
             listspk: [],
             filteredStates: [],
             editedIndex: -1,
@@ -64,7 +74,8 @@ export default {
             this.ChangeStallmode = value
         },
         async getdatatable() {
-            axios.get('/api/listspkshow').then((response) => {
+            console.log(this.authStore.user.account_privileges)
+            axios.post('/api/checkfull',{ Role: this.authStore.user.account_privileges.title, Departemen: this.authStore.user.account_privileges.account_dept }).then((response) => {
                 this.datatable = []
                 this.datatable = response.data.reverse()
                 this.datatable.forEach(element => {
@@ -73,7 +84,7 @@ export default {
             })
         },
         checkfull(item) {
-            axios.post('/api/konversisinglespk', { NoSPK: item.NOSPK }).then((response) => {
+            axios.post('/api/konversicheckfull', { NoSPK: item.NOSPK }).then((response) => {
                 this.errors = response.data.errors
                 if (response.data.hasil == 0) {
                     this.$swal({

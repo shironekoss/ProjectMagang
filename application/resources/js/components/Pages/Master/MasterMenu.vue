@@ -7,7 +7,6 @@
                     <template v-slot:top>
                         <v-toolbar flat>
                             <v-toolbar-title>Tambahkan Master
-
                             </v-toolbar-title>
                             <button class="btn btn-primary" @click="TambahMaster" style="margin-left: 30px;">
                               Tambah Master   <font-awesome-icon icon="fa-solid fa-plus" style="margin-left: 5px;" />  </button>
