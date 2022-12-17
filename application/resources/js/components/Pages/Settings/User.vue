@@ -1,8 +1,8 @@
 <template>
     <div>
         <div class="container my-6">
-            <div class="card" style="max-width:1000px">
-                <div class="card-body">
+            <div class="card" style="max-width:1000px; margin:auto;">
+                <div class="card-body" style="margin:auto;">
                     <h5 class="card-title">Daftar User</h5>
                     <router-link :to="{ name: 'Register' }" class="btn btn-primary">Register <font-awesome-icon icon="fa-solid fa-user" style="margin-left: 5px;" /></router-link>
                     <hr>

@@ -57,7 +57,8 @@
                     </v-col>
                 </v-row>
             </v-container>
-            <div v-if="datatable">
+
+            <div v-if="datatable" class="datatable">
                 <v-data-table dense :headers="headerstable" :items="datatable" :items-per-page="30"
                     class="elevation-1 font-weight-bold">
                     <template v-slot:top>
