@@ -43,7 +43,7 @@ export default {
         return { Auth }
     },
     methods: {
-        Login() {
+        async Login() {
             await this.Auth.handleLogin(this.user);
             if (this.Auth.user == null) {
                 Swal.fire({

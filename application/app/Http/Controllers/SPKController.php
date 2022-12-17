@@ -48,11 +48,11 @@ class SPKController extends Controller
 
     public function latihan()
     {
-        $Departemen = Departemen::where('Nama_Departemen', 'Departemen Other')->first();
-        $saved = SavedConversionResult::where('status', '!=', 'berhasil')
-            ->where('Departemen', $Departemen->Nama_Departemen)
-            ->get();
-        dd($saved);
+        $datas = DB::connection('sqlsrv')->table('SURATPERINTAHKERJA')->get();
+        // ->join('SPECIFICATION', 'SPECIFICATION.SPK Number', '=', 'SURATPERINTAHKERJA.SPK Number')
+        // ->get();
+
+        dd($datas);
     }
 
     public function tambahSPK(Request $request)

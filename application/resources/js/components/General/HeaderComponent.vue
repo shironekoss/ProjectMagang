@@ -6,7 +6,7 @@
             dark
             shrink-on-scroll
             prominent
-            src="../../../images/gradient.png"
+            src="/images/gradient.png"
             fade-img-on-scroll
             scroll-target="#scrolling-techniques-3"
         >
@@ -18,7 +18,7 @@
             </template>
 
             <div class="logo-header">
-                <img src="../../../images/adiputro_logo.png" style="width:100px; height: 80px;">
+                <img src="/images/adiputro_logo.png" style="width:100px; height: 80px;">
             </div>
 
             <v-spacer></v-spacer>
