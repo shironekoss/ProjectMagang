@@ -113,6 +113,11 @@ class SQLController extends Controller
                 ->join('SPECIFICATION', 'SPECIFICATION.SPK Number', '=', 'SURATPERINTAHKERJA.SPK Number')
                 ->get();
 
+                return response()->json([
+                    "statusresponse" => 200,
+                    'message' => $datas,
+                ]);
+
             foreach ($datas as $data) {
                 $datatersimpan = SPK::where('NOSPK', trim($data->{'SPK Number'}))->first();
                 if ($datatersimpan == null) {
