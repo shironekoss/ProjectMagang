@@ -21,7 +21,7 @@ class SPK extends Model
         'Semi_Monocoque',
         'No_Rangka',
         'No_Mesin',
-        'Parameter',
+        'parameter',
         'SPKactive',
     ];
 

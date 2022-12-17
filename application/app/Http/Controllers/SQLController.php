@@ -112,12 +112,6 @@ class SQLController extends Controller
             $datas = DB::connection('sqlsrv')->table('SURATPERINTAHKERJA')
                 ->join('SPECIFICATION', 'SPECIFICATION.SPK Number', '=', 'SURATPERINTAHKERJA.SPK Number')
                 ->get();
-
-                return response()->json([
-                    "statusresponse" => 200,
-                    'message' => $datas,
-                ]);
-
             foreach ($datas as $data) {
                 $datatersimpan = SPK::where('NOSPK', trim($data->{'SPK Number'}))->first();
                 if ($datatersimpan == null) {
@@ -129,11 +123,11 @@ class SQLController extends Controller
                             "Semi_Monocoque"=>trim($data->{'Semi Monocoque'}),
                             "No_Rangka"=>trim($data->{'No Rangka'}),
                             "No_Mesin"=>trim($data->{'No Mesin'}),
-                            "Parameter" =>  [
+                            "parameter" =>  [
                                 "ModelMobil" => trim($data->{'Merk'}),
                                 "TipeMobil" => trim($data->{'Type'}),
                                 "TinggiMobil" => trim($data->{'User Defined Desc'}),
-                                "Newparameter" =>  [],
+                                "newparameter" =>  [],
                             ],
                         ]);
                     } else {
@@ -157,12 +151,12 @@ class SQLController extends Controller
                             ]
                         ]);
                     }
-                } else {
+                } 
+                else {
                     $array = $datatersimpan->parameter;
                     $array["ModelMobil"] = trim($data->{'Merk'});
                     $array["TipeMobil"] = trim($data->{'Type'});
                     $terdaftar = false;
-                    // dd(ctype_space(" "));
                     if (trim($data->{'User Defined'}) == "TINGGI BODY") {
                         $array["TinggiMobil"] = trim($data->{'User Defined Desc'});
                         $datatersimpan->parameter = $array;
@@ -172,7 +166,6 @@ class SQLController extends Controller
                         $index = 0;
                         foreach ($array["newparameter"]  as $subarray) {
                             if (strtoupper($subarray["Newparam"]) == strtoupper(trim($data->{'User Defined'}))) {
-                                // dd($subarray["Newparam"] );
                                 $paramterdaftar = true;
                                 break;
                             }
@@ -214,6 +207,7 @@ class SQLController extends Controller
         } catch (\Throwable $th) {
             return response()->json([
                 "statusresponse" => 400,
+                "error"=>$th->getMessage(),
                 'message' => "Gagal tarik data SPK",
             ]);
         }

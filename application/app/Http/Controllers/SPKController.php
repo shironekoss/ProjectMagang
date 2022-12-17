@@ -48,10 +48,9 @@ class SPKController extends Controller
 
     public function latihan()
     {
-        $datas = DB::connection('sqlsrv')->table('SURATPERINTAHKERJA')->get();
-        // ->join('SPECIFICATION', 'SPECIFICATION.SPK Number', '=', 'SURATPERINTAHKERJA.SPK Number')
-        // ->get();
-
+        $datas = DB::connection('sqlsrv')->table('SURATPERINTAHKERJA')
+                ->join('SPECIFICATION', 'SPECIFICATION.SPK Number', '=', 'SURATPERINTAHKERJA.SPK Number')
+                ->first();
         dd($datas);
     }
 
