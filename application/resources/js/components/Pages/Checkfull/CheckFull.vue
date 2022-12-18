@@ -90,7 +90,7 @@ export default {
                     this.$swal({
                         icon: 'error',
                         title: "error",
-                        text: 'Master ada yang salah',
+                        text: 'Master ada yang salah atau master belum terdaftar',
                         confirmButtonColor: '#FFFFFF',
                         confirmButtonText: ' <p style="color: #0a58ca;"> Why i have This Error ?</p> ',
                         showCloseButton: true,
