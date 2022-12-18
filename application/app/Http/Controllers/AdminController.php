@@ -180,15 +180,6 @@ class AdminController extends Controller
                 foreach ($item2["Kit"] as $kit) {
                     $tempIsikit = [];
                     foreach ($kit["IsiKit"] as $isikit) {
-                        $available = DB::connection('sqlsrv')
-                            ->table('ITEMKITMAINTENANCE')
-                            ->join('iv00102', 'iv00102.ITEMNMBR', '=', 'ITEMKITMAINTENANCE.Component Item Number')
-                            ->where('iv00102.RCRDTYPE', '=', "2")
-                            ->where('iv00102.LOCNCODE', '=', $kit["siteID"])
-                            ->where('ITEMKITMAINTENANCE.Component Item Description', $isikit["nama_komponen"])
-                            ->pluck("QTYONHND")
-                            ->first();
-                        $isikit["Qty_Available"]=$available;
                         array_push($tempIsikit,$isikit);
                     }
                     array_push($tempkit,$tempIsikit);
