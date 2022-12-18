@@ -109,119 +109,180 @@ class AdminController extends Controller
 
     public function konversikomponen(Request $request)
     {
-        $data = SPK::where('NOSPK', "A01JM22")->first();
+        if ($request->Role == "Super Admin Role") {
+            $saved = SavedConversionResult::where('status', '!=', 'berhasil')->get();
+        }else{
+            $Departemen = Departemen::where('Nama_Departemen', $request->Departemen)->first();
+            $saved = SavedConversionResult::where('status', '!=', 'berhasil')
+                        ->where('Departemen',$Departemen->Nama_Departemen)
+                        ->get();
+        }
         $master = Master::all();
-        $i = 0;
+        $messages = [];
         $results = [];
         $result = [];
-        $errors = [];
-        $parameteroModelMobilTerdaftar = false;
-        $parameterTinggiTerdaftar = false;
-        $parameterTipeMobilTerdaftar = false;
-        $parameterNewparamTerdaftar = false;
-        foreach ($master as $item2) {
-            $ModelMobilterdaftar = false;
-            $TinggiMobilterdaftar = false;
-            $TipeMobilTerdaftar = false;
-            $newparameterTerdaftar = false;
-            foreach ($item2["Parameter"]["ModelMobil"] as $subitem2) {
-                if (strtoupper($subitem2) == strtoupper($data["parameter"]["ModelMobil"])) {
-                    $ModelMobilterdaftar = true;
-                    $parameteroModelMobilTerdaftar = true;
-                    break;
+        foreach ($saved as $item1) {
+            //errors check
+            $errors = [];
+            $errorModelMobil = true;
+            $errorTipeMobil = true;
+            $errorTinggiMobil = true;
+            $errorDepartemen = true;
+            $errorStall = true;
+            $errornewparam = true;
+            if ($item1["NOSPK"] == "STOCK") {
+                $i = 0;
+                foreach ($master as $item2) {
+                    foreach ($item2["Parameter"]["Stock"] as $subitem2) {
+                        if (strtoupper($subitem2) == strtoupper($item1["stall"])) {
+                            array_push($result, $item2["Kit"]);
+                            $i++;
+                            break;
+                        }
+                    }
                 }
-            }
-            foreach ($item2["Parameter"]["TinggiMobil"] as $subitem2) {
-                if (strtoupper($subitem2) == strtoupper($data["parameter"]["TinggiMobil"])) {
-                    $TinggiMobilterdaftar = true;
-                    $parameterTinggiTerdaftar = true;
-                    break;
+                if ($i > 0) {
+                    array_push($results, [
+                        'kit' => $result,
+                        'NoSPK' => $item1->NOSPK,
+                    ]);
+                    $item1["status"] = "berhasil";
+                    $item1["kit"] = $results;
+                    $item1["errors"] = [];
+                    $item1->save();
+                } else {
+                    $item1["status"] = "Pending";
+                    $item1["errors"] = ["Stall Belum Terdaftar"];
+                    $item1->save();
                 }
-            }
-            foreach ($item2["Parameter"]["TipeMobil"] as $subitem2) {
-                if (strtoupper($subitem2) == strtoupper($data["parameter"]["TipeMobil"])) {
-                    $TipeMobilTerdaftar = true;
-                    $parameterTipeMobilTerdaftar = true;
-                    break;
-                }
-            }
-            if (count($item2["Parameter"]["NewParameter"]) == 0) {
-                $newparameterTerdaftar = true;
             } else {
-                if (count($item2["Parameter"]["NewParameter"]) > 0) {
-                    $jumlahSPKnewparam = 0;
-                    foreach ($data["parameter"]["newparameter"] as $subnewparam) {
-                        foreach ($item2["Parameter"]["NewParameter"] as $databaseparam) {
-                            if (strtoupper($subnewparam["Newparam"] == strtoupper($databaseparam["Newparam"]))) {
-                                $isisama = false;
-                                foreach ($subnewparam["Component"] as $componentspk) {
-                                    foreach ($databaseparam["Component"] as $componentdatabase) {
-                                        if (strtoupper($componentspk) == strtoupper($componentdatabase)) {
-                                            $isisama = true;
-                                            break;
+
+                $i = 0;
+                foreach ($master as $item2) {
+                    $data = SPK::where('NOSPK', $item1["NOSPK"])->first();
+                    $ModelMobilterdaftar = false;
+                    $TinggiMobilterdaftar = false;
+                    $TipeMobilTerdaftar = false;
+                    $DepartemenTerdaftar = false;
+                    $StallTerdaftar = false;
+                    $newparameterTerdaftar = false;
+                    foreach ($item2["Parameter"]["ModelMobil"] as $subitem2) {
+                        if (strtoupper($subitem2) == strtoupper($data["parameter"]["ModelMobil"])) {
+                            $ModelMobilterdaftar = true;
+                            $errorModelMobil = false;
+                            break;
+                        }
+                    }
+                    foreach ($item2["Parameter"]["TinggiMobil"] as $subitem2) {
+                        if (strtoupper($subitem2) == strtoupper($data["parameter"]["TinggiMobil"])) {
+                            $TinggiMobilterdaftar = true;
+                            $errorTinggiMobil = false;
+                            break;
+                        }
+                    }
+                    foreach ($item2["Parameter"]["TipeMobil"] as $subitem2) {
+                        if (strtoupper($subitem2) == strtoupper($data["parameter"]["TipeMobil"])) {
+                            $TipeMobilTerdaftar = true;
+                            $errorTipeMobil = false;
+                            break;
+                        }
+                    }
+                    foreach ($item2["Parameter"]["Departemen"] as $subitem2) {
+                        if (strtoupper($subitem2) == strtoupper($item1["Departemen"])) {
+                            $DepartemenTerdaftar = true;
+                            $errorDepartemen = false;
+                            break;
+                        }
+                    }
+                    foreach ($item2["Parameter"]["Stall"] as $subitem2) {
+                        if (strtoupper($subitem2) == strtoupper($item1["namastall"])) {
+                            $StallTerdaftar = true;
+                            $errorStall = false;
+                            break;
+                        }
+                    }
+
+                    if (count($item2["Parameter"]["NewParameter"]) == 0) {
+                        $newparameterTerdaftar = true;
+                    } else {
+                        if (count($item2["Parameter"]["NewParameter"]) > 0) {
+                            $jumlahSPKnewparam = 0;
+                            foreach ($data["parameter"]["newparameter"] as $subnewparam) {
+                                foreach ($item2["Parameter"]["NewParameter"] as $databaseparam) {
+                                    if (strtoupper($subnewparam["Newparam"] == strtoupper($databaseparam["Newparam"]))) {
+                                        $isisama = false;
+                                        foreach ($subnewparam["Component"] as $componentspk) {
+                                            foreach ($databaseparam["Component"] as $componentdatabase) {
+                                                if (strtoupper($componentspk) == strtoupper($componentdatabase)) {
+                                                    $isisama = true;
+                                                    break;
+                                                }
+                                            }
+                                            if ($isisama) {
+                                                $jumlahSPKnewparam++;
+                                                break;
+                                            }
                                         }
-                                    }
-                                    if ($isisama) {
-                                        $jumlahSPKnewparam++;
-                                        break;
                                     }
                                 }
                             }
+                            if ($jumlahSPKnewparam == count($item2["Parameter"]["NewParameter"])) {
+                                $newparameterTerdaftar = true;
+                                $errornewparam = false;
+                            }
                         }
                     }
-                    if ($jumlahSPKnewparam == count($item2["Parameter"]["NewParameter"])) {
-                        $newparameterTerdaftar = true;
-                        $parameterNewparamTerdaftar = true;
+                    if ($ModelMobilterdaftar && $TinggiMobilterdaftar && $TipeMobilTerdaftar && $DepartemenTerdaftar && $StallTerdaftar && $newparameterTerdaftar) {
+                        array_push($result, $item2["Kit"]);
+                        $i++;
+                    }
+                    if ($i > 0) {
+                        array_push($results, [
+                            'kit' => $result,
+                            'NoSPK' => $item1->NOSPK,
+                        ]);
+                        $item1["status"] = "berhasil";
+                        $item1["kit"] = $results;
+                        $item1->save();
+                    } else {
+                        $item1["status"] = "Pending";
+                        $item1->save();
                     }
                 }
-            }
-            if ($ModelMobilterdaftar && $TinggiMobilterdaftar && $TipeMobilTerdaftar && $newparameterTerdaftar) {
-                $tempkit = [];
-                foreach ($item2["Kit"] as $kit) {
-                    $tempIsikit = [];
-                    foreach ($kit["IsiKit"] as $isikit) {
-                        $available = DB::connection('sqlsrv')
-                            ->table('ITEMKITMAINTENANCE')
-                            ->join('iv00102', 'iv00102.ITEMNMBR', '=', 'ITEMKITMAINTENANCE.Component Item Number')
-                            ->where('iv00102.RCRDTYPE', '=', "2")
-                            ->where('iv00102.LOCNCODE', '=', $kit["siteID"])
-                            ->where('ITEMKITMAINTENANCE.Component Item Description', $isikit["nama_komponen"])
-                            ->pluck("QTYONHND")
-                            ->first();
-                        $isikit["Qty_Available"]=$available;
-                        array_push($tempIsikit,$isikit);
+                if (!$errorModelMobil && !$errorTinggiMobil && !$errorTipeMobil && !$errorDepartemen && !$errorStall && !$errornewparam) {
+                    $item1["errors"] = [];
+                    $item1->save();
+                } else {
+                    if ($errorModelMobil) {
+                        array_push($errors, "Parameter Model Mobil SPK ini Baru");
                     }
-                    array_push($tempkit,$tempIsikit);
+                    if ($errorTinggiMobil) {
+                        array_push($errors, "Parameter Tinggi Mobil SPK ini Baru");
+                    }
+                    if ($errorTipeMobil) {
+                        array_push($errors, "Parameter Tipe Mobil SPK ini Baru");
+                    }
+                    if ($errorDepartemen) {
+                        array_push($errors, "Departemen ini Baru");
+                    }
+                    if ($errorStall) {
+                        array_push($errors, "Stall ini Baru");
+                    }
+                    if ($errornewparam) {
+                        array_push($errors, "Ada parameter baru di SPK ini");
+                    }
+                    $item1["errors"] = $errors;
+                    $item1->save();
                 }
-                // dd($tempkit);
-                array_push($result, $tempkit);
-                $i++;
-            }
-            if ($i > 0) {
-                array_push($results, [
-                    'kit' => $result,
-                    'NoSPK' => $data["NOSPK"],
-                ]);
             }
         }
-        if (!$parameteroModelMobilTerdaftar) {
-            array_push($errors, " Model Mobil Tidak Terdaftar");
-        }
-        if (!$parameterTinggiTerdaftar) {
-            array_push($errors, " Tinggi Mobil Tidak Terdaftar");
-        }
-        if (!$parameterTipeMobilTerdaftar) {
-            array_push($errors, " Tipe Mobil Tidak Terdaftar");
-        }
-        if (!$parameterNewparamTerdaftar) {
-            array_push($errors, " Ada parameter baru yang belum terdaftar");
-        }
-
         return response()->json([
             "success" => true,
             "status" => 200,
+            "savedconversion" => $saved,
+            "master" => $item2,
+            "message" => $messages,
             "hasil" => $results,
-            "errors" => $errors
         ]);
     }
 
@@ -295,8 +356,9 @@ class AdminController extends Controller
                 }
             }
             if ($ModelMobilterdaftar && $TinggiMobilterdaftar && $TipeMobilTerdaftar && $newparameterTerdaftar) {
-                $tempkit =[];
-                $kitfinal = $item2["Kit"][0];
+                // $tempkit =[];
+                $kitfinal = $item2["Kit"];
+                $j=0;
                 foreach ($item2["Kit"] as $kit) {
                     $tempIsikit = [];
                     foreach ($kit["IsiKit"] as $isikit) {
@@ -311,12 +373,20 @@ class AdminController extends Controller
                         $isikit["Qty_Available"]=$available;
                         array_push($tempIsikit,$isikit);
                     }
-                    array_push($tempkit,$tempIsikit);
+                    $kitfinal[$j]["IsiKit"]=$tempIsikit;
+                    // return response()->json([
+                    //     "kitmodif" => $kitfinal,
+                    // ]);
+                    // array_push($tempkit,$tempIsikit);
+                    $j++;
+                   
                 }
-                $kitfinal["IsiKit"]=$tempkit[0];
+                // return response()->json([
+                //     "kit" => $kitfinal,
+                // ]);
+                // $kitfinal["IsiKit"]=$tempkit;
                 array_push($result, $kitfinal);
                 $i++;
-
             }
             if ($i > 0) {
                 array_push($results, [
@@ -341,7 +411,7 @@ class AdminController extends Controller
         return response()->json([
             "success" => true,
             "status" => 200,
-            "hasil" => $results,
+            "hasil" => $results[0],
             "errors" => $errors
         ]);
 
