@@ -17,7 +17,6 @@
                                     <font-awesome-icon icon="fa-solid fa-print" />
                                 </button>
                             </v-card-title>
-
                         </v-col>
                     </v-row>
                 </v-container>
