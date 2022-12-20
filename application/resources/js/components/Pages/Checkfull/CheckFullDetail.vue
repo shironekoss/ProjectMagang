@@ -120,23 +120,30 @@ export default {
     },
     methods: {
         konversi(array) {
-            console.log(array)
+            console.log(array.length)
             let newdata = [];
-            array["kit"].forEach(Kit => {
-                Kit["IsiKit"].forEach(Komponen => {
-                    let obj = {};
-                    obj['NoSPK'] = array["NoSPK"];
-                    obj['kode'] = Kit["Kodekit"];
-                    obj['namakit'] = Kit["NamaKit"];
-                    obj['siteID'] = Kit["siteID"];
-                    obj['kode_komponen'] = Komponen["kode_komponen"];
-                    obj['nama_komponen'] = Komponen["nama_komponen"];
-                    obj['Satuan'] = Komponen["Satuan"];
-                    obj['kebutuhan'] = Komponen["qty"];
-                    obj['available'] = Komponen["Qty_Available"];
-                    newdata.push(obj);
+            for (let SPKnumber in array) {
+                console.log(array[SPKnumber])
+                array[SPKnumber]["kit"].forEach(Kit => {
+                    Kit["IsiKit"].forEach(Komponen => {
+                        let obj = {};
+                        obj['NoSPK'] = array[SPKnumber]["NoSPK"];
+                        obj['kode'] = Kit["Kodekit"];
+                        obj['namakit'] = Kit["NamaKit"];
+                        obj['siteID'] = Kit["siteID"];
+                        obj['kode_komponen'] = Komponen["kode_komponen"];
+                        obj['nama_komponen'] = Komponen["nama_komponen"];
+                        obj['Satuan'] = Komponen["Satuan"];
+                        obj['kebutuhan'] = Komponen["qty"];
+                        obj['available'] = Komponen["Qty_Available"];
+                        newdata.push(obj);
+                    })
                 })
-            })
+            }
+
+
+
+
             return newdata;
         },
         async print() {
