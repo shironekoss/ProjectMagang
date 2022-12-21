@@ -13,10 +13,10 @@
                                 <h5>List Terdaftar</h5>
                                 <div>
                                     <v-text-field label="yang mau dikonversi" outlined v-model="selectedShowing"
-                                        style="float: left;"></v-text-field>
-                                    <v-btn depressed color="blue" @click.prevent="checkfull(selectedShowing)"
+                                        style="float: left;" disabled></v-text-field>
+                                    <v-btn depressed color="blue" @click.prevent="checkfull()"
                                         style="float: right;margin-left: 15px; max-height: 61px; padding-left: 20px;">Show
-                                        <font-awesome-icon icon="fa-solid fa-eye"  />
+                                        <font-awesome-icon icon="fa-solid fa-eye" />
                                     </v-btn>
                                 </div>
 
@@ -107,10 +107,27 @@ export default {
                 });
             })
         },
+<<<<<<< HEAD
         checkfull(item) {
             axios.post('/api/konversicheckfull', { NoSPK: this.selectedShowing }).then((response) => {
+=======
+        checkfull() {
+            if (this.selectedShowing.length == 0) {
+                this.$swal({
+                    icon: 'error',
+                    title: "error",
+                    text: 'Pilih lebih dahulu SPK yang mau di cek',
+                    confirmButtonColor: '#FFFFFF',
+                    confirmButtonText: ' <p style="color: #0a58ca;"> Why i have This Error ?</p> ',
+                    showCloseButton: true,
+                    focusConfirm: false,
+                })
+            }
+            else{
+                axios.post('/api/konversicheckfull', { NoSPK: this.selectedShowing }).then((response) => {
+>>>>>>> 3271d730f907684f4f2d96ffb90dc4d24c5f1cee
                 this.errors = response.data.errors
-                if (response.data.hasil == 0) {
+                if (response.data.hasil <= 0) {
                     this.$swal({
                         icon: 'error',
                         title: "error",
@@ -145,7 +162,7 @@ export default {
                     })
                 }
             });
-
+            }
         },
         filterstates() {
             if (this.state.length == 0) {
@@ -182,7 +199,12 @@ export default {
     word-break: break-all;
     padding-top: 3%;
 }
+<<<<<<< HEAD
 .v-text-field{
+=======
+
+.v-text-field {
+>>>>>>> 3271d730f907684f4f2d96ffb90dc4d24c5f1cee
     display: flex;
     flex: 1 1 auto;
     position: relative;
