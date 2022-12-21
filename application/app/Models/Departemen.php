@@ -15,6 +15,6 @@ class Departemen extends Model
     public $timestamps = true;
     protected $fillable = [
         'Nama_Departemen',
-        'Jumlah_account',
+        'AksesTipeDatabase',
     ];
 }

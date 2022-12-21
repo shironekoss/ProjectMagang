@@ -68,12 +68,24 @@ class AccountSeeder extends Seeder
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ],
             [
+                'account_username' => 'akunminibus',
+                'account_name' => "dummyminibus",
+                'account_password' => "12345678",
+                'account_privileges' => [
+                    'title' => "Admin Role",
+                    'account_dept' => "Departemen Putty Minibus",
+                ],
+                'account_active' => true,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            ],
+            [
                 'account_username' => 'Heru1235',
                 'account_name' => "Heru",
                 'account_password' => "12345678",
                 'account_privileges' => [
                     'title' => "Admin Role",
-                    'account_dept' => "Departemen Subassy Minibus",
+                    'account_dept' => "Departemen Sub Assy Minibus",
                 ],
                 'account_active' => true,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
@@ -85,7 +97,7 @@ class AccountSeeder extends Seeder
                 'account_password' => "12345678",
                 'account_privileges' => [
                     'title' => "Admin Role",
-                    'account_dept' => "Departemen Subassy Bus",
+                    'account_dept' => "Departemen Sub Assy Bus",
                 ],
                 'account_active' => true,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
@@ -121,7 +133,7 @@ class AccountSeeder extends Seeder
                 'account_password' => "12345678",
                 'account_privileges' => [
                     'title' => "Admin Role",
-                    'account_dept' => "Departemen Trimming Mini bus",
+                    'account_dept' => "Departemen Trimming Minibus",
                 ],
                 'account_active' => true,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),

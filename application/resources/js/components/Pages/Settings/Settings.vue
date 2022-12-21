@@ -2,7 +2,6 @@
 import User from './User.vue';
 import Departemen from './Departemen.vue';
 import Stall from './Stall.vue';
-
 export default {
     data() {
         return {
@@ -22,7 +21,6 @@ export default {
         <div class="container-settings">
             <v-container fill-height fluid>
                 <v-row justify="center">
-
                     <v-btn-toggle >
                         <v-btn @click="changetoggle('Account')" :class="[toggleAccount == 'Account' ? 'aa' : 'white']">
                             <v-icon>Account</v-icon>
@@ -31,7 +29,7 @@ export default {
                             :class="[toggleAccount == 'Departemen' ? 'aa' : 'white']">
                             <v-icon>Departemen</v-icon>
                         </v-btn>
-                        <v-btn @click="changetoggle('Stall')" :class="[toggleAccount == 'Departemen' ? 'aa' : 'white']">
+                        <v-btn @click="changetoggle('Stall')" :class="[toggleAccount == 'Stall' ? 'aa' : 'white']">
                             <v-icon>Stall</v-icon>
                         </v-btn>
                     </v-btn-toggle>
@@ -47,10 +45,9 @@ export default {
                 </v-row>
             </v-container>
         </div>
-
     </div>
 </template>
-<style>
+<style scoped>
 .aa {
     background: rgba(124, 93, 218, 0.8) !important;
 }
@@ -58,5 +55,5 @@ export default {
 .white {
     background: rgba(255, 255, 255, 255) !important;
 }
-</style>
 
+</style>

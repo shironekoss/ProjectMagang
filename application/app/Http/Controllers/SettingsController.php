@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Account;
 use App\Models\Departemen;
+use App\Models\SPK;
 use App\Models\Stall;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -31,6 +32,29 @@ class SettingsController extends Controller
         ]);
     }
 
+    public function showlisttype(Request $request)
+    {
+        $result = [];
+        $finalresult=[];
+        $latihan = SPK::pluck('Tipe')->all();
+        foreach ($latihan as $minilatihan) {
+            if (!in_array($minilatihan, $result, true)) {
+                array_push($result, $minilatihan);
+            }
+        }
+
+        foreach ($result as $val) {
+            $isiresult = (object) array(
+                'text' => $val,
+                'value' => $val);
+            array_push($finalresult, $isiresult);
+        }
+        return response()->json([
+            "statusresponse" => 200,
+            "data" => $finalresult
+        ]);
+    }
+
     public function getlistdepartemen(Request $request)
     {
         if ($request->Role == "Super Admin Role") {
@@ -47,8 +71,8 @@ class SettingsController extends Controller
                 "statusresponse" => 200,
                 "data" => $result
             ]);
-        }else{
-            $listdept = Departemen::where('Nama_Departemen',$request->Departemen)->pluck('Nama_Departemen')->all();
+        } else {
+            $listdept = Departemen::where('Nama_Departemen', $request->Departemen)->pluck('Nama_Departemen')->all();
             $result = [];
             foreach ($listdept as $dept) {
                 $isiresult = (object) array(
@@ -62,6 +86,23 @@ class SettingsController extends Controller
                 "data" => $result
             ]);
         }
+    }
+
+    public function getlistdepartemensetting(Request $request)
+    {
+        $listdept = Departemen::all();
+        $result = [];
+        foreach ($listdept as $dept) {
+            $isiresult = (object) array(
+                'text' => $dept->Nama_Departemen,
+                'value' => $dept->Nama_Departemen
+            );
+            array_push($result, $isiresult);
+        }
+        return response()->json([
+            "statusresponse" => 200,
+            "data" => $result
+        ]);
     }
 
 
@@ -103,6 +144,13 @@ class SettingsController extends Controller
                     "message" => "Inputan nama departemen kosong"
                 ]);
             }
+            if(count($request->databaseakses)<=0){
+                return response()->json([
+                    "statusresponse" => 400,
+                    "data" => $request->namadepartemen,
+                    "message" => "Database akses kosong tambahkan terlebih dahulu"
+                ]);
+            }
             $departemens = Departemen::all();
             foreach ($departemens as $departemen) {
                 if (strtolower($departemen->Nama_Departemen) == strtolower($request->namadepartemen)) {
@@ -115,7 +163,7 @@ class SettingsController extends Controller
             }
             $newdept = Departemen::create([
                 'Nama_Departemen' => ucwords($request->namadepartemen),
-                'Jumlah_account' => 0,
+                'AksesTipeDatabase'=> $request->databaseakses
             ]);
             return response()->json([
                 "statusresponse" => 200,
@@ -209,14 +257,21 @@ class SettingsController extends Controller
 
     public function hapusdepartemen(Request $request)
     {
+
         try {
             $hapusdepartemen = Departemen::where('_id', $request->id)->first();
-            if ($hapusdepartemen->Jumlah_account > 0) {
+            $account = Account::where('account_privileges.account_dept', $hapusdepartemen->Nama_Departemen)->get();
+
+            if (count($account) > 0) {
                 return response()->json([
                     "statusresponse" => 400,
-                    "message" => "Hapus Gagal, Terdapat " . $hapusdepartemen->Jumlah_account . " akun yang terdaftar pada departemen"
+                    "message" => "Hapus Gagal, Terdapat " . count($account) . " akun yang terdaftar pada departemen ini "
                 ]);
             } else {
+                $stall = Stall::where('NamaDepartemen', $hapusdepartemen->Nama_Departemen)->get();
+                foreach ($stall as $isistall) {
+                    $hapusstall = Stall::where('_id', $isistall->_id)->delete();
+                }
                 $hapusdepartemen->delete();
                 return response()->json([
                     "statusresponse" => 200,

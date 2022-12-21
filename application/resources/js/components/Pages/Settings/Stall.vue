@@ -8,7 +8,7 @@
                         <v-toolbar flat>
                             <v-toolbar-title>Daftar Stall
                             </v-toolbar-title>
-                            <button class="btn btn-primary" @click="dialogTambah=true"> TAMBAH</button>
+                            <button class="btn btn-primary" @click="dialogTambah = true"> TAMBAH</button>
                         </v-toolbar>
                         <v-dialog v-model="dialogDelete" max-width="500px">
                             <v-card>
@@ -99,12 +99,12 @@ export default {
             NamaDepartemen: "",
             namaStallHapus: "",
             modeTambah: true,
-            updateid:"",
+            updateid: "",
         }
     },
     mounted() {
         this.getliststall(),
-            this.getlistdepartemen()
+        this.getlistdepartemen()
     },
     watch: {
         dialogDelete(val) {
@@ -116,7 +116,7 @@ export default {
     },
     methods: {
         async getlistdepartemen() {
-            await axios.get('/api/listdepartemen').then((response) => {
+            await axios.post('/api/listdepartemenforsetting').then((response) => {
                 this.listdepartemen = []
                 this.listdepartemen = response.data
             })
@@ -145,8 +145,8 @@ export default {
                 }
             })
         },
-        updatestall(){
-            axios.post('/api/updatestall', { JumlahStall: this.JumlahStall, NamaStall: this.NamaStall, NamaDepartemen: this.NamaDepartemen, id:this.updateid}).then((response) => {
+        updatestall() {
+            axios.post('/api/updatestall', { JumlahStall: this.JumlahStall, NamaStall: this.NamaStall, NamaDepartemen: this.NamaDepartemen, id: this.updateid }).then((response) => {
                 if (response.data.statusresponse == 400) {
                     this.$swal({
                         title: response.data.message,
@@ -172,7 +172,7 @@ export default {
             this.JumlahStall = null
             this.NamaStall = ""
             this.modeTambah = true
-            this.updateid=""
+            this.updateid = ""
         },
         closeDialogDelete() {
             this.dialogDelete = false
@@ -218,6 +218,8 @@ export default {
     }
 }
 </script>
-<style>
-
+<style scoped>
+.btn {
+    margin-left: 25px;
+}
 </style>

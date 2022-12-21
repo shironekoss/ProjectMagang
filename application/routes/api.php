@@ -41,10 +41,12 @@ Route::delete('deleteaccount/{id}',[SettingsController::class,'removeaccount']);
 
 //setting departemen
 Route::get('showdepartemen',[SettingsController::class,'showdepartemen']);
+Route::post('showlisttype',[SettingsController::class,'showlisttype']);
 Route::post('adddepartemen',[SettingsController::class,'adddepartemen']);
 Route::post('saveuser',[SettingsController::class,'saveuser']);
 Route::delete('hapusdepartemen{id}',[SettingsController::class,'hapusdepartemen']);
 Route::delete('hapusstall{id}',[SettingsController::class,'hapusstall']);
+Route::post('listdepartemenforsetting',[SettingsController::class,'getlistdepartemensetting']);
 Route::post('listdepartemen',[SettingsController::class,'getlistdepartemen']);
 Route::get('liststall',[SettingsController::class,'getliststall']);
 Route::post('getlistallparameter',[SettingsController::class,'getlistallparameter']);

@@ -8,7 +8,7 @@
                         <v-toolbar flat>
                             <v-toolbar-title>Daftar Departemen
                             </v-toolbar-title>
-                            <button class="btn btn-primary" @click="dialogTambah=true"> TAMBAH</button>
+                            <button class="btn btn-primary" @click="dialogTambah = true"> TAMBAH</button>
                         </v-toolbar>
                         <v-dialog v-model="dialogDelete" max-width="500px">
                             <v-card>
@@ -29,6 +29,24 @@
                                     <v-col cols="12" sm="6" md="10">
                                         <v-text-field label="Nama Departemen" required v-model="namaDepartemen">
                                         </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="6" md="10">
+                                        <v-select :items="listTypeDatabase.data" item-text="text" item-value="value"
+                                            v-model="selectdatabase" required class="form-control">
+                                            <template #label>
+                                                <span class="red--text"><strong>* </strong></span>Pilih Akses Database
+                                                yang mau Diberikan
+                                            </template>
+                                        </v-select>
+                                        <button class="btn btn-primary btn-dialog" @click="addAccess"> Tambah
+                                            Akses</button>
+                                    </v-col>
+                                    <v-col cols="12" sm="6" md="10">
+                                        <v-text-field label="Database Access" class=".v-input-customclass" required v-model="DatabaseAccess"
+                                            disabled>
+                                        </v-text-field>
+                                        <button class="btn btn-primary btn-dialog" @click="clearAccess"> Bersihkan
+                                            Akses</button>
                                     </v-col>
                                 </v-container>
                                 <v-card-actions>
@@ -64,16 +82,17 @@ export default {
             dialogTambah: false,
             namaDepartemen: "",
             namaDepartemenHapus: "",
+            listTypeDatabase: [],
+            selectdatabase: "",
+            DatabaseAccess: [],
+
         }
     },
     mounted() {
         this.getlistdepartemen();
-        // this.getdatatable();
+        this.getlisttype();
     },
     watch: {
-        // state() {
-        //     this.filterstates();
-        // },
         dialogDelete(val) {
             val || this.closeDialogDelete()
         },
@@ -87,14 +106,42 @@ export default {
                 this.listdepartemen = []
                 this.listdepartemen = response.data
                 this.datatable = response.data.data
-                // this.listspk.forEach(element => {
-                //     this.states.push(element.NOSPK)
-                // });
-                // this.filterstates();
+            })
+        },
+        addAccess() {
+            if (this.selectdatabase == "") {
+                this.$swal({
+                    title: "pilih akses terlebih dahulu",
+                    icon: 'error'
+                });
+            }
+            var check = false;
+            this.DatabaseAccess.forEach(element => {
+                if (this.selectdatabase == element) {
+                    check = true;
+                }
+            });
+            if (check) {
+                this.$swal({
+                    title: "Role Akses sudah terdaftar",
+                    icon: 'error'
+                });
+            }
+            else {
+                this.DatabaseAccess.push(this.selectdatabase)
+            }
+        },
+        clearAccess() {
+            this.DatabaseAccess = []
+        },
+        getlisttype() {
+            axios.post('/api/showlisttype').then((response) => {
+                this.listTypeDatabase = []
+                this.listTypeDatabase = response.data
             })
         },
         addDepartemen() {
-            axios.post('/api/adddepartemen', { namadepartemen: this.namaDepartemen }).then((response) => {
+            axios.post('/api/adddepartemen', { namadepartemen: this.namaDepartemen,databaseakses:this.DatabaseAccess }).then((response) => {
                 this.closeDialogTambah()
                 if (response.data.statusresponse == 400) {
                     this.$swal({
@@ -109,6 +156,7 @@ export default {
                     });
                     this.getlistdepartemen();
                 }
+                this.selectdatabase=""
             })
         },
         closeDialogTambah() {
@@ -153,6 +201,17 @@ export default {
     }
 }
 </script>
-<style>
+<style scoped>
+.btn {
+    margin-left: 25px;
+}
 
+.btn-dialog {
+    margin-left: 0px;
+    margin-top: 15px;
+}
+
+.v-input--is-disabled input{
+    color: rgba(0, 0, 0, 0.87);
+}
 </style>

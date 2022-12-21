@@ -48,137 +48,22 @@ class SPKController extends Controller
 
     public function latihan()
     {
-        $data = SPK::where('NOSPK', "A01JM22")->first();
-        $master = Master::all();
-        $i = 0;
-        $results = [];
         $result = [];
-        $errors = [];
-        $parameteroModelMobilTerdaftar = false;
-        $parameterTinggiTerdaftar = false;
-        $parameterTipeMobilTerdaftar = false;
-        $parameterNewparamTerdaftar = false;
-        foreach ($master as $item2) {
-            $ModelMobilterdaftar = false;
-            $TinggiMobilterdaftar = false;
-            $TipeMobilTerdaftar = false;
-            $newparameterTerdaftar = false;
-            foreach ($item2["Parameter"]["ModelMobil"] as $subitem2) {
-                if (strtoupper($subitem2) == strtoupper($data["parameter"]["ModelMobil"])) {
-                    $ModelMobilterdaftar = true;
-                    $parameteroModelMobilTerdaftar = true;
-                    break;
-                }
+        $finalresult=[];
+        $latihan = SPK::pluck('Tipe')->all();
+        foreach ($latihan as $minilatihan) {
+            if (!in_array($minilatihan, $result, true)) {
+                array_push($result, $minilatihan);
             }
-            foreach ($item2["Parameter"]["TinggiMobil"] as $subitem2) {
-                if (strtoupper($subitem2) == strtoupper($data["parameter"]["TinggiMobil"])) {
-                    $TinggiMobilterdaftar = true;
-                    $parameterTinggiTerdaftar = true;
-                    break;
-                }
-            }
-            foreach ($item2["Parameter"]["TipeMobil"] as $subitem2) {
-                if (strtoupper($subitem2) == strtoupper($data["parameter"]["TipeMobil"])) {
-                    $TipeMobilTerdaftar = true;
-                    $parameterTipeMobilTerdaftar = true;
-                    break;
-                }
-            }
-            if (count($item2["Parameter"]["NewParameter"]) == 0) {
-                $newparameterTerdaftar = true;
-            } else {
-                if (count($item2["Parameter"]["NewParameter"]) > 0) {
-                    $jumlahSPKnewparam = 0;
-                    foreach ($data["parameter"]["newparameter"] as $subnewparam) {
-                        foreach ($item2["Parameter"]["NewParameter"] as $databaseparam) {
-                            if (strtoupper($subnewparam["Newparam"] == strtoupper($databaseparam["Newparam"]))) {
-                                $isisama = false;
-                                foreach ($subnewparam["Component"] as $componentspk) {
-                                    foreach ($databaseparam["Component"] as $componentdatabase) {
-                                        if (strtoupper($componentspk) == strtoupper($componentdatabase)) {
-                                            $isisama = true;
-                                            break;
-                                        }
-                                    }
-                                    if ($isisama) {
-                                        $jumlahSPKnewparam++;
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    if ($jumlahSPKnewparam == count($item2["Parameter"]["NewParameter"])) {
-                        $newparameterTerdaftar = true;
-                        $parameterNewparamTerdaftar = true;
-                    }
-                }
-            }
-            if ($ModelMobilterdaftar && $TinggiMobilterdaftar && $TipeMobilTerdaftar && $newparameterTerdaftar) {
-                $tempkit =[];
-                $kitfinal = $item2["Kit"][0];
-                foreach ($item2["Kit"] as $kit) {
-                    $tempIsikit = [];
-                    foreach ($kit["IsiKit"] as $isikit) {
-                        $available = DB::connection('sqlsrv')
-                            ->table('ITEMKITMAINTENANCE')
-                            ->join('iv00102', 'iv00102.ITEMNMBR', '=', 'ITEMKITMAINTENANCE.Component Item Number')
-                            ->where('iv00102.RCRDTYPE', '=', "2")
-                            ->where('iv00102.LOCNCODE', '=', $kit["siteID"])
-                            ->where('ITEMKITMAINTENANCE.Component Item Description', $isikit["nama_komponen"])
-                            ->pluck("QTYONHND")
-                            ->first();
-                        $isikit["Qty_Available"]=$available;
-                        array_push($tempIsikit,$isikit);
-                    }
-                    array_push($tempkit,$tempIsikit);
-                }
-            
-                $kitfinal["IsiKit"]=$tempkit[0];
-                array_push($result, $kitfinal);
-                $i++;
+        }
 
-            }
-            if ($i > 0) {
-                array_push($results, [
-                    'kit' => $result[0],
-                    'NoSPK' => $data["NOSPK"],
-                ]);
-            }
+        foreach ($result as $val) {
+            $isiresult = (object) array(
+                'text' => $val,
+                'value' => $val);
+            array_push($finalresult, $isiresult);
         }
-        if (!$parameteroModelMobilTerdaftar) {
-            array_push($errors, " Model Mobil Tidak Terdaftar");
-        }
-        if (!$parameterTinggiTerdaftar) {
-            array_push($errors, " Tinggi Mobil Tidak Terdaftar");
-        }
-        if (!$parameterTipeMobilTerdaftar) {
-            array_push($errors, " Tipe Mobil Tidak Terdaftar");
-        }
-        if (!$parameterNewparamTerdaftar) {
-            array_push($errors, " Ada parameter baru yang belum terdaftar");
-        }
-        dd($results);
-    }
 
-    public function tambahSPK(Request $request)
-    {
-        $newmobil = SPK::create([
-            "NoSPK" => $request->NoSPK,
-            "Nama" => $request->Nama,
-            "Alamat" => $request->Alamat,
-            "TanggalPenerimaan" => $request->TanggalPenerimaan,
-            "TanggalSPK" => $request->TanggalSPK,
-            "Status" => $request->Status,
-            'Mobil' => $request->Mobil,
-            "status_SPK" => false,
-            "Last_edit" => "",
-        ]);
-        return response()->json([
-            "status" => true,
-            "message" => 'Data user berhasil disimpan',
-            "data" => $newmobil
-        ]);
     }
 
     public function coba()

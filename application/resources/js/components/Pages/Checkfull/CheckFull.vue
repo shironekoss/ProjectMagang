@@ -107,10 +107,6 @@ export default {
                 });
             })
         },
-<<<<<<< HEAD
-        checkfull(item) {
-            axios.post('/api/konversicheckfull', { NoSPK: this.selectedShowing }).then((response) => {
-=======
         checkfull() {
             if (this.selectedShowing.length == 0) {
                 this.$swal({
@@ -125,7 +121,6 @@ export default {
             }
             else{
                 axios.post('/api/konversicheckfull', { NoSPK: this.selectedShowing }).then((response) => {
->>>>>>> 3271d730f907684f4f2d96ffb90dc4d24c5f1cee
                 this.errors = response.data.errors
                 if (response.data.hasil <= 0) {
                     this.$swal({
@@ -199,12 +194,8 @@ export default {
     word-break: break-all;
     padding-top: 3%;
 }
-<<<<<<< HEAD
-.v-text-field{
-=======
 
 .v-text-field {
->>>>>>> 3271d730f907684f4f2d96ffb90dc4d24c5f1cee
     display: flex;
     flex: 1 1 auto;
     position: relative;
