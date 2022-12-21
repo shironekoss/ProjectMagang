@@ -42,8 +42,8 @@
                                             Akses</button>
                                     </v-col>
                                     <v-col cols="12" sm="6" md="10">
-                                        <v-text-field label="Database Access" class=".v-input-customclass" required v-model="DatabaseAccess"
-                                            disabled>
+                                        <v-text-field label="Database Access" class=".v-input-customclass" required
+                                            v-model="DatabaseAccess" disabled>
                                         </v-text-field>
                                         <button class="btn btn-primary btn-dialog" @click="clearAccess"> Bersihkan
                                             Akses</button>
@@ -57,8 +57,45 @@
                                 </v-card-actions>
                             </v-card>
                         </v-dialog>
+                        <v-dialog v-model="dialogUpdate" max-width="500px">
+                            <v-card>
+                                <v-card-title class="text-h5">Update Departemen</v-card-title>
+                                <v-container>
+                                    <v-col cols="12" sm="6" md="10">
+                                        <v-text-field label="Nama Departemen" required v-model="namaDepartemen">
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="6" md="10">
+                                        <v-select :items="listTypeDatabase.data" item-text="text" item-value="value"
+                                            v-model="selectdatabase" required class="form-control">
+                                            <template #label>
+                                                <span class="red--text"><strong>* </strong></span>Pilih Akses Database
+                                                yang mau Diberikan
+                                            </template>
+                                        </v-select>
+                                        <button class="btn btn-primary btn-dialog" @click="addAccess"> Tambah
+                                            Akses</button>
+                                    </v-col>
+                                    <v-col cols="12" sm="6" md="10">
+                                        <v-text-field label="Database Access" class=".v-input-customclass" required
+                                            v-model="DatabaseAccess" disabled>
+                                        </v-text-field>
+                                        <button class="btn btn-primary btn-dialog" @click="clearAccess"> Bersihkan
+                                            Akses</button>
+                                    </v-col>
+                                </v-container>
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn color="blue darken-1" text @click="closeDialogUpdate">Cancel</v-btn>
+                                    <v-btn color="blue darken-1" text @click="updateDepartemen">Update</v-btn>
+                                    <v-spacer></v-spacer>
+                                </v-card-actions>
+                            </v-card>
+                        </v-dialog>
                     </template>
                     <template v-slot:item.actions="{ item }">
+                        <v-btn depressed color="teal lighten-3" @click="updateItem(item)"
+                            style="margin-right: 20px;">Update</v-btn>
                         <v-btn depressed color="error" @click="deleteItem(item)">Hapus</v-btn>
                     </template>
                 </v-data-table>
@@ -80,6 +117,7 @@ export default {
             ],
             dialogDelete: false,
             dialogTambah: false,
+            dialogUpdate: false,
             namaDepartemen: "",
             namaDepartemenHapus: "",
             listTypeDatabase: [],
@@ -98,6 +136,9 @@ export default {
         },
         dialogTambah(val) {
             val || this.closeDialogTambah()
+        },
+        dialogUpdate(val) {
+            val || this.closeDialogUpdate()
         },
     },
     methods: {
@@ -141,7 +182,7 @@ export default {
             })
         },
         addDepartemen() {
-            axios.post('/api/adddepartemen', { namadepartemen: this.namaDepartemen,databaseakses:this.DatabaseAccess }).then((response) => {
+            axios.post('/api/adddepartemen', { namadepartemen: this.namaDepartemen, databaseakses: this.DatabaseAccess }).then((response) => {
                 this.closeDialogTambah()
                 if (response.data.statusresponse == 400) {
                     this.$swal({
@@ -156,8 +197,27 @@ export default {
                     });
                     this.getlistdepartemen();
                 }
-                this.selectdatabase=""
             })
+        },
+        updateDepartemen() {
+            var dataUpdate = this.datatable[this.editedIndex]
+            axios.post('/api/updatedepartemen', { id:dataUpdate["_id"],namadepartemen: this.namaDepartemen, databaseakses: this.DatabaseAccess }).then((response) => {
+                this.closeDialogTambah()
+                if (response.data.statusresponse == 400) {
+                    this.$swal({
+                        title: response.data.message,
+                        icon: 'error'
+                    });
+                }
+                else if (response.data.statusresponse == 200) {
+                    this.$swal({
+                        title: response.data.message,
+                        icon: 'success'
+                    });
+                    this.getlistdepartemen();
+                }
+            })
+            this.closeDialogUpdate()
         },
         closeDialogTambah() {
             this.dialogTambah = false
@@ -165,6 +225,17 @@ export default {
                 this.editedIndex = -1
             })
             this.namaDepartemen = ""
+            this.selectdatabase = ""
+            this.DatabaseAccess = []
+        },
+        closeDialogUpdate() {
+            this.dialogUpdate = false
+            this.$nextTick(() => {
+                this.editedIndex = -1
+            })
+            this.namaDepartemen = ""
+            this.selectdatabase = ""
+            this.DatabaseAccess = []
         },
         closeDialogDelete() {
             this.dialogDelete = false
@@ -173,6 +244,24 @@ export default {
             })
             this.namaDepartemenHapus = ""
         },
+        updateItem(item) {
+            this.editedIndex = this.datatable.indexOf(item)
+            var dataUpdate = this.datatable[this.editedIndex]
+            console.log(dataUpdate)
+            axios.post('/api/getupdatedept' + dataUpdate["_id"]).then((response) => {
+                if (response.data.statusresponse == 400) {
+                    this.$swal({
+                        title: response.data.message,
+                        icon: 'error'
+                    });
+                }
+                else if (response.data.statusresponse == 200) {
+                    this.namaDepartemen=response.data.data.Nama_Departemen
+                    this.DatabaseAccess=response.data.data.AksesTipeDatabase
+                }
+            })
+            this.dialogUpdate = true
+        },
         deleteItem(item) {
             this.namaDepartemenHapus = item.Nama_Departemen
             this.editedIndex = this.datatable.indexOf(item)
@@ -180,7 +269,7 @@ export default {
         },
         deleteItemConfirm() {
             var datahapus = this.datatable[this.editedIndex]
-            this.closeDialogDelete()
+
             axios.delete('/api/hapusdepartemen' + datahapus["_id"]).then((response) => {
                 if (response.data.statusresponse == 400) {
                     this.$swal({
@@ -211,7 +300,7 @@ export default {
     margin-top: 15px;
 }
 
-.v-input--is-disabled input{
+.v-input--is-disabled input {
     color: rgba(0, 0, 0, 0.87);
 }
 </style>
