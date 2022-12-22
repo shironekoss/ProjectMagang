@@ -9,7 +9,11 @@
             <div class="logo-header">
                 <img src="/images/adiputro_logo.png" style="width:100px; height: 80px;">
             </div>
-            <span class="white--text text-h5 welcome-text" style="margin-left: 30px;"> Welcome, {{ authStore.user.account_name }}</span>
+            <div v-if="authStore.user != null">
+                <span class="white--text text-h5 welcome-text" style="margin-left: 30px;"> Welcome, {{
+                        authStore.user.account_name
+                }}</span>
+            </div>
             <v-spacer></v-spacer>
             <div v-if="authStore.user != null">
                 <div v-if="authStore.user.account_privileges.title == 'Super Admin Role'">
