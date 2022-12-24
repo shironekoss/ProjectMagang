@@ -12,7 +12,11 @@ use Illuminate\Support\Facades\Hash;
 
 class SettingsController extends Controller
 {
-
+    public function ambilaccounts()
+    {
+        $users = Account::all();
+        return $users;
+    }
     public function show($id)
     {
         $users = Account::find($id);
@@ -165,5 +169,13 @@ class SettingsController extends Controller
             "data" => $user
         ]);
     }
-
+    public function removeaccount($id)
+    {
+        $user = Account::find($id);
+        $user->delete();
+        return response()->json([
+            'status' => true,
+            'message' => 'Data user berhasil dihapus',
+        ]);
+    }
 }

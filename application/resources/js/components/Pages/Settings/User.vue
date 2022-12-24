@@ -9,7 +9,7 @@
                     <ul class="list-group list-group-light"></ul>
                     <div v-for="account in accounts">
                         <div v-if="!account.deleted_at">
-                            <UserdetailVue :account="account"/>
+                            <UserdetailVue :account="account" />
                         </div>
                     </div>
                 </div>
@@ -32,7 +32,7 @@ export default {
     },
     methods: {
         getUsers() {
-            axios.post('/api/accounts/' + this.accounts).then((response) => {
+            axios.get('/api/accounts/' + this.accounts).then((response) => {
                 this.accounts = response.data
             })
         },

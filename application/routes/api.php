@@ -9,7 +9,6 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SettingStallController;
 use App\Http\Controllers\SPKController;
 use App\Http\Controllers\SQLController;
-use App\Http\Controllers\UserSettingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,15 +26,12 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/api/user', function (Request $request) {
     return $request->user();
 });
-
+Route::get('accounts',[SettingsController::class,'ambilaccounts']);
 Route::get('products',[ProductController::class,'frontend']);
 Route::get('users/{id}',[SettingsController::class,'show']);
 Route::post('tambahaccount',[SettingsController::class,'addAccount']);
 
-
-//Setting User Controller
-Route::post('accounts',[UserSettingController::class,'ambilaccounts']);
-Route::delete('deleteaccount/{id}',[UserSettingController::class,'removeaccount']);
+Route::delete('deleteaccount/{id}',[SettingsController::class,'removeaccount']);
 
 
 //Setting Departemen Controller
