@@ -23,6 +23,7 @@ class SPK extends Model
         'No_Mesin',
         'parameter',
         'SPKactive',
+        'check',
     ];
 
 

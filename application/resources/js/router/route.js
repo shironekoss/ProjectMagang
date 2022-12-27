@@ -64,7 +64,7 @@ const routes = [
         component: () => import("../components/Pages/Master/MasterMenu.vue"),
         meta: {
             guestPageAccess: false,
-            levelAccess: 'Super Admin Role'
+            levelAccess: 'Admin Role'
         }
     },
     {
@@ -133,9 +133,18 @@ const routes = [
         }
     },
     {
+        name: 'ManageInputSPK', // manajemen user dan departemen
+        path: '/ManageInputSPK',
+        component: () => import("../components/Pages/InputComponent/ManageInputNoSPk.vue"),
+        meta: {
+            guestPageAccess: false,
+            levelAccess: 'Admin Role'
+        }
+    },
+    {
         name: 'Login',
         path: '/login',
-        component: () => import("../components/Credential/Logintemp.vue"),
+        component: () => import("../components/Credential/Login.vue"),
         meta: {
             guestPageAccess: true
         }

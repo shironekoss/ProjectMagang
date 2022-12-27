@@ -120,7 +120,7 @@ export default {
     },
     methods: {
         konversi(array) {
-            console.log(array[0]["kit"][0])
+            // console.log(array[0]["kit"][0])
             let newdata = [];
             array.forEach(SPK => {
                 SPK["kit"].forEach(kits => {
@@ -141,7 +141,6 @@ export default {
                     });
                 });
             });
-            console.log(newdata)
             return newdata;
         },
         async print() {

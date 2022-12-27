@@ -102,7 +102,6 @@ export default {
             })
         },
         pindahhistory(item) {
-            console.log(item)
             this.$router.push({
                 name: 'CheckresultSingleHistory',
                 params: { name: item.NOSPK,

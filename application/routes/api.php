@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\InputController;
 use App\Http\Controllers\LoginAuthController;
 use App\Http\Controllers\MasterController;
 use App\Http\Controllers\ProductController;
@@ -89,9 +90,13 @@ Route::post('/login', [LoginAuthController::class,'loginfunction']);
 Route::get('/logout', [LoginAuthController::class,'logout']);
 
 
+Route::post('managespknum',[InputController::class,'managespknum']);
+Route::post('savedspknum',[InputController::class,'savedspknum']);
+
 //SqlController Berhubungan dengan narik SQLSRV
 Route::get('getdatakit',[SQLController::class,'getdatakit']);
 Route::get('getdataspk',[SQLController::class,'getdataspk']);
+
 
 // Route::resource('posts', PostController::class)->only([
 //     'destroy', 'show', 'store', 'update'

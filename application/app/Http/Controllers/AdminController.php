@@ -23,8 +23,27 @@ class AdminController extends Controller
             return $spklist;
         } else {
             $Departemen = Departemen::where('Nama_Departemen', $request->Departemen)->first();
-            $spklist = SPK::whereIn('Tipe', $Departemen->AksesTipeDatabase)->pluck('NOSPK');
-            return $spklist;
+            $spklist = SPK::whereIn('Tipe', $Departemen->AksesTipeDatabase)
+                ->get();
+
+            $result = [];
+            foreach ($spklist as $spk) {
+                $insert = true;
+                foreach ($spk["check"] as $check) {
+                    if (array_key_exists($request->Departemen, $check)) {
+                        if (isset($check[$request->Departemen])) {
+                            if ($check[$request->Departemen]) {
+                                $insert = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+                if ($insert) {
+                    array_push($result, $spk->NOSPK);
+                }
+            }
+            return $result;
         }
     }
 
@@ -35,7 +54,7 @@ class AdminController extends Controller
             return $spklist;
         } else {
             $Departemen = Departemen::where('Nama_Departemen', $request->Departemen)->first();
-            $spklist = SPK::whereIn('Tipe', $Departemen->AksesTipeDatabase);
+            $spklist = SPK::whereIn('Tipe', $Departemen->AksesTipeDatabase)->get();
             return $spklist;
         }
     }
@@ -408,21 +427,23 @@ class AdminController extends Controller
             }
             if ($errorcheck > 0) {
                 $results[0]["errors"] = $errors;
-                $results[0]["kit"]=[[
-                    "NamaKit"=>"",
-                    "Kodekit"=>"",
-                    "IsiKit"=>[[
-                        "kode_komponen"=>"",
-                        "nama_komponen"=>"",
-                        "qty"=>"",
-                        "Satuan"=>"",
-                        "Qty_Available"=>"",
-                    ]],
-                    "siteID"=>""]
+                $results[0]["kit"] = [
+                    [
+                        "NamaKit" => "",
+                        "Kodekit" => "",
+                        "IsiKit" => [[
+                            "kode_komponen" => "",
+                            "nama_komponen" => "",
+                            "qty" => "",
+                            "Satuan" => "",
+                            "Qty_Available" => "",
+                        ]],
+                        "siteID" => ""
+                    ]
                 ];
-                $results[0]["NoSPK"]=$data["NOSPK"];
+                $results[0]["NoSPK"] = $data["NOSPK"];
             }
-            array_push($finalresult,$results[0]);
+            array_push($finalresult, $results[0]);
         }
         return response()->json([
             "success" => true,

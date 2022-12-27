@@ -10,16 +10,15 @@
                     <template v-slot:top>
                         <v-toolbar flat>
                             <v-toolbar-title>
-                                <h5>List Terdaftar</h5>
                                 <div>
-                                    <v-text-field label="yang mau dikonversi" outlined v-model="selectedShowing"
+                                    <v-text-field label="yang mau di disabled" outlined v-model="selectedShowing"
                                         style="float: left;" disabled></v-text-field>
-                                    <v-btn depressed color="blue" @click.prevent="checkfull()"
-                                        style="float: right;margin-left: 15px; max-height: 61px; padding-left: 20px;">Show
-                                        <font-awesome-icon icon="fa-solid fa-eye" />
+                                    <v-text-field label="yang mau di dihilangkan" outlined v-model="unselected"
+                                        style="float: left;" disabled></v-text-field>
+                                    <v-btn depressed color="blue" @click.prevent="SavedManaged"
+                                        style="float: right;margin-left: 15px; max-height: 61px; padding-left: 20px;">Save
                                     </v-btn>
                                 </div>
-
                             </v-toolbar-title>
                         </v-toolbar>
                         <v-card-title>
@@ -49,6 +48,8 @@ export default {
         return {
             datatable: [],
             selected: [],
+            begginingselected: [],
+            unselected: [],
             selectedShowing: [],
             search: '',
             listspk: [],
@@ -78,6 +79,9 @@ export default {
         state() {
             this.filterstates();
         },
+        selected: function () {
+            this.unselectedfill();
+        }
     },
     computed: {
         showingSelectedConvert() {
@@ -88,6 +92,9 @@ export default {
         }
     },
     methods: {
+        unselectedfill() {
+            this.unselected = this.begginingselected.filter(x => !this.selectedShowing.includes(x))
+        },
         changevalue(value) {
             this.ChangeStallmode = value
         },
@@ -96,67 +103,39 @@ export default {
             this.showingSelectedConvert
         },
         handleClick(value) {
-            console.log(value)
+            // console.log(value)
         },
         async getdatatable() {
-            axios.post('/api/checkfull', { Role: this.authStore.user.account_privileges.title, Departemen: this.authStore.user.account_privileges.account_dept }).then((response) => {
+            axios.post('/api/managespknum', { Role: this.authStore.user.account_privileges.title, Departemen: this.authStore.user.account_privileges.account_dept }).then((response) => {
                 this.datatable = []
                 this.datatable = response.data.reverse()
                 this.datatable.forEach(element => {
                     element["updated_at"] = this.converttime(element["updated_at"])
+                    // console.log(element)
+                    if (element["check"].length > 0) {
+                        element["check"].every(disabledSPK => {
+                            // console.log(disabledSPK[this.authStore.user.account_privileges.account_dept])
+                            if (disabledSPK[this.authStore.user.account_privileges.account_dept] == true) {
+                                this.selected.push(element)
+                                return false;
+                            }
+                            return true;
+                        })
+                    }
                 });
+                this.showingSelectedConvert
+                this.begginingselected = this.selectedShowing
             })
         },
-        checkfull() {
-            if (this.selectedShowing.length == 0) {
-                this.$swal({
-                    icon: 'error',
-                    title: "error",
-                    text: 'Pilih lebih dahulu SPK yang mau di cek',
-                    confirmButtonColor: '#FFFFFF',
-                    showCloseButton: true,
-                    focusConfirm: false,
-                })
-            }
-            else{
-                axios.post('/api/konversicheckfull', { NoSPK: this.selectedShowing }).then((response) => {
-                this.errors = response.data.errors
-                if (response.data.hasil <= 0) {
+        SavedManaged() {
+            axios.post('/api/savedspknum', { NoSPK: this.selectedShowing, Departemen: this.authStore.user.account_privileges.account_dept, unselectedSPK: this.unselected }).then((response) => {
+                if(response.status==200){
                     this.$swal({
-                        icon: 'error',
-                        title: "error",
-                        text: ' <p style="color: #0a58ca;"Master ada yang salah atau master belum terdaftar',
-                        confirmButtonColor: '#FFFFFF',
-                        confirmButtonText: ' <p style="color: #0a58ca;"> Why i have This Error ?</p> ',
-                        showCloseButton: true,
-                        focusConfirm: false,
-                    })
-                        .then((result) => {
-                            if (result.isConfirmed) {
-                                var StringHTML = '<ul style="color: black;">'
-                                this.errors.forEach(element => {
-                                    console.log(element)
-                                    StringHTML += '<li>' + element + '</li>'
-                                });
-                                StringHTML += '</ul>';
-                                this.$swal.fire({
-                                    title: '<strong><u>Alasan</u></strong>',
-                                    icon: 'info',
-                                    html: StringHTML,
-                                    showCloseButton: true,
-                                    showCancelButton: true,
-                                    focusConfirm: false,
-                                })
-                            }
-                        });
-                } else {
-                    this.$router.push({
-                        name: 'CheckFullDetail',
-                        params: { hasil: response.data.hasil }
-                    })
+                        title: "sukses update",
+                        icon: 'success'
+                    });
                 }
             });
-            }
         },
         filterstates() {
             if (this.state.length == 0) {
@@ -165,7 +144,6 @@ export default {
             this.filteredStates = this.states.filter(state => {
                 return state.toLowerCase().startsWith(this.state.toLowerCase());
             });
-            // this.getkode(this.state)
             this.getmaxvalue(this.state)
         },
     }
