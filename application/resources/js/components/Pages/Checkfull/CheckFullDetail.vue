@@ -36,6 +36,7 @@
         </v-app>
     </div>
 </template>
+
 <script>
 import JsonExcel from "vue-json-excel"
 import $ from 'jquery'
