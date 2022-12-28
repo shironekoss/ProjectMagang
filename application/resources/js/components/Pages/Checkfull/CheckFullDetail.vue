@@ -141,10 +141,6 @@ export default {
                     })
                 })
             }
-
-
-
-
             return newdata;
         },
         async print() {

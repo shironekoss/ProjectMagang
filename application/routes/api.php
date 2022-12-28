@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CheckFullController;
 use App\Http\Controllers\InputController;
 use App\Http\Controllers\LoginAuthController;
 use App\Http\Controllers\MasterController;
@@ -30,14 +31,10 @@ Route::middleware('auth:sanctum')->get('/api/user', function (Request $request) 
 });
 
 Route::get('products',[ProductController::class,'frontend']);
-Route::get('users/{id}',[SettingsController::class,'show']);
-Route::post('tambahaccount',[SettingsController::class,'addAccount']);
-
 
 //Setting User Controller
 Route::post('accounts',[UserSettingController::class,'ambilaccounts']);
 Route::delete('deleteaccount/{id}',[UserSettingController::class,'removeaccount']);
-
 
 //Setting Departemen Controller
 Route::post('showlisttype',[SettingDepartemenController::class,'showlisttype']);
@@ -58,21 +55,12 @@ Route::post('saveuser',[SettingsController::class,'saveuser']);
 Route::delete('hapusstall{id}',[SettingsController::class,'hapusstall']);
 Route::post('listdepartemen',[SettingsController::class,'getlistdepartemen']);
 Route::post('getlistallparameter',[SettingsController::class,'getlistallparameter']);
-
+Route::get('users/{id}',[SettingsController::class,'show']);
+Route::post('tambahaccount',[SettingsController::class,'addAccount']);
 
 Route::post('tambahSPK',[SPKController::class,'tambahSPK']);
 Route::get('spklist',[SPKController::class,'spklist']);
-
-
-Route::post('tambahmaster',[MasterController::class,'tambahmaster']);
-Route::post('updatemaster',[MasterController::class,'updatemaster']);
-Route::post('generatemasterkit',[MasterController::class,'generatemasterkit']);
-Route::get('listmaster',[MasterController::class,'listmaster']);
-Route::delete('hapusmaster{id}',[MasterController::class,'hapusmaster']);
-Route::get('master/{id}',[MasterController::class,'carimaster']);
-
 Route::post('listspkshow',[AdminController::class,'listspkshow']);
-Route::post('checkfull',[AdminController::class,'checkfull']);
 Route::get('getdatatable',[AdminController::class,'getdatatable']);
 Route::post('getdatatable',[AdminController::class,'getdatatables']);
 Route::post('getdatatablehistory',[AdminController::class,'getdatatablehistory']);
@@ -81,22 +69,32 @@ Route::post('ambilmax',[AdminController::class,'ambilmax']);
 Route::post('admintambahspk',[AdminController::class,'admintambahspk']);
 Route::post('konversikomponen',[AdminController::class,'konversikomponen']);
 Route::post('konversisinglespk',[AdminController::class,'konversisinglespk']);
-Route::post('konversicheckfull',[AdminController::class,'konversicheckfull']);
+
 Route::post('getlistallparameterinput',[AdminController::class,'getlistallparameterinput']);
 Route::delete('hapusdatatable{id}',[AdminController::class,'hapusdatatable']);
 
-// Route::post('login',[LoginAuthController::class ,'loginfunction']);
+//Controller untuk login dan Logout
 Route::post('/login', [LoginAuthController::class,'loginfunction']);
 Route::get('/logout', [LoginAuthController::class,'logout']);
-
 
 Route::post('managespknum',[InputController::class,'managespknum']);
 Route::post('savedspknum',[InputController::class,'savedspknum']);
 
+// Controller untuk CheckFull
+Route::post('checkfull',[CheckFullController::class,'checkfull']);
+Route::post('konversicheckfull',[CheckFullController::class,'konversicheckfull']);
+
+//Controller untuk Master Page
+Route::post('tambahmaster',[MasterController::class,'tambahmaster']);
+Route::post('updatemaster',[MasterController::class,'updatemaster']);
+Route::post('generatemasterkit',[MasterController::class,'generatemasterkit']);
+Route::get('listmaster',[MasterController::class,'listmaster']);
+Route::delete('hapusmaster{id}',[MasterController::class,'hapusmaster']);
+Route::get('master/{id}',[MasterController::class,'carimaster']);
+
 //SqlController Berhubungan dengan narik SQLSRV
 Route::get('getdatakit',[SQLController::class,'getdatakit']);
 Route::get('getdataspk',[SQLController::class,'getdataspk']);
-
 
 // Route::resource('posts', PostController::class)->only([
 //     'destroy', 'show', 'store', 'update'
