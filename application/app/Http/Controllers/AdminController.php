@@ -29,12 +29,14 @@ class AdminController extends Controller
             $result = [];
             foreach ($spklist as $spk) {
                 $insert = true;
-                foreach ($spk["check"] as $check) {
-                    if (array_key_exists($request->Departemen, $check)) {
-                        if (isset($check[$request->Departemen])) {
-                            if ($check[$request->Departemen]) {
-                                $insert = false;
-                                break;
+                if ($spk["check"] != null) {
+                    foreach ($spk["check"] as $check) {
+                        if (array_key_exists($request->Departemen, $check)) {
+                            if (isset($check[$request->Departemen])) {
+                                if ($check[$request->Departemen]) {
+                                    $insert = false;
+                                    break;
+                                }
                             }
                         }
                     }

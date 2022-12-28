@@ -111,16 +111,17 @@ export default {
                 this.datatable = response.data.reverse()
                 this.datatable.forEach(element => {
                     element["updated_at"] = this.converttime(element["updated_at"])
-                    // console.log(element)
-                    if (element["check"].length > 0) {
-                        element["check"].every(disabledSPK => {
-                            // console.log(disabledSPK[this.authStore.user.account_privileges.account_dept])
-                            if (disabledSPK[this.authStore.user.account_privileges.account_dept] == true) {
-                                this.selected.push(element)
-                                return false;
-                            }
-                            return true;
-                        })
+                    if (typeof element["check"] != 'undefined') {
+                        if (element["check"].length > 0) {
+                            element["check"].every(disabledSPK => {
+                                // console.log(disabledSPK[this.authStore.user.account_privileges.account_dept])
+                                if (disabledSPK[this.authStore.user.account_privileges.account_dept] == true) {
+                                    this.selected.push(element)
+                                    return false;
+                                }
+                                return true;
+                            })
+                        }
                     }
                 });
                 this.showingSelectedConvert
@@ -128,8 +129,8 @@ export default {
             })
         },
         SavedManaged() {
-            axios.post('/api/savedspknum', { NoSPK: this.selectedShowing, Departemen: this.authStore.user.account_privileges.account_dept, unselectedSPK: this.unselected }).then((response) => {
-                if(response.status==200){
+            axios.post('/api/savedspknum', { NoSPK: this.selectedShowing, Departemen: this.authStore.user.account_privileges.account_dept, unselectedSPK: this.unselected, Role: this.authStore.user.account_privileges.title }).then((response) => {
+                if (response.status == 200) {
                     this.$swal({
                         title: "sukses update",
                         icon: 'success'

@@ -25,6 +25,10 @@ class InputController extends Controller
         $allSPK = $request->NoSPK;
         $departemen = $request->Departemen;
         $unselected = $request->unselectedSPK;
+        $role = $request->Role;
+        
+
+
         if (count($allSPK) > 0) {
             foreach ($allSPK as $spk) {
                 $changed = SPK::where('NOSPK', $spk)->first();
