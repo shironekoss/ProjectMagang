@@ -26,61 +26,109 @@ class InputController extends Controller
         $departemen = $request->Departemen;
         $unselected = $request->unselectedSPK;
         $role = $request->Role;
-        
-
-
-        if (count($allSPK) > 0) {
-            foreach ($allSPK as $spk) {
-                $changed = SPK::where('NOSPK', $spk)->first();
-                if ($changed->check == null) {
-                    $changed->check = [
-                        [
-                            $departemen => true
-                        ]
-                    ];
-                } else {
-                    $terdaftar = false;
-                    foreach ($changed->check as $subcheck) {
-                        if (isset($subcheck[$departemen])) {
-                            $terdaftar = true;
-                        }
-                    }
-                    if (!$terdaftar) {
-                        $temp = $changed->check;
-                        array_push($temp, [$departemen => true]);
-                        $changed->check = $temp;
-                    }
-                    else{
-                        $temp = $changed->check;
-                        $int=0;
-                        foreach($changed->check as $subcheck){
-                            if(array_key_exists($departemen,$subcheck)){
-                                $temp[$int][$departemen]=true;
+        if ($role != "Super Admin Role") {
+            if (count($allSPK) > 0) {
+                foreach ($allSPK as $spk) {
+                    $changed = SPK::where('NOSPK', $spk)->first();
+                    if ($changed->check == null) {
+                        $changed->check = [
+                            [
+                                $departemen => true
+                            ]
+                        ];
+                    } else {
+                        $terdaftar = false;
+                        foreach ($changed->check as $subcheck) {
+                            if (isset($subcheck[$departemen])) {
+                                $terdaftar = true;
                             }
-                            $int++;
+                        }
+                        if (!$terdaftar) {
+                            $temp = $changed->check;
+                            array_push($temp, [$departemen => true]);
+                            $changed->check = $temp;
+                        } else {
+                            $temp = $changed->check;
+                            $int = 0;
+                            foreach ($changed->check as $subcheck) {
+                                if (array_key_exists($departemen, $subcheck)) {
+                                    $temp[$int][$departemen] = true;
+                                }
+                                $int++;
+                            }
                         }
                     }
+                    $changed->save();
                 }
-                $changed->save();
             }
-        }
-        if (count($unselected) > 0) {
-            foreach ($unselected as $unmarkspk) {
-                $changed = SPK::where('NOSPK', $unmarkspk)->first();
-                $temp = $changed->check;
-                $int=0;
-                foreach($temp as $subtemp){
-                    if(array_key_exists($departemen,$subtemp)){
-                        $temp[$int][$departemen]=false;
-                        break;
+            if (count($unselected) > 0) {
+                foreach ($unselected as $unmarkspk) {
+                    $changed = SPK::where('NOSPK', $unmarkspk)->first();
+                    $temp = $changed->check;
+                    $int = 0;
+                    foreach ($temp as $subtemp) {
+                        if (array_key_exists($departemen, $subtemp)) {
+                            $temp[$int][$departemen] = false;
+                            break;
+                        }
+                        $int++;
                     }
-                    $int++;
+                    $changed->check = $temp;
+                    $changed->save();
                 }
-                $changed->check = $temp;
-                $changed->save();
+            }
+        } else {
+            if (count($allSPK) > 0) {
+                foreach ($allSPK as $spk) {
+                    $changed = SPK::where('NOSPK', $spk)->first();
+                    if ($changed->check == null) {
+                        $changed->check = [
+                            [
+                                "SuperAdmin" => true
+                            ]
+                        ];
+                    } else {
+                        $terdaftar = false;
+                        foreach ($changed->check as $subcheck) {
+                            if (isset($subcheck["SuperAdmin"])) {
+                                $terdaftar = true;
+                            }
+                        }
+                        if (!$terdaftar) {
+                            $temp = $changed->check;
+                            array_push($temp, ["SuperAdmin" => true]);
+                            $changed->check = $temp;
+                        } else {
+                            $temp = $changed->check;
+                            $int = 0;
+                            foreach ($changed->check as $subcheck) {
+                                if (array_key_exists("SuperAdmin", $subcheck)) {
+                                    $temp[$int]["SuperAdmin"] = true;
+                                }
+                                $int++;
+                            }
+                        }
+                    }
+                    $changed->save();
+                }
+            }
+            if (count($unselected) > 0) {
+                foreach ($unselected as $unmarkspk) {
+                    $changed = SPK::where('NOSPK', $unmarkspk)->first();
+                    $temp = $changed->check;
+                    $int = 0;
+                    foreach ($temp as $subtemp) {
+                        if (array_key_exists("SuperAdmin", $subtemp)) {
+                            $temp[$int]["SuperAdmin"] = false;
+                            break;
+                        }
+                        $int++;
+                    }
+                    $changed->check = $temp;
+                    $changed->save();
+                }
             }
         }
-
         return response()->json([
             "success" => true,
         ]);

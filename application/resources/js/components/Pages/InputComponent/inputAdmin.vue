@@ -54,6 +54,10 @@
                         <button class="btn" style="background-color: greenyellow;" @click="pindahhistory()">History
                             <font-awesome-icon icon="fa-solid fa-clock-rotate-left" style="margin-left: 5px;" />
                         </button>
+                        <button v-if="authStore.user.account_privileges.title == 'Super Admin Role' ||
+    authStore.user.account_privileges.title == 'Admin Role'" class="btn" style="background-color: lightgreen;"
+                            @click="pindahmanage()">Manage
+                            Number SPK</button>
                     </v-col>
                 </v-row>
             </v-container>
@@ -333,7 +337,7 @@ export default {
             this.closeDelete()
         },
         async getdatatable() {
-            await axios.post('/api/getdatatable',{Role: this.authStore.user.account_privileges.title, Departemen: this.authStore.user.account_privileges.account_dept}).then((response) => {
+            await axios.post('/api/getdatatable', { Role: this.authStore.user.account_privileges.title, Departemen: this.authStore.user.account_privileges.account_dept }).then((response) => {
                 this.datatable = []
                 this.datatable = response.data.reverse()
                 this.datatable.forEach(element => {
@@ -344,6 +348,11 @@ export default {
         pindahhistory() {
             this.$router.push({
                 name: 'History'
+            })
+        },
+        pindahmanage() {
+            this.$router.push({
+                name: 'ManageInputSPK'
             })
         },
         hapus(index) {
@@ -365,7 +374,7 @@ export default {
             this.modal = false;
         },
         tambah() {
-            if (this.SPKfield == "" || this.stall == "" || this.stall == 0 || this.NamaStall == ""  || this.Departemen == "") {
+            if (this.SPKfield == "" || this.stall == "" || this.stall == 0 || this.NamaStall == "" || this.Departemen == "") {
                 this.$swal({
                     title: 'pengisian SPK tidak Valid',
                     icon: 'error'
@@ -401,7 +410,7 @@ export default {
                 });
             }
             else {
-                axios.post('/api/konversikomponen',{Role: this.authStore.user.account_privileges.title, Departemen: this.authStore.user.account_privileges.account_dept}).then((response) => {
+                axios.post('/api/konversikomponen', { Role: this.authStore.user.account_privileges.title, Departemen: this.authStore.user.account_privileges.account_dept }).then((response) => {
                     if (response.data.status == 200) {
                         this.$router.push({
                             name: 'Cekresult',

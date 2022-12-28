@@ -11,10 +11,10 @@
                         <v-toolbar flat>
                             <v-toolbar-title>
                                 <div>
-                                    <v-text-field label="yang mau di disabled" outlined v-model="selectedShowing"
+                                    <!-- <v-text-field label="yang mau di disabled" outlined v-model="selectedShowing"
                                         style="float: left;" disabled></v-text-field>
                                     <v-text-field label="yang mau di dihilangkan" outlined v-model="unselected"
-                                        style="float: left;" disabled></v-text-field>
+                                        style="float: left;" disabled></v-text-field> -->
                                     <v-btn depressed color="blue" @click.prevent="SavedManaged"
                                         style="float: right;margin-left: 15px; max-height: 61px; padding-left: 20px;">Save
                                     </v-btn>

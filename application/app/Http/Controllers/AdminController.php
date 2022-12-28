@@ -19,13 +19,31 @@ class AdminController extends Controller
     public function listspkshow(Request $request)
     {
         if ($request->Role == "Super Admin Role") {
-            $spklist = SPK::all()->pluck('NOSPK');
-            return $spklist;
+            $spklist = SPK::all();
+            $result = [];
+            foreach ($spklist as $spk) {
+                $insert = true;
+                if ($spk["check"] != null) {
+                    foreach ($spk["check"] as $check) {
+                        if (array_key_exists("SuperAdmin", $check)) {
+                            if (isset($check["SuperAdmin"])) {
+                                if ($check["SuperAdmin"]) {
+                                    $insert = false;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                if ($insert) {
+                    array_push($result, $spk->NOSPK);
+                }
+            }
+            return $result;
         } else {
             $Departemen = Departemen::where('Nama_Departemen', $request->Departemen)->first();
             $spklist = SPK::whereIn('Tipe', $Departemen->AksesTipeDatabase)
                 ->get();
-
             $result = [];
             foreach ($spklist as $spk) {
                 $insert = true;
