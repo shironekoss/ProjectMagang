@@ -29,7 +29,11 @@ mix.js('resources/js/app.js', 'public/js').vue()
     ])
     .webpackConfig(webpackConfig)
     .disableNotifications();
+
 mix.browserSync('localhost:8000/');
+
+mix.browserSync('http://localhost:8000/');
+
 
 
 
