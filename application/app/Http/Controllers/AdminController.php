@@ -101,6 +101,23 @@ class AdminController extends Controller
         }
     }
 
+    public function hapushistory(Request $request)
+    {
+        $id = $request->id;
+        $role = $request->Role;
+        try {
+            if($role=="Super Admin Role"){
+                $data = SavedConversionResult::where('_id',$id)->first();
+                $data->delete();
+                return response()->json([
+                    "status" => 200
+                ]);
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+
     public function hapusdatatable(Request $request)
     {
         try {

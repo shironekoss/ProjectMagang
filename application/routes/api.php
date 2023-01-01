@@ -64,6 +64,9 @@ Route::post('listspkshow',[AdminController::class,'listspkshow']);
 Route::get('getdatatable',[AdminController::class,'getdatatable']);
 Route::post('getdatatable',[AdminController::class,'getdatatables']);
 Route::post('getdatatablehistory',[AdminController::class,'getdatatablehistory']);
+Route::post('hapushistory',[AdminController::class,'hapushistory']);
+
+
 Route::post('getkode',[AdminController::class,'getkode']);
 Route::post('ambilmax',[AdminController::class,'ambilmax']);
 Route::post('admintambahspk',[AdminController::class,'admintambahspk']);
@@ -77,6 +80,7 @@ Route::delete('hapusdatatable{id}',[AdminController::class,'hapusdatatable']);
 Route::post('/login', [LoginAuthController::class,'loginfunction']);
 Route::get('/logout', [LoginAuthController::class,'logout']);
 
+//Controller untuk ManagedSPK
 Route::post('managespknum',[InputController::class,'managespknum']);
 Route::post('savedspknum',[InputController::class,'savedspknum']);
 

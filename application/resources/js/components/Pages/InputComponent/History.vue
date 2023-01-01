@@ -17,6 +17,10 @@
                                     <v-btn depressed color="orange" @click="pindahhistory(item)">Cek
                                         <font-awesome-icon icon="fa-solid fa-gears" style="margin-left: 5px;" />
                                     </v-btn>
+                                    <v-btn depressed color="error" @click="deleteItem(item)"
+                                        v-if="authStore.user.account_privileges.title == 'Super Admin Role'">Hapus
+                                        <font-awesome-icon icon="fa-solid fa-trash" style="margin-left: 5px;" />
+                                    </v-btn>
                                 </div>
                             </v-col>
                         </v-row>
@@ -93,7 +97,7 @@ export default {
     },
     methods: {
         async getdatatable() {
-            await axios.post('/api/getdatatablehistory', {Role: this.authStore.user.account_privileges.title, Departemen: this.authStore.user.account_privileges.account_dept}).then((response) => {
+            await axios.post('/api/getdatatablehistory', { Role: this.authStore.user.account_privileges.title, Departemen: this.authStore.user.account_privileges.account_dept }).then((response) => {
                 this.datatable = []
                 this.datatable = response.data.reverse()
                 this.datatable.forEach(element => {
@@ -101,11 +105,24 @@ export default {
                 });
             })
         },
+        async deleteItem(item) {
+            await axios.post('/api/hapushistory',{Role: this.authStore.user.account_privileges.title, id:item._id}).then((response)=>{
+                if(response.data.status==200){
+                    this.$swal({
+                        title: "Sukses Menghapus",
+                        icon: 'success'
+                    });
+                    this.getdatatable()
+                }
+            })
+        },
         pindahhistory(item) {
             this.$router.push({
                 name: 'CheckresultSingleHistory',
-                params: { name: item.NOSPK,
-                        data :item.kit}
+                params: {
+                    name: item.NOSPK,
+                    data: item.kit
+                }
             })
         },
     }

@@ -298,8 +298,13 @@
 <script>
 import axios from 'axios'
 import { Result } from 'postcss'
+import { useAuth } from '../../../../Stores/Auth';
 export default {
     props: ['id'],
+    setup() {
+        const authStore = useAuth();
+        return { authStore }
+    },
     data() {
         return {
             isActivebangku: true,
@@ -333,8 +338,8 @@ export default {
     },
     mounted() {
         this.getspk(),
-            this.getlistdepartemen(),
-            this.Parameter.Stall = this.Liststalltemp
+        this.getlistdepartemen(),
+        this.Parameter.Stall = this.Liststalltemp
     },
     watch: {
         'Parameter.TipeMobil': function () {
@@ -511,7 +516,7 @@ export default {
             })
         },
         async getlistdepartemen() {
-            await axios.get('/api/listdepartemen').then((response) => {
+            await axios.post('/api/listdepartemen',{ Role: this.authStore.user.account_privileges.title, Departemen: this.authStore.user.account_privileges.account_dept }).then((response) => {
                 this.ListDept = response.data.data
             })
         },

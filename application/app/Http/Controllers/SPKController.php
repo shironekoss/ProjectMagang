@@ -48,29 +48,15 @@ class SPKController extends Controller
 
     public function latihan()
     {
-        // $Departemen = Departemen::all();
-        $Departemen = Departemen::where('Nama_Departemen', "Departemen Body Welding")->first();
-        $spklist = SPK::whereIn('Tipe', $Departemen->AksesTipeDatabase)
-            ->get();
-
+        $listdept = Departemen::pluck('Nama_Departemen')->all();
         $result = [];
-        foreach ($spklist as $spk) {
-            $insert = true;
-            foreach ($spk["check"] as $check) {
-                if (array_key_exists("Departemen Trimming Minibus221", $check)) {
-                    if (isset($check["Departemen Trimming Minibus221"])) {
-                        if ($check["Departemen Trimming Minibus221"]) {
-                            $insert = false;
-                            break;
-                        }
-                    }
-                }
-            }
-            if ($insert) {
-                array_push($result, $spk->NOSPK);
-            }
+        foreach ($listdept as $dept) {
+            $isiresult = (object) array(
+                'text' => $dept,
+                'value' => $dept
+            );
+            array_push($result, $isiresult);
         }
-        // ->pluck('NOSPK');
         dd($result);
     }
 

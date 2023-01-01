@@ -105,8 +105,11 @@ class InputController extends Controller
                                 if (array_key_exists("SuperAdmin", $subcheck)) {
                                     $temp[$int]["SuperAdmin"] = true;
                                 }
+
                                 $int++;
                             }
+                            $changed->check = $temp;
+                            $changed->save();
                         }
                     }
                     $changed->save();

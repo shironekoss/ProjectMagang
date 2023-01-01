@@ -31,6 +31,7 @@ class SettingsController extends Controller
 
     public function getlistdepartemen(Request $request)
     {
+     
         if ($request->Role == "Super Admin Role") {
             $listdept = Departemen::pluck('Nama_Departemen')->all();
             $result = [];

@@ -114,10 +114,17 @@ export default {
                     if (typeof element["check"] != 'undefined') {
                         if (element["check"].length > 0) {
                             element["check"].every(disabledSPK => {
-                                // console.log(disabledSPK[this.authStore.user.account_privileges.account_dept])
-                                if (disabledSPK[this.authStore.user.account_privileges.account_dept] == true) {
-                                    this.selected.push(element)
-                                    return false;
+                                if (this.authStore.user.account_privileges.title == "Super Admin Role") {
+                                    if (disabledSPK["SuperAdmin"] == true) {
+                                        this.selected.push(element)
+                                        return false;
+                                    }
+                                }
+                                else {
+                                    if (disabledSPK[this.authStore.user.account_privileges.account_dept] == true) {
+                                        this.selected.push(element)
+                                        return false;
+                                    }
                                 }
                                 return true;
                             })
