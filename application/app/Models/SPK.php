@@ -24,6 +24,7 @@ class SPK extends Model
         'parameter',
         'SPKactive',
         'check',
+        'checkfull',
     ];
 
 
