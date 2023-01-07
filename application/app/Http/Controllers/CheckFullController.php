@@ -65,6 +65,7 @@ class CheckFullController extends Controller
                 }
                 if (count($item2["Parameter"]["NewParameter"]) == 0) {
                     $newparameterTerdaftar = true;
+                    $parameterNewparamTerdaftar = true;
                 } else {
                     if (count($item2["Parameter"]["NewParameter"]) > 0) {
                         $jumlahSPKnewparam = 0;
@@ -118,10 +119,19 @@ class CheckFullController extends Controller
                     $i++;
                 }
                 if ($i > 0) {
-                    array_push($results, [
-                        'kit' => $result[0],
-                        'NoSPK' => $data["NOSPK"],
-                    ]);
+                    if (isset($data->checkfull)) {
+                        array_push($results, [
+                            'kit' => $result[0],
+                            'NoSPK' => $data["NOSPK"],
+                            'count'=>($data["checkfull"])+1
+                        ]);
+                    }else{
+                        array_push($results, [
+                            'kit' => $result[0],
+                            'NoSPK' => $data["NOSPK"],
+                            'count'=>1
+                        ]);
+                    }
                 }
             }
             $errorcheck = 0;
@@ -137,6 +147,7 @@ class CheckFullController extends Controller
                 array_push($errors, " Tipe Mobil Tidak Terdaftar");
                 $errorcheck++;
             }
+
             if (!$parameterNewparamTerdaftar) {
                 array_push($errors, " Ada parameter baru yang belum terdaftar");
                 $errorcheck++;
@@ -158,6 +169,13 @@ class CheckFullController extends Controller
                     ]
                 ];
                 $results[0]["NoSPK"] = $data["NOSPK"];
+            } else {
+                if (isset($data->checkfull)) {
+                    $data->checkfull = ($data->checkfull) + 1;
+                } else {
+                    $data->checkfull = 1;
+                }
+                $data->save();
             }
             array_push($finalresult, $results[0]);
         }

@@ -167,4 +167,8 @@ export default {
         size: landscape,
     }
 }
+
+.tanggal{
+    margin-left:500px;
+}
 </style>

@@ -103,6 +103,7 @@ export default {
                     value: 'NoSPK',
                     class: "title text-uppercase font-weight-black black--text light-blue lighten-5"
                 },
+                { text: 'Cek ke', filterable: false, value: 'count', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Kode Kit', filterable: false, value: 'kode', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Nama Kit', filterable: false, value: 'namakit', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Nama Komponen', filterable: false, value: 'nama_komponen', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
@@ -129,6 +130,7 @@ export default {
                     Kit["IsiKit"].forEach(Komponen => {
                         let obj = {};
                         obj['NoSPK'] = array[SPKnumber]["NoSPK"];
+                        obj['count'] =array[SPKnumber]["count"];
                         obj['kode'] = Kit["Kodekit"];
                         obj['namakit'] = Kit["NamaKit"];
                         obj['siteID'] = Kit["siteID"];
@@ -146,8 +148,13 @@ export default {
         async print() {
             // Pass the element id here
             $("#image").append(`<img src='/images/Logo_Adi_Putro.svg' alt='' srcset=''>`)
+            $(".v-data-footer__select").html('')
+            $(".v-data-footer__pagination").html('')
+            $(".v-data-footer__icons-before").html('')
+            $(".v-data-footer__icons-after").html('')
             await this.$htmlToPaper('printMe', options);
             $("#image").html(``);
+           
         },
         async waktusekarang() {
             let today = new Date()
@@ -165,5 +172,8 @@ export default {
     @page {
         size: landscape,
     }
+}
+.tanggal{
+    margin-left:500px;
 }
 </style>

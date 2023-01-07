@@ -36,7 +36,6 @@ class SPKController extends Controller
 
     public function spklist()
     {
-
         $spklist = SPK::all();
         return response()->json([
             "status" => true,
@@ -62,7 +61,6 @@ class SPKController extends Controller
 
     public function coba()
     {
-
         $datas = DB::connection('sqlsrv')->table('SURATPERINTAHKERJA')
             ->join('SPECIFICATION', 'SPECIFICATION.SPK Number', '=', 'SURATPERINTAHKERJA.SPK Number')
             ->get();
