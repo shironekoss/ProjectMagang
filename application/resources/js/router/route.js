@@ -7,9 +7,6 @@ import { useAuth } from '../../Stores/Auth'
 
 Vue.use(VueRouter)
 
-// cara1
-// const DaftarSPK = require('../components/Pages/InputNoSPK/DaftarSPK.vue').default
-// const inputadmin = require('../components/Pages/InputComponent/input.vue').default
 
 const routes = [
     {

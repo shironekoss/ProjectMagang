@@ -17,7 +17,6 @@
                                     <font-awesome-icon icon="fa-solid fa-print" />
                                 </button>
                             </v-card-title>
-
                         </v-col>
                     </v-row>
                 </v-container>
@@ -144,7 +143,6 @@ export default {
             return newdata;
         },
         async print() {
-            // Pass the element id here
             $("#image").append(`<img src='/images/Logo_Adi_Putro.svg' alt='' srcset=''>`)
             $(".v-data-footer__select").html('')
             $(".v-data-footer__pagination").html('')
@@ -152,7 +150,6 @@ export default {
             $(".v-data-footer__icons-after").html('')
             await this.$htmlToPaper('printMe', options);
             $("#image").html(``);
-
         },
         async waktusekarang() {
             let today = new Date()
