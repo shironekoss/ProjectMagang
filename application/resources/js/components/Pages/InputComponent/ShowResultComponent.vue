@@ -147,6 +147,10 @@ export default {
         async print() {
             // Pass the element id here
             $("#image").append(`<img src='/images/Logo_Adi_Putro.svg' alt='' srcset=''>`)
+            $(".v-data-footer__select").html('')
+            $(".v-data-footer__pagination").html('')
+            $(".v-data-footer__icons-before").html('')
+            $(".v-data-footer__icons-after").html('')
             await this.$htmlToPaper('printMe', options);
             $("#image").html(``);
         },

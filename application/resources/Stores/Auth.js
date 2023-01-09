@@ -1,5 +1,3 @@
-
-
 import { defineStore } from "pinia";
 import axios from "axios";
 export const useAuth = defineStore("auth", {
@@ -26,14 +24,10 @@ export const useAuth = defineStore("auth", {
                         this.authuser = response.data[0].user
                     }
                 });
-            } catch (error) {
-
-            }
-
+            } catch (error) {}
         },
         async handleLogout() {
             try {
-            // await axios.post('/logout');
             this.authuser = null;
             } catch (error) {
 

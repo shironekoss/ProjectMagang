@@ -209,8 +209,6 @@ class MasterController extends Controller
                 ]);
             }
 
-
-
             //  Cek parameter sama atau sudah terdaftar
             function fungsicekparameterterdaftar(array $array1, array $array2)
             {
@@ -297,10 +295,6 @@ class MasterController extends Controller
                         }
                     }
                     foreach ($subkit['IsiKit'] as $komponen) {
-                        // if ($komponen['nama_komponen'] == null || $komponen['qty'] == null || $komponen['darirak'] == null || $komponen['kerak'] == null) {
-                        //     $kosongkit = true;
-                        //     break;
-                        // }
                         if ($komponen['nama_komponen'] == null || $komponen['qty'] == null) {
                             $kosongkit = true;
                             break;
