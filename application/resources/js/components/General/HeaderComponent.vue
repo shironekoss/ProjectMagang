@@ -33,11 +33,11 @@
                                 master
                             </v-btn>
                         </router-link>
-                        <!-- <router-link :to="{ name: 'CheckFull' }">
+                        <router-link :to="{ name: 'CheckFull' }">
                             <v-btn class="ma-2 header-button" outlined color="indigo">
                                 Check Full
                             </v-btn>
-                        </router-link> -->
+                        </router-link>
                         <router-link :to="{ name: 'Settings' }">
                             <v-btn class="ma-2 header-button" outlined color="indigo">
                                 Settings
