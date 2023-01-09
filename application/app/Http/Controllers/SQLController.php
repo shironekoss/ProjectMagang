@@ -149,7 +149,7 @@ class SQLController extends Controller
                             ]
                         ]);
                     }
-                } 
+                }
                 else {
                     $array = $datatersimpan->parameter;
                     $array["ModelMobil"] = trim($data->{'Merk'});
