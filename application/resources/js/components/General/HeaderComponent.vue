@@ -43,7 +43,6 @@
                                 Settings
                             </v-btn>
                         </router-link>
-
                         <v-btn class="ma-2 header-button" outlined color="indigo" @click.prevent="Logout">
                             LOGOUT
                         </v-btn>
