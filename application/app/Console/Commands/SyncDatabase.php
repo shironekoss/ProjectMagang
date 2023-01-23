@@ -30,8 +30,10 @@ class SyncDatabase extends Command
     public function handle()
     {
         try {
-            // $response = Http::get('http://localhost:8000/api/getdataspk');
-            // $response2 = Http::get('http://localhost:8000/api/getdatakit');
+            $response = Http::get('http://localhost:8000/api/getdataspk');
+            Log::info($response);
+            $response2 = Http::get('http://localhost:8000/api/getdatakit');
+            Log::info($response2);
             Log::info("Cron is Working fine");
             // Log::info($response);
             // Log::info("Cron is Working fine");
