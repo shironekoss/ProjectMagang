@@ -48,7 +48,7 @@ const options = {
 
 
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = 'http://localhost:8000/'
+axios.defaults.baseURL = 'http://192.168.100.3:8000/'
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.component('header-component', require('./components/General/HeaderComponent.vue').default)
 Vue.component('footer-component', require('./components/General/FooterComponent.vue').default)
