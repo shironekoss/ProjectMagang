@@ -30,9 +30,11 @@ class SyncDatabase extends Command
     public function handle()
     {
         try {
-            $response = Http::timeout(100000)->get('http://localhost:8000/api/getdataspk');
+            $response = Http::timeout(100000)->get('http://192.168.1.51:8000/api/getdataspk');
+            // $response = Http::timeout(100000)->get('http://localhost:8000/api/getdataspk');
             Log::info($response);
-            $response2 = Http::timeout(100000)->get('http://localhost:8000/api/getdatakit');
+            $response2 = Http::timeout(100000)->get('http://192.168.1.51:8000/api/getdatakit');
+            // $response2 = Http::timeout(100000)->get('http://localhost:8000/api/getdatakit');
             Log::info($response2);
             Log::info("Cron is Working fine");
             // Log::info($response);
