@@ -12,6 +12,7 @@ class SQLController extends Controller
     public function getdatakit(Request $request)
     {
         try {
+            $hapusdata = Masterkit::truncate();
             $datas = DB::connection('sqlsrv')->table('ITEMKITMAINTENANCE')->get();
             foreach ($datas as $data) {
                 $datatersimpan = Masterkit::where('kode_kit', trim($data->{'Item KIT Number'}))->first();
