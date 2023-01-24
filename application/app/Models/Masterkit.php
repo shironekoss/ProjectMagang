@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Masterkit extends Model
 {
     use HasFactory;
-    use SoftDeletes;
     protected $connection = 'mongodb';
     protected $collection = 'MasterKit';
     public $timestamps      = true;

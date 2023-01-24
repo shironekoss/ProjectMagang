@@ -502,7 +502,7 @@ export default {
                         }
                     } else if (response.data.statuscode == 400) {
                         this.$swal({
-                            title: 'Kode Kit ' + this.InputKodeKit + ' ' + response.data.message + ' silahkan tekan tombol tarik data spk ',
+                            title: 'Kode Kit ' + this.InputKodeKit + ' ' + response.data.message + ' silahkan tekan tombol tarik data spk atau periksa kembali kit apakah sudah terdaftar ',
                             icon: 'error'
                         });
                     }
