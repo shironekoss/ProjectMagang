@@ -39,6 +39,7 @@
 <script>
 import $ from 'jquery'
 import JsonExcel from "vue-json-excel"
+import { useTimer } from '../../../../Stores/Timer';
 const options = {
     styles: [
         // 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css',
@@ -47,6 +48,10 @@ const options = {
 }
 export default {
     components: { JsonExcel },
+    setup() {
+        const timerstore = useTimer();
+        return {timerstore }
+    },
     data() {
         return {
             output: null,
@@ -112,6 +117,9 @@ export default {
             ],
         }
     },
+    onIdle() {
+        this.timerstore.LogoutTimers()
+    },
     mounted() {
         this.datatable = this.$route.params.data
         this.datatable = this.konversi(this.datatable)
@@ -168,7 +176,8 @@ export default {
         size: landscape,
     }
 }
-.tanggal{
+
+.tanggal {
     margin-left: 70%;
 }
 </style>

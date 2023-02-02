@@ -11,7 +11,8 @@ import "../assets/css/styling.css";
 import "bootstrap/dist/css/bootstrap.css"
 import 'vuetify/dist/vuetify.min.css'
 import Vue from 'vue'
-import pinia from'../Stores/Pinia'
+import IdleVue from 'idle-vue'
+import pinia from '../Stores/Pinia'
 import VueSweetalert2 from 'vue-sweetalert2';
 import Vuetify from '../plugins/vuetify';
 
@@ -45,10 +46,13 @@ const options = {
     autoClose: false, // if false, the window will not close after printing
     // windowTitle: window.document.title, // override the window title
 }
-
-
+const eventsHub = new Vue()
+const optionstimer = {
+    eventEmitter: eventsHub,
+    idleTime: 3600000
+}
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = 'http://192.168.1.51:8000/'
+axios.defaults.baseURL = 'http://192.168.100.3:8000/'
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.component('header-component', require('./components/General/HeaderComponent.vue').default)
 Vue.component('footer-component', require('./components/General/FooterComponent.vue').default)
@@ -57,6 +61,7 @@ Vue.component('footer-component', require('./components/General/FooterComponent.
 
 Vue.use(VueSweetalert2);
 Vue.use(VueHtmlToPaper, options);
+Vue.use(IdleVue, optionstimer);
 // const NotFound =require('./components/HandlingError/NotFound.vue').default
 
 /**

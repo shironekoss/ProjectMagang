@@ -42,8 +42,13 @@
 <script>
 import axios from 'axios'
 import ConvertTime from '../../../Helper/ConvertTime'
+import { useTimer } from '../../../../Stores/Timer';
 export default {
     mixins:[ConvertTime],
+    setup() {
+        const timerstore = useTimer();
+        return {timerstore }
+    },
     data() {
         return {
             listMaster: [],
@@ -62,16 +67,14 @@ export default {
     },
     mounted() {
         this.getlistmaster();
-        // this.getdatatable();
     },
     watch: {
-        // state() {
-        //     this.filterstates();
-        // },
         dialogDelete(val) {
             val || this.closeDialogDelete()
         },
-
+    },
+    onIdle() {
+        this.timerstore.LogoutTimers()
     },
     methods: {
         getlistmaster() {
@@ -82,10 +85,6 @@ export default {
                 this.datatable.forEach(element => {
                     element["updated_at"]=this.converttime(element["updated_at"])
                 });
-                // this.listspk.forEach(element => {
-                //     this.states.push(element.NOSPK)
-                // });
-                // this.filterstates();
             })
         },
         TambahMaster() {

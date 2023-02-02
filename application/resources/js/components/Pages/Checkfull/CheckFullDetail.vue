@@ -40,6 +40,7 @@
 <script>
 import JsonExcel from "vue-json-excel"
 import $ from 'jquery'
+import { useTimer } from '../../../../Stores/Timer';
 const options = {
     styles: [
         // 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css',
@@ -48,6 +49,10 @@ const options = {
 }
 export default {
     components: { JsonExcel },
+    setup() {
+        const timerstore = useTimer();
+        return {timerstore }
+    },
     data() {
         return {
             output: null,
@@ -115,6 +120,9 @@ export default {
             ],
         }
     },
+    onIdle() {
+        this.timerstore.LogoutTimers()
+    },
     mounted() {
         this.datatable = this.$route.params.hasil
         this.datatable = this.konversi(this.datatable)
@@ -154,7 +162,7 @@ export default {
             $(".v-data-footer__icons-after").html('')
             await this.$htmlToPaper('printMe', options);
             $("#image").html(``);
-           
+
         },
         async waktusekarang() {
             let today = new Date()

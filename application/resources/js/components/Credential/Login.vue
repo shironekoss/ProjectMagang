@@ -23,12 +23,14 @@
 
 <script>
 import { useAuth } from "../../../Stores/Auth";
+import { useTimer } from "../../../Stores/Timer";
 import Swal from 'sweetalert2'
 
 export default {
     setup(){
         const Auth = useAuth();
-        return {Auth}
+        const timerstore = useTimer();
+        return {Auth,timerstore}
     },
     data() {
         return {
@@ -40,6 +42,11 @@ export default {
     },
     computed:{
 
+    },
+     onIdle() {
+        if(this.Auth.user != null){
+            this.timerstore.LogoutTimers()
+        }
     },
     methods: {
         async Login() {

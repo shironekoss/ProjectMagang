@@ -33,11 +33,11 @@
                                 master
                             </v-btn>
                         </router-link>
-                        <!-- <router-link :to="{ name: 'CheckFull' }">
+                        <router-link :to="{ name: 'CheckFull' }">
                             <v-btn class="ma-2 header-button" outlined color="indigo">
                                 Check Full
                             </v-btn>
-                        </router-link> -->
+                        </router-link>
                         <router-link :to="{ name: 'Settings' }">
                             <v-btn class="ma-2 header-button" outlined color="indigo">
                                 Settings
@@ -90,11 +90,13 @@
 
 <script>
 import { useAuth } from '../../../Stores/Auth';
+
 import Swal from 'sweetalert2'
 export default {
     setup() {
         const authStore = useAuth();
         return { authStore }
+
     },
     data() {
         return {

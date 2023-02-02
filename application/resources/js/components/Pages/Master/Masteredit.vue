@@ -1,5 +1,4 @@
 <template>
-
     <div>
         <div class="card" style="width: 95rem;">
             <div class="card-body">
@@ -299,11 +298,13 @@
 import axios from 'axios'
 import { Result } from 'postcss'
 import { useAuth } from '../../../../Stores/Auth';
+import { useTimer } from '../../../../Stores/Timer';
 export default {
     props: ['id'],
     setup() {
         const authStore = useAuth();
-        return { authStore }
+        const timerstore = useTimer();
+        return { authStore , timerstore }
     },
     data() {
         return {
@@ -340,6 +341,9 @@ export default {
         this.getspk(),
         this.getlistdepartemen(),
         this.Parameter.Stall = this.Liststalltemp
+    },
+    onIdle() {
+        this.timerstore.LogoutTimers()
     },
     watch: {
         'Parameter.TipeMobil': function () {

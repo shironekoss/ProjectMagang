@@ -200,22 +200,9 @@ router.beforeEach((to, from, next) => {
         }
     }
     else {
-       next()
+        next()
     }
 })
 
-// router.beforeEach((to, from, next) => {
-//     // we wanted to use the store here
-//     if (store.isLoggedIn) next()
-//     else next('/login')
-// })
-
-// router.beforeEach((to) => {
-//     // ✅ This will work because the router starts its navigation after
-//     // the router is installed and pinia will be installed too
-//     const store = useAuth();
-
-//     // if (to.meta.requiresAuth && !store.isLoggedIn) return '/login'
-// })
 
 export default router

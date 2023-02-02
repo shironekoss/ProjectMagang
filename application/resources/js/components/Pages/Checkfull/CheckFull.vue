@@ -19,7 +19,6 @@
                                         <font-awesome-icon icon="fa-solid fa-eye" />
                                     </v-btn>
                                 </div>
-
                             </v-toolbar-title>
                         </v-toolbar>
                         <v-card-title>
@@ -38,12 +37,14 @@
 <script>
 import axios from 'axios'
 import { useAuth } from '../../../../Stores/Auth';
+import { useTimer } from '../../../../Stores/Timer';
 import ConvertTime from '../../../Helper/ConvertTime'
 export default {
     mixins: [ConvertTime],
     setup() {
         const authStore = useAuth();
-        return { authStore }
+        const timerstore = useTimer();
+        return { authStore , timerstore }
     },
     data() {
         return {
@@ -73,6 +74,9 @@ export default {
     },
     mounted() {
         this.getdatatable()
+    },
+    onIdle() {
+        this.timerstore.LogoutTimers()
     },
     watch: {
         state() {

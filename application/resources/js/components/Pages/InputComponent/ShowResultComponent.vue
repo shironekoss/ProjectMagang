@@ -39,6 +39,7 @@
 </template>
 <script>
 import JsonExcel from "vue-json-excel"
+import { useTimer } from '../../../../Stores/Timer';
 import $ from 'jquery'
 const options = {
     styles: [
@@ -48,6 +49,10 @@ const options = {
 }
 export default {
     components: { JsonExcel },
+    setup() {
+        const timerstore = useTimer();
+        return {timerstore }
+    },
     data() {
         return {
             output: null,
@@ -117,6 +122,9 @@ export default {
         this.datatable = this.$route.params.data.hasil
         this.datatable = this.konversi(this.datatable)
         this.waktu = this.waktusekarang()
+    },
+    onIdle() {
+        this.timerstore.LogoutTimers()
     },
     methods: {
         konversi(array) {

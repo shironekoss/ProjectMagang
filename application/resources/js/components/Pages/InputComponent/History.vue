@@ -36,12 +36,14 @@ import axios from 'axios'
 import ConvertTime from '../../../Helper/ConvertTime'
 import Loading from '../../Global/Loading.vue'
 import { useAuth } from '../../../../Stores/Auth';
+import { useTimer } from '../../../../Stores/Timer';
 export default {
     mixins: [ConvertTime],
     components: { Loading },
     setup() {
         const authStore = useAuth();
-        return { authStore }
+        const timerstore = useTimer();
+        return { authStore , timerstore }
     },
     data() {
         return {
@@ -94,6 +96,9 @@ export default {
             this.NamaStall = this.TempStall.Namastall
             this.max = this.TempStall.Jumlahstall
         }
+    },
+    onIdle() {
+        this.timerstore.LogoutTimers()
     },
     methods: {
         async getdatatable() {

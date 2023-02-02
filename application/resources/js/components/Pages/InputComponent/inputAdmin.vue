@@ -55,8 +55,8 @@
                             <font-awesome-icon icon="fa-solid fa-clock-rotate-left" style="margin-left: 5px;" />
                         </button>
                         <button v-if="authStore.user.account_privileges.title == 'Super Admin Role' ||
-    authStore.user.account_privileges.title == 'Admin Role'" class="btn" style="background-color: lightgreen;"
-                            @click="pindahmanage()">Manage
+                        authStore.user.account_privileges.title == 'Admin Role'" class="btn"
+                            style="background-color: lightgreen;" @click="pindahmanage()">Manage
                             Number SPK</button>
                     </v-col>
                 </v-row>
@@ -126,14 +126,18 @@
 <script>
 import axios from 'axios'
 import { useAuth } from '../../../../Stores/Auth';
+import $ from 'jquery';
+import { useTimer } from '../../../../Stores/Timer';
 import ConvertTime from '../../../Helper/ConvertTime'
 import Loading from '../../Global/Loading.vue'
+
 export default {
     mixins: [ConvertTime],
     components: { Loading },
     setup() {
         const authStore = useAuth();
-        return { authStore }
+        const timerstore = useTimer();
+        return { authStore, timerstore }
     },
     data() {
         return {
@@ -179,7 +183,10 @@ export default {
             ],
         }
     },
-    mounted() {
+    onIdle() {
+        this.timerstore.LogoutTimers()
+    },
+    created() {
         this.getlistdepartemen()
         this.getlistspk()
         this.getdatatable()

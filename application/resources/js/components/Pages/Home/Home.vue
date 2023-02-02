@@ -11,7 +11,14 @@
 </template>
 
 <script>
+import {useTimer} from '../../../../Stores/Timer'
+import { useAuth } from '../../../../Stores/Auth';
   export default {
+    setup() {
+        const authStore = useAuth();
+        const timerstore = useTimer();
+        return { authStore, timerstore }
+    },
     data () {
       return {
         items: [
@@ -48,6 +55,11 @@
 
         ],
       }
+    },
+    onIdle() {
+        if(this.authStore.user != null){
+            this.timerstore.LogoutTimers()
+        }
     },
   }
 </script>

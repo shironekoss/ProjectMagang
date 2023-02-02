@@ -298,10 +298,12 @@
 <script>
 import axios from 'axios'
 import { useAuth } from '../../../../Stores/Auth';
+import { useTimer } from '../../../../Stores/Timer';
 export default {
     setup() {
         const authStore = useAuth();
-        return { authStore }
+        const timerstore = useTimer();
+        return { authStore , timerstore }
     },
     data() {
         return {
@@ -335,6 +337,9 @@ export default {
     },
     async mounted() {
         await this.getlistdepartemen()
+    },
+    onIdle() {
+        this.timerstore.LogoutTimers()
     },
     watch: {
         'Parameter.TipeMobil': function () {

@@ -54,7 +54,12 @@
 </template>
 
 <script>
+import { useTimer } from '../../../../Stores/Timer';
 export default {
+    setup() {
+        const timerstore = useTimer();
+        return {timerstore }
+    },
     data() {
         return {
             form: {
@@ -67,6 +72,9 @@ export default {
             },
             errors: {}
         }
+    },
+    onIdle() {
+        this.timerstore.LogoutTimers()
     },
     methods: {
         handleSubmit() {

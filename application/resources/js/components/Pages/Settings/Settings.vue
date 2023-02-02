@@ -1,12 +1,20 @@
 <script>
 import User from './User.vue';
 import Departemen from './Departemen.vue';
+import { useTimer } from '../../../../Stores/Timer';
 import Stall from './Stall.vue';
 export default {
+    setup() {
+        const timerstore = useTimer();
+        return {timerstore }
+    },  
     data() {
         return {
             toggleAccount: "Account",
         };
+    },
+    onIdle() {
+        this.timerstore.LogoutTimers()
     },
     methods: {
         changetoggle(message) {
