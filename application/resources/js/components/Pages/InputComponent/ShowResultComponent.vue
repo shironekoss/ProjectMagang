@@ -139,7 +139,7 @@ export default {
                             obj['kode'] = komponen.Kodekit;
                             obj['namakit'] = komponen.NamaKit;
                             obj['namakomponen'] = subkomponen.nama_komponen;
-                            obj['Qty'] = subkomponen.qty;
+                            obj['Qty'] = parseInt(subkomponen.qty);
                             obj['siteID'] = komponen.siteID;
                             obj['Dari'] = subkomponen.darirak;
                             obj['Kerak'] = subkomponen.kerak;

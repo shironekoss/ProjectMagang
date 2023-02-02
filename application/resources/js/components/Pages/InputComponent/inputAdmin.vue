@@ -55,8 +55,8 @@
                             <font-awesome-icon icon="fa-solid fa-clock-rotate-left" style="margin-left: 5px;" />
                         </button>
                         <button v-if="authStore.user.account_privileges.title == 'Super Admin Role' ||
-                        authStore.user.account_privileges.title == 'Admin Role'" class="btn"
-                            style="background-color: lightgreen;" @click="pindahmanage()">Manage
+                        authStore.user.account_privileges.title == 'Admin Role'" class="btn" style="background-color: lightgreen;"
+                            @click="pindahmanage()">Manage
                             Number SPK</button>
                     </v-col>
                 </v-row>
@@ -166,6 +166,7 @@ export default {
             dialogLoading: false,
             editedIndex: -1,
             errormessage: [],
+            datastallloaded: false,
             headerstable: [
                 {
                     text: 'Nomor SPK',
@@ -197,6 +198,7 @@ export default {
         },
         Departemen: function () {
             this.getliststall()
+
         },
         dialogDelete(val) {
             val || this.closeDelete()
@@ -214,6 +216,7 @@ export default {
                 this.Placeholdertext = "Masukkan Nama Stall"
                 this.stall = ""
                 this.NamaStall = "STOCK"
+                this.TempStall = ''
             }
             else {
                 this.stall = ""
@@ -221,11 +224,14 @@ export default {
                 this.Changemode = "number"
                 this.Departemen = ""
                 this.NamaStall = ""
+                this.TempStall = ''
             }
         },
         TempStall: function () {
-            this.NamaStall = this.TempStall.Namastall
-            this.max = this.TempStall.Jumlahstall
+            if (this.datastallloaded) {
+                this.NamaStall = this.TempStall.Namastall
+                this.max = this.TempStall.Jumlahstall
+            }
         }
     },
     methods: {
@@ -234,7 +240,6 @@ export default {
         },
         preventNumericInput($event) {
             console.log($event.keyCode); //will display the keyCode value
-
             var keyCode = ($event.keyCode ? $event.keyCode : $event.which);
             if (keyCode > 47 && keyCode < 58) {
                 $event.preventDefault();
@@ -275,7 +280,7 @@ export default {
                 this.Liststall = []
                 this.Liststall = response.data.result
             })
-
+            this.datastallloaded = true
         },
         async getlistdepartemen() {
             await axios.post('/api/listdepartemen', { Role: this.authStore.user.account_privileges.title, Departemen: this.authStore.user.account_privileges.account_dept }).then((response) => {

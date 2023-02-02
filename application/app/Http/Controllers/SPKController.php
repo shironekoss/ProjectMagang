@@ -47,15 +47,9 @@ class SPKController extends Controller
 
     public function latihan()
     {
-        $listdept = Departemen::pluck('Nama_Departemen')->all();
-        $result = [];
-        foreach ($listdept as $dept) {
-            $isiresult = (object) array(
-                'text' => $dept,
-                'value' => $dept
-            );
-            array_push($result, $isiresult);
-        }
+        $result =  $datas = DB::connection('sqlsrv')->table('SURATPERINTAHKERJA')
+        ->join('SPECIFICATION', 'SPECIFICATION.SPK Number', '=', 'SURATPERINTAHKERJA.SPK Number')
+        ->get();
         dd($result);
     }
 

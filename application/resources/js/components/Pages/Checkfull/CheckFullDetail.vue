@@ -145,8 +145,8 @@ export default {
                         obj['kode_komponen'] = Komponen["kode_komponen"];
                         obj['nama_komponen'] = Komponen["nama_komponen"];
                         obj['Satuan'] = Komponen["Satuan"];
-                        obj['kebutuhan'] = Komponen["qty"];
-                        obj['available'] = Komponen["Qty_Available"];
+                        obj['kebutuhan'] = parseInt(Komponen["qty"]);
+                        obj['available'] = parseInt(Komponen["Qty_Available"]);
                         newdata.push(obj);
                     })
                 })
