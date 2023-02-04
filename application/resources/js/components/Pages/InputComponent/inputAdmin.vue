@@ -401,7 +401,7 @@ export default {
                         });
                     } else if (response.data.status == 401) {
                         this.$swal({
-                            title: 'SPK sudah dimasukkan ke list',
+                            title: 'SPK sudah ada di list atau di history',
                             icon: 'error'
                         });
                     } else if (response.data.status == 200) {

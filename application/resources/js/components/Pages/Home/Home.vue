@@ -19,6 +19,10 @@ import { useAuth } from '../../../../Stores/Auth';
         const timerstore = useTimer();
         return { authStore, timerstore }
     },
+    mounted(){
+      document.getElementsByClassName("v-window__prev")[0].innerHTML = ""
+      document.getElementsByClassName("v-window__next")[0].innerHTML = ""
+    },
     data () {
       return {
         items: [

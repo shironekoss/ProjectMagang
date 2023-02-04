@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Departemen;
 use App\Models\Master;
 use App\Models\SPK;
+use App\Models\SPK_attribute_tambahan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -119,11 +120,12 @@ class CheckFullController extends Controller
                     $i++;
                 }
                 if ($i > 0) {
-                    if (isset($data->checkfull)) {
+                    $getsetting = SPK_attribute_tambahan::where('NOSPK',$data["NOSPK"])->first();
+                    if (isset($getsetting->checkfull)) {
                         array_push($results, [
                             'kit' => $result[0],
                             'NoSPK' => $data["NOSPK"],
-                            'count'=>($data["checkfull"])+1
+                            'count'=>($getsetting["checkfull"])+1
                         ]);
                     }else{
                         array_push($results, [
@@ -170,12 +172,22 @@ class CheckFullController extends Controller
                 ];
                 $results[0]["NoSPK"] = $data["NOSPK"];
             } else {
-                if (isset($data->checkfull)) {
-                    $data->checkfull = ($data->checkfull) + 1;
-                } else {
-                    $data->checkfull = 1;
+                $mysetting = SPK_attribute_tambahan::where('NOSPK',$data["NOSPK"])->get();
+                if(count($mysetting) == 0){
+                    $newsetting = SPK_attribute_tambahan::create([
+                        "NOSPK" =>$data["NOSPK"],
+                        "checkfull"=>$data->checkfull=1
+                    ]);
                 }
-                $data->save();
+                else{
+                    if(isset($mysetting[0]->checkfull)){
+                        $mysetting[0]->checkfull = $mysetting[0]->checkfull+1;
+                    }
+                    else{
+                        $mysetting[0]->checkfull =1;
+                    }
+                    $mysetting[0]->save();
+                }
             }
             array_push($finalresult, $results[0]);
         }
@@ -183,6 +195,7 @@ class CheckFullController extends Controller
             "success" => true,
             "status" => 200,
             "hasil" => $finalresult,
+            "mysetting"=> SPK_attribute_tambahan::where('NOSPK',$data["NOSPK"])->get()
         ]);
     }
 }

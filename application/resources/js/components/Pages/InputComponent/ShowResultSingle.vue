@@ -6,27 +6,54 @@
                     <v-row no-gutters>
                         <v-col sm="12" xs="12" md="12" lg="8" xl="6">
                             <v-card-title>
-                                <v-text-field v-model="search" append-icon="mdi-magnify" label="Filter Site ID"
-                                    single-line hide-details style="margin-right: 20px;">
-                                </v-text-field>
-                                <JsonExcel class="btn btn-primary" :data="datatable" :fields="json_fields"
-                                    worksheet="My Worksheet" name="filename.xls" style="margin-right: 20px;">
-                                    Download Excel <font-awesome-icon icon="fa-solid fa-download" />
-                                </JsonExcel>
-                                <button class="btn btn-primary" @click="print">Print
-                                    <font-awesome-icon icon="fa-solid fa-print" />
-                                </button>
+                                <div v-if="printable">
+                                    <v-text-field v-model="search" append-icon="mdi-magnify" label="Filter Site ID"
+                                        single-line hide-details style="margin-right: 20px;">
+                                    </v-text-field>
+                                </div>
+                                <div v-else="printable">
+                                    <v-text-field v-model="search" append-icon="mdi-magnify" label="filter kode kit"
+                                        single-line hide-details style="margin-right: 20px;">
+                                    </v-text-field>
+                                </div>
+                                <div v-if="printable">
+                                    <JsonExcel class="btn btn-primary" :data="datatable" :fields="json_fields"
+                                        worksheet="My Worksheet" name="filename.xls" style="margin-right: 20px;">
+                                        Download Excel <font-awesome-icon icon="fa-solid fa-download" />
+                                    </JsonExcel>
+                                    <button class="btn btn-primary" @click="print">Print
+                                        <font-awesome-icon icon="fa-solid fa-print" />
+                                    </button>
+                                    <button class="btn btn-primary" @click="triggermode"
+                                        style="margin-left: 20px;">Check Admin
+                                    </button>
+                                </div>
+                                <div v-else>
+                                    <button class="btn btn-primary" @click="triggermode">Mode Semula
+                                    </button>
+                                </div>
                             </v-card-title>
                         </v-col>
                     </v-row>
                 </v-container>
-                <div id="printMe">
+                <div id="printMe" v-if="printable">
                     <div id="image"></div>
                     <v-data-table dense :headers="headerstable" :items="datatable" :items-per-page="30" :search="search"
                         class="elevation-1 font-weight-bold">
                         <template v-slot:top>
                             <v-toolbar flat>
-                                <v-toolbar-title>List daftar komponen</v-toolbar-title>
+                                <v-toolbar-title>List Komponen</v-toolbar-title>
+                                <h5 class="tanggal">tanggal {{ new Date().toLocaleString() }}</h5>
+                            </v-toolbar>
+                        </template>
+                    </v-data-table>
+                </div>
+                <div v-else>
+                    <v-data-table dense :headers="headerstableadmin" :items="datatable2" :items-per-page="30"
+                        :search="search" class="elevation-1 font-weight-bold">
+                        <template v-slot:top>
+                            <v-toolbar flat>
+                                <v-toolbar-title>List Kit</v-toolbar-title>
                                 <h5 class="tanggal">tanggal {{ new Date().toLocaleString() }}</h5>
                             </v-toolbar>
                         </template>
@@ -50,12 +77,13 @@ export default {
     components: { JsonExcel },
     setup() {
         const timerstore = useTimer();
-        return {timerstore }
+        return { timerstore }
     },
     data() {
         return {
             output: null,
             waktu: "",
+            printable: true,
             json_fields: {
                 "NO SPK": "NoSPK",
                 "Kode Kit": "kode",
@@ -109,11 +137,24 @@ export default {
                 },
                 { text: 'Kode Kit', filterable: false, value: 'kode', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Nama Kit', filterable: false, value: 'namakit', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Kode Komponen', filterable: false, value: 'kodekomponen', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Nama Komponen', filterable: false, value: 'namakomponen', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Kebutuhan', filterable: false, value: 'Qty', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Siteid', value: 'siteID', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Dari Rak', filterable: false, value: 'Dari', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Ke Rak', filterable: false, value: 'Kerak', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+            ],
+            headerstableadmin: [
+                {
+                    text: 'NO SPK',
+                    align: 'start',
+                    sortable: false,
+                    value: 'NoSPK',
+                    filterable: false,
+                    class: "title text-uppercase font-weight-black black--text light-blue lighten-5"
+                },
+                { text: 'Kode Kit', filterable: true, value: 'kode', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Nama Kit', filterable: false, value: 'namakit', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
             ],
         }
     },
@@ -122,12 +163,17 @@ export default {
     },
     mounted() {
         this.datatable = this.$route.params.data
+        this.datatable2 = this.$route.params.data
         this.datatable = this.konversi(this.datatable)
+        this.datatable2 = this.konversi2(this.datatable2)
         this.waktu = this.waktusekarang()
     },
     methods: {
+        triggermode() {
+            this.printable = !this.printable
+        },
         konversi(array) {
-            // console.log(array[0]["kit"][0])
+            console.log(array)
             let newdata = [];
             array.forEach(SPK => {
                 SPK["kit"].forEach(kits => {
@@ -137,14 +183,29 @@ export default {
                             obj['NoSPK'] = SPK.NoSPK;
                             obj['kode'] = komponen.Kodekit;
                             obj['namakit'] = komponen.NamaKit;
+                            obj['kodekomponen'] = subkomponen.kode_komponen;
                             obj['namakomponen'] = subkomponen.nama_komponen;
-                            obj['Qty'] =  parseInt(subkomponen.qty);
-                            obj['siteID'] = komponen.siteID;    
+                            obj['Qty'] = parseInt(subkomponen.qty);
+                            obj['siteID'] = komponen.siteID;
                             obj['Dari'] = subkomponen.darirak;
                             obj['Kerak'] = subkomponen.kerak;
                             newdata.push(obj);
                         });
-
+                    });
+                });
+            });
+            return newdata;
+        },
+        konversi2(array) {
+            let newdata = [];
+            array.forEach(SPK => {
+                SPK["kit"].forEach(kits => {
+                    kits.forEach(komponen => {
+                        let obj = {};
+                        obj['NoSPK'] = SPK.NoSPK;
+                        obj['kode'] = komponen.Kodekit;
+                        obj['namakit'] = komponen.NamaKit;
+                        newdata.push(obj);
                     });
                 });
             });

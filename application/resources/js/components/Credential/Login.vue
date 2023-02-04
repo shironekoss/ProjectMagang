@@ -12,7 +12,7 @@
                                 required>
                             <input v-model="user.password" type="password" class="form-control" placeholder="Password"
                                 required>
-                            <input type="submit" value="Login" class="btn btn-primary">
+                            <input type="submit" value="Login" class="btn btn-primary" style="margin-bottom: 10px;">
                         </form>
                     </div>
                 </div>

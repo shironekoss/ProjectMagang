@@ -49,7 +49,7 @@ const options = {
 const eventsHub = new Vue()
 const optionstimer = {
     eventEmitter: eventsHub,
-    idleTime: 3600000
+    idleTime: 360000
 }
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = 'http://192.168.1.51:8000/'

@@ -283,7 +283,7 @@
                     <form @submit.prevent="handleSubmit">
                         <div class="row">
                             <center>
-                                <button type="submit" class="btn btn-success btn-lg">
+                                <button type="submit" class="btn btn-success btn-lg" style="margin-bottom: 20px;">
                                     Update</button>
                             </center>
                         </div>

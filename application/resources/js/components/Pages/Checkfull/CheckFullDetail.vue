@@ -26,7 +26,7 @@
                         class="elevation-1 font-weight-bold">
                         <template v-slot:top>
                             <v-toolbar flat>
-                                <v-toolbar-title>List daftar komponen</v-toolbar-title>
+                                <v-toolbar-title>List komponen</v-toolbar-title>
                                 <h5 class="tanggal">tanggal {{ new Date().toLocaleString() }}</h5>
                             </v-toolbar>
                         </template>
@@ -111,6 +111,7 @@ export default {
                 { text: 'Cek ke', filterable: false, value: 'count', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Kode Kit', filterable: false, value: 'kode', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Nama Kit', filterable: false, value: 'namakit', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Kode Komponen', filterable: false, value: 'kode_komponen', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Nama Komponen', filterable: false, value: 'nama_komponen', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Kebutuhan', filterable: false, value: 'kebutuhan', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Tersedia', filterable: false, value: 'available', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
@@ -130,7 +131,6 @@ export default {
     },
     methods: {
         konversi(array) {
-            console.log(array.length)
             let newdata = [];
             for (let SPKnumber in array) {
                 console.log(array[SPKnumber])
