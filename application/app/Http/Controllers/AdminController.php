@@ -7,6 +7,7 @@ use App\Models\Master;
 use App\Models\Masterkit;
 use App\Models\SavedConversionResult;
 use App\Models\SPK;
+use App\Models\SPK_attribute_tambahan;
 use App\Models\Stall;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -106,13 +107,23 @@ class AdminController extends Controller
         $id = $request->id;
         $role = $request->Role;
         try {
-            if($role=="Super Admin Role"){
-                $data = SavedConversionResult::where('_id',$id)->first();
-                $data->delete();
-                return response()->json([
-                    "status" => 200
-                ]);
+            if ($role == "Super Admin Role") {
+                $data = SavedConversionResult::where('_id', $id)->first();
+                $spk = $data["NOSPK"];
+                $namastall = $data["namastall"];
+                $departemen = $data["Departemen"];
+                $query = $data->delete();
+                if ($query) {
+                    $savedsetting = SPK_attribute_tambahan::where('NOSPK', $spk)->first();
+                    $inputchange = $savedsetting->check;
+                    $inputchange[$departemen][$namastall] = false;
+                    $savedsetting->check = $inputchange;
+                    $savedsetting->save();
+                }
             }
+            return response()->json([
+                "status" => 200,
+            ]);
         } catch (\Throwable $th) {
             //throw $th;
         }
@@ -166,10 +177,10 @@ class AdminController extends Controller
         $master = Master::all();
         $messages = [];
         $results = [];
-        $result = [];
         foreach ($saved as $item1) {
             //errors check
             $errors = [];
+            $result = [];
             $errorModelMobil = true;
             $errorTipeMobil = true;
             $errorTinggiMobil = true;
@@ -202,9 +213,8 @@ class AdminController extends Controller
                     $item1->save();
                 }
             } else {
-
-                $i = 0;
                 foreach ($master as $item2) {
+                    $i = 0;
                     $data = SPK::where('NOSPK', $item1["NOSPK"])->first();
                     $ModelMobilterdaftar = false;
                     $TinggiMobilterdaftar = false;
@@ -247,7 +257,6 @@ class AdminController extends Controller
                             break;
                         }
                     }
-
                     if (count($item2["Parameter"]["NewParameter"]) == 0) {
                         $newparameterTerdaftar = true;
                     } else {
@@ -287,17 +296,55 @@ class AdminController extends Controller
                             'kit' => $result,
                             'NoSPK' => $item1->NOSPK,
                         ]);
-                        $item1["status"] = "berhasil";
-                        $item1["kit"] = $results;
-                        $item1->save();
-                    } else {
-                        $item1["status"] = "Pending";
-                        $item1->save();
                     }
                 }
                 if (!$errorModelMobil && !$errorTinggiMobil && !$errorTipeMobil && !$errorDepartemen && !$errorStall && !$errornewparam) {
                     $item1["errors"] = [];
+                    $item1["status"] = "berhasil";
+                    $item1["kit"] = $results;
                     $item1->save();
+
+                    //buat insert ke spk attribut tambahan
+                    $find = count(SavedConversionResult::where('NOSPK', $item1["NOSPK"])
+                        ->where('Departemen', $item1["Departemen"])
+                        ->where('namastall', $item1["namastall"])
+                        ->get());
+                    $getstall = Stall::where('NamaStall', $item1["namastall"])
+                        ->where('NamaDepartemen', $item1["Departemen"])
+                        ->first();
+                    if ($find == $getstall["JumlahStall"]) {
+                        $SPKattribute = SPK_attribute_tambahan::where('NOSPK', $item1["NOSPK"])->first();
+                        if (!isset($SPKattribute->NOSPK)) {
+                            $newsetting = SPK_attribute_tambahan::create([
+                                "NOSPK" => $data["NOSPK"],
+                                "check" => [
+                                    $getstall["NamaDepartemen"] => [
+                                        $item1["namastall"] => true,
+                                    ]
+                                ]
+                            ]);
+                        } else {
+                            if (isset($SPKattribute->check)) {
+                                $datatersimpan = $SPKattribute->check;
+                                if (isset($datatersimpan[$item1["Departemen"]])) {
+                                    $datatersimpan[$item1["Departemen"]][$item1["namastall"]] = true;
+                                } else {
+                                    $datatersimpan[$item1["Departemen"]] = [
+                                        $item1["namastall"] => true,
+                                    ];
+                                }
+                                $SPKattribute->check = $datatersimpan;
+                                $SPKattribute->save();
+                            } else {
+                                $SPKattribute->check = [
+                                    $getstall["NamaDepartemen"] => [
+                                        $item1["namastall"] => true,
+                                    ]
+                                ];
+                                $SPKattribute->save();
+                            }
+                        }
+                    }
                 } else {
                     if ($errorModelMobil) {
                         array_push($errors, "Parameter Model Mobil SPK ini Baru");
@@ -318,6 +365,7 @@ class AdminController extends Controller
                         array_push($errors, "Ada parameter baru di SPK ini");
                     }
                     $item1["errors"] = $errors;
+                    $item1["status"] = "Pending";
                     $item1->save();
                 }
             }
@@ -325,8 +373,6 @@ class AdminController extends Controller
         return response()->json([
             "success" => true,
             "status" => 200,
-            "savedconversion" => $saved,
-            "master" => $item2,
             "message" => $messages,
             "hasil" => $results,
         ]);

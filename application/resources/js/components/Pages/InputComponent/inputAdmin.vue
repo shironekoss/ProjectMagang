@@ -24,7 +24,7 @@
                             </ul>
                         </div>
                     </v-col>
-                    <v-col cols="12" sm="6" md="3">
+                    <v-col cols="12" sm="6" md="3" v-if="this.authStore.user.account_privileges.title == 'Super Admin Role'">
                         <span>Departemen</span>
                         <v-select :items="ListDept" item-text="text" item-value="value" v-model="Departemen" required
                             class="form-control" :disabled="disabledepartemen">
@@ -55,8 +55,8 @@
                             <font-awesome-icon icon="fa-solid fa-clock-rotate-left" style="margin-left: 5px;" />
                         </button>
                         <button v-if="authStore.user.account_privileges.title == 'Super Admin Role' ||
-                        authStore.user.account_privileges.title == 'Admin Role'" class="btn" style="background-color: lightgreen;"
-                            @click="pindahmanage()">Manage
+                        authStore.user.account_privileges.title == 'Admin Role'" class="btn"
+                            style="background-color: lightgreen;" @click="pindahmanage()">Manage
                             Number SPK</button>
                     </v-col>
                 </v-row>
@@ -222,7 +222,9 @@ export default {
                 this.stall = ""
                 this.disablenamastall = false
                 this.Changemode = "number"
-                this.Departemen = ""
+                if (this.authStore.user.account_privileges.title == "Super Admin Role") {
+                    this.Departemen = ""
+                }
                 this.NamaStall = ""
                 this.TempStall = ''
             }
@@ -239,7 +241,8 @@ export default {
             this.ChangeStallmode = value
         },
         preventNumericInput($event) {
-            console.log($event.keyCode); //will display the keyCode value
+            // console.log($event.keyCode); 
+            //will display the keyCode value
             var keyCode = ($event.keyCode ? $event.keyCode : $event.which);
             if (keyCode > 47 && keyCode < 58) {
                 $event.preventDefault();
@@ -256,7 +259,6 @@ export default {
         async tarikdataspk() {
             this.openDialogLoading()
             await axios.get('/api/getdataspk').then((response) => {
-                console.log(response.data)
                 if (response.data.statusresponse == 200) {
                     this.closeLoading()
                     this.$swal({
@@ -276,7 +278,6 @@ export default {
         },
         async getliststall() {
             await axios.post('/api/getlistallparameterinput', { Parameterdeps: this.Departemen }).then((response) => {
-                console.log(response.data.result)
                 this.Liststall = []
                 this.Liststall = response.data.result
             })
@@ -285,6 +286,9 @@ export default {
         async getlistdepartemen() {
             await axios.post('/api/listdepartemen', { Role: this.authStore.user.account_privileges.title, Departemen: this.authStore.user.account_privileges.account_dept }).then((response) => {
                 this.ListDept = response.data.data
+                if (this.authStore.user.account_privileges.title != "Super Admin Role") {
+                    this.Departemen=this.ListDept[0].value
+                }
             })
         },
         async getlistspk() {
@@ -344,7 +348,6 @@ export default {
                         icon: 'error'
                     });
                 }
-                console.log(response.data)
             })
             this.closeDelete()
         },
@@ -429,7 +432,7 @@ export default {
                             params: { data: response.data }
                         })
                     }
-
+                    
                 });
             }
         },

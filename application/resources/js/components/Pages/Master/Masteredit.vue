@@ -6,35 +6,7 @@
                     <div class="col-6" style="float: left;">
                         <div class="row">
                             <div class="col">
-                                <h5> <span style="color: red;">* </span> Tipe Mobil</h5>
-                            </div>
-                            <div class="col-9">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <input type="text" v-model="Parameter.TipeMobil[0]" class="form-control">
-                                    </div>
-                                    <div class="col">
-                                        <button type="button" :disabled='isActiveTipeMobil' @click="add('TipeMobil')"
-                                            class="btn btn-primary">TAMBAH</button>
-                                    </div>
-                                    <div class="col">
-                                        <button type="button" @click="remove('TipeMobil')" class="btn btn-danger">
-                                            HAPUS
-                                        </button>
-                                    </div>
-                                </div>
-                                <div v-for="(component, index) in ComponentTambahanTipeMobil" :key="index" :id=index
-                                    tipe="TipeMobil" class="row">
-                                    <div class="col-6">
-                                        <input type="text" v-model="Parameter.TipeMobil[index + 1]" required
-                                            class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <h5> <span style="color: red;">* </span> Model Mobil</h5>
+                                <h5> <span style="color: red;">* </span> Merk</h5>
                             </div>
                             <div class="col-9">
                                 <div class="row">
@@ -56,6 +28,34 @@
                                     tipe="ModelMobil" class="row">
                                     <div class="col-6">
                                         <input type="text" v-model="Parameter.ModelMobil[index + 1]" required
+                                            class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <h5> <span style="color: red;">* </span> Type / Model </h5>
+                            </div>
+                            <div class="col-9">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <input type="text" v-model="Parameter.TipeMobil[0]" class="form-control">
+                                    </div>
+                                    <div class="col">
+                                        <button type="button" :disabled='isActiveTipeMobil' @click="add('TipeMobil')"
+                                            class="btn btn-primary">TAMBAH</button>
+                                    </div>
+                                    <div class="col">
+                                        <button type="button" @click="remove('TipeMobil')" class="btn btn-danger">
+                                            HAPUS
+                                        </button>
+                                    </div>
+                                </div>
+                                <div v-for="(component, index) in ComponentTambahanTipeMobil" :key="index" :id=index
+                                    tipe="TipeMobil" class="row">
+                                    <div class="col-6">
+                                        <input type="text" v-model="Parameter.TipeMobil[index + 1]" required
                                             class="form-control">
                                     </div>
                                 </div>
@@ -88,7 +88,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>     
                         <div class="row">
                             <div class="col">
                                 <h5> <span style="color: red;">* </span> Departemen</h5>

@@ -149,7 +149,6 @@ class CheckFullController extends Controller
                 array_push($errors, " Tipe Mobil Tidak Terdaftar");
                 $errorcheck++;
             }
-
             if (!$parameterNewparamTerdaftar) {
                 array_push($errors, " Ada parameter baru yang belum terdaftar");
                 $errorcheck++;
