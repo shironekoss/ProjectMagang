@@ -54,10 +54,10 @@
                         <button class="btn" style="background-color: greenyellow;" @click="pindahhistory()">History
                             <font-awesome-icon icon="fa-solid fa-clock-rotate-left" style="margin-left: 5px;" />
                         </button>
-                        <button v-if="authStore.user.account_privileges.title == 'Super Admin Role' ||
+                        <!-- <button v-if="authStore.user.account_privileges.title == 'Super Admin Role' ||
                         authStore.user.account_privileges.title == 'Admin Role'" class="btn"
                             style="background-color: lightgreen;" @click="pindahmanage()">Manage
-                            Number SPK</button>
+                            Number SPK</button> -->
                     </v-col>
                 </v-row>
             </v-container>

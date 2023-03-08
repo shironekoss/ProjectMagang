@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Departemen;
+use App\Models\History;
 use App\Models\Master;
 use App\Models\Masterkit;
 use App\Models\SavedConversionResult;
@@ -13,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\Component;
+use LDAP\Result;
 use Nette\Utils\Strings;
 
 class AdminController extends Controller
@@ -90,16 +92,44 @@ class AdminController extends Controller
 
     public function getdatatablehistory(Request $request)
     {
-        if ($request->Role == "Super Admin Role") {
-            $listdata = SavedConversionResult::where('status', 'berhasil')->get();
-            return $listdata;
-        } else {
-            $Departemen = Departemen::where('Nama_Departemen', $request->Departemen)->first();
-            $listdata = SavedConversionResult::where('status', 'berhasil')
-                ->where('Departemen', $Departemen->Nama_Departemen)
-                ->get();
-            return $listdata;
+        // if ($request->Role == "Super Admin Role") {
+        //     $listdata = SavedConversionResult::where('status', 'berhasil')->get();
+        //     return $listdata;
+        // } else {
+        //     $Departemen = Departemen::where('Nama_Departemen', $request->Departemen)->first();
+        //     $listdata = SavedConversionResult::where('status', 'berhasil')
+        //         ->where('Departemen', $Departemen->Nama_Departemen)
+        //         ->get();
+        //     return $listdata;
+        // }
+        $listdata = [];
+        $allhistory = History::all();
+        foreach ($allhistory as $history) {
+            $cluster = [];
+            foreach ($history["LISTSPK"] as $idspk) {
+                $data = SavedConversionResult::where('_id', $idspk)->first();
+                if (array_push($cluster, $data)) {
+                    $cluster['updated_at'] = $history["updated_at"];
+                    $cluster['target'] = $history["_id"];
+                }
+            }
+            array_push($listdata, $cluster);
         }
+        return $listdata;
+    }
+
+    public function tampilkandatahistory(Request $request)
+    {
+        $result = [];
+        $idhistory = History::where("_id", $request->target)->first();
+        foreach ($idhistory->LISTSPK as $id) {
+            $ambil = SavedConversionResult::where("_id", $id)->first();
+            array_push($result, [
+                'NOSPK' => $ambil["NOSPK"],
+                'kit' => $ambil["kit"]
+            ]);
+        }
+        return $result;
     }
 
     public function hapushistory(Request $request)
@@ -108,21 +138,26 @@ class AdminController extends Controller
         $role = $request->Role;
         try {
             if ($role == "Super Admin Role") {
-                $data = SavedConversionResult::where('_id', $id)->first();
-                $spk = $data["NOSPK"];
-                $namastall = $data["namastall"];
-                $departemen = $data["Departemen"];
-                $query = $data->delete();
-                if ($query) {
-                    $savedsetting = SPK_attribute_tambahan::where('NOSPK', $spk)->first();
-                    $inputchange = $savedsetting->check;
-                    $inputchange[$departemen][$namastall] = false;
-                    $savedsetting->check = $inputchange;
-                    $savedsetting->save();
+                $myhistory = History::where('_id', $id)->first();
+                foreach ($myhistory["LISTSPK"] as $removeid) {
+                    $data = SavedConversionResult::where('_id', $removeid)->first();
+                    $spk = $data["NOSPK"];
+                    $namastall = $data["namastall"];
+                    $departemen = $data["Departemen"];
+                    $query = $data->delete();
+                    if ($query) {
+                        $savedsetting = SPK_attribute_tambahan::where('NOSPK', $spk)->first();
+                        $inputchange = $savedsetting->check;
+                        $inputchange[$departemen][$namastall] = false;
+                        $savedsetting->check = $inputchange;
+                        $savedsetting->save();
+                    }
                 }
+                $myhistory->delete();
             }
             return response()->json([
                 "status" => 200,
+                "test" => $myhistory
             ]);
         } catch (\Throwable $th) {
             //throw $th;
@@ -176,11 +211,13 @@ class AdminController extends Controller
         }
         $master = Master::all();
         $messages = [];
-        $results = [];
+        $ListspkHistory = [];
+        $resultsprint = [];
         foreach ($saved as $item1) {
             //errors check
+            $results = [];
             $errors = [];
-            $result = [];
+            $resultuntukstock = [];
             $errorModelMobil = true;
             $errorTipeMobil = true;
             $errorTinggiMobil = true;
@@ -192,7 +229,7 @@ class AdminController extends Controller
                 foreach ($master as $item2) {
                     foreach ($item2["Parameter"]["Stock"] as $subitem2) {
                         if (strtoupper($subitem2) == strtoupper($item1["stall"])) {
-                            array_push($result, $item2["Kit"]);
+                            array_push($resultuntukstock, $item2["Kit"]);
                             $i++;
                             break;
                         }
@@ -200,13 +237,15 @@ class AdminController extends Controller
                 }
                 if ($i > 0) {
                     array_push($results, [
-                        'kit' => $result,
+                        'kit' => $resultuntukstock,
                         'NoSPK' => $item1->NOSPK,
                     ]);
                     $item1["status"] = "berhasil";
                     $item1["kit"] = $results;
                     $item1["errors"] = [];
-                    $item1->save();
+                    if ($item1->save()) {
+                        array_push($resultsprint, $results);
+                    };
                 } else {
                     $item1["status"] = "Pending";
                     $item1["errors"] = ["Stall Belum Terdaftar"];
@@ -214,6 +253,7 @@ class AdminController extends Controller
                 }
             } else {
                 foreach ($master as $item2) {
+                    $result = [];
                     $i = 0;
                     $data = SPK::where('NOSPK', $item1["NOSPK"])->first();
                     $ModelMobilterdaftar = false;
@@ -302,7 +342,11 @@ class AdminController extends Controller
                     $item1["errors"] = [];
                     $item1["status"] = "berhasil";
                     $item1["kit"] = $results;
+                    array_push($resultsprint, $results);
                     $item1->save();
+
+                    //collect history
+                    array_push($ListspkHistory, $item1["_id"]);
 
                     //buat insert ke spk attribut tambahan
                     $find = count(SavedConversionResult::where('NOSPK', $item1["NOSPK"])
@@ -370,11 +414,16 @@ class AdminController extends Controller
                 }
             }
         }
+        if (count($ListspkHistory) > 0) {
+            $newhisory = History::create([
+                "LISTSPK" => $ListspkHistory
+            ]);
+        }
         return response()->json([
             "success" => true,
             "status" => 200,
             "message" => $messages,
-            "hasil" => $results,
+            "hasil" => $resultsprint,
         ]);
     }
 

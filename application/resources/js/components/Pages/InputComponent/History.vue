@@ -4,14 +4,22 @@
             <div style=" position: absolute; inset: 0; z-index: 0;" @click="modal = false"></div>
             <div v-if="datatable">
                 <v-data-table dense :headers="headerstable" :items="datatable" :items-per-page="30"
-                    class="elevation-1 font-weight-bold">
+                    class="elevation-1 font-weight-bold" :footer-props="{
+                        'items-per-page-options': [30, 50, 100, -1],
+                        showFirstLastPage: true,
+                        firstIcon: 'mdi-arrow-collapse-left',
+                        lastIcon: 'mdi-arrow-collapse-right',
+                        prevIcon: 'mdi-minus',
+                        itemsPerPageText: 'foo',
+                        pageText: 'bar'
+                    }">
                     <template v-slot:top>
                         <v-toolbar flat>
                             <v-toolbar-title>History</v-toolbar-title>
                         </v-toolbar>
                     </template>
                     <template v-slot:item.actions="{ item }">
-                        <v-row dense>
+                        <v-row dense v-if="item.series == 0">
                             <v-col cols="12" sm="6" md="5" style="float: left;">
                                 <div style="display: flex;">
                                     <v-btn depressed color="orange" @click="pindahhistory(item)">Cek
@@ -43,7 +51,7 @@ export default {
     setup() {
         const authStore = useAuth();
         const timerstore = useTimer();
-        return { authStore , timerstore }
+        return { authStore, timerstore }
     },
     data() {
         return {
@@ -57,12 +65,12 @@ export default {
                     value: 'NOSPK',
                     class: "title text-uppercase font-weight-black black--text light-blue lighten-5"
                 },
-                { text: 'Nama Stall', value: 'namastall', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
-                { text: 'Stall', value: 'stall', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Nama Stall', value: 'namastall',sortable: false, class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Stall', value: 'stall',sortable: false, class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Departemen', value: 'Departemen', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
-                { text: 'Status', value: 'status', width: '150px', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
-                { text: 'Waktu Update Terakhir', width: '250px', value: 'updated_at', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
-                { text: 'Action', value: 'actions', width: '300px', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Status', value: 'status', sortable: false, width: '150px', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Waktu Update Terakhir',sortable: true, width: '250px', value: 'updated_at', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Action', value: 'actions',sortable: false, width: '300px', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
             ],
         }
     },
@@ -104,15 +112,29 @@ export default {
         async getdatatable() {
             await axios.post('/api/getdatatablehistory', { Role: this.authStore.user.account_privileges.title, Departemen: this.authStore.user.account_privileges.account_dept }).then((response) => {
                 this.datatable = []
-                this.datatable = response.data.reverse()
-                this.datatable.forEach(element => {
-                    element["updated_at"] = this.converttime(element["updated_at"])
+                var temp = response.data.reverse()
+                var result = []
+                temp.forEach(element => {
+                    var time = this.converttime(element["updated_at"])
+                    for (let index = 0; index <= Object.keys(element).length - 3; index++) {
+                        result.push({
+                            "NOSPK": element[index]["NOSPK"],
+                            "namastall": element[index]["namastall"],
+                            "stall": element[index]["stall"],
+                            "Departemen": element[index]["Departemen"],
+                            "status": element[index]["status"],
+                            "updated_at": time,
+                            "series": index,
+                            "target": element["target"]
+                        })
+                    }
                 });
+                this.datatable = result
             })
         },
         async deleteItem(item) {
-            await axios.post('/api/hapushistory',{Role: this.authStore.user.account_privileges.title, id:item._id}).then((response)=>{
-                if(response.data.status==200){
+            await axios.post('/api/hapushistory', { Role: this.authStore.user.account_privileges.title, id: item.target }).then((response) => {
+                if (response.data.status == 200) {
                     this.$swal({
                         title: "Sukses Menghapus",
                         icon: 'success'
@@ -126,13 +148,11 @@ export default {
                 name: 'CheckresultSingleHistory',
                 params: {
                     name: item.NOSPK,
-                    data: item.kit
+                    target: item.target,
                 }
             })
         },
     }
 }
 </script>
-<style>
-
-</style>
+<style></style>

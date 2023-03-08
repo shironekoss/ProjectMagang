@@ -31,7 +31,7 @@ class SettingsController extends Controller
 
     public function getlistdepartemen(Request $request)
     {
-     
+
         if ($request->Role == "Super Admin Role") {
             $listdept = Departemen::pluck('Nama_Departemen')->all();
             $result = [];
@@ -63,7 +63,14 @@ class SettingsController extends Controller
         }
     }
 
-
+    public function getlistdepartemennorole(Request $request)
+    {
+        $listdept = Departemen::pluck('Nama_Departemen')->all();
+        return response()->json([
+            "statusresponse" => 200,
+            "data" => $listdept
+        ]);
+    }
 
 
 
@@ -121,10 +128,18 @@ class SettingsController extends Controller
 
 
         try {
-            return response()->json([
-                "statusresponse" => 200,
-                "message" => $request->account_name
-            ]);
+            $findaccount = Account::where('_id', $request->_id)->first();
+            $findaccount->account_username = $request->account_username;
+            $findaccount->account_name = $request->account_name;
+            $findaccount->account_password = $request->account_password;
+            $findaccount->account_privileges = $request->account_privileges;
+            if ($findaccount->save()) {
+                return response()->json([
+                    "statusresponse" => 200,
+                    "message" => $request->account_name,
+                    "user" => $findaccount
+                ]);
+            }
         } catch (\Throwable $th) {
             return response()->json([
                 "statusresponse" => 400,
@@ -152,7 +167,7 @@ class SettingsController extends Controller
                 'title' => $request->role,
                 'account_dept' => $request->departemen,
             ],
-            "account_active" => false,
+            "account_active" => true,
         ]);
         //cara 2
         // $user = new User();
@@ -166,5 +181,4 @@ class SettingsController extends Controller
             "data" => $user
         ]);
     }
-
 }

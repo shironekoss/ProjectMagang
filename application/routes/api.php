@@ -57,6 +57,8 @@ Route::post('listdepartemen',[SettingsController::class,'getlistdepartemen']);
 Route::post('getlistallparameter',[SettingsController::class,'getlistallparameter']);
 Route::get('users/{id}',[SettingsController::class,'show']);
 Route::post('tambahaccount',[SettingsController::class,'addAccount']);
+Route::post('getlistdepartemennorole',[SettingsController::class,'getlistdepartemennorole']);
+
 
 Route::post('tambahSPK',[SPKController::class,'tambahSPK']);
 Route::get('spklist',[SPKController::class,'spklist']);
@@ -64,6 +66,7 @@ Route::post('listspkshow',[AdminController::class,'listspkshow']);
 Route::get('getdatatable',[AdminController::class,'getdatatable']);
 Route::post('getdatatable',[AdminController::class,'getdatatables']);
 Route::post('getdatatablehistory',[AdminController::class,'getdatatablehistory']);
+Route::post('tampilkandatahistory',[AdminController::class,'tampilkandatahistory']);
 Route::post('hapushistory',[AdminController::class,'hapushistory']);
 
 
@@ -95,6 +98,7 @@ Route::post('generatemasterkit',[MasterController::class,'generatemasterkit']);
 Route::get('listmaster',[MasterController::class,'listmaster']);
 Route::delete('hapusmaster{id}',[MasterController::class,'hapusmaster']);
 Route::get('master/{id}',[MasterController::class,'carimaster']);
+Route::post('getkitkode',[MasterController::class,'carikoderak']);
 
 //SqlController Berhubungan dengan narik SQLSRV
 Route::get('getdatakit',[SQLController::class,'getdatakit']);

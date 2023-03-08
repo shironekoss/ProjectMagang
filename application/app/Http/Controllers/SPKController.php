@@ -36,21 +36,55 @@ class SPKController extends Controller
 
     public function spklist()
     {
-        $spklist = SPK::all();
-        return response()->json([
-            "status" => true,
-            "data" => $spklist
-        ]);
+        $data = [
+            [
+                "kode_komponen" => "1TR2-RM5-005",
+                "nama_komponen" => "LASER - ROOF MMLE 05 920",
+                "qty" => "10.00000",
+                "Satuan" => "PCS"
+            ],
+            [
+                "kode_komponen" => "1TR2-RM5-001",
+                "nama_komponen" => "LASER - ROOF MMLE 05 1600",
+                "qty" => "6.00000",
+                "Satuan" => "PCS"
+            ],
+        ];
+
+        // "darirak"
+        $site =   "sasasaasas";
+
+        // $available = DB::connection('sqlsrv')
+        //     ->table('ITEMKITMAINTENANCE')
+        //     ->join('iv00102', 'iv00102.ITEMNMBR', '=', 'ITEMKITMAINTENANCE.Component Item Number')
+        //     ->where('iv00102.RCRDTYPE', '=', "2")
+        //     ->where('iv00102.LOCNCODE', '=', $site)
+        //     ->where('ITEMKITMAINTENANCE.Component Item Description', $isikit["nama_komponen"])
+        //     ->pluck("QTYONHND")
+        //     ->first();
+
+        // dd($available);
+        dd($data);
     }
 
 
 
     public function latihan()
     {
-        $result =  $datas = DB::connection('sqlsrv')->table('SURATPERINTAHKERJA')
-        ->join('SPECIFICATION', 'SPECIFICATION.SPK Number', '=', 'SURATPERINTAHKERJA.SPK Number')
-        ->get();
-        dd($result);
+        $available = DB::connection('sqlsrv')
+            ->statement('INSERT INTO SPECIFICATION ([SPK Number],[SPK Type],[Bagian], [User Defined], [User Defined Desc], [Air Suspensi], [Semi Monocoque], [UPDATED DATETIME])
+        SELECT [SPK Number],[SPK Type],[Bagian], [User Defined], [User Defined Desc], [Air Suspensi], [Semi Monocoque], GETDATE() [UPDATE DATETIME] FROM PROGRAMSPK_specification E where not exists 
+        (select [spk number] from SPECIFICATION f where e.[spk number]=f.[spk number])');
+
+        //         insert into ITEMKITMAINTENANCE ([Item KIT Number],[Item KIT Description],[Component Item Number],[Component Item Description],
+        // [Component Item QTY],[Component Item UofM],[Site ID],[Updated DateTime])
+        // select [Item KIT Number],[Item KIT Description],[Component Item Number],[Component Item Description],
+        // [Component Item QTY],[Component Item UofM],[Site ID],getdate() [Updated DateTime]
+        // from PROGRAMSPK_ITEMKIT 
+
+
+
+        dd($available);
     }
 
     public function coba()

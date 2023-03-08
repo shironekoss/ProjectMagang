@@ -14,7 +14,7 @@ class MasterController extends Controller
 {
     public function listmaster()
     {
-        $masters = Master::all();
+        $masters = Master::all()->sortByDesc('updated_at');
         $data = [];
         foreach ($masters as $master) {
             foreach ($master["Kit"] as $kit) {
@@ -36,6 +36,31 @@ class MasterController extends Controller
     {
         $master = Master::find($id);
         return $master;
+    }
+
+    public function carikoderak(Request $request)
+    {
+        $datas = $request->value;
+        $site = $request->site;
+        $i=0;
+        foreach ($datas as $data) {
+            $available = DB::connection('sqlsrv')
+            ->table('ITEMKITMAINTENANCE')
+            ->join('iv00102', 'iv00102.ITEMNMBR', '=', 'ITEMKITMAINTENANCE.Component Item Number')
+            ->where('iv00102.RCRDTYPE', '=', "2")
+            ->where('iv00102.LOCNCODE', '=', $site)
+            ->where('ITEMKITMAINTENANCE.Component Item Description', $data["nama_komponen"])
+            ->pluck("BINNMBR")
+            ->first();
+            $datas[$i]["darirak"] = trim($available);
+            $i++;
+        }
+
+
+        // "darirak"
+        return response()->json([
+            "data" => $datas
+        ]);
     }
 
     public function hapusmaster(Request $request)
@@ -105,7 +130,6 @@ class MasterController extends Controller
                     return true;
                 }
             }
-
             $paramkosong = false;
             if (!$paramkosong) {
                 $paramkosong = FungsicekKosong($param['TipeMobil']);
@@ -122,7 +146,6 @@ class MasterController extends Controller
             if (!$paramkosong) {
                 $paramkosong = FungsicekKosong($param['Stall']);
             }
-
             if ($paramkosong) {
                 return response()->json([
                     "success" => true,
@@ -137,7 +160,6 @@ class MasterController extends Controller
                     return true;
                 }
             }
-
             $paramsama = false;
             if (!$paramsama) {
                 $paramsama = fungsiceksama($param['TipeMobil']);
@@ -221,11 +243,10 @@ class MasterController extends Controller
                         }
                     }
                 }
-                if ($jumlahkesamaan == count($array2)) {
+                if ($jumlahkesamaan == count($array1)) {
                     return true;
                 }
             }
-
             $allmaster = Master::all();
             foreach ($allmaster as $master) {
                 $saved = $master->Parameter;
@@ -501,7 +522,7 @@ class MasterController extends Controller
                         }
                     }
                 }
-                if ($jumlahkesamaan == count($array2)) {
+                if ($jumlahkesamaan == count($array1)) {
                     return true;
                 }
             }

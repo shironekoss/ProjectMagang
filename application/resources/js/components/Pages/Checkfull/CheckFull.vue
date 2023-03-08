@@ -4,8 +4,16 @@
             <div style=" position: absolute; inset: 0; z-index: 0;" @click="modal = false"></div>
             <div v-if="datatable">
                 <v-data-table dense v-model="selected" @input="enterSelect()" :headers="headerstable" :items="datatable"
-                    :items-per-page="10" class="elevation-1 font-weight-bold" :search="search" show-select
-                    item-key="NOSPK">
+                    :items-per-page="10"  class="elevation-1 font-weight-bold" :search="search" show-select item-key="NOSPK"
+                    :footer-props="{
+                        'items-per-page-options': [30, 50, 100, -1],
+                        showFirstLastPage: true,
+                        firstIcon: 'mdi-arrow-collapse-left',
+                        lastIcon: 'mdi-arrow-collapse-right',
+                        prevIcon: 'mdi-minus',
+                        itemsPerPageText: 'foo',
+                        pageText: 'bar'
+                    }">
                     <template v-slot:[`header.data-table-select`]></template>
                     <template v-slot:top>
                         <v-toolbar flat>
@@ -44,7 +52,7 @@ export default {
     setup() {
         const authStore = useAuth();
         const timerstore = useTimer();
-        return { authStore , timerstore }
+        return { authStore, timerstore }
     },
     data() {
         return {
@@ -122,44 +130,44 @@ export default {
                     focusConfirm: false,
                 })
             }
-            else{
+            else {
                 axios.post('/api/konversicheckfull', { NoSPK: this.selectedShowing }).then((response) => {
-                this.errors = response.data.errors
-                if (response.data.hasil <= 0) {
-                    this.$swal({
-                        icon: 'error',
-                        title: "error",
-                        text: ' <p style="color: #0a58ca;"Master ada yang salah atau master belum terdaftar',
-                        confirmButtonColor: '#FFFFFF',
-                        confirmButtonText: ' <p style="color: #0a58ca;"> Why i have This Error ?</p> ',
-                        showCloseButton: true,
-                        focusConfirm: false,
-                    })
-                        .then((result) => {
-                            if (result.isConfirmed) {
-                                var StringHTML = '<ul style="color: black;">'
-                                this.errors.forEach(element => {
-                                    console.log(element)
-                                    StringHTML += '<li>' + element + '</li>'
-                                });
-                                StringHTML += '</ul>';
-                                this.$swal.fire({
-                                    title: '<strong><u>Alasan</u></strong>',
-                                    icon: 'info',
-                                    html: StringHTML,
-                                    showCloseButton: true,
-                                    showCancelButton: true,
-                                    focusConfirm: false,
-                                })
-                            }
-                        });
-                } else {
-                    this.$router.push({
-                        name: 'CheckFullDetail',
-                        params: { hasil: response.data.hasil }
-                    })
-                }
-            });
+                    this.errors = response.data.errors
+                    if (response.data.hasil <= 0 ||response.data.status ==300) {
+                        this.$swal({
+                            icon: 'error',
+                            title: "error",
+                            text: ' Master ada yang salah / master belum terdaftar / Site IDnya salah',
+                            confirmButtonColor: '#FFFFFF',
+                            confirmButtonText: ' <p style="color: #0a58ca;"> Why i have This Error ?</p> ',
+                            showCloseButton: true,
+                            focusConfirm: false,
+                        })
+                            .then((result) => {
+                                if (result.isConfirmed) {
+                                    var StringHTML = '<ul style="color: black;">'
+                                    this.errors.forEach(element => {
+                                        console.log(element)
+                                        StringHTML += '<li>' + element + '</li>'
+                                    });
+                                    StringHTML += '</ul>';
+                                    this.$swal.fire({
+                                        title: '<strong><u>Alasan</u></strong>',
+                                        icon: 'info',
+                                        html: StringHTML,
+                                        showCloseButton: true,
+                                        showCancelButton: true,
+                                        focusConfirm: false,
+                                    })
+                                }
+                            });
+                    } else {
+                        this.$router.push({
+                            name: 'CheckFullDetail',
+                            params: { hasil: response.data.hasil }
+                        })
+                    }
+                });
             }
         },
         filterstates() {

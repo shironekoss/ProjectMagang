@@ -53,8 +53,8 @@
                 </div>
                 <div v-else>
                     <div id="image"></div>
-                    <v-data-table dense :headers="headerstable2" :items="datatable2" :items-per-page="30" :search="search"
-                        class="elevation-1 font-weight-bold">
+                    <v-data-table dense :headers="headerstable2" :items="datatable2" :items-per-page="30"
+                        :search="search" class="elevation-1 font-weight-bold">
                         <template v-slot:top>
                             <v-toolbar flat>
                                 <v-toolbar-title>Daftar Kit</v-toolbar-title>
@@ -88,7 +88,7 @@ export default {
         return {
             output: null,
             waktu: "",
-            printable:true,
+            printable: true,
             json_fields: {
                 "NO SPK": "NoSPK",
                 "Kode Kit": "kode",
@@ -142,6 +142,7 @@ export default {
                 },
                 { text: 'Kode Kit', filterable: true, value: 'kode', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Nama Kit', filterable: false, value: 'namakit', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Siteid', value: 'siteID', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
             ],
             headerstable: [
                 {
@@ -174,50 +175,50 @@ export default {
         this.timerstore.LogoutTimers()
     },
     methods: {
-        triggermode(){
-            this.printable=!this.printable
+        triggermode() {
+            this.printable = !this.printable
         },
         konversi(array) {
-            console.log(array)
             let newdata = [];
-            array.forEach(SPK => {
-                SPK["kit"].forEach(kits => {
-                    kits.forEach(komponen => {
-                        komponen["IsiKit"].forEach(subkomponen => {
-                            let obj = {};
-                            obj['NoSPK'] = SPK.NoSPK;
-                            obj['kode'] = komponen.Kodekit;
-                            obj['namakit'] = komponen.NamaKit;
-                            obj['kodekomponen'] = subkomponen.kode_komponen;
-                            obj['namakomponen'] = subkomponen.nama_komponen;
-                            obj['Qty'] = parseInt(subkomponen.qty);
-                            obj['siteID'] = komponen.siteID;
-                            obj['Dari'] = subkomponen.darirak;
-                            obj['Kerak'] = subkomponen.kerak;
-                            newdata.push(obj);
+            array.forEach(BIGSPK => {
+                BIGSPK.forEach(SPK => {
+                    SPK["kit"].forEach(kits => {
+                        kits.forEach(komponen => {
+                            komponen["IsiKit"].forEach(subkomponen => {
+                                let obj = {};
+                                obj['NoSPK'] = SPK.NoSPK;
+                                obj['kode'] = komponen.Kodekit;
+                                obj['namakit'] = komponen.NamaKit;
+                                obj['kodekomponen'] = subkomponen.kode_komponen;
+                                obj['namakomponen'] = subkomponen.nama_komponen;
+                                obj['Qty'] = parseInt(subkomponen.qty);
+                                obj['siteID'] = komponen.siteID;
+                                obj['Dari'] = subkomponen.darirak;
+                                obj['Kerak'] = subkomponen.kerak;
+                                newdata.push(obj);
+                            });
                         });
-
                     });
                 });
-            });
-            console.log(newdata)
+            })
             return newdata;
         },
         konversi2(array) {
-            console.log(array)
             let newdata = [];
-            array.forEach(SPK => {
-                SPK["kit"].forEach(kits => {
-                    kits.forEach(komponen => {
+            array.forEach(BIGSPK => {
+                BIGSPK.forEach(SPK => {
+                    SPK["kit"].forEach(kits => {
+                        kits.forEach(komponen => {
                             let obj = {};
                             obj['NoSPK'] = SPK.NoSPK;
                             obj['kode'] = komponen.Kodekit;
                             obj['namakit'] = komponen.NamaKit;
+                            obj['siteID'] = komponen.siteID;
                             newdata.push(obj);
+                        });
                     });
                 });
-            });
-            console.log(newdata)
+            })
             return newdata;
         },
         async print() {

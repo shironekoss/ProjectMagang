@@ -24,8 +24,8 @@
                                     <button class="btn btn-primary" @click="print">Print
                                         <font-awesome-icon icon="fa-solid fa-print" />
                                     </button>
-                                    <button class="btn btn-primary" @click="triggermode"
-                                        style="margin-left: 20px;">Check Admin
+                                    <button class="btn btn-primary" @click="triggermode" style="margin-left: 20px;">Check
+                                        Admin
                                     </button>
                                 </div>
                                 <div v-else>
@@ -39,7 +39,15 @@
                 <div id="printMe" v-if="printable">
                     <div id="image"></div>
                     <v-data-table dense :headers="headerstable" :items="datatable" :items-per-page="30" :search="search"
-                        class="elevation-1 font-weight-bold">
+                        class="elevation-1 font-weight-bold" :footer-props="{
+                            'items-per-page-options': [30, 50, 100, -1],
+                            showFirstLastPage: true,
+                            firstIcon: 'mdi-arrow-collapse-left',
+                            lastIcon: 'mdi-arrow-collapse-right',
+                            prevIcon: 'mdi-minus',
+                            itemsPerPageText: 'Tampilkan',
+                            pageText: 'bar'
+                        }">
                         <template v-slot:top>
                             <v-toolbar flat>
                                 <v-toolbar-title>List Komponen</v-toolbar-title>
@@ -65,6 +73,7 @@
 </template>
 <script>
 import $ from 'jquery'
+import axios from 'axios'
 import JsonExcel from "vue-json-excel"
 import { useTimer } from '../../../../Stores/Timer';
 const options = {
@@ -162,10 +171,11 @@ export default {
         this.timerstore.LogoutTimers()
     },
     mounted() {
-        this.datatable = this.$route.params.data
-        this.datatable2 = this.$route.params.data
-        this.datatable = this.konversi(this.datatable)
-        this.datatable2 = this.konversi2(this.datatable2)
+        axios.post('/api/tampilkandatahistory', { target: this.$route.params.target }).then((response) => {
+            var temp = response.data
+            this.datatable = this.konversi(temp)
+            this.datatable2 = this.konversi2(temp)
+        })
         this.waktu = this.waktusekarang()
     },
     methods: {
@@ -173,23 +183,24 @@ export default {
             this.printable = !this.printable
         },
         konversi(array) {
-            console.log(array)
             let newdata = [];
-            array.forEach(SPK => {
-                SPK["kit"].forEach(kits => {
-                    kits.forEach(komponen => {
-                        komponen["IsiKit"].forEach(subkomponen => {
-                            let obj = {};
-                            obj['NoSPK'] = SPK.NoSPK;
-                            obj['kode'] = komponen.Kodekit;
-                            obj['namakit'] = komponen.NamaKit;
-                            obj['kodekomponen'] = subkomponen.kode_komponen;
-                            obj['namakomponen'] = subkomponen.nama_komponen;
-                            obj['Qty'] = parseInt(subkomponen.qty);
-                            obj['siteID'] = komponen.siteID;
-                            obj['Dari'] = subkomponen.darirak;
-                            obj['Kerak'] = subkomponen.kerak;
-                            newdata.push(obj);
+            array.forEach(subarray => {
+                subarray['kit'].forEach(SPK => {
+                    SPK["kit"].forEach(kits => {
+                        kits.forEach(komponen => {
+                            komponen["IsiKit"].forEach(subkomponen => {
+                                let obj = {};
+                                obj['NoSPK'] = SPK.NoSPK;
+                                obj['kode'] = komponen.Kodekit;
+                                obj['namakit'] = komponen.NamaKit;
+                                obj['kodekomponen'] = subkomponen.kode_komponen;
+                                obj['namakomponen'] = subkomponen.nama_komponen;
+                                obj['Qty'] = parseInt(subkomponen.qty);
+                                obj['siteID'] = komponen.siteID;
+                                obj['Dari'] = subkomponen.darirak;
+                                obj['Kerak'] = subkomponen.kerak;
+                                newdata.push(obj);
+                            });
                         });
                     });
                 });
@@ -198,17 +209,19 @@ export default {
         },
         konversi2(array) {
             let newdata = [];
-            array.forEach(SPK => {
-                SPK["kit"].forEach(kits => {
-                    kits.forEach(komponen => {
-                        let obj = {};
-                        obj['NoSPK'] = SPK.NoSPK;
-                        obj['kode'] = komponen.Kodekit;
-                        obj['namakit'] = komponen.NamaKit;
-                        newdata.push(obj);
+            array.forEach(subarray => {
+                subarray["kit"].forEach(SPK => {
+                    SPK["kit"].forEach(kits => {
+                        kits.forEach(komponen => {
+                            let obj = {};
+                            obj['NoSPK'] = SPK.NoSPK;
+                            obj['kode'] = komponen.Kodekit;
+                            obj['namakit'] = komponen.NamaKit;
+                            newdata.push(obj);
+                        });
                     });
                 });
-            });
+            })
             return newdata;
         },
         async print() {

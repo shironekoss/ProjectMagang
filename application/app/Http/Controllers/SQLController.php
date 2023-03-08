@@ -13,6 +13,17 @@ class SQLController extends Controller
     {
         try {
             $hapusdata = Masterkit::truncate();
+            DB::connection('sqlsrv')
+                ->table('ITEMKITMAINTENANCE')
+                ->delete();
+
+            DB::connection('sqlsrv')
+                ->statement('insert into ITEMKITMAINTENANCE ([Item KIT Number],[Item KIT Description],[Component Item Number],[Component Item Description],
+        [Component Item QTY],[Component Item UofM],[Site ID],[Updated DateTime])
+        select [Item KIT Number],[Item KIT Description],[Component Item Number],[Component Item Description],
+        [Component Item QTY],[Component Item UofM],[Site ID],getdate() [Updated DateTime]
+        from PROGRAMSPK_ITEMKIT');
+
             $datas = DB::connection('sqlsrv')->table('ITEMKITMAINTENANCE')->get();
             foreach ($datas as $data) {
                 $datatersimpan = Masterkit::where('kode_kit', trim($data->{'Item KIT Number'}))->first();
@@ -108,6 +119,18 @@ class SQLController extends Controller
     {
         try {
             $this->resetdata();
+            //update Surat Peintah Kerja
+            DB::connection('sqlsrv')
+                ->statement('INSERT INTO SURATPERINTAHKERJA
+        ([SPK Number], [Merk], [Type], [No Rangka], [No Mesin], [SPK TYPE], [AIR SUSPENSI], [SEMI MONOCOQUE], [UPDATED DATETIME])
+        SELECT [SPK Number], [Merk], [Type], [No Rangka], [No Mesin], [SPK TYPE], [AIR SUSPENSI], [SEMI MONOCOQUE], [UPDATED DATETIME]
+        FROM PROGRAMSPK_SPK A WHERE NOT EXISTS (SELECT [SPK Number] FROM SURATPERINTAHKERJA B WHERE A.[SPK NUMBER]=B.[SPK NUMBER])');
+
+            DB::connection('sqlsrv')
+                ->statement('INSERT INTO SPECIFICATION ([SPK Number],[SPK Type],[Bagian], [User Defined], [User Defined Desc], [Air Suspensi], [Semi Monocoque], [UPDATED DATETIME])
+                SELECT [SPK Number],[SPK Type],[Bagian], [User Defined], [User Defined Desc], [Air Suspensi], [Semi Monocoque], GETDATE() [UPDATE DATETIME] FROM PROGRAMSPK_specification E where not exists 
+                (select [spk number] from SPECIFICATION f where e.[spk number]=f.[spk number])');
+
             $datas = DB::connection('sqlsrv')->table('SURATPERINTAHKERJA')
                 ->join('SPECIFICATION', 'SPECIFICATION.SPK Number', '=', 'SURATPERINTAHKERJA.SPK Number')
                 ->get();
@@ -117,11 +140,11 @@ class SQLController extends Controller
                     if (strtoupper(trim($data->{'User Defined'})) == "TINGGI BODY") {
                         $newdata = SPK::create([
                             "NOSPK" => trim($data->{'SPK Number'}),
-                            "Tipe"=>trim($data->{'SPK Type'}),
-                            "AirSuspensi"=>trim($data->{'Air Suspensi'}),
-                            "Semi_Monocoque"=>trim($data->{'Semi Monocoque'}),
-                            "No_Rangka"=>trim($data->{'No Rangka'}),
-                            "No_Mesin"=>trim($data->{'No Mesin'}),
+                            "Tipe" => trim($data->{'SPK Type'}),
+                            "AirSuspensi" => trim($data->{'Air Suspensi'}),
+                            "Semi_Monocoque" => trim($data->{'Semi Monocoque'}),
+                            "No_Rangka" => trim($data->{'No Rangka'}),
+                            "No_Mesin" => trim($data->{'No Mesin'}),
                             "parameter" =>  [
                                 "ModelMobil" => trim($data->{'Merk'}),
                                 "TipeMobil" => trim($data->{'Type'}),
@@ -132,11 +155,11 @@ class SQLController extends Controller
                     } else {
                         $newdata = SPK::create([
                             "NOSPK" => trim($data->{'SPK Number'}),
-                            "Tipe"=>trim($data->{'SPK Type'}),
-                            "AirSuspensi"=>trim($data->{'Air Suspensi'}),
-                            "Semi_Monocoque"=>trim($data->{'Semi Monocoque'}),
-                            "No_Rangka"=>trim($data->{'No Rangka'}),
-                            "No_Mesin"=>trim($data->{'No Mesin'}),
+                            "Tipe" => trim($data->{'SPK Type'}),
+                            "AirSuspensi" => trim($data->{'Air Suspensi'}),
+                            "Semi_Monocoque" => trim($data->{'Semi Monocoque'}),
+                            "No_Rangka" => trim($data->{'No Rangka'}),
+                            "No_Mesin" => trim($data->{'No Mesin'}),
                             "parameter" =>  [
                                 "ModelMobil" => trim($data->{'Merk'}),
                                 "TipeMobil" => trim($data->{'Type'}),
@@ -150,8 +173,7 @@ class SQLController extends Controller
                             ]
                         ]);
                     }
-                }
-                else {
+                } else {
                     $array = $datatersimpan->parameter;
                     $array["ModelMobil"] = trim($data->{'Merk'});
                     $array["TipeMobil"] = trim($data->{'Type'});
@@ -206,7 +228,7 @@ class SQLController extends Controller
         } catch (\Throwable $th) {
             return response()->json([
                 "statusresponse" => 400,
-                "error"=>$th->getMessage(),
+                "error" => $th->getMessage(),
                 'message' => "Gagal tarik data SPK",
             ]);
         }

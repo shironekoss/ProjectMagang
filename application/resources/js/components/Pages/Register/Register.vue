@@ -29,7 +29,7 @@
                         <p>Confirmation Password</p>
                         <input type="password" v-model="form.password_confirmation" class="inputbox">
                         <p>Role</p>
-                        <select class="inputbox" name="card_type" id="card_type" v-model="form.role">
+                        <select class="inputbox" name="card_type" id="card_type_role" v-model="form.role">
                             <option value="">--Select Role--</option>
                             <option value="Super_Admin_role">Super Admin</option>
                             <option value="Admin_role">Admin</option>
@@ -39,7 +39,11 @@
                             {{ errors.role[0] }}
                         </div>
                         <p>Departemen</p>
-                        <input type="text" v-model="form.departemen" class="inputbox">
+                        <select class="inputbox" name="card_type" id="card_type_departemen" v-model="form.departemen">
+                            <option value="">--Select Departemen--</option>
+                            <option v-for="item in departemenlist" :value="item">{{ item }}</option>
+                        </select>
+                        <!-- <input type="text" v-model="form.departemen" class="inputbox"> -->
                         <div class="error" v-if="errors.departemen">
                             {{ errors.departemen[0] }}
                         </div>
@@ -58,7 +62,7 @@ import { useTimer } from '../../../../Stores/Timer';
 export default {
     setup() {
         const timerstore = useTimer();
-        return {timerstore }
+        return { timerstore }
     },
     data() {
         return {
@@ -70,25 +74,45 @@ export default {
                 role: '',
                 departemen: '',
             },
+            departemenlist: [],
             errors: {}
         }
+    },
+    mounted() {
+        this.getlistdepartemen()
     },
     onIdle() {
         this.timerstore.LogoutTimers()
     },
     methods: {
+        async getlistdepartemen() {
+            await axios.post('/api/getlistdepartemennorole').then((response) => {
+                this.departemenlist = response.data.data
+            })
+        },
         handleSubmit() {
-            console.log(this.form)
             axios.post('/api/tambahaccount', this.form).then((response) => {
                 if (response.data.status) {
                     this.$swal({
-                        title:'User Baru Berhasil dibuat!',
-                        icon:'success'
-                        });
+                        title: 'User Baru Berhasil dibuat!',
+                        icon: 'success'
+                    });
+                    this.resetform()
                 }
             }).catch((error) => {
                 this.errors = error.response.data.errors
             })
+        },
+        resetform() {
+            this.form = {
+                name: '',
+                username: '',
+                password: '',
+                password_confirmation: '',
+                role: '',
+                departemen: '',
+            },
+            this.errors={}
         }
     }
 }
@@ -113,10 +137,12 @@ body {
     background-color: #DFDBE5;
     background-image: url("https://wallpaperaccess.com/full/3063067.png");
     color: #963E7B;
+    padding: 2rem;
 }
 
 .card {
     width: 60rem;
+    padding: 0.5rem;
     margin: auto;
     background: white;
     position: center;

@@ -6,8 +6,8 @@
                     <v-row no-gutters>
                         <v-col sm="12" xs="12" md="12" lg="8" xl="6">
                             <v-card-title>
-                                <v-text-field v-model="search" append-icon="mdi-magnify" label="Filter Site ID"
-                                    single-line hide-details style="margin-right: 20px;">
+                                <v-text-field v-model="search" append-icon="mdi-magnify" label="Filter Site ID" single-line
+                                    hide-details style="margin-right: 20px;">
                                 </v-text-field>
                                 <JsonExcel class="btn btn-primary" :data="datatable" :fields="json_fields"
                                     worksheet="My Worksheet" name="filename.xls" style="margin-right: 20px;">
@@ -23,7 +23,15 @@
                 <div id="printMe">
                     <div id="image"></div>
                     <v-data-table dense :headers="headerstable" :items="datatable" :items-per-page="30" :search="search"
-                        class="elevation-1 font-weight-bold">
+                        class="elevation-1 font-weight-bold" :footer-props="{
+                            'items-per-page-options': [30, 50, 100, -1],
+                            showFirstLastPage: true,
+                            firstIcon: 'mdi-arrow-collapse-left',
+                            lastIcon: 'mdi-arrow-collapse-right',
+                            prevIcon: 'mdi-minus',
+                            itemsPerPageText: 'Tampilkan',
+                            pageText: 'bar'
+                        }">
                         <template v-slot:top>
                             <v-toolbar flat>
                                 <v-toolbar-title>List komponen</v-toolbar-title>
@@ -51,7 +59,7 @@ export default {
     components: { JsonExcel },
     setup() {
         const timerstore = useTimer();
-        return {timerstore }
+        return { timerstore }
     },
     data() {
         return {
@@ -125,32 +133,35 @@ export default {
         this.timerstore.LogoutTimers()
     },
     mounted() {
-        this.datatable = this.$route.params.hasil
-        this.datatable = this.konversi(this.datatable)
+        let temp = this.$route.params.hasil
+        this.datatable = this.konversi(temp)
         this.waktu = this.waktusekarang()
     },
     methods: {
-        konversi(array) {
+        konversi(arraysset) {
             let newdata = [];
-            for (let SPKnumber in array) {
-                console.log(array[SPKnumber])
-                array[SPKnumber]["kit"].forEach(Kit => {
-                    Kit["IsiKit"].forEach(Komponen => {
-                        let obj = {};
-                        obj['NoSPK'] = array[SPKnumber]["NoSPK"];
-                        obj['count'] =array[SPKnumber]["count"];
-                        obj['kode'] = Kit["Kodekit"];
-                        obj['namakit'] = Kit["NamaKit"];
-                        obj['siteID'] = Kit["siteID"];
-                        obj['kode_komponen'] = Komponen["kode_komponen"];
-                        obj['nama_komponen'] = Komponen["nama_komponen"];
-                        obj['Satuan'] = Komponen["Satuan"];
-                        obj['kebutuhan'] = parseInt(Komponen["qty"]);
-                        obj['available'] = parseInt(Komponen["Qty_Available"]);
-                        newdata.push(obj);
+            arraysset.forEach(arrays => {
+                arrays.forEach(array => {
+                    array.kit.forEach(Kits => {
+                        Kits.forEach(Kit => {
+                            Kit["IsiKit"].forEach(Komponen => {
+                                let obj = []
+                                obj['NoSPK'] = array["NoSPK"];
+                                obj['count'] = array["count"];
+                                obj['kode'] = Kit["Kodekit"];
+                                obj['namakit'] = Kit["NamaKit"];
+                                obj['siteID'] = Kit["siteID"];
+                                obj['kode_komponen'] = Komponen["kode_komponen"];
+                                obj['nama_komponen'] = Komponen["nama_komponen"];
+                                obj['Satuan'] = Komponen["Satuan"];
+                                obj['kebutuhan'] = parseInt(Komponen["qty"]);
+                                obj['available'] = parseInt(Komponen["Qty_Available"]);
+                                newdata.push(obj);
+                            })
+                        })
                     })
-                })
-            }
+                });
+            });
             return newdata;
         },
         async print() {
@@ -181,7 +192,8 @@ export default {
         size: landscape,
     }
 }
-.tanggal{
-    margin-left:500px;
+
+.tanggal {
+    margin-left: 500px;
 }
 </style>

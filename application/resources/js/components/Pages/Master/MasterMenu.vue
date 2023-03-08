@@ -2,14 +2,23 @@
     <div>
         <v-app>
             <div v-if="datatable">
-                <v-data-table dense :headers="headerstable" :items="datatable" :items-per-page="10" :search="search"
-                    class="elevation-1 font-weight-bold">
+                <v-data-table dense :headers="headerstable" :items="datatable" :items-per-page="30" :search="search"
+                    class="elevation-1 font-weight-bold" :custom-sort="customSort" :footer-props="{
+                        'items-per-page-options': [30, 50, 100, -1],
+                        showFirstLastPage: true,
+                        firstIcon: 'mdi-arrow-collapse-left',
+                        lastIcon: 'mdi-arrow-collapse-right',
+                        prevIcon: 'mdi-minus',
+                        itemsPerPageText: 'Tampilkan',
+                        pageText: 'bar'
+                    }">
                     <template v-slot:top>
                         <v-toolbar flat>
                             <v-toolbar-title>Tambahkan Master
                             </v-toolbar-title>
                             <button class="btn btn-primary" @click="TambahMaster" style="margin-left: 30px;">
-                              Tambah Master   <font-awesome-icon icon="fa-solid fa-plus" style="margin-left: 5px;" />  </button>
+                                Tambah Master <font-awesome-icon icon="fa-solid fa-plus" style="margin-left: 5px;" />
+                            </button>
                         </v-toolbar>
                         <v-card-title>
                             <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line
@@ -18,8 +27,8 @@
                         </v-card-title>
                         <v-dialog v-model="dialogDelete" max-width="500px">
                             <v-card>
-                                <v-card-title class="text-h5">Yakin Mau Menghapus&nbsp; <span
-                                        v-html="NamaKitHapus"></span> ?</v-card-title>
+                                <v-card-title class="text-h5">Yakin Mau Menghapus&nbsp; <span v-html="NamaKitHapus"></span>
+                                    ?</v-card-title>
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
                                     <v-btn color="blue darken-1" text @click="closeDialogDelete">Cancel</v-btn>
@@ -30,8 +39,10 @@
                         </v-dialog>
                     </template>
                     <template v-slot:item.actions="{ item }">
-                        <v-btn depressed color="teal lighten-3" @click="editmaster(item)">Edit <font-awesome-icon icon="fa-solid fa-pen-to-square" style="margin-left: 5px;" /></v-btn>
-                        <v-btn depressed color="error" @click="deleteItem(item)">Hapus <font-awesome-icon icon="fa-solid fa-trash" style="margin-left: 5px;" /></v-btn>
+                        <v-btn depressed color="teal lighten-3" @click="editmaster(item)">Edit <font-awesome-icon
+                                icon="fa-solid fa-pen-to-square" style="margin-left: 5px;" /></v-btn>
+                        <v-btn depressed color="error" @click="deleteItem(item)">Hapus <font-awesome-icon
+                                icon="fa-solid fa-trash" style="margin-left: 5px;" /></v-btn>
                     </template>
                 </v-data-table>
             </div>
@@ -44,10 +55,10 @@ import axios from 'axios'
 import ConvertTime from '../../../Helper/ConvertTime'
 import { useTimer } from '../../../../Stores/Timer';
 export default {
-    mixins:[ConvertTime],
+    mixins: [ConvertTime],
     setup() {
         const timerstore = useTimer();
-        return {timerstore }
+        return { timerstore }
     },
     data() {
         return {
@@ -83,9 +94,32 @@ export default {
                 this.listMaster = response.data
                 this.datatable = response.data.data
                 this.datatable.forEach(element => {
-                    element["updated_at"]=this.converttime(element["updated_at"])
+                    element["updated_at"] = this.converttime(element["updated_at"])
                 });
             })
+        },
+        customSort: function (items, index, isDesc) {
+            console.log(index[0])
+            items.sort((a, b) => {
+                if (index[0] == 'updated_at') {
+                    if (!isDesc[0]) {
+                        return new Date(b[index]) - new Date(a[index]);
+                    } else {
+                        return new Date(a[index]) - new Date(b[index]);
+                    }
+                }
+                else {
+                    if (typeof a[index] !== 'undefined') {
+                        if (!isDesc[0]) {
+                            return a[index].toLowerCase().localeCompare(b[index].toLowerCase());
+                        }
+                        else {
+                            return b[index].toLowerCase().localeCompare(a[index].toLowerCase());
+                        }
+                    }
+                }
+            });
+            return items;
         },
         TambahMaster() {
             this.$router.push('Master')
@@ -131,6 +165,4 @@ export default {
     }
 }
 </script>
-<style>
-
-</style>
+<style></style>

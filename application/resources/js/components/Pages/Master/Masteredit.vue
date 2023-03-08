@@ -71,12 +71,11 @@
                                         <input type="text" v-model="Parameter.TinggiMobil[0]" class="form-control">
                                     </div>
                                     <div class="col">
-                                        <button type="button" :disabled='isActiveTinggiMobil'
-                                            @click="add('TinggiMobil')" class="btn btn-primary">TAMBAH</button>
+                                        <button type="button" :disabled='isActiveTinggiMobil' @click="add('TinggiMobil')"
+                                            class="btn btn-primary">TAMBAH</button>
                                     </div>
                                     <div class="col">
-                                        <button type="button" @click="remove('TinggiMobil')"
-                                            class="btn btn-danger">HAPUS
+                                        <button type="button" @click="remove('TinggiMobil')" class="btn btn-danger">HAPUS
                                         </button>
                                     </div>
                                 </div>
@@ -88,7 +87,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>     
+                        </div>
                         <div class="row">
                             <div class="col">
                                 <h5> <span style="color: red;">* </span> Departemen</h5>
@@ -197,14 +196,13 @@
                                     <div class="row">
                                         <div class="col-3">
                                             <input type="text" v-model="Parameter.NewParameter[index].Newparam"
-                                                class="newparam form-control">
+                                                class="newparam form-control" placeholder="Kategori Parameter Baru">
                                         </div>
                                         <div class="col-6">
                                             <div v-for="(component2, index2) in component.Component" :key="index2"
                                                 :id=index2>
-                                                <input type="text"
-                                                    v-model="Parameter.NewParameter[index].Component[index2]"
-                                                    class="form-control">
+                                                <input type="text" v-model="Parameter.NewParameter[index].Component[index2]"
+                                                    class="form-control" placeholder="Nama Parameter Baru">
                                             </div>
                                         </div>
                                         <div class="col-3">
@@ -236,8 +234,7 @@
                                         <input type="text" v-model="InputKodeKit" class="form-control">
                                     </div>
                                     <div class="col">
-                                        <button type="button" @click="generate"
-                                            class="btn btn-secondary">Generate</button>
+                                        <button type="button" @click="generate" class="btn btn-secondary">Generate</button>
                                     </div>
                                 </div>
                             </div>
@@ -252,8 +249,8 @@
                                         <div class="row">
                                             <div class="col-5">
                                                 Nama Komponen
-                                                <input type="text" v-model="component.IsiKit[index2].nama_komponen"
-                                                    disabled class="form-control">
+                                                <input type="text" v-model="component.IsiKit[index2].nama_komponen" disabled
+                                                    class="form-control">
                                             </div>
                                             <div class="col">
                                                 QTY :
@@ -262,7 +259,8 @@
                                             </div>
                                             <div class="col">
                                                 Site ID :
-                                                <input type="text" v-model="component.siteID" class="form-control">
+                                                <input type="text" v-model="component.siteID" class="form-control"
+                                                    @change="triggeringcarirak(component.IsiKit, component.siteID, index)">
                                             </div>
                                             <div class="col">
                                                 dari Rak :
@@ -291,6 +289,9 @@
                 </div>
             </div>
         </div>
+        <v-dialog v-model="dialogLoading" max-width="500px">
+            <Loading />
+        </v-dialog>
     </div>
 </template>
 
@@ -299,12 +300,14 @@ import axios from 'axios'
 import { Result } from 'postcss'
 import { useAuth } from '../../../../Stores/Auth';
 import { useTimer } from '../../../../Stores/Timer';
+import Loading from '../../Global/Loading.vue';
 export default {
     props: ['id'],
+    components: { Loading },
     setup() {
         const authStore = useAuth();
         const timerstore = useTimer();
-        return { authStore , timerstore }
+        return { authStore, timerstore }
     },
     data() {
         return {
@@ -315,6 +318,7 @@ export default {
             isActiveTinggiMobil: true,
             isActiveDepartemen: true,
             isActiveStock: true,
+            dialogLoading: false,
             ComponentTambahanTipeMobil: [],
             ComponentTambahanModelMobil: [],
             ComponentTambahanTinggiMobil: [],
@@ -334,18 +338,23 @@ export default {
             Result: [],
             ListDept: [],
             Liststall: [],
-            Liststalltemp: []
+            Liststalltemp: [],
+            timer: null,
+            timetoupdate: true,
         }
     },
     mounted() {
         this.getspk(),
-        this.getlistdepartemen(),
-        this.Parameter.Stall = this.Liststalltemp
+            this.getlistdepartemen(),
+            this.Parameter.Stall = this.Liststalltemp
     },
     onIdle() {
         this.timerstore.LogoutTimers()
     },
     watch: {
+        dialogLoading(val) {
+            val || this.closeLoading()
+        },
         'Parameter.TipeMobil': function () {
             if (this.Parameter.TipeMobil.length == 0) {
                 return this.isActiveTipeMobil = true
@@ -451,6 +460,25 @@ export default {
         }
     },
     methods: {
+        async triggeringcarirak(value, site, index) {
+            this.timetoupdate = false
+            await clearTimeout(this.timer)
+            this.timer = await setTimeout(async () => {
+                await this.fillrakk(value, site, index)
+                this.timetoupdate = true
+            }, 0)
+        },
+        async fillrakk(value, site, index) {
+            await axios.post('/api/getkitkode', { value: value, site: site, }).then((response) => {
+                this.Result[index]["IsiKit"] = response.data.data
+            })
+        },
+        closeLoading() {
+            this.dialogLoading = false;
+        },
+        openDialogLoading() {
+            this.dialogLoading = true
+        },
         add(param) {
             if (param == 'TipeMobil') {
                 this.ComponentTambahanTipeMobil.push('true')
@@ -473,8 +501,10 @@ export default {
             }
         },
         async tarikdatakit() {
+            this.openDialogLoading()
             await axios.get('/api/getdatakit').then((response) => {
                 if (response.data.success = 200) {
+                    this.closeLoading()
                     this.$swal({
                         title: response.data.message,
                         icon: 'success'
@@ -520,7 +550,7 @@ export default {
             })
         },
         async getlistdepartemen() {
-            await axios.post('/api/listdepartemen',{ Role: this.authStore.user.account_privileges.title, Departemen: this.authStore.user.account_privileges.account_dept }).then((response) => {
+            await axios.post('/api/listdepartemen', { Role: this.authStore.user.account_privileges.title, Departemen: this.authStore.user.account_privileges.account_dept }).then((response) => {
                 this.ListDept = response.data.data
             })
         },
@@ -620,49 +650,54 @@ export default {
         },
 
         handleSubmit() {
-            let data = {
-                datakit: this.Result,
-                dataparam: this.Parameter,
-                id: this.id
+            if (this.timetoupdate == false) {
+                this.$swal({ title: 'Tunggu 3 detik sampai seluruh rak sudah dicek', icon: 'error' });
             }
-            axios.post('/api/updatemaster', data).then((response) => {
-                if (response.data.success) {
-                    if (response.data.statuscode == 401) {
-                        this.$swal({ title: 'Ada Parameter yang Kosong', icon: 'error' });
-                    }
-                    if (response.data.statuscode == 402) {
-                        this.$swal({ title: 'Ada Field yang memiliki parameter kembar', icon: 'error' });
-                    }
-                    if (response.data.statuscode == 403) {
-                        this.$swal({ title: 'Pengisian Parameter Tambahan ada yang Kosong', icon: 'error' });
-                    }
-                    if (response.data.statuscode == 404) {
-                        this.$swal({ title: 'Pengisian Parameter Tambahan kembar, perhatikan kembali pengisiannya', icon: 'error' });
-                    }
-                    if (response.data.statuscode == 405) {
-                        this.$swal({ title: 'Kit Kosong Harus ada kit Minimal 1, Tolong generate', icon: 'error' });
-                    }
-                    if (response.data.statuscode == 406) {
-                        this.$swal({ title: 'Master dengan Parameter ini sudah terdaftar', icon: 'error' });
-                    }
-                    if (response.data.statuscode == 407) {
-                        this.$swal({ title: 'Pengisian Additional parameter ', icon: 'error' });
-                    }
-                    if (response.data.statuscode == 408) {
-                        this.$swal({ title: 'Nama Komponen Kit atau Qty Tidak boleh Kosong ', icon: 'error' });
-                    }
-                    if (response.data.statuscode == 410) {
-                        this.$swal({ title: 'Kit Rak masih ada yang kosong', icon: 'error' });
-                    }
-                    if (response.data.statuscode == 200) {
-                        this.$swal({ title: 'Sukses Mengupdate Master', icon: 'success' });
-                    }
-
+            else {
+                let data = {
+                    datakit: this.Result,
+                    dataparam: this.Parameter,
+                    id: this.id
                 }
-            })
-                .catch((error) => {
-                    this.errors = error.response.data.errors
+                axios.post('/api/updatemaster', data).then((response) => {
+                    if (response.data.success) {
+                        if (response.data.statuscode == 401) {
+                            this.$swal({ title: 'Ada Parameter yang Kosong', icon: 'error' });
+                        }
+                        if (response.data.statuscode == 402) {
+                            this.$swal({ title: 'Ada Field yang memiliki parameter kembar', icon: 'error' });
+                        }
+                        if (response.data.statuscode == 403) {
+                            this.$swal({ title: 'Pengisian Parameter Tambahan ada yang Kosong', icon: 'error' });
+                        }
+                        if (response.data.statuscode == 404) {
+                            this.$swal({ title: 'Pengisian Parameter Tambahan kembar, perhatikan kembali pengisiannya', icon: 'error' });
+                        }
+                        if (response.data.statuscode == 405) {
+                            this.$swal({ title: 'Kit Kosong Harus ada kit Minimal 1, Tolong generate', icon: 'error' });
+                        }
+                        if (response.data.statuscode == 406) {
+                            this.$swal({ title: 'Master dengan Parameter ini sudah terdaftar', icon: 'error' });
+                        }
+                        if (response.data.statuscode == 407) {
+                            this.$swal({ title: 'Pengisian Additional parameter ', icon: 'error' });
+                        }
+                        if (response.data.statuscode == 408) {
+                            this.$swal({ title: 'Nama Komponen Kit atau Qty Tidak boleh Kosong ', icon: 'error' });
+                        }
+                        if (response.data.statuscode == 410) {
+                            this.$swal({ title: 'Kit Rak masih ada yang kosong', icon: 'error' });
+                        }
+                        if (response.data.statuscode == 200) {
+                            this.$swal({ title: 'Sukses Mengupdate Master', icon: 'success' });
+                        }
+
+                    }
                 })
+                    .catch((error) => {
+                        this.errors = error.response.data.errors
+                    })
+            }
         },
 
     }

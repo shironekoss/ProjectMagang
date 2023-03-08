@@ -289,9 +289,9 @@ export default {
                 },
             },
             listdept: [],
-            listrole: [{ text: "Super Admin Role", value: "Super_Admin_role", },
-            { text: "Admin Role", value: "Admin_Role", },
-            { text: "Staff Role", value: "Staff_Role", },],
+            listrole: [{ text: "Super Admin Role", value: "Super Admin Role", },
+            { text: "Admin Role", value: "Admin Role", },
+            { text: "Staff Role", value: "Staff Role", },],
             //rules
             usernameRules: [
                 v => !!v || 'Username is required',
@@ -326,7 +326,7 @@ export default {
             })
         },
         getlistdepartemen() {
-            axios.get('/api/listdepartemen').then((response) => {
+            axios.post('/api/getlistdepartemennorole').then((response) => {
                 this.listdept = response.data.data
             })
         },
@@ -336,9 +336,17 @@ export default {
             this.getUser()
         },
         saveuser() {
+            console.log(this.detailuser)
             axios.post('/api/saveuser', this.detailuser).then((response) => {
                 console.log(response)
-                this.dialog = false
+                if(response.data.statusresponse=200){
+                    this.$swal({
+                        title: 'User Baru Berhasil diupdate',
+                        icon: 'success'
+                    });
+                    this.dialog = false
+                }
+              
             }).catch((error) => {
                 this.errors = error.response.data.errors
                 let text = ""
