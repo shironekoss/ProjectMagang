@@ -72,10 +72,18 @@ class SPKController extends Controller
     public function latihan()
     {
         $available = DB::connection('sqlsrv')
-            ->statement('INSERT INTO SPECIFICATION ([SPK Number],[SPK Type],[Bagian], [User Defined], [User Defined Desc], [Air Suspensi], [Semi Monocoque], [UPDATED DATETIME])
-        SELECT [SPK Number],[SPK Type],[Bagian], [User Defined], [User Defined Desc], [Air Suspensi], [Semi Monocoque], GETDATE() [UPDATE DATETIME] FROM PROGRAMSPK_specification E where not exists 
-        (select [spk number] from SPECIFICATION f where e.[spk number]=f.[spk number])');
+            ->table('ITEMKITMAINTENANCE')
+            ->join('iv00102', 'iv00102.ITEMNMBR', '=', 'ITEMKITMAINTENANCE.Component Item Number')
+            ->where('iv00102.RCRDTYPE', '=', "2")
+            ->where('iv00102.LOCNCODE', '=', 'G BUS')
+            ->where('ITEMKITMAINTENANCE.Component Item Number', 'B02AU0100B05024')
+            ->pluck("QTYONHND")
+            ->first();
 
+        $firstchara = substr($available,0,1);
+        if($firstchara == "."){
+            $available=0;
+        }
         //         insert into ITEMKITMAINTENANCE ([Item KIT Number],[Item KIT Description],[Component Item Number],[Component Item Description],
         // [Component Item QTY],[Component Item UofM],[Site ID],[Updated DateTime])
         // select [Item KIT Number],[Item KIT Description],[Component Item Number],[Component Item Description],

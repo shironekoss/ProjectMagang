@@ -124,7 +124,7 @@ export default {
                 { text: 'Kebutuhan', filterable: false, value: 'kebutuhan', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Tersedia', filterable: false, value: 'available', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Siteid', value: 'siteID', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
-                { text: 'Dari Rak', filterable: false, value: 'Dari', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Dari Rak', filterable: false, value: 'darirak', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Ke Rak', filterable: false, value: 'Kerak', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
             ],
         }
@@ -156,12 +156,14 @@ export default {
                                 obj['Satuan'] = Komponen["Satuan"];
                                 obj['kebutuhan'] = parseInt(Komponen["qty"]);
                                 obj['available'] = parseInt(Komponen["Qty_Available"]);
+                                obj['darirak'] = (Komponen["darirak"]);
                                 newdata.push(obj);
                             })
                         })
                     })
                 });
             });
+            console.log(newdata)
             return newdata;
         },
         async print() {
