@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Master;
 use App\Models\Masterkit;
 use App\Models\SPK;
 use Illuminate\Http\Request;
@@ -12,6 +13,42 @@ class SQLController extends Controller
     public function getdatakit(Request $request)
     {
         try {
+            $masters = Master::all();
+            foreach ($masters as $master) {
+                $id = $master->_id;
+                $kits = $master->Kit;
+                $j = 0;
+                foreach ($kits as $kit) {
+                    $isikits = $kit['IsiKit'];
+                    $siteid = $kit['siteID'];
+                    $i = 0;
+                    foreach ($kit['IsiKit'] as $isikit) {
+                        // if($id=='6410523ccfbe5f94e20676e2'){
+                        if ($siteid != null) {
+                            $available = DB::connection('sqlsrv')
+                                ->table('ITEMKITMAINTENANCE')
+                                ->join('iv00102', 'iv00102.ITEMNMBR', '=', 'ITEMKITMAINTENANCE.Component Item Number')
+                                ->where('iv00102.RCRDTYPE', '=', "2")
+                                ->where('iv00102.LOCNCODE', '=', $siteid)
+                                ->where('ITEMKITMAINTENANCE.Component Item Description', $isikit["nama_komponen"])
+                                ->pluck("BINNMBR")
+                                ->first();
+                            $isikits[$i]["darirak"] = trim($available);
+                            // $isikits[$i]["darirak"] = '';
+                            $i++;
+                        }
+                        // }
+                    }
+                    $kits[$j]['IsiKit'] = $isikits;
+                    $j++;
+                }
+                $newmaster = Master::where('_id', $id)->first();
+                $newmaster->timestamps = false;
+                $newmaster->Kit = $kits;
+                $newmaster->save();
+            }
+
+            //berkaitan pembersihan datamasterkit 
             $hapusdata = Masterkit::truncate();
             DB::connection('sqlsrv')
                 ->table('ITEMKITMAINTENANCE')

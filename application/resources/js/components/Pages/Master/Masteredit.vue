@@ -504,6 +504,7 @@ export default {
             this.openDialogLoading()
             await axios.get('/api/getdatakit').then((response) => {
                 if (response.data.success = 200) {
+                    this.getresult()
                     this.closeLoading()
                     this.$swal({
                         title: response.data.message,
@@ -511,6 +512,7 @@ export default {
                     });
                 }
             })
+            
         },
         async getspk() {
             await axios.get('/api/master/' + this.id).then((response) => {
@@ -547,6 +549,11 @@ export default {
                     }
                 }
                 this.Liststalltemp = this.Parameter['Stall']
+            })
+        },
+        async getresult(){
+            await axios.get('/api/master/' + this.id).then((response) => {
+                this.Result = response.data.Kit
             })
         },
         async getlistdepartemen() {

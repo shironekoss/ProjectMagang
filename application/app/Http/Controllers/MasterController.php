@@ -42,16 +42,16 @@ class MasterController extends Controller
     {
         $datas = $request->value;
         $site = $request->site;
-        $i=0;
+        $i = 0;
         foreach ($datas as $data) {
             $available = DB::connection('sqlsrv')
-            ->table('ITEMKITMAINTENANCE')
-            ->join('iv00102', 'iv00102.ITEMNMBR', '=', 'ITEMKITMAINTENANCE.Component Item Number')
-            ->where('iv00102.RCRDTYPE', '=', "2")
-            ->where('iv00102.LOCNCODE', '=', $site)
-            ->where('ITEMKITMAINTENANCE.Component Item Description', $data["nama_komponen"])
-            ->pluck("BINNMBR")
-            ->first();
+                ->table('ITEMKITMAINTENANCE')
+                ->join('iv00102', 'iv00102.ITEMNMBR', '=', 'ITEMKITMAINTENANCE.Component Item Number')
+                ->where('iv00102.RCRDTYPE', '=', "2")
+                ->where('iv00102.LOCNCODE', '=', $site)
+                ->where('ITEMKITMAINTENANCE.Component Item Description', $data["nama_komponen"])
+                ->pluck("BINNMBR")
+                ->first();
             $datas[$i]["darirak"] = trim($available);
             $i++;
         }
@@ -243,8 +243,10 @@ class MasterController extends Controller
                         }
                     }
                 }
-                if ($jumlahkesamaan == count($array1)) {
+                if ($jumlahkesamaan == count($array1) && $jumlahkesamaan == count($array2)) {
                     return true;
+                } else {
+                    return false;
                 }
             }
             $allmaster = Master::all();
@@ -257,7 +259,7 @@ class MasterController extends Controller
                 $cekstall = false;
                 $cekStock = false;
                 $cekAdditionaParameter = false;
-                $cekTipeMobil = fungsicekparameterterdaftar($saved['TipeMobil'], $param['TipeMobil']);
+                $cekTipeMobil =  fungsicekparameterterdaftar($saved['TipeMobil'], $param['TipeMobil']);
                 $cekModelMobil = fungsicekparameterterdaftar($saved['ModelMobil'], $param['ModelMobil']);
                 $cekTinggiMobil = fungsicekparameterterdaftar($saved['TinggiMobil'], $param['TinggiMobil']);
                 $cekDepartemen = fungsicekparameterterdaftar($saved['Departemen'], $param['Departemen']);
@@ -283,7 +285,7 @@ class MasterController extends Controller
                                         }
                                     }
                                 }
-                                if ($komponensama == count($item2['Component'])) {
+                                if ($komponensama == count($item2['Component']) && $komponensama == count($item['Component'])) {
                                     $judulparamsama++;
                                 }
                             }
@@ -293,7 +295,6 @@ class MasterController extends Controller
                         $cekAdditionaParameter = true;
                     }
                 }
-
                 if ($cekTipeMobil && $cekModelMobil && $cekTinggiMobil && $cekDepartemen && $cekStock && $cekstall && $cekAdditionaParameter) {
                     return response()->json([
                         "success" => true,
@@ -522,9 +523,13 @@ class MasterController extends Controller
                         }
                     }
                 }
-                if ($jumlahkesamaan == count($array1)) {
+                if ($jumlahkesamaan == count($array1) && $jumlahkesamaan == count($array2)) {
                     return true;
                 }
+                else{
+                    return false;
+                }
+                
             }
             $allmaster = Master::where('_id', '!=', $request->id)->get();
             foreach ($allmaster as $master) {
@@ -561,7 +566,7 @@ class MasterController extends Controller
                                         }
                                     }
                                 }
-                                if ($komponensama == count($item2['Component'])) {
+                                if ($komponensama == count($item2['Component']) && $komponensama == count($item['Component'])) {
                                     $judulparamsama++;
                                 }
                             }
@@ -571,7 +576,6 @@ class MasterController extends Controller
                         $cekAdditionaParameter = true;
                     }
                 }
-
                 if ($cekTipeMobil && $cekModelMobil && $cekTinggiMobil && $cekDepartemen && $cekStock && $cekAdditionaParameter && $cekstall) {
                     return response()->json([
                         "success" => true,

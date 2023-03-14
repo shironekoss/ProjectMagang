@@ -66,8 +66,8 @@ export default {
             search: '',
             datatable: [],
             headerstable: [
-                { text: 'Kode Kit', value: 'NamaKit', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
-                { text: 'Nama Kit', value: 'Kodekit', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Kode Kit', value: 'Kodekit', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
+                { text: 'Nama Kit', value: 'NamaKit', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Waktu Update', value: 'updated_at', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
                 { text: 'Action', value: 'actions', class: "title text-uppercase font-weight-black black--text light-blue lighten-5" },
             ],
