@@ -6,6 +6,22 @@
                     <div class="col-6" style="float: left;">
                         <div class="row">
                             <div class="col">
+                                <h5> <span style="color: red;"> </span> Copy ID </h5>
+                            </div>
+                            <div class="col-9">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <input type="text" v-model="inputIDMaster" class="form-control">
+                                    </div>
+                                    <div class="col">
+                                        <button type="button" @click="searchparameter" class="btn btn-secondary"
+                                            style="color: white;">Generate</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
                                 <h5> <span style="color: red;">* </span> Merk </h5>
                             </div>
                             <div class="col-9">
@@ -15,7 +31,7 @@
                                     </div>
                                     <div class="col">
                                         <button type="button" :disabled='isActiveModelMobil' @click="add('ModelMobil')"
-                                            class="btn btn-primary">TAMBAH</button>
+                                            class="btn btn-primary" style="color:white;">TAMBAH</button>
                                     </div>
                                     <div class="col">
                                         <button type="button" @click="remove('ModelMobil')" class="btn btn-danger">
@@ -44,7 +60,7 @@
                                     </div>
                                     <div class="col">
                                         <button type="button" :disabled='isActiveTipeMobil' @click="add('TipeMobil')"
-                                            class="btn btn-primary">TAMBAH</button>
+                                            class="btn btn-primary" style="color:white;">TAMBAH</button>
                                     </div>
                                     <div class="col">
                                         <button type="button" @click="remove('TipeMobil')" class="btn btn-danger">
@@ -72,7 +88,7 @@
                                     </div>
                                     <div class="col">
                                         <button type="button" :disabled='isActiveTinggiMobil' @click="add('TinggiMobil')"
-                                            class="btn btn-primary">TAMBAH</button>
+                                            class="btn btn-primary" style="color:white;">TAMBAH</button>
                                     </div>
                                     <div class="col">
                                         <button type="button" @click="remove('TinggiMobil')" class="btn btn-danger">HAPUS
@@ -101,10 +117,10 @@
                                             </v-select>
                                         </div>
                                     </div>
-                                    <div class="col">
+                                    <!-- <div class="col">
                                         <button type="button" :disabled='isActiveDepartemen' @click="add('Departemen')"
                                             class="btn btn-primary">TAMBAH</button>
-                                    </div>
+                                    </div> -->
                                     <div class="col">
                                         <button type="button" @click="remove('Departemen')" class="btn btn-danger">HAPUS
                                         </button>
@@ -137,7 +153,7 @@
                                     </div>
                                     <div class="col">
                                         <button type="button" :disabled='isActiveStall' @click="add('Stall')"
-                                            class="btn btn-primary">TAMBAH</button>
+                                            class="btn btn-primary" style="color:white;">TAMBAH</button>
                                     </div>
                                     <div class="col">
                                         <button type="button" @click="remove('Stall')" class="btn btn-danger">HAPUS
@@ -167,7 +183,7 @@
                                     </div>
                                     <div class="col">
                                         <button type="button" :disabled='isActiveStock' @click="add('Stock')"
-                                            class="btn btn-primary">TAMBAH</button>
+                                            class="btn btn-primary" style="color:white;">TAMBAH</button>
                                     </div>
                                     <div class="col">
                                         <button type="button" @click="remove('Stock')" class="btn btn-danger">HAPUS
@@ -193,7 +209,7 @@
                                     class="btn btn-primary additionalbutton">Hapus
                                     Komponen</button>
                                 <div v-for="(component, index) in Parameter.NewParameter" :key="index" :id=index>
-                                    <div class="row">
+                                    <div class="row" style="margin-top: 3px;">
                                         <div class="col-3">
                                             <input type="text" v-model="Parameter.NewParameter[index].Newparam"
                                                 class="newparam form-control" placeholder="Kategori Parameter Baru">
@@ -202,7 +218,8 @@
                                             <div v-for="(component2, index2) in component.Component" :key="index2"
                                                 :id=index2>
                                                 <input type="text" v-model="Parameter.NewParameter[index].Component[index2]"
-                                                    class="form-control" placeholder="Nama Parameter Baru">
+                                                    class="form-control" placeholder="Nama Parameter Baru"
+                                                    style="margin-bottom: 2px;">
                                             </div>
                                         </div>
                                         <div class="col-3">
@@ -220,7 +237,8 @@
                     <div class="col-6" style=" float: right;">
                         <div class="row">
                             <div class="col">
-                                <button type="button" @click="tarikdatakit" class="btn btn-success">Tarik Data
+                                <button type="button" @click="tarikdatakit" class="btn btn-success"
+                                    style="color:white;">Tarik Data
                                     Kit</button>
                             </div>
                         </div>
@@ -234,7 +252,8 @@
                                         <input type="text" v-model="InputKodeKit" class="form-control">
                                     </div>
                                     <div class="col">
-                                        <button type="button" @click="generate" class="btn btn-secondary">Generate</button>
+                                        <button type="button" @click="generate" class="btn btn-secondary"
+                                            style="color: white;">Generate</button>
                                     </div>
                                 </div>
                             </div>
@@ -298,6 +317,7 @@
 <script>
 import { continueStatement } from '@babel/types';
 import axios from 'axios'
+import { add } from 'date-fns';
 import { useAuth } from '../../../../Stores/Auth';
 import { useTimer } from '../../../../Stores/Timer';
 import Loading from '../../Global/Loading.vue';
@@ -338,7 +358,9 @@ export default {
             ListDept: [],
             Liststall: [],
             timer: null,
+            inputIDMaster: "",
             timetotambah: true,
+            triggersavestall:false
         }
     },
     async mounted() {
@@ -458,6 +480,67 @@ export default {
         }
     },
     methods: {
+        async searchparameter() {
+            await axios.post('/api/copyparameter', { id: this.inputIDMaster }).then((response) => {
+                this.triggersavestall=true
+                this.Parameter = response.data
+                if (this.Parameter.TipeMobil.length > this.ComponentTambahanTipeMobil.length) {
+                    for (let index = this.ComponentTambahanTipeMobil.length; index < this.Parameter.TipeMobil.length-1; index++) {
+                        this.ComponentTambahanTipeMobil.push('true')
+                    }
+                }else{
+                    for (let index = this.ComponentTambahanTipeMobil.length; index > this.Parameter.TipeMobil.length-1; index--) {
+                        this.ComponentTambahanTipeMobil.splice(-1, 1)
+                    }
+                }
+                if (this.Parameter.ModelMobil.length > this.ComponentTambahanModelMobil.length) {
+                    for (let index = this.ComponentTambahanModelMobil.length; index < this.Parameter.ModelMobil.length-1; index++) {
+                        this.ComponentTambahanModelMobil.push('true')
+                    }
+                }else{
+                    for (let index = this.ComponentTambahanModelMobil.length; index > this.Parameter.ModelMobil.length-1; index--) {
+                        this.ComponentTambahanModelMobil.splice(-1, 1)
+                    }
+                }
+                if (this.Parameter.TinggiMobil.length > this.ComponentTambahanTinggiMobil.length) {
+                    for (let index = this.ComponentTambahanTinggiMobil.length; index < this.Parameter.TinggiMobil.length-1; index++) {
+                        this.ComponentTambahanTinggiMobil.push('true')
+                    }
+                }else{
+                    for (let index = this.ComponentTambahanTinggiMobil.length; index > this.Parameter.TinggiMobil.length-1; index--) {
+                        this.ComponentTambahanTinggiMobil.splice(-1, 1)
+                    }
+                }
+                if (this.Parameter.Departemen.length > this.ComponentTambahanDepartemen.length) {
+                    for (let index = this.ComponentTambahanDepartemen.length; index < this.Parameter.Departemen.length-1; index++) {
+                        this.ComponentTambahanDepartemen.push('true')
+                    }
+                }else{
+                    for (let index = this.ComponentTambahanDepartemen.length; index > this.Parameter.Departemen.length-1; index--) {
+                        this.ComponentTambahanDepartemen.splice(-1, 1)
+                    }
+                }
+                if (this.Parameter.Stall.length > this.ComponentTambahanStall.length) {
+                    for (let index = this.ComponentTambahanStall.length; index < this.Parameter.Stall.length-1; index++) {
+                        this.ComponentTambahanStall.push('true')
+                    }
+                }else{
+                    for (let index = this.ComponentTambahanStall.length; index > this.Parameter.Stall.length-1; index--) {
+                        this.ComponentTambahanStall.splice(-1, 1)
+                    }
+                }
+                if (this.Parameter.Stock.length > this.ComponentTambahanStock.length) {
+                    for (let index = this.ComponentTambahanStock.length; index < this.Parameter.Stock.length-1; index++) {
+                        this.ComponentTambahanStock.push('true')
+                    }
+                }else{
+                    for (let index = this.ComponentTambahanStock.length; index > this.Parameter.Stock.length-1; index--) {
+                        this.ComponentTambahanStock.splice(-1, 1)
+                    }
+                }
+                console.log(this.Parameter.NewParameter.length)
+            })
+        },
         async triggeringcarirak(value, site, index) {
             this.timetotambah = false
             await clearTimeout(this.timer)
@@ -506,7 +589,11 @@ export default {
         async getliststall() {
             await axios.post('/api/getlistallparameter', { Parameterdeps: this.Parameter.Departemen }).then((response) => {
                 this.Liststall = response.data.result
-                this.Parameter.Stall = []
+                if(!this.triggersavestall){
+                    this.Parameter.Stall = []
+                }else{
+                    this.triggersavestall=false
+                }
             })
         },
         generate() {

@@ -15,7 +15,7 @@
                                     </div>
                                     <div class="col">
                                         <button type="button" :disabled='isActiveModelMobil' @click="add('ModelMobil')"
-                                            class="btn btn-primary">TAMBAH</button>
+                                            class="btn btn-primary" style="color:white;">TAMBAH</button>
                                     </div>
                                     <div class="col">
                                         <button type="button" @click="remove('ModelMobil')" class="btn btn-danger">
@@ -44,7 +44,7 @@
                                     </div>
                                     <div class="col">
                                         <button type="button" :disabled='isActiveTipeMobil' @click="add('TipeMobil')"
-                                            class="btn btn-primary">TAMBAH</button>
+                                            class="btn btn-primary" style="color:white;">TAMBAH</button>
                                     </div>
                                     <div class="col">
                                         <button type="button" @click="remove('TipeMobil')" class="btn btn-danger">
@@ -72,7 +72,7 @@
                                     </div>
                                     <div class="col">
                                         <button type="button" :disabled='isActiveTinggiMobil' @click="add('TinggiMobil')"
-                                            class="btn btn-primary">TAMBAH</button>
+                                            class="btn btn-primary" style="color:white;">TAMBAH</button>
                                     </div>
                                     <div class="col">
                                         <button type="button" @click="remove('TinggiMobil')" class="btn btn-danger">HAPUS
@@ -101,10 +101,10 @@
                                             </v-select>
                                         </div>
                                     </div>
-                                    <div class="col">
+                                    <!-- <div class="col">
                                         <button type="button" :disabled='isActiveDepartemen' @click="add('Departemen')"
                                             class="btn btn-primary">TAMBAH</button>
-                                    </div>
+                                    </div> -->
                                     <div class="col">
                                         <button type="button" @click="remove('Departemen')" class="btn btn-danger">HAPUS
                                         </button>
@@ -137,7 +137,7 @@
                                     </div>
                                     <div class="col">
                                         <button type="button" :disabled='isActiveStall' @click="add('Stall')"
-                                            class="btn btn-primary">TAMBAH</button>
+                                            class="btn btn-primary" style="color:white;">TAMBAH</button>
                                     </div>
                                     <div class="col">
                                         <button type="button" @click="remove('Stall')" class="btn btn-danger">HAPUS
@@ -167,7 +167,7 @@
                                     </div>
                                     <div class="col">
                                         <button type="button" :disabled='isActiveStock' @click="add('Stock')"
-                                            class="btn btn-primary">TAMBAH</button>
+                                            class="btn btn-primary" style="color:white;">TAMBAH</button>
                                     </div>
                                     <div class="col">
                                         <button type="button" @click="remove('Stock')" class="btn btn-danger">HAPUS
@@ -220,7 +220,7 @@
                     <div class="col-6" style=" float: right;">
                         <div class="row">
                             <div class="col">
-                                <button type="button" @click="tarikdatakit" class="btn btn-success">Tarik Data
+                                <button type="button" @click="tarikdatakit" class="btn btn-success" style="color:white;">Tarik Data
                                     Kit</button>
                             </div>
                         </div>
@@ -234,7 +234,7 @@
                                         <input type="text" v-model="InputKodeKit" class="form-control">
                                     </div>
                                     <div class="col">
-                                        <button type="button" @click="generate" class="btn btn-secondary">Generate</button>
+                                        <button type="button" @click="generate" class="btn btn-secondary" style="color:white;" >Generate</button>
                                     </div>
                                 </div>
                             </div>
@@ -341,6 +341,7 @@ export default {
             Liststalltemp: [],
             timer: null,
             timetoupdate: true,
+            triggerupdatestall:true
         }
     },
     mounted() {
@@ -564,6 +565,12 @@ export default {
         async getliststall() {
             await axios.post('/api/getlistallparameter', { Parameterdeps: this.Parameter.Departemen }).then((response) => {
                 this.Liststall = response.data.result
+                if(!this.triggerupdatestall){
+                    this.Parameter.Stall = []
+                }
+                else{
+                    this.triggerupdatestall=false
+                }
             })
         },
         generate() {

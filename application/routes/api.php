@@ -95,10 +95,11 @@ Route::post('konversicheckfull',[CheckFullController::class,'konversicheckfull']
 Route::post('tambahmaster',[MasterController::class,'tambahmaster']);
 Route::post('updatemaster',[MasterController::class,'updatemaster']);
 Route::post('generatemasterkit',[MasterController::class,'generatemasterkit']);
-Route::get('listmaster',[MasterController::class,'listmaster']);
+Route::post('listmaster',[MasterController::class,'listmaster']);
 Route::delete('hapusmaster{id}',[MasterController::class,'hapusmaster']);
 Route::get('master/{id}',[MasterController::class,'carimaster']);
 Route::post('getkitkode',[MasterController::class,'carikoderak']);
+Route::post('copyparameter',[MasterController::class,'copyparameter']);
 
 //SqlController Berhubungan dengan narik SQLSRV
 Route::get('getdatakit',[SQLController::class,'getdatakit']);

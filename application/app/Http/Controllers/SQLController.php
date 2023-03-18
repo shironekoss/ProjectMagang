@@ -23,21 +23,18 @@ class SQLController extends Controller
                     $siteid = $kit['siteID'];
                     $i = 0;
                     foreach ($kit['IsiKit'] as $isikit) {
-                        // if($id=='6410523ccfbe5f94e20676e2'){
                         if ($siteid != null) {
                             $available = DB::connection('sqlsrv')
                                 ->table('ITEMKITMAINTENANCE')
                                 ->join('iv00102', 'iv00102.ITEMNMBR', '=', 'ITEMKITMAINTENANCE.Component Item Number')
                                 ->where('iv00102.RCRDTYPE', '=', "2")
-                                ->where('iv00102.LOCNCODE', '=', $siteid)
-                                ->where('ITEMKITMAINTENANCE.Component Item Description', $isikit["nama_komponen"])
+                                ->where(trim('iv00102.LOCNCODE'), '=', trim($siteid))
+                                ->where(trim('ITEMKITMAINTENANCE.Component Item Number'), trim($isikit["kode_komponen"]))
                                 ->pluck("BINNMBR")
                                 ->first();
                             $isikits[$i]["darirak"] = trim($available);
-                            // $isikits[$i]["darirak"] = '';
                             $i++;
                         }
-                        // }
                     }
                     $kits[$j]['IsiKit'] = $isikits;
                     $j++;

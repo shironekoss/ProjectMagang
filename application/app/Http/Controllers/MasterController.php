@@ -12,23 +12,41 @@ use PhpParser\Node\Stmt\Foreach_;
 
 class MasterController extends Controller
 {
-    public function listmaster()
+    public function listmaster(Request $request)
     {
-        $masters = Master::all()->sortByDesc('updated_at');
-        $data = [];
-        foreach ($masters as $master) {
-            foreach ($master["Kit"] as $kit) {
-                array_push($data, [
-                    "NamaKit" => $kit['NamaKit'],
-                    "Kodekit" => $kit['Kodekit'],
-                    "_id" => $master['_id'],
-                    "updated_at" => $master['updated_at'],
-                ]);
+        // Super Admin Role
+        $object = $request->object;
+        if ($object["title"] == "Super Admin Role") {
+            $masters = Master::all()->sortByDesc('updated_at');
+            $data = [];
+            foreach ($masters as $master) {
+                foreach ($master["Kit"] as $kit) {
+                    array_push($data, [
+                        "NamaKit" => $kit['NamaKit'],
+                        "Kodekit" => $kit['Kodekit'],
+                        "_id" => $master['_id'],
+                        "updated_at" => $master['updated_at'],
+                    ]);
+                }
+            }
+        } else {
+            $masters = Master::all()->sortByDesc('updated_at');
+            $data = [];
+            foreach ($masters as $master) {
+                if ($master->Parameter["Departemen"][0] == $object["account_dept"])
+                    foreach ($master["Kit"] as $kit) {
+                        array_push($data, [
+                            "NamaKit" => $kit['NamaKit'],
+                            "Kodekit" => $kit['Kodekit'],
+                            "_id" => $master['_id'],
+                            "updated_at" => $master['updated_at'],
+                        ]);
+                    }
             }
         }
         return response()->json([
             "statusresponse" => 200,
-            "data" => $data
+            "data" => $data,
         ]);
     }
 
@@ -36,6 +54,12 @@ class MasterController extends Controller
     {
         $master = Master::find($id);
         return $master;
+    }
+
+    public function copyparameter(Request $request)
+    {
+        $parameter = Master::find($request->id);
+        return $parameter->Parameter;
     }
 
     public function carikoderak(Request $request)
@@ -48,8 +72,8 @@ class MasterController extends Controller
                 ->table('ITEMKITMAINTENANCE')
                 ->join('iv00102', 'iv00102.ITEMNMBR', '=', 'ITEMKITMAINTENANCE.Component Item Number')
                 ->where('iv00102.RCRDTYPE', '=', "2")
-                ->where('iv00102.LOCNCODE', '=', $site)
-                ->where('ITEMKITMAINTENANCE.Component Item Description', $data["nama_komponen"])
+                ->where(trim('iv00102.LOCNCODE'), '=', trim($site))
+                ->where(trim('ITEMKITMAINTENANCE.Component Item Number'), trim($data["kode_komponen"]))
                 ->pluck("BINNMBR")
                 ->first();
             $datas[$i]["darirak"] = trim($available);
@@ -128,6 +152,12 @@ class MasterController extends Controller
             {
                 if (count($cek) == 0) {
                     return true;
+                } else {
+                    foreach ($cek as $isi) {
+                        if ($isi == "") {
+                            return true;
+                        }
+                    }
                 }
             }
             $paramkosong = false;
@@ -152,6 +182,7 @@ class MasterController extends Controller
                     "statuscode" => 401,
                 ]);
             }
+
 
             // cek Parameter kembar
             function fungsiceksama(array $cek)
@@ -403,6 +434,12 @@ class MasterController extends Controller
             {
                 if (count($cek) == 0) {
                     return true;
+                }else{
+                    foreach ($cek as $isi) {
+                        if ($isi == "") {
+                            return true;
+                        }
+                    }  
                 }
             }
 
@@ -420,10 +457,10 @@ class MasterController extends Controller
                 $paramkosong = FungsiUpdatecekKosong($param['Departemen']);
             }
             if (!$paramkosong) {
-                $paramsama = FungsiUpdatecekKosong($param['Stall']);
+                $paramkosong = FungsiUpdatecekKosong($param['Stall']);
             }
             if (!$paramkosong) {
-                $paramsama = FungsiUpdatecekKosong($param['Stock']);
+                $paramkosong = FungsiUpdatecekKosong($param['Stock']);
             }
 
             if ($paramkosong) {
@@ -525,11 +562,9 @@ class MasterController extends Controller
                 }
                 if ($jumlahkesamaan == count($array1) && $jumlahkesamaan == count($array2)) {
                     return true;
-                }
-                else{
+                } else {
                     return false;
                 }
-                
             }
             $allmaster = Master::where('_id', '!=', $request->id)->get();
             foreach ($allmaster as $master) {

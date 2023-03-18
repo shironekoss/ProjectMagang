@@ -53,12 +53,14 @@
 <script>
 import axios from 'axios'
 import ConvertTime from '../../../Helper/ConvertTime'
-import { useTimer } from '../../../../Stores/Timer';
+import { useTimer } from '../../../../Stores/Timer'
+import { useAuth } from '../../../../Stores/Auth'
 export default {
     mixins: [ConvertTime],
     setup() {
+        const authStore = useAuth();
         const timerstore = useTimer();
-        return { timerstore }
+        return { timerstore, authStore }
     },
     data() {
         return {
@@ -89,7 +91,8 @@ export default {
     },
     methods: {
         getlistmaster() {
-            axios.get('/api/listmaster').then((response) => {
+            console.log(this.authStore.authuser.account_privileges)
+            axios.post('/api/listmaster', { object: this.authStore.authuser.account_privileges }).then((response) => {
                 this.listMaster = []
                 this.listMaster = response.data
                 this.datatable = response.data.data
@@ -99,7 +102,6 @@ export default {
             })
         },
         customSort: function (items, index, isDesc) {
-            console.log(index[0])
             items.sort((a, b) => {
                 if (index[0] == 'updated_at') {
                     if (!isDesc[0]) {
