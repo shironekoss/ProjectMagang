@@ -160,6 +160,25 @@ class MasterController extends Controller
                     }
                 }
             }
+
+            //fungsi untuk cekkosong stock
+            function fungsistockkosong(array $cek)
+            {
+                if (count($cek) == 0) {
+                } else {
+                    if (count($cek) == 1) {
+                        if ($cek[0] == "") {
+                        }
+                    } else {
+                        foreach ($cek as $isicek) {
+                            if ($isicek == '') {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+
             $paramkosong = false;
             if (!$paramkosong) {
                 $paramkosong = FungsicekKosong($param['TipeMobil']);
@@ -175,6 +194,9 @@ class MasterController extends Controller
             }
             if (!$paramkosong) {
                 $paramkosong = FungsicekKosong($param['Stall']);
+            }
+            if (!$paramkosong) {
+                $paramkosong = fungsistockkosong($param['Stock']);
             }
             if ($paramkosong) {
                 return response()->json([
@@ -210,7 +232,6 @@ class MasterController extends Controller
             if (!$paramsama) {
                 $paramsama = fungsiceksama($param['Stock']);
             }
-
             if ($paramsama) {
                 return response()->json([
                     "success" => true,
@@ -262,6 +283,29 @@ class MasterController extends Controller
                 ]);
             }
 
+            //pengecekkan untuk Stock sudah terdaftar atau belum 
+            if (count($param['Stock']) > 0) {
+                $result = [];
+                $tampilmaster = Master::all();
+                foreach ($tampilmaster as $data) {
+                    foreach ($data->Parameter['Stock'] as $isistockparam) {
+                        if ($isistockparam != "") {
+                            array_push($result, $isistockparam);
+                        }
+                    }
+                }
+                foreach ($param['Stock'] as $isistock) {
+                    foreach ($result as $isiresult) {
+                        if (strtoupper($isistock) == strtoupper($isiresult)) {
+                            return response()->json([
+                                "success" => true,
+                                "statuscode" => 411,
+                            ]);
+                        }
+                    }
+                }
+            }
+
             //  Cek parameter sama atau sudah terdaftar
             function fungsicekparameterterdaftar(array $array1, array $array2)
             {
@@ -280,6 +324,8 @@ class MasterController extends Controller
                     return false;
                 }
             }
+
+
             $allmaster = Master::all();
             foreach ($allmaster as $master) {
                 $saved = $master->Parameter;
@@ -288,18 +334,12 @@ class MasterController extends Controller
                 $cekTinggiMobil = false;
                 $cekDepartemen = false;
                 $cekstall = false;
-                $cekStock = false;
                 $cekAdditionaParameter = false;
                 $cekTipeMobil =  fungsicekparameterterdaftar($saved['TipeMobil'], $param['TipeMobil']);
                 $cekModelMobil = fungsicekparameterterdaftar($saved['ModelMobil'], $param['ModelMobil']);
                 $cekTinggiMobil = fungsicekparameterterdaftar($saved['TinggiMobil'], $param['TinggiMobil']);
                 $cekDepartemen = fungsicekparameterterdaftar($saved['Departemen'], $param['Departemen']);
                 $cekstall = fungsicekparameterterdaftar($saved['Stall'], $param['Stall']);
-                if (count($param['Stock']) == 0 && count($saved['Stock']) == 0) {
-                    $cekStock = true;
-                } else {
-                    $cekStock = fungsicekparameterterdaftar($saved['Stock'], $param['Stock']);
-                }
 
                 if (count($param['NewParameter']) == 0 && count($saved['NewParameter']) == 0) {
                     $cekAdditionaParameter = true;
@@ -326,7 +366,7 @@ class MasterController extends Controller
                         $cekAdditionaParameter = true;
                     }
                 }
-                if ($cekTipeMobil && $cekModelMobil && $cekTinggiMobil && $cekDepartemen && $cekStock && $cekstall && $cekAdditionaParameter) {
+                if ($cekTipeMobil && $cekModelMobil && $cekTinggiMobil && $cekDepartemen  && $cekstall && $cekAdditionaParameter) {
                     return response()->json([
                         "success" => true,
                         "statuscode" => 406,
@@ -434,12 +474,29 @@ class MasterController extends Controller
             {
                 if (count($cek) == 0) {
                     return true;
-                }else{
+                } else {
                     foreach ($cek as $isi) {
                         if ($isi == "") {
                             return true;
                         }
-                    }  
+                    }
+                }
+            }
+
+            function FungsiUpdatestockcekKosong(array $cek)
+            {
+                if (count($cek) == 0) {
+                } else {
+                    if (count($cek) == 1) {
+                        if ($cek[0] == "") {
+                        }
+                    } else {
+                        foreach ($cek as $isicek) {
+                            if ($isicek == '') {
+                                return true;
+                            }
+                        }
+                    }
                 }
             }
 
@@ -459,13 +516,14 @@ class MasterController extends Controller
             if (!$paramkosong) {
                 $paramkosong = FungsiUpdatecekKosong($param['Stall']);
             }
+
             if (!$paramkosong) {
-                $paramkosong = FungsiUpdatecekKosong($param['Stock']);
+                $paramkosong = FungsiUpdatestockcekKosong($param['Stock']);
             }
 
             if ($paramkosong) {
                 return response()->json([
-                    "success" => true,
+                    "success" => $param['Stock'][0],
                     "statuscode" => 401,
                 ]);
             }
@@ -548,6 +606,28 @@ class MasterController extends Controller
                 ]);
             }
 
+            //untuk pengecekkan stock
+            if (count($param['Stock']) > 0) {
+                $result = [];
+                $tampilmaster = Master::where('_id', '!=', $request->id)->get();
+                foreach ($tampilmaster as $data) {
+                    foreach ($data->Parameter['Stock'] as $isistockparam) {
+                        if ($isistockparam != "") {
+                            array_push($result, $isistockparam);
+                        }
+                    }
+                }
+                foreach ($param['Stock'] as $isistock) {
+                    foreach ($result as $isiresult) {
+                        if (strtoupper($isistock) == strtoupper($isiresult)) {
+                            return response()->json([
+                                "success" => true,
+                                "statuscode" => 411,
+                            ]);
+                        }
+                    }
+                }
+            }
 
             function fungsicekparameterupdatetambahan(array $array1, array $array2)
             {
@@ -574,18 +654,14 @@ class MasterController extends Controller
                 $cekTinggiMobil = false;
                 $cekDepartemen = false;
                 $cekstall = false;
-                $cekStock = false;
+
                 $cekAdditionaParameter = false;
                 $cekTipeMobil = fungsicekparameterupdatetambahan($saved['TipeMobil'], $param['TipeMobil']);
                 $cekModelMobil = fungsicekparameterupdatetambahan($saved['ModelMobil'], $param['ModelMobil']);
                 $cekTinggiMobil = fungsicekparameterupdatetambahan($saved['TinggiMobil'], $param['TinggiMobil']);
                 $cekDepartemen = fungsicekparameterupdatetambahan($saved['Departemen'], $param['Departemen']);
                 $cekstall = fungsicekparameterupdatetambahan($saved['Stall'], $param['Stall']);
-                if (count($param['Stock']) == 0 && count($saved['Stock']) == 0) {
-                    $cekStock = true;
-                } else {
-                    $cekStock = fungsicekparameterupdatetambahan($saved['Stock'], $param['Stock']);
-                }
+
                 if (count($param['NewParameter']) == 0 && count($saved['NewParameter']) == 0) {
                     $cekAdditionaParameter = true;
                 } elseif (count($saved['NewParameter']) == count($param['NewParameter'])) {
@@ -611,7 +687,7 @@ class MasterController extends Controller
                         $cekAdditionaParameter = true;
                     }
                 }
-                if ($cekTipeMobil && $cekModelMobil && $cekTinggiMobil && $cekDepartemen && $cekStock && $cekAdditionaParameter && $cekstall) {
+                if ($cekTipeMobil && $cekModelMobil && $cekTinggiMobil && $cekDepartemen && $cekAdditionaParameter && $cekstall) {
                     return response()->json([
                         "success" => true,
                         "statuscode" => 406,

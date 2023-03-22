@@ -702,10 +702,12 @@ export default {
                         if (response.data.statuscode == 410) {
                             this.$swal({ title: 'Kit Rak masih ada yang kosong', icon: 'error' });
                         }
+                        if (response.data.statuscode == 411) {
+                            this.$swal({ title: 'Stock yang diinput sudah pernah terdaftar', icon: 'error' });
+                        }
                         if (response.data.statuscode == 200) {
                             this.$swal({ title: 'Sukses Mengupdate Master', icon: 'success' });
                         }
-
                     }
                 })
                     .catch((error) => {

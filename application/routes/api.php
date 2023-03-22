@@ -63,6 +63,7 @@ Route::post('getlistdepartemennorole',[SettingsController::class,'getlistdeparte
 Route::post('tambahSPK',[SPKController::class,'tambahSPK']);
 Route::get('spklist',[SPKController::class,'spklist']);
 Route::post('listspkshow',[AdminController::class,'listspkshow']);
+Route::post('liststock',[AdminController::class,'liststock']);
 Route::get('getdatatable',[AdminController::class,'getdatatable']);
 Route::post('getdatatable',[AdminController::class,'getdatatables']);
 Route::post('getdatatablehistory',[AdminController::class,'getdatatablehistory']);

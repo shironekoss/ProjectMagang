@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Account;
 use App\Models\Departemen;
+use App\Models\History;
 use App\Models\Komponen;
 use App\Models\Master;
 use App\Models\Masterkit;
 use App\Models\SavedConversionResult;
 use App\Models\TempMasterkit;
 use App\Models\SPK;
+use App\Models\SPK_attribute_tambahan;
+use App\Models\Stall;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Nette\Utils\Json;
@@ -71,19 +74,24 @@ class SPKController extends Controller
 
     public function latihan()
     {
-        $result=[];
-        // $master = Master::all();
-        // foreach($master as $saaa){
-        //     array_push($result,$saaa->Parameter["Departemen"]);
-        // }
-        // dd($result);
-        $tampilmaster = Master::all();
-        foreach($tampilmaster as $data){
-            if($data->Parameter["Departemen"][0]=="Departemen Trimming Minibus"){
-                array_push($result,$data);
+        $Departemen = 'Departemen Trimming Minibus';
+        $listdata = [];
+        $allhistory = History::all();
+
+        foreach ($allhistory as $history) {
+            $cluster = [];
+            foreach ($history["LISTSPK"] as $idspk) {
+                $data = SavedConversionResult::where('_id', $idspk)->first();
+                if ($data->Departemen == $Departemen) {
+                    if (array_push($cluster, $data)) {
+                        $cluster['updated_at'] = $history["updated_at"];
+                        $cluster['target'] = $history["_id"];
+                    }
+                }
             }
+            array_push($listdata, $cluster);
         }
-        dd($result);
+        dd($listdata);
     }
 
     public function coba()

@@ -21,53 +21,76 @@ class AdminController extends Controller
 {
     public function listspkshow(Request $request)
     {
-        if ($request->Role == "Super Admin Role") {
-            $spklist = SPK::all();
-            $result = [];
-            foreach ($spklist as $spk) {
-                $insert = true;
-                if ($spk["check"] != null) {
-                    foreach ($spk["check"] as $check) {
-                        if (array_key_exists("SuperAdmin", $check)) {
-                            if (isset($check["SuperAdmin"])) {
-                                if ($check["SuperAdmin"]) {
-                                    $insert = false;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-                if ($insert) {
-                    array_push($result, $spk->NOSPK);
+        $listtakbolehtampil = [];
+        $stall = $request->Stall;
+        $departemen = $request->Departemen;
+        $SPKSettings = SPK_attribute_tambahan::all();
+        foreach ($SPKSettings as $SPKsetting) {
+            if (isset($SPKsetting->check[$departemen][$stall])) {
+                if ($SPKsetting->check[$departemen][$stall]) {
+                    array_push($listtakbolehtampil, $SPKsetting->NOSPK);
                 }
             }
-            return $result;
-        } else {
-            $Departemen = Departemen::where('Nama_Departemen', $request->Departemen)->first();
-            $spklist = SPK::whereIn('Tipe', $Departemen->AksesTipeDatabase)
-                ->get();
-            $result = [];
-            foreach ($spklist as $spk) {
-                $insert = true;
-                if ($spk["check"] != null) {
-                    foreach ($spk["check"] as $check) {
-                        if (array_key_exists($request->Departemen, $check)) {
-                            if (isset($check[$request->Departemen])) {
-                                if ($check[$request->Departemen]) {
-                                    $insert = false;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-                if ($insert) {
-                    array_push($result, $spk->NOSPK);
-                }
-            }
-            return $result;
         }
+
+
+        $Departemendatabase = Departemen::where('Nama_Departemen', $request->Departemen)->first();
+        $spklist = SPK::whereIn('Tipe', $Departemendatabase->AksesTipeDatabase)
+            ->get();
+        $result = [];
+        foreach ($spklist as $spk) {
+            $insert = true;
+            foreach ($listtakbolehtampil as $banned) {
+                if ($spk->NOSPK == $banned) {
+                    $insert = false;
+                    break;
+                }
+            }
+            if ($insert) {
+                array_push($result, $spk->NOSPK);
+            }
+            // if ($spk["check"] != null) {
+            //     foreach ($spk["check"] as $check) {
+            //         if (array_key_exists($request->Departemen, $check)) {
+            //             if (isset($check[$request->Departemen])) {
+            //                 if ($check[$request->Departemen]) {
+            //                     $insert = false;
+            //                     break;
+            //                 }
+            //             }
+            //         }
+            //     }
+            // }
+            // if ($insert) {
+            //     array_push($result, $spk->NOSPK);
+            // }
+        }
+        return $result;
+        // }
+    }
+
+    public function liststock(Request $request)
+    {
+        $result = [];
+        $departemen = $request->Departemen;
+        $master = Master::all();
+        foreach ($master as $data) {
+            $isi = false;
+            foreach ($data->Parameter['Departemen'] as $isidept) {
+                if (strtoupper($isidept) == strtoupper($departemen)) {
+                    $isi = true;
+                    break;
+                }
+            }
+            if ($isi) {
+                foreach ($data->Parameter['Stock'] as $isistockparam) {
+                    if ($isistockparam != "") {
+                        array_push($result, $isistockparam);
+                    }
+                }
+            }
+        }
+        return $result;
     }
 
 
@@ -108,9 +131,17 @@ class AdminController extends Controller
             $cluster = [];
             foreach ($history["LISTSPK"] as $idspk) {
                 $data = SavedConversionResult::where('_id', $idspk)->first();
-                if (array_push($cluster, $data)) {
-                    $cluster['updated_at'] = $history["updated_at"];
-                    $cluster['target'] = $history["_id"];
+                if ($request->Role == "Super Admin Role") {
+                    if (array_push($cluster, $data)) {
+                        $cluster['updated_at'] = $history["updated_at"];
+                        $cluster['target'] = $history["_id"];
+                    }
+                }
+                if ($data->Departemen == $request->Departemen) {
+                    if (array_push($cluster, $data)) {
+                        $cluster['updated_at'] = $history["updated_at"];
+                        $cluster['target'] = $history["_id"];
+                    }
                 }
             }
             array_push($listdata, $cluster);
@@ -144,13 +175,15 @@ class AdminController extends Controller
                     $spk = $data["NOSPK"];
                     $namastall = $data["namastall"];
                     $departemen = $data["Departemen"];
-                    $query = $data->delete();
-                    if ($query) {
-                        $savedsetting = SPK_attribute_tambahan::where('NOSPK', $spk)->first();
-                        $inputchange = $savedsetting->check;
-                        $inputchange[$departemen][$namastall] = false;
-                        $savedsetting->check = $inputchange;
-                        $savedsetting->save();
+                    if ($data["NOSPK"] != "STOCK") {
+                        $query = $data->delete();
+                        if ($query) {
+                            $savedsetting = SPK_attribute_tambahan::where('NOSPK', $spk)->first();
+                            $inputchange = $savedsetting->check;
+                            $inputchange[$departemen][$namastall] = false;
+                            $savedsetting->check = $inputchange;
+                            $savedsetting->save();
+                        }
                     }
                 }
                 $myhistory->delete();
@@ -245,6 +278,7 @@ class AdminController extends Controller
                     $item1["errors"] = [];
                     if ($item1->save()) {
                         array_push($resultsprint, $results);
+                        array_push($ListspkHistory, $item1["_id"]);
                     };
                 } else {
                     $item1["status"] = "Pending";

@@ -12,6 +12,19 @@
                     </v-col>
                 </v-row>
                 <v-row dense>
+                    <v-col cols="12" sm="6" md="3"
+                        v-if="this.authStore.user.account_privileges.title == 'Super Admin Role'">
+                        <span>Departemen</span>
+                        <v-select :items="ListDept" item-text="text" item-value="value" v-model="Departemen" required
+                            class="form-control" :disabled="disabledepartemen">
+                        </v-select>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="3">
+                        <span>Nama Stall</span>
+                        <v-select :items="Liststall" item-text="Namastall" item-value="value" v-model="TempStall" required
+                            class="form-control" return-object>
+                        </v-select>
+                    </v-col>
                     <v-col cols="12" sm="6" md="3">
                         <span>NO SPK</span>
                         <v-autocomplete v-model="SPKfield" :items="listspk" class="form-control" required>
@@ -24,23 +37,15 @@
                             </ul>
                         </div>
                     </v-col>
-                    <v-col cols="12" sm="6" md="3" v-if="this.authStore.user.account_privileges.title == 'Super Admin Role'">
-                        <span>Departemen</span>
-                        <v-select :items="ListDept" item-text="text" item-value="value" v-model="Departemen" required
-                            class="form-control" :disabled="disabledepartemen">
-                        </v-select>
-                    </v-col>
-                    <v-col cols="12" sm="6" md="3">
-                        <span>Nama Stall</span>
-                        <v-select :items="Liststall" item-text="Namastall" item-value="value" v-model="TempStall"
-                            required class="form-control" return-object :disabled="disablenamastall">
-                        </v-select>
-                    </v-col>
+
                     <v-col cols="12" sm="6" md="3">
                         <span>STALL</span>
-                        <v-text-field class="form-control" :type="Changemode" :min="min" :max="max" v-model="stall"
-                            :placeholder="Placeholdertext" @keypress="preventNumericInput">
+                        <v-text-field class="form-control" v-if="Changemode == 'number'" type="number" :min="min" :max="max"
+                            v-model="stall" :placeholder="Placeholdertext" @keypress="preventNumericInput">
                         </v-text-field>
+                        <v-autocomplete v-if="Changemode == 'text'" v-model="stall" :items="liststock" class="form-control"
+                            required>
+                        </v-autocomplete>
                     </v-col>
                 </v-row>
                 <v-row dense>
@@ -92,8 +97,8 @@
                                 </ol>
                                 <hr>
                                 <v-card-actions>
-                                    <v-btn outlined color="black" style="background-color:rgba(125, 241, 230, 0.8) ;"
-                                        text @click="closeErrors">Cancel</v-btn>
+                                    <v-btn outlined color="black" style="background-color:rgba(125, 241, 230, 0.8) ;" text
+                                        @click="closeErrors">Cancel</v-btn>
                                     <v-spacer></v-spacer>
                                 </v-card-actions>
                             </v-card>
@@ -142,13 +147,13 @@ export default {
     data() {
         return {
             listspk: [],
+            liststock: [],
             datatable: [],
             filteredStates: [],
             SPKfield: "",
             Placeholdertext: "Masukkan Stall",
             Changemode: "number",
             disabledepartemen: false,
-            disablenamastall: false,
             states: [],
             state: '',
             modal: false,
@@ -189,7 +194,6 @@ export default {
     },
     created() {
         this.getlistdepartemen()
-        this.getlistspk()
         this.getdatatable()
     },
     watch: {
@@ -197,8 +201,22 @@ export default {
             this.filterstates();
         },
         Departemen: function () {
+            this.listspk = []
+            this.SPKfield = ""
+            this.NamaStall = ""
             this.getliststall()
-
+        },
+        Changemode: function () {
+            if (this.Changemode == 'text') {
+                this.getliststock()
+            }
+        },
+        NamaStall: function () {
+            if (this.NamaStall != '') {
+                this.getlistspk()
+                this.SPKfield = "",
+                this.Changemode = "number"
+            }
         },
         dialogDelete(val) {
             val || this.closeDelete()
@@ -211,28 +229,30 @@ export default {
         },
         SPKfield: function () {
             if (this.SPKfield == "STOCK") {
-                this.Changemode = "text"
-                this.disablenamastall = true
-                this.Placeholdertext = "Masukkan Nama Stall"
                 this.stall = ""
-                this.NamaStall = "STOCK"
-                this.TempStall = ''
+                this.Changemode = "text"
+                this.Placeholdertext = "Masukkan Nama Stall"
+                if (this.authStore.user.account_privileges.title == "Super Admin Role") {
+
+                }
+
             }
             else {
-                this.stall = ""
-                this.disablenamastall = false
                 this.Changemode = "number"
+                this.Placeholdertext = "Masukkan Nomor Stall"
                 if (this.authStore.user.account_privileges.title == "Super Admin Role") {
-                    this.Departemen = ""
+
                 }
-                this.NamaStall = ""
-                this.TempStall = ''
+
             }
         },
         TempStall: function () {
+
             if (this.datastallloaded) {
                 this.NamaStall = this.TempStall.Namastall
+                console.log(this.TempStall.Jumlahstall)
                 this.max = this.TempStall.Jumlahstall
+                console.log(this.max)
             }
         }
     },
@@ -287,24 +307,43 @@ export default {
             await axios.post('/api/listdepartemen', { Role: this.authStore.user.account_privileges.title, Departemen: this.authStore.user.account_privileges.account_dept }).then((response) => {
                 this.ListDept = response.data.data
                 if (this.authStore.user.account_privileges.title != "Super Admin Role") {
-                    this.Departemen=this.ListDept[0].value
+                    this.Departemen = this.ListDept[0].value
                 }
             })
         },
         async getlistspk() {
-            await axios.post('/api/listspkshow', { Role: this.authStore.user.account_privileges.title, Departemen: this.authStore.user.account_privileges.account_dept }).then((response) => {
-                this.listspk = []
-                response.data.forEach(element => {
+            if (this.NamaStall != "") {
+                await axios.post('/api/listspkshow', {
+                    Role: this.authStore.user.account_privileges.title,
+                    Departemen: this.Departemen,
+                    Stall: this.NamaStall
+                }).then((response) => {
+                    this.listspk = []
+                    response.data.forEach(element => {
+                        this.listspk.push({
+                            'text': element,
+                            'value': element
+                        })
+                    });
                     this.listspk.push({
+                        'text': "STOCK",
+                        'value': "STOCK"
+                    })
+                    this.filterstates();
+                })
+            }
+
+        },
+        async getliststock() {
+            await axios.post('/api/liststock', { Departemen: this.Departemen }).then((response) => {
+                this.liststock = []
+                console.log(response.data)
+                response.data.forEach(element => {
+                    this.liststock.push({
                         'text': element,
                         'value': element
                     })
                 });
-                this.listspk.push({
-                    'text': "STOCK",
-                    'value': "STOCK"
-                })
-                this.filterstates();
             })
         },
         closeDelete() {
@@ -382,7 +421,7 @@ export default {
                 return state.toLowerCase().startsWith(this.state.toLowerCase());
             });
             // this.getkode(this.state)
-            this.getmaxvalue(this.state)
+
         },
         setstate(state) {
             this.state = state;
@@ -432,31 +471,29 @@ export default {
                             params: { data: response.data }
                         })
                     }
-                    
+
                 });
             }
         },
-        getmaxvalue(state) {
-            axios.post('/api/ambilmax', { kode: state }).then((response) => {
-                if (response.data.status == 200) {
-                    this.max = response.data.hasil
-                    this.min = 1
-                    this.stall = 1
-                } else if (response.data.status == 400) {
-                    this.max = 0
-                    this.min = 0
-                    this.stall = 0
-                } else if (response.data.status == 401) {
-                    this.$swal({
-                        title: 'SPK dengan Stall ini sudah terdaftar',
-                        icon: 'error'
-                    });
-                }
-            });
-        }
+        // getmaxvalue(state) {
+        //     axios.post('/api/ambilmax', { kode: state }).then((response) => {
+        //         if (response.data.status == 200) {
+        //             this.max = response.data.hasil
+        //             this.min = 1
+        //             this.stall = 1
+        //         } else if (response.data.status == 400) {
+        //             this.max = 0
+        //             this.min = 0
+        //             this.stall = 0
+        //         } else if (response.data.status == 401) {
+        //             this.$swal({
+        //                 title: 'SPK dengan Stall ini sudah terdaftar',
+        //                 icon: 'error'
+        //             });
+        //         }
+        //     });
+        // }
     }
 }
 </script>
-<style>
-
-</style>
+<style></style>
