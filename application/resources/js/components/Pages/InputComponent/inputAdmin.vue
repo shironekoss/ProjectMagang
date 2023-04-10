@@ -204,6 +204,7 @@ export default {
             this.listspk = []
             this.SPKfield = ""
             this.NamaStall = ""
+            this.stall = ""
             this.getliststall()
         },
         Changemode: function () {
@@ -214,7 +215,7 @@ export default {
         NamaStall: function () {
             if (this.NamaStall != '') {
                 this.getlistspk()
-                this.SPKfield = "",
+                // this.SPKfield = "",
                 this.Changemode = "number"
             }
         },

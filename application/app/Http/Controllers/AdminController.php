@@ -357,11 +357,13 @@ class AdminController extends Controller
                             }
                             if ($jumlahSPKnewparam == count($item2["Parameter"]["NewParameter"])) {
                                 $newparameterTerdaftar = true;
-                                $errornewparam = false;
-                            }
+                            } 
                         }
                     }
                     if ($ModelMobilterdaftar && $TinggiMobilterdaftar && $TipeMobilTerdaftar && $DepartemenTerdaftar && $StallTerdaftar && $newparameterTerdaftar) {
+                        if($newparameterTerdaftar){
+                            $errornewparam = false;
+                        }
                         array_push($result, $item2["Kit"]);
                         $i++;
                     }
@@ -372,6 +374,7 @@ class AdminController extends Controller
                         ]);
                     }
                 }
+                
                 if (!$errorModelMobil && !$errorTinggiMobil && !$errorTipeMobil && !$errorDepartemen && !$errorStall && !$errornewparam) {
                     $item1["errors"] = [];
                     $item1["status"] = "berhasil";
